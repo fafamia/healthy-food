@@ -1,14 +1,16 @@
-import './assets/main.css'
+import './assets/scss/main.scss'
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from 'vue' //來自套件
+import { createPinia } from 'pinia' //來自套件
 
-import App from './App.vue'
-import router from './router'
+import App from './App.vue' //.src資料夾
+import router from './router' //.src資料夾
 
-const app = createApp(App)
+//創建一個vue應用程式(主要配置在app.vue裡)
+const vueApp = createApp(App)
 
-app.use(createPinia())
-app.use(router)
+vueApp.use(createPinia())
+vueApp.use(router)
 
-app.mount('#app')
+//渲染在index.html裡面的div#app
+vueApp.mount('#app')
