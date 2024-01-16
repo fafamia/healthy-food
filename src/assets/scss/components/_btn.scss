@@ -1,4 +1,4 @@
-@include btn(primary, $primary);
-@include btn(secondary, $secondary);
-@include btn-outline(primary, $primary);
-@include btn-outline('white', $white);
+@include btn(primary, $primary); //btn-primary
+@include btn(secondary, $secondary); //btn-secondary
+@include btn-outline(primary, $primary); // btn-outline-primary 
+@include btn-outline('white', $white); // btn-outline-white
