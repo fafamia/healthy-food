@@ -5,105 +5,93 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'front',
-      component: () => import('../views/front/FrontLayout.vue'),
-      children: [
-        {
-          path: '',
-          name: 'home',
-          component: () => import('../views/front/HomeView.vue'),
-        },
-        {
-          path: '/about',
-          name: 'about',
-          component: () => import('../views/front/AboutView.vue'),
-        },
-        {
-          path: '/foodmap',
-          name: 'foodmap',
-          component: () => import('../views/front/FoodMapView.vue'),
-        },
-        {
-          path: '/products',
-          name: 'products',
-          component: () => import('../views/front/ProductsView.vue'),
-        },
-        {
-          path: '/faq',
-          name: 'faq',
-          component: () => import('../views/front/FaqView.vue'),
-        },
-        {
-          path: '/bmi',
-          name: 'bmi',
-          component: () => import('../views/front/BmiView.vue'),
-        },
-        {
-          path: '/bmr',
-          name: 'bmr',
-          component: () => import('../views/front/BmrView.vue'),
-        },
-        {
-          path: '/cal',
-          name: 'cal',
-          component: () => import('../views/front/CalView.vue'),
-        },
-        {
-          path: '/gi',
-          name: 'gi',
-          component: () => import('../views/front/GiView.vue'),
-        },
-        {
-          path: '/article',
-          name: 'article',
-          component: () => import('../views/front/ArticleView.vue'),
-        },
-        {
-          path: '/cookbook',
-          name: 'cookbook',
-          component: () => import('../views/front/CookbookView.vue'),
-        },
-        {
-          path: '/contact',
-          name: 'contact',
-          component: () => import('../views/front/ContactView.vue'),
-        },
-        {
-          path: '/member',
-          name: 'member',
-          component: () => import('../views/front/MemberView.vue'),
-        },
-        {
-          path: '/game',
-          name: 'game',
-          component: () => import('../views/front/GameView.vue'),
-        },
-        {
-          path: '/car',
-          name: 'car',
-          component: () => import('../views/front/CarView.vue'),
-        },
-        {
-          path: '/productinfo',
-          name: 'productinfo',
-          component: () => import('../views/front/ProductInfo.vue'),
-        },
-        {
-          path: '/articleinfo',
-          name: 'articleinfo',
-          component: () => import('../views/front/ArticleInfo.vue'),
-        },
-        {
-          path: '/cookbookinfo',
-          name: 'cookbookinfo',
-          component: () => import('../views/front/CookbookInfo.vue'),
-        },
-      ]
+      name: 'home',
+      component: () => import('../views/HomeView.vue'),
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: () => import('../views/admin/AdminLogIn.vue')
+      path: '/about',
+      name: 'about',
+      component: () => import('../views/AboutView.vue'),
+    },
+    {
+      path: '/foodmap',
+      name: 'foodmap',
+      component: () => import('../views/FoodMapView.vue'),
+    },
+    {
+      path: '/products',
+      name: 'products',
+      component: () => import('../views/ProductsView.vue'),
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: () => import('../views/FaqView.vue'),
+    },
+    {
+      path: '/bmi',
+      name: 'bmi',
+      component: () => import('../views/BmiView.vue'),
+    },
+    {
+      path: '/bmr',
+      name: 'bmr',
+      component: () => import('../views/BmrView.vue'),
+    },
+    {
+      path: '/cal',
+      name: 'cal',
+      component: () => import('../views/CalView.vue'),
+    },
+    {
+      path: '/gi',
+      name: 'gi',
+      component: () => import('../views/GiView.vue'),
+    },
+    {
+      path: '/article',
+      name: 'article',
+      component: () => import('../views/ArticleView.vue'),
+    },
+    {
+      path: '/cookbook',
+      name: 'cookbook',
+      component: () => import('../views/CookbookView.vue'),
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/ContactView.vue'),
+    },
+    {
+      path: '/member',
+      name: 'member',
+      component: () => import('../views/MemberView.vue'),
+    },
+    {
+      path: '/game',
+      name: 'game',
+      component: () => import('../views/GameView.vue'),
+    },
+    {
+      path: '/car',
+      name: 'car',
+      component: () => import('../views/CarView.vue'),
+    },
+    {
+      path: '/productinfo',
+      name: 'productinfo',
+      component: () => import('../views/ProductInfo.vue'),
+    },
+    {
+      path: '/articleinfo',
+      name: 'articleinfo',
+      component: () => import('../views/ArticleInfo.vue'),
+    },
+    {
+      path: '/cookbookinfo',
+      name: 'cookbookinfo',
+      component: () => import('../views/CookbookInfo.vue'),
     },
   ]
 })
