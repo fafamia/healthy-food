@@ -7,9 +7,8 @@ export default {
     return {
       // 麵包屑數據
       yourBreadcrumbData: [
-        { text: 'Home', to: '/' },
-        { text: 'About', to: '/about' },
-        { text: 'Data', active: true }
+        { text: '首頁', to: '/' },
+        { text: '關於我們', active: true }
       ]
     };
   },
@@ -26,5 +25,3 @@ export default {
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
   </div>
 </template>
-
-

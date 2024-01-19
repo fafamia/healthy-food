@@ -1,6 +1,5 @@
-
-.container{
-     article {
+.cookbook-list {
+    article {
         background-color: $white;
         border-radius: $border-r-2;
         overflow: hidden;
@@ -8,70 +7,81 @@
         box-shadow: 15px 15px 10px #ccc;
         text-align: center;
         height: 502px;
+
         i {
-    
+
             font-size: 40px;
             color: $primary;
             cursor: pointer;
         }
-     }
-     ul {
+    }
+
+    ul {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+
         li {
             width: 313px;
             list-style: none;
             margin-right: 50px;
             margin-bottom: 50px;
+
             img {
                 width: 100%;
                 height: 281px;
             }
         }
     }
-    .text{
-        padding:0 30px;
+
+    .text {
+        padding: 0 30px;
     }
 }
-.banner{
+
+.banner {
     position: relative;
-    img{
+
+    img {
         width: 100%;
     }
-    h1{
+
+    h1 {
         position: absolute;
-        top:30%;
+        top: 30%;
         left: 43%;
         font-size: $h1;
-        color:$white;
+        color: $white;
         font-weight: $fw-bold;
         letter-spacing: 10px;
         text-shadow: 0px 4px 4px #333;
         z-index: 100;
 
-        
-        
+
+
     }
-    ::before{
+
+    ::before {
         content: '';
-        width:600px;
+        width: 600px;
         height: 120px;
         background-color: $banner-black;
         position: absolute;
         z-index: -1;
-        top:-20px;
-        left:-190px;
-        
+        top: -20px;
+        left: -190px;
+
     }
 }
-.tag{
+
+.tag {
     margin: 50px 200px;
-    button{
+
+    button {
         margin-right: 20px;
         padding: 15px 30px;
         background-color: $white;
-        color:$primary;
+        color: $primary;
         border: none;
         border-radius: $border-r-3;
         font-weight: $fw-bold;
@@ -79,25 +89,28 @@
         font-size: $fs-2;
     }
 }
-.styled-button{
+
+.styled-button {
     background-color: $primary;
-    color:$white;
+    color: $white;
 }
-        
-.bookmark{
+
+.bookmark {
     position: absolute;
     left: 15px;
     top: 15px;
 }
-.like{
+
+.like {
     position: absolute;
     right: 20px;
-    bottom:20px;
-    span{
+    bottom: 20px;
+
+    span {
         font-size: 30px;
         margin-left: 10px;
         margin-right: 20px;
-        color:$primary;
+        color: $primary;
     }
 }
 
@@ -107,6 +120,7 @@
     display: flex;
     justify-content: center;
 }
+
 .page-link {
     cursor: pointer;
     margin: 0 5px;

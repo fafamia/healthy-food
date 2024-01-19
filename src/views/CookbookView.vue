@@ -4,33 +4,33 @@
   <div id="app">
     <div class="banner">
       <img src="/src/assets/images/cookbook/banner.jpg" alt="熱門食譜">
-    <h1>熱門食譜</h1>
-  </div>
+      <h1>熱門食譜</h1>
+    </div>
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
     <div class="tag">
-    <button  :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#素食</button>
-    <button  :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#肉類</button>
-    <button  :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#冷食</button>
-  </div>
-    <div class="container">
-    <ul>
-      <li v-for="product in displayedProducts" :key="product.prod_id">
-        <article>
-          <i @click="toggleBookmark(product)" :class="product.iconClass" class="bookmark"></i>
-          <img :src="getProductImage(product)" :alt="product.prod_name">
-          <div class="text">
-            <h4>{{ product.prod_name }}</h4>
-            <p>{{ product.prod_des2 }}</p>
-          </div>
-          <div class="like">
-            <i @click="toggleLike(product)" :class="product.iconLike"></i>
-            <span>1</span>
-            <i class="fa-solid fa-share"></i>
-          </div>
-        </article>
-      </li>
-    </ul>
-  </div>
+      <button :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#素食</button>
+      <button :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#肉類</button>
+      <button :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#冷食</button>
+    </div>
+    <div class="container cookbook-list">
+      <ul>
+        <li v-for="product in displayedProducts" :key="product.prod_id">
+          <article>
+            <i @click="toggleBookmark(product)" :class="product.iconClass" class="bookmark"></i>
+            <img :src="getProductImage(product)" :alt="product.prod_name">
+            <div class="text">
+              <h4>{{ product.prod_name }}</h4>
+              <p>{{ product.prod_des2 }}</p>
+            </div>
+            <div class="like">
+              <i @click="toggleLike(product)" :class="product.iconLike"></i>
+              <span>1</span>
+              <i class="fa-solid fa-share"></i>
+            </div>
+          </article>
+        </li>
+      </ul>
+    </div>
 
     <div class="pagination">
       <span v-for="page in totalPages" :key="page" @click="changePage(page)" class="page-link">{{ page }}</span>
@@ -54,8 +54,8 @@ export default {
         { text: '首頁', to: '/' },
         { text: '熱門食譜', active: true }
       ],
-      isStyled:false,
-      
+      isStyled: false,
+
     };
   },
   computed: {
@@ -102,7 +102,7 @@ export default {
       product.like = !product.like;
       product.iconLike = product.like ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up';
     },
-    changeStyle(){
+    changeStyle() {
       this.isStyled = !this.isStyled;
       console.log("ji3ldjl");
     },
