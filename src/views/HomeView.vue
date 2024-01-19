@@ -1,8 +1,4 @@
 <template>
-<<<<<<< HEAD
-=======
-    <img src="../assets/images/home/" alt="">
->>>>>>> YoJo
     <div class="home">
     <!-- 第一區塊 banner -->
         <div ref="myBanner" class="home_banner">
@@ -51,11 +47,7 @@
                             <img class="commodity_bigpic" 
                             v-for="commodityNum in 3"
                             :src="getImageUrl(`featured_commodity/commodity0${commodityNum}.png`)" alt="圖片">
-<<<<<<< HEAD
-                        </div> 
-=======
                         </div>
->>>>>>> YoJo
                     </div>
                     <button class="rightbutton" type="button">》</button>
                 </div>
@@ -148,11 +140,7 @@ export default {
     },
     methods: {
         getImageUrl(paths) {
-<<<<<<< HEAD
-            return new URL(`../../assets/images/home/${paths}`, import.meta.url).href;
-=======
             return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
->>>>>>> YoJo
         },
         setActiveImage(buttonNum) {
             this.imgnum = buttonNum;
