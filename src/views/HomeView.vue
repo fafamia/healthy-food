@@ -1,4 +1,5 @@
 <template>
+    <img src="../assets/images/home/" alt="">
     <div class="home">
     <!-- 第一區塊 banner -->
         <div ref="myBanner" class="home_banner">
@@ -74,7 +75,7 @@
                     <div class="comment_star">
                         <img
                         v-for="n in comment[commentNum-1].star" 
-                        src="../../assets/images/home/comment/Star.png" alt="">
+                        src="../assets/images/home/comment/Star.png" alt="">
                     </div>
                     <div class="comment_message">{{ comment[commentNum-1].message }}
                     </div>
@@ -140,7 +141,7 @@ export default {
     },
     methods: {
         getImageUrl(paths) {
-            return new URL(`../../assets/images/home/${paths}`, import.meta.url).href;
+            return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
         },
         setActiveImage(buttonNum) {
             this.imgnum = buttonNum;
