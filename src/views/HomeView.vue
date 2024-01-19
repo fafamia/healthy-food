@@ -47,7 +47,7 @@
                             <img class="commodity_bigpic" 
                             v-for="commodityNum in 3"
                             :src="getImageUrl(`featured_commodity/commodity0${commodityNum}.png`)" alt="圖片">
-                        </div>
+                        </div> 
                     </div>
                     <button class="rightbutton" type="button">》</button>
                 </div>
