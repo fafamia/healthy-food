@@ -67,6 +67,78 @@
             </div>
         </div>
     </div>
+    <!--健康專欄-->
+  <h2>健康專欄</h2>
+
+<div class="article-overview">
+    <div class="article-img">
+      <img src="/src/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
+    </div>
+    <div class="article"></div>
+      <p>
+        <span>營養均衡，從餐桌開始</span>
+        在現代快節奏的生活中，人們越來越注重健康。而要實現真正的健康，一頓營養均衡的餐點是不可或缺的一環。飲食不僅關係到我們的體重管理，更關係到身體各個器官的正常運作和免疫系統的強壯。
+      </p>
+  <a href="" class="btn-outline-white">觀看更多</a>     
+</div>
+
+<!--熱門食譜-->
+<h2>熱門食譜</h2>
+<div class="hot-recipe">
+    <div class="first-recipe">
+      <img src="/src/assets/images/home/recipe-1.png" alt="熱門食譜-1">
+    </div>
+    <div class="recipe">
+      <h3>素食彩虹沙拉</h3>
+      <span>食材</span>
+      <ul>
+        <li>·生菜葉（任選擇的種類），洗淨切碎</li>
+        <li>·紅椒、黃椒、橙椒，切絲</li>
+        <li>·黃瓜，切薄片</li>
+        <li>·紫甘藍，切碎</li>
+        <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
+        <li>·紅洋蔥, 切絲........ </li>
+      </ul>
+      <a href="" class="btn-outline-white">探索更多</a>    
+  </div>
+</div>
+<div class="hot-recipe">
+    <div class="recipe-img">
+      <img src="/src/assets/images/home/recipe-2.png" alt="熱門食譜-1">
+    </div>
+    <div class="recipe">
+      <h3>紫薯蕎麥鬆餅</h3>
+      <span>食材</span>
+      <ul>
+        <li>·生菜葉（任選擇的種類），洗淨切碎</li>
+        <li>·紅椒、黃椒、橙椒，切絲</li>
+        <li>·黃瓜，切薄片</li>
+        <li>·紫甘藍，切碎</li>
+        <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
+        <li>·紅洋蔥, 切絲........ </li>
+      </ul>
+      <a href="" class="btn-outline-white">探索更多</a>    
+  </div>
+</div>
+
+<!--健康小幫手-->
+<h2>健康小幫手</h2>
+<h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
+<h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>
+<div class="assistant">
+  <a href="" class="assistant-item">
+    <img src="/src/assets/images/home/assistant.png" alt="">
+    <div class="switch">
+      <div class="prev"><img src="/src/assets/images/home/prev.svg" alt=""></div>
+      <h4>卡路里計算</h4>
+      <div class="next"><img src="/src/assets/images/home/next.svg" alt=""></div>
+    </div>
+    <div class="text">
+      <span>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</span> 
+    </div>
+  </a>
+  <div class="btn"><a href="" class="btn-primary">前往計算</a></div>
+</div>
 </template>
 
 <script>
