@@ -5,7 +5,7 @@
       <div class="banner_title">
         <h1>健康小舖</h1>
       </div>
-      
+
     </div>
 
   </div>
@@ -29,36 +29,33 @@
 
   <div v-if="loading">loading...</div>
   <div v-else-if="nodata">nodata...</div>
-  <div v-else class="product container">
+  <div v-else class="product-list container">
     <aside>
-          <li>
-            <button class="lunchbutton">調理包</button>
-          </li>
-          <li>
-            <button type="button" class="foodbutton" @click="toggle= !toggle">生鮮食材</button>
-            <button type="button" v-if="!toggle">雜糧、油品</button>
-            <button type="button" v-if="!toggle">蛋、豆</button>
-            <button type="button" v-if="!toggle">魚、肉</button>
-            <button type="button" class="vegebutton" v-if="!toggle">蔬菜</button>
-          </li>
-        </aside>
-      <div class="row">
-        
-        <div
-        v-for="item in displayData" 
-        :key="item.id" 
-        class="vegetable_card col-12 col-xl-3">
-        
-          <p class="product_tag">#NEW</p>
-          <div class="product_card_img">
+      <li>
+        <button class="lunchbutton">調理包</button>
+      </li>
+      <li>
+        <button type="button" class="foodbutton" @click="toggle = !toggle">生鮮食材</button>
+        <button type="button" v-if="!toggle">雜糧、油品</button>
+        <button type="button" v-if="!toggle">蛋、豆</button>
+        <button type="button" v-if="!toggle">魚、肉</button>
+        <button type="button" class="vegebutton" v-if="!toggle">蔬菜</button>
+      </li>
+    </aside>
+    <div class="row items">
+
+      <div v-for="item in displayData" :key="item.id" class="vegetable_card col-12 col-xl-3">
+
+        <p class="product_tag">#NEW</p>
+        <div class="product_card_img">
           <img :src="getImage(item)" height="200">
         </div>
-          <p class="vegetable_title">{{ item.prod_name  }}</p>
-          <p class="vegetable_price">$ {{ item.prod_sellingprice  }}</p>
-          <a href="/productinfo" class="btn-product">查看商品詳情</a>
+        <p class="vegetable_title">{{ item.prod_name }}</p>
+        <p class="vegetable_price">$ {{ item.prod_sellingprice }}</p>
+        <a href="/productinfo" class="btn-product">查看商品詳情</a>
 
-        </div>
       </div>
+    </div>
 
   </div>
 </template>
@@ -78,7 +75,7 @@ export default {
       ],
       displayData: [],
       toggle: true,
-      
+
     };
   },
   components: {
@@ -86,7 +83,7 @@ export default {
     RouterView,
     Breadcrumb,
   },
-  created(){
+  created() {
     this.axiosGetData()
   },
   computed: {
@@ -100,18 +97,18 @@ export default {
     //   return this.displayData.length === 0
     // }
   },
-  
+
   methods: {
-    axiosGetData(){
+    axiosGetData() {
       axios.get('https://tibamef2e.com/chd103/g1/phps/shop.php')
-      .then(res =>{
-        if (res && res.data){
-          // this.responseData = res.data
-          this.displayData = res.data
-        }
-      })
+        .then(res => {
+          if (res && res.data) {
+            // this.responseData = res.data
+            this.displayData = res.data
+          }
+        })
     },
-    getImage(item){
+    getImage(item) {
       return `https://tibamef2e.com/chd103/g1/image/productimage/${item.prod_img}`;
     },
 

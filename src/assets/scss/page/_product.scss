@@ -30,34 +30,36 @@
     }
 }
 
-.container {
+.product-list {
     display: flex;
 
     aside {
-        li{
+        li {
             list-style: none;
             width: 150px;
-            button{
+
+            button {
                 border: none;
                 display: block;
                 background-color: transparent;
                 font-size: $fs-2;
-                margin:$sp-1 ;
+                margin: $sp-1 ;
                 cursor: pointer;
             }
 
-        .lunchbutton,.foodbutton {
-            font-weight: bold;
-            text-decoration: underline;
-            text-underline-offset: 6px;
-        }
-        
+            .lunchbutton,
+            .foodbutton {
+                font-weight: bold;
+                text-decoration: underline;
+                text-underline-offset: 6px;
+            }
+
 
         }
-        
+
     }
 
-    .row {
+    .items {
 
         .vegetable_card {
             background-color: #fff;

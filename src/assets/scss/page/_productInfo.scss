@@ -1,57 +1,69 @@
-.row{
+.item-info {
     flex-direction: row-reverse;
-    .productImg >img{
+
+    .productImg>img {
         width: 100%;
         vertical-align: top;
     }
-    .product-card{
+
+    .product-card {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        .card-head{
+
+        .card-head {
             display: flex;
             justify-content: space-between;
         }
-        .card-head >*{
+
+        .card-head>* {
             font-size: $h1;
         }
-        .card-body p:last-child{
+
+        .card-body p:last-child {
             display: inline-block;
             margin: $sp-2 0;
         }
-        .card-foot{
+
+        .card-foot {
             display: flex;
             justify-content: end;
         }
-        .card-foot>*{
+
+        .card-foot>* {
             margin-right: $sp-2 ;
         }
     }
 }
-.collapse{
-    .coll-title{
+
+.collapse {
+    .coll-title {
         display: flex;
         justify-content: space-between;
         margin-bottom: $sp-1;
         border-bottom: 1px solid #000;
         cursor: pointer;
     }
-    .coll-txt{
+
+    .coll-txt {
         margin-bottom: $sp-2;
     }
 }
-.btn-count{
+
+.btn-count {
     border: 3px solid $primary;
     border-radius: $border-r-3;
     display: flex;
     justify-content: space-around;
-    button{
+
+    button {
         font-size: $fs-1;
         background-color: transparent;
         border: none;
         cursor: pointer;
     }
-    span{
+
+    span {
         font-size: $fs-1;
         font-weight: $fw-bold;
         line-height: $fs-1;

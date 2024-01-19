@@ -1,42 +1,42 @@
 <script>
-  import Breadcrumb from "@/components/Breadcrumb.vue"
+import Breadcrumb from "@/components/Breadcrumb.vue"
 
-  export default{
-    data() {
-      return {
-          yourBreadcrumbData: [
-          { text: '首頁', to: '/' },
-          { text: '健康小舖', to: '/products' },
-          { text: '商品資訊', active: true }
-        ],
-        toggle1:false,
-        toggle2:false,
-        toggle3:false,
-        count:1
-      }
-    },
-    methods:{
-      decrement() {
-        if (this.count > 1) {
-          this.count -= 1;
-        }
-      },
-      increment() {
-        this.count += 1;
-      }
-    },
-    components: {
-      Breadcrumb
+export default {
+  data() {
+    return {
+      yourBreadcrumbData: [
+        { text: '首頁', to: '/' },
+        { text: '健康小舖', to: '/products' },
+        { text: '商品資訊', active: true }
+      ],
+      toggle1: false,
+      toggle2: false,
+      toggle3: false,
+      count: 1
     }
+  },
+  methods: {
+    decrement() {
+      if (this.count > 1) {
+        this.count -= 1;
+      }
+    },
+    increment() {
+      this.count += 1;
+    }
+  },
+  components: {
+    Breadcrumb
   }
-  
+}
+
 </script>
 
 
 <template>
-  <Breadcrumb :breadcrumb="yourBreadcrumbData"/>
+  <Breadcrumb :breadcrumb="yourBreadcrumbData" />
   <div class="productInfo container">
-    <div class="row">
+    <div class="row item-info">
       <div class="productImg col-12 col-md-6">
         <img src="../assets/images/productInfo/product1.png" alt="product1">
       </div>
@@ -51,21 +51,21 @@
             <p>精選優質食材，以先進冷凍技術保存新鮮風味。營養豐富，方便快速，每一口都是對健康的呵護。從現在開始，享受美味。</p>
           </div>
           <div class="collapse">
-            <div class="coll-title" @click="toggle1 =! toggle1" >
+            <div class="coll-title" @click="toggle1 = !toggle1">
               <h3>產地</h3>
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="coll-txt" v-show="toggle1">
               <p>桃園</p>
             </div>
-            <div class="coll-title" @click="toggle2=!toggle2">
+            <div class="coll-title" @click="toggle2 = !toggle2">
               <h3>產品規格</h3>
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="coll-txt" v-show="toggle2">
               <p>300g/包</p>
             </div>
-            <div class="coll-title" @click="toggle3=!toggle3">
+            <div class="coll-title" @click="toggle3 = !toggle3">
               <h3>營養標示</h3>
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
@@ -83,13 +83,13 @@
         </div>
         <div class="card-foot">
           <div class="btn-count">
-            <button @click= "decrement"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
-            <span>{{count}}</span>
-            <button @click= "increment"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
+            <button @click="decrement"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
+            <span>{{ count }}</span>
+            <button @click="increment"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
           </div>
           <button type="button" class="btn-primary">加入購物車</button>
         </div>
-        
+
       </div>
     </div>
   </div>
