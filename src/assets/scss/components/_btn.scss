@@ -1,5 +1,6 @@
 @include btn(primary, $primary); //btn-primary
 @include btn(secondary, $secondary); //btn-secondary
+@include btn(product, $btn); //btn-product
 @include btn-outline(primary, $primary); // btn-outline-primary 
 @include btn-outline('white', $white); // btn-outline-white
 
