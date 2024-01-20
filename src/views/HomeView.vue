@@ -22,10 +22,10 @@
     <!-- 第二區塊 feature -->
     <div class="feature container">
         <div class="row">
-            <div v-for="iconNum in feature.length" class="feature_card col-12 col-lg-3">
-                <h2 class="feature_title">{{ feature[iconNum - 1].title }}</h2>
-                <img class="title_pic" :src="getImageUrl(`feature_icon/icon0${iconNum}.svg`)" alt="icon">
-                <p class="feature_illustrate">{{ feature[iconNum - 1].illustrate }}</p>
+            <div v-for="(iconNum, iconIndex) in feature" class="feature_card col-12 col-lg-3">
+                <h2 class="feature_title">{{ iconNum.title }}</h2>
+                <img class="title_pic" :src="getImageUrl(`feature_icon/icon0${iconIndex+1}.svg`)" alt="icon">
+                <p class="feature_illustrate">{{ iconNum.illustrate }}</p>
             </div>
         </div>
     </div>
@@ -54,15 +54,17 @@
     <div class="comment">
         <h3>留言評論</h3>
         <div class="comment_wall">
-            <div class="comment_card" v-for="commentNum in comment.length" :key="commentNum">
+            <div class="comment_card" v-for="(commentNum, commentIndex) in comment" :key="commentIndex">
                 <div class="person"></div>
-                <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
-                <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
-
-                <div class="comment_star">
-                    <img v-for="n in comment[commentNum - 1].star" src="../assets/images/home/comment/Star.png" alt="">
+                <img :src="getImageUrl(`comment/avatar0${commentIndex + 1}.png`)" alt="avatar">
+                <div class="comment_name">
+                    {{ commentNum.name }}
                 </div>
-                <div class="comment_message">{{ comment[commentNum - 1].message }}
+                <div class="comment_star">
+                    <img v-for="n in commentNum.star" src="../assets/images/home/comment/Star.png" alt="">
+                </div>
+                <div class="comment_message">
+                    {{ commentNum.message }}
                 </div>
             </div>
         </div>
@@ -72,7 +74,7 @@
 
 <div class="article-overview">
     <div class="article-img">
-      <img src="/src/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
+      <img src="@/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
     </div>
     <div class="article"></div>
       <p>
@@ -86,7 +88,7 @@
 <h2>熱門食譜</h2>
 <div class="hot-recipe">
     <div class="first-recipe">
-      <img src="/src/assets/images/home/recipe-1.png" alt="熱門食譜-1">
+      <img src="@/assets/images/home/recipe-1.png" alt="熱門食譜-1">
     </div>
     <div class="recipe">
       <h3>素食彩虹沙拉</h3>
@@ -104,7 +106,7 @@
 </div>
 <div class="hot-recipe">
     <div class="recipe-img">
-      <img src="/src/assets/images/home/recipe-2.png" alt="熱門食譜-1">
+      <img src="@/assets/images/home/recipe-2.png" alt="熱門食譜-1">
     </div>
     <div class="recipe">
       <h3>紫薯蕎麥鬆餅</h3>
@@ -127,11 +129,11 @@
 <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>
 <div class="assistant">
   <a href="" class="assistant-item">
-    <img src="/src/assets/images/home/assistant.png" alt="">
+    <img src="@/assets/images/home/assistant.png" alt="">
     <div class="switch">
-      <div class="prev"><img src="/src/assets/images/home/prev.svg" alt=""></div>
+      <div class="prev"><img src="@/assets/images/home/prev.svg" alt=""></div>
       <h4>卡路里計算</h4>
-      <div class="next"><img src="/src/assets/images/home/next.svg" alt=""></div>
+      <div class="next"><img src="@/assets/images/home/next.svg" alt=""></div>
     </div>
     <div class="text">
       <span>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</span> 
