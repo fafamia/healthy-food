@@ -3,12 +3,19 @@
 	// width: 100%;
 	height: 555px;
 	margin: auto;
-	overflow: hidden;
+    overflow: hidden;
     .banner_content{
-        position: relative;
+        height: 555px;
+        transition: transform 0.5s ease;
         .banner_wall{
             display: flex;
-            // .home_bannerpic{}
+            position: relative;
+            .bag_banner_img{
+                .home_bannerpic{
+                    height: 555px;
+                    object-fit:cover
+                }
+            }
         }
     }
 }

@@ -2,10 +2,16 @@
     <div class="home">
         <!-- 第一區塊 banner -->
         <div ref="myBanner" class="home_banner">
-            <div class="banner_content">
-                <div class="banner_wall" v-for="num in home_banner_text.length" :key="num">
-                    <img class="home_bannerpic" :width="divWidth" :src="getImageUrl(`banner/banner0${num}.jpg`)"
+            <div class="banner_content"
+            :width="divWidth">
+                <div class="banner_wall">
+                    <div class="bag_banner_img" 
+                    v-for="num in home_banner_text.length" 
+                    :key="num">
+                        <img class="home_bannerpic" 
+                        :src="getImageUrl(`banner/banner0${num}.jpg`)" :width="divWidth"
                         alt="banner">
+                    </div>
                 </div>
             </div>
             <div class="home_banner_textbackground">
@@ -18,7 +24,6 @@
             </div>
         </div>
     </div>
-    <button class="aaaaa" @click="aaaaa()">按我</button>
     <!-- 第二區塊 feature -->
     <div class="feature container">
         <div class="row">
@@ -54,13 +59,16 @@
     <div class="comment">
         <h3>留言評論</h3>
         <div class="comment_wall">
-            <div class="comment_card" v-for="commentNum in comment.length" :key="commentNum">
+            <div class="comment_card" 
+            v-for="commentNum in comment.length" 
+            :key="commentNum">
                 <div class="person"></div>
                 <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
                 <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
-
                 <div class="comment_star">
-                    <img v-for="n in comment[commentNum - 1].star" src="../assets/images/home/comment/Star.png" alt="">
+                    <img 
+                    v-for="n in comment[commentNum - 1].star" 
+                    src="../assets/images/home/comment/Star.png" alt="">
                 </div>
                 <div class="comment_message">{{ comment[commentNum - 1].message }}
                 </div>
@@ -145,7 +153,7 @@
 export default {
     data() {
         return {
-            imgnum: 1,
+            imgnum: 1, //照片index(配合文字也吃)
             home_banner_text: [
                 '嚴選有機食材<br>為您和家人打造營養均衡的每一餐',
                 '嚴選有機食材<br>為您和寵物打造營養均衡的每一餐',
@@ -192,21 +200,32 @@ export default {
                     star: 5,
                 },
             ],
-            divWidth: 0,
-            elements: [],
+            divWidth: 0, //banner寬度
+            elements: [], //banner的照片
+            timer: null, //自動輪播的計時器變數
         };
     },
     methods: {
         getImageUrl(paths) {
             return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
         },
-        setActiveImage(buttonNum) {
-            this.imgnum = buttonNum;
-            this.applyTransition();
+        updateDimensions() {  //抓取banner 並且同步寬度
+            this.divWidth = this.$refs.myBanner.offsetWidth;
         },
-        aaaaa() {
-            alert(this.divWidth);
-            alert(this.elements.length);
+        startSlideshow() {
+            this.timer = setInterval(() => {
+                const nextImage = this.imgnum === this.home_banner_text.length ? 1 : this.imgnum + 1; 
+                //判斷 imgnum 的值 是不是 home_banner_text.length 的值  如果是回傳 1 給 nextImage 如果不是 nextImage + 1
+                this.setActiveImage(nextImage); // 把 nextImage 當參數 回傳給 setActiveImage
+            }, 5000); // 每5000毫秒更換一次圖片
+        },
+        setActiveImage(buttonNum) {
+            this.imgnum = buttonNum;his.imgnum = buttonNum; // 將 imgnum 設置為 buttonNum 的值  設置要顯示的圖片。
+            this.applyTransition(); //呼叫
+        },
+        applyTransition() {
+            const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`; //計算用 imgnum 計算 translateX 值,每張圖片水平平移 100%
+            this.$refs.myBanner.querySelector('.banner_content').style.transform = transitionValue; //將 transform 屬性應用到banner_content上 (用這個方法改變CSS)
         },
     },
 
@@ -214,11 +233,16 @@ export default {
     computed() {
     },
 
+    beforeDestroy() {
+        window.removeEventListener('resize', this.updateDimensions); //移除事件聆聽
+    },
 
-    mounted() {
+    mounted() { // Vue 實例創建之後立即被調用
         this.$nextTick(() => {
-            this.divWidth = this.$refs.myBanner.offsetWidth;
-            this.elements = this.$refs.myBanner.querySelectorAll('img');
+            this.updateDimensions();
+            window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
+            this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
+            this.startSlideshow() //啟動自動輪播
         });
     },
 };
