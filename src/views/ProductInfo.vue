@@ -89,7 +89,6 @@ export default {
           </div>
           <button type="button" class="btn-primary">加入購物車</button>
         </div>
-
       </div>
     </div>
   </div>
