@@ -7,56 +7,43 @@
       </div>
 
     </div>
+    <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
+    <div class="product-list container">
+      <aside>
+        <li>
+          <div class="lunchbox">調理包</div>
+          <hr>
+        </li>
+        <li>
+          <div class="freshfood" @click="toggle = !toggle">
+          <h3>生鮮食材</h3> 
+          <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
+          </div>
+          <hr>
+          <div class="oil" v-if="!toggle">雜糧、油品</div>
+          <div class="egg" v-if="!toggle">蛋、豆</div>
+          <div class="fish" v-if="!toggle">魚、肉</div>
+          <div class="vegetable" v-if="!toggle">蔬菜</div>
+          <hr v-if="!toggle">
+        </li>
+      </aside>
+      <div class="row items">
 
-  </div>
-  <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
-  <!-- <div class="product container">
-        <div class="row">
-            <div class="col-12 col-md-3">
-                <div class="vegetable_card">
-                    <p class="product_tag">#NEW</p>
-                    <img src="../../src/assets/images/product/vegetable_cover.png" alt="vegetable_cover">
-                    <p class="vegetable_title">冷凍蔬菜</p>
-                    <p class="vegetable_price">$330</p>
-                    <a class="btn-product">查看商品詳情</a>
+        <div v-for="item in displayData" :key="item.id" class="vegetable_card col-12 col-xl-3">
 
-                </div>
-            </div>
+          <p class="product_tag">#NEW</p>
+          <div class="product_card_img">
+            <!-- <img :src="getImage(item)" height="200"> -->
+            <img src="../../src/assets/images/product/vegetable_cover.png" alt="vegetable_cover">
+          </div>
+          <p class="vegetable_title">冷凍蔬菜</p>
+          <p class="vegetable_price">$ 330</p>
+          <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
+
         </div>
-
-    </div> -->
-
-
-  <div v-if="loading">loading...</div>
-  <div v-else-if="nodata">nodata...</div>
-  <div v-else class="product-list container">
-    <aside>
-      <li>
-        <button class="lunchbutton">調理包</button>
-      </li>
-      <li>
-        <button type="button" class="foodbutton" @click="toggle = !toggle">生鮮食材</button>
-        <button type="button" v-if="!toggle">雜糧、油品</button>
-        <button type="button" v-if="!toggle">蛋、豆</button>
-        <button type="button" v-if="!toggle">魚、肉</button>
-        <button type="button" class="vegebutton" v-if="!toggle">蔬菜</button>
-      </li>
-    </aside>
-    <div class="row items">
-
-      <div v-for="item in displayData" :key="item.id" class="vegetable_card col-12 col-xl-3">
-
-        <p class="product_tag">#NEW</p>
-        <div class="product_card_img">
-          <img :src="getImage(item)" height="200">
-        </div>
-        <p class="vegetable_title">{{ item.prod_name }}</p>
-        <p class="vegetable_price">$ {{ item.prod_sellingprice }}</p>
-        <a href="/productinfo" class="btn-product">查看商品詳情</a>
-
       </div>
-    </div>
 
+    </div>
   </div>
 </template>
 
@@ -86,18 +73,7 @@ export default {
   created() {
     this.axiosGetData()
   },
-  computed: {
-    // dataCount(){
-    //   return this.displayData.length
-    // },
-    // loading(){
-    //   // return this.responseData.length === 0
-    // },
-    // nodata(){
-    //   return this.displayData.length === 0
-    // }
-  },
-
+  
   methods: {
     axiosGetData() {
       axios.get('https://tibamef2e.com/chd103/g1/phps/shop.php')
@@ -108,9 +84,9 @@ export default {
           }
         })
     },
-    getImage(item) {
-      return `https://tibamef2e.com/chd103/g1/image/productimage/${item.prod_img}`;
-    },
+    // getImage(item) {
+    //   return `https://tibamef2e.com/chd103/g1/image/productimage/${item.prod_img}`;
+    // },
 
   },
 
