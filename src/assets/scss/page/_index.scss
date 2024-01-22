@@ -18,68 +18,51 @@
             }
         }
     }
-}
-
-
-
-// .home_banner01_1{
-//     min-width: 300px;
-//     max-width: 500px;
-//     width: 35%;
-//     position: absolute;
-//     bottom: -100px;
-//     right: -100px;
-// }
-// .home_banner01_2{
-//     min-width: 300px;
-//     max-width: 500px;
-//     width: 35%;
-//     position: absolute;
-//     top: -100px;
-//     left: -130px;
-// }
-
-.home_banner_textbackground{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 36px;
-    max-width: 1200px;
-    width: 100%;
-    height: 291px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background-color: $banner-white;
-    text-align: center;
-    h1{
-        font-size: 36px;
-        display: inline-block;
-        @media(width>=1200px){
-            font-size: 48px;
+    .home_banner_textbackground{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 36px;
+        max-width: 1200px;
+        width: 100%;
+        height: 291px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background-color: $banner-white;
+        text-align: center;
+        h1{
+            font-size: 36px;
+            display: inline-block;
+            @media(width>=1200px){
+                font-size: 48px;
+            }
         }
     }
+    .carousel_buttons{
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        z-index: 2;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .carousel_button{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #D9D9D9;
+        margin: 10px;
+    }
+    .active {
+        background-color: #7A7A7A;
+    }
 }
-.carousel_buttons{
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    z-index: 2;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.carousel_button{
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #D9D9D9;
-    margin: 10px;
-}
-.active {
-    background-color: #7A7A7A;
-}
+
+
 //  第二區塊 feature 
 .feature{
     margin-top: $sp-4;
@@ -103,7 +86,7 @@
 .featured_commodity_background{
     background-color: $primary;
     width: 100%;
-    color: white;
+    color: $white;
     .featured_commodity{
         display: flex;
         flex-direction: column;
@@ -117,12 +100,12 @@
         .commodity_pic_countainer{
             padding: 10px;
             width: 100%;
-            @media (width >= 576px) {
-                width: 65%;
-            } 
             display: flex;
             align-items: center;
             justify-content: center;
+            @media (width >= 576px) {
+                width: 65%;
+            } 
             .leftbutton{
                 border: none;
                 background-color: $primary;
@@ -133,27 +116,25 @@
             .bigpic_item{
                 width: 100%;
                 overflow: hidden;
+                transition: transform 0.5s ease;
                 @media (width >= 576px) {
                     overflow:visible;
                 } 
                 .pic_wall{
                     display: flex;
-                    @media (width >= 576px) {
-                        width: 100%;
-                    }
-                    .commodity_bigpic {
-                        width: 100%;
-                        max-width: 100%;
-                        height: auto;
-                        display: block;
-                        margin: 0 auto;
-                    }
-                    @media (min-width: 576px) {
-                        .commodity_bigpic img:nth-child(2) {
-                            width: 50%;
+                    position: relative;
+                    .bag_commodity_pic{
+                        .commodity_pic {
+                            width: 100%;
+                            max-width: 100%;
+                            height: auto;
+                            display: block;
+                            margin: 0 auto;
                         }
-                        .commodity_bigpic {
-                            max-width: 33.333333%;
+                        @media (width >= 576px) {
+                            .commodity_pic {
+                                max-width: 33.333333%;
+                            }
                         }
                     }
                 }
@@ -201,11 +182,20 @@
         }
     }
 }
-
+.second_picture{
+    position: absolute;
+    width: 110%;
+    top: -90%;
+    left: -5%;
+}
 //  第四區塊 comment 
 .comment{
+    max-width: 1200px;
     margin-top: $sp-2;
     margin-bottom: $sp-2;
+    transition: transform 1s linear;
+    overflow: hidden;
+    margin: auto;
     h3{
         text-align: center;
         font-size: $h2;
@@ -217,44 +207,72 @@
         } 
     }
     .comment_wall{
+        width: 100%;
         display: flex;
-        overflow: hidden;
+        @media (width >= 576px) {
+            margin-top: $sp-3;
+        } 
         .comment_card{
-            width: 246px;
             background-color: $green;
-            padding: 10px;
+            padding: 20px;
             margin: $sp-2;
-            display: flex;
             flex-direction: column;
-            border-radius: 50px;
+            border-radius: 40px;
             @media (width >= 576px) {
                 margin: $sp-3;
-                width: 380px;
             } 
             .person{
                 display: flex;
+                margin-top: $sp-3;
+                margin-bottom: $sp-3;
+                margin: auto;
                 align-items: center;
-                .comment_card img{
+                position: relative;
+                img{
                     width: 100px;
+                    position: absolute;
+                    left: -30px;
+                    top: -50px;
+                    @media (width >= 576px) {
+                        width: 150px;
+                        top: -80px;
+                        left: -50px;
+                    } 
                 }
                 .comment_name{
+                    margin: auto;
                     color: $white;
-                    font-size: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: $fs-2;
                     @media (width >= 576px) {
                         font-size: $h2;
                     } 
                 }
             }
             .comment_star{
+                margin-top: 10px;
                 display: flex;
             }
             .comment_message{
+                width: 250px;
+                height: 250px;
                 background-color: #DFEBE6;
-                border-radius: 50px;
+                border-radius: 20px;
+                padding: 20px;
+                margin-top: 10px;
+                @media (width >= 576px) {
+                    padding: 40px;
+                    width: 360px;
+                    height: 200px;
+                    margin-top: 20px;
+                    padding: 40px;
+                } 
             }
         }
     }
 }
+
 
 // 標題
 h2 {

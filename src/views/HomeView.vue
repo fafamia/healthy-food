@@ -25,7 +25,7 @@
         </div>
     </div>
     <!-- 第二區塊 feature -->
-    <div class="feature container">
+    <div ref="featureContainer" class="feature container">
         <div class="row">
             <div v-for="iconNum in feature.length" class="feature_card col-12 col-lg-3">
                 <h2 class="feature_title">{{ feature[iconNum - 1].title }}</h2>
@@ -38,14 +38,21 @@
     <div class="featured_commodity_background">
         <div class="featured_commodity">
             <div class="commodity_pic_countainer">
-                <button class="leftbutton" type="button">《</button>
+                <button class="leftbutton" type="button" @click="goleft">《</button>
                 <div class="bigpic_item">
                     <div class="pic_wall">
-                        <img class="commodity_bigpic" v-for="commodityNum in 3"
-                            :src="getImageUrl(`featured_commodity/commodity0${commodityNum}.png`)" alt="圖片">
+                        <div class="bag_commodity_pic">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity01.png" alt="">
+                        </div>
+                        <div class="second_picture bag_commodity_pic">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity02.png" alt="">
+                        </div>
+                        <div class="bag_commodity_pic">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity03.png" alt="">
+                        </div>
                     </div>
                 </div>
-                <button class="rightbutton" type="button">》</button>
+                <button class="rightbutton" type="button" @click="goright">》</button>
             </div>
             <div class="commodity_introduce">
                 <h3 class="commodity_title">餐盒/食材介紹</h3>
@@ -56,21 +63,25 @@
         </div>
     </div>
     <!-- 第四區塊 comment -->
-    <div class="comment">
+    <div ref="homeComment" class="comment">
         <h3>留言評論</h3>
         <div class="comment_wall">
             <div class="comment_card" 
             v-for="commentNum in comment.length" 
             :key="commentNum">
-                <div class="person"></div>
-                <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
-                <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
+                <div class="person">
+                    <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
+                    <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
+                </div>
                 <div class="comment_star">
                     <img 
                     v-for="n in comment[commentNum - 1].star" 
                     src="../assets/images/home/comment/Star.png" alt="">
                 </div>
-                <div class="comment_message">{{ comment[commentNum - 1].message }}
+                <div class="comment_message">
+                    <p>
+                        {{ comment[commentNum - 1].message }}
+                    </p>
                 </div>
             </div>
         </div>
@@ -203,6 +214,7 @@ export default {
             divWidth: 0, //banner寬度
             elements: [], //banner的照片
             timer: null, //自動輪播的計時器變數
+            speed: `translateX (-10px) `, // 跑馬燈速度，數值越大越慢
         };
     },
     methods: {
@@ -212,6 +224,7 @@ export default {
         updateDimensions() {  //抓取banner 並且同步寬度
             this.divWidth = this.$refs.myBanner.offsetWidth;
         },
+
         startSlideshow() {
             this.timer = setInterval(() => {
                 const nextImage = this.imgnum === this.home_banner_text.length ? 1 : this.imgnum + 1; 
@@ -220,21 +233,45 @@ export default {
             }, 5000); // 每5000毫秒更換一次圖片
         },
         setActiveImage(buttonNum) {
-            this.imgnum = buttonNum;his.imgnum = buttonNum; // 將 imgnum 設置為 buttonNum 的值  設置要顯示的圖片。
+            this.imgnum = buttonNum; // 將 imgnum 設置為 buttonNum 的值  設置要顯示的圖片。
             this.applyTransition(); //呼叫
         },
         applyTransition() {
             const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`; //計算用 imgnum 計算 translateX 值,每張圖片水平平移 100%
             this.$refs.myBanner.querySelector('.banner_content').style.transform = transitionValue; //將 transform 屬性應用到banner_content上 (用這個方法改變CSS)
         },
+        startComment() {
+            const commentWall = this.$refs.homeComment.querySelector('.comment_wall'); // 獲取照片牆
+            let position = 0; // 設定初值
+            let isPaused = false; // 鼠标事件開關
+            function animateMarquee() {
+                if (!isPaused) {
+                    position -= 0.5;  
+                    console.log('Position:', position);
+                    console.log('CommentWall Width:', commentWall.offsetWidth);
+                    commentWall.style.transform = `translateX(${position}px)`;
+                    // 判斷position 是否 >= commentWall 的寬度 衝心呼叫此函數
+                    if (position*-1 -550 >= commentWall.offsetWidth) {
+                        position = 0;
+                    }
+                }
+                requestAnimationFrame(animateMarquee); 
+                //性能優化 ( 當我視窗化最小or window沒有在閱覽 他會自動暫停 )
+            }
+            this.$refs.homeComment.addEventListener('mouseenter', () => {
+                isPaused = true; //mouseenter 把開關 關起來
+            });
+            this.$refs.homeComment.addEventListener('mouseleave', () => {
+                isPaused = false;//mouseleave 重新呼叫
+                animateMarquee();
+            });
+            animateMarquee();
+        },
+
     },
 
 
     computed() {
-    },
-
-    beforeDestroy() {
-        window.removeEventListener('resize', this.updateDimensions); //移除事件聆聽
     },
 
     mounted() { // Vue 實例創建之後立即被調用
@@ -242,7 +279,8 @@ export default {
             this.updateDimensions();
             window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
             this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
-            this.startSlideshow() //啟動自動輪播
+            this.startSlideshow(); //啟動自動輪播
+            this.startComment();
         });
     },
 };
