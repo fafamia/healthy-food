@@ -23,6 +23,9 @@ export default {
     },
     increment() {
       this.count += 1;
+    },
+    addCart(){
+      //接續day5下午的購物車流程GoGo~~
     }
   },
   components: {
@@ -87,9 +90,8 @@ export default {
             <span>{{ count }}</span>
             <button @click="increment"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
           </div>
-          <button type="button" class="btn-primary">加入購物車</button>
+          <button type="button" class="btn-primary" @click="addCart">加入購物車</button>
         </div>
-
       </div>
     </div>
   </div>

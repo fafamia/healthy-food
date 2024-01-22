@@ -3,7 +3,7 @@
 <template>
   <div class="cookbook">
     <div class="banner">
-      <img src="/src/assets/images/cookbook/banner.jpg" alt="熱門食譜">
+      <img src="@/assets/images/cookbook/banner.jpg" alt="熱門食譜">
       <h1>熱門食譜</h1>
     </div>
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
@@ -51,7 +51,7 @@ export default {
       currentPage: 1,
       // 麵包屑數據
       yourBreadcrumbData: [
-        { text: '首頁', to: '/' },
+        { text: '首頁', active: false, to: '/' },
         { text: '熱門食譜', active: true }
       ],
       isStyled: [false,false,false]

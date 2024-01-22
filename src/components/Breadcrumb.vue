@@ -2,8 +2,8 @@
   <nav aria-label="breadcrumb" class="container">
     <ol class="breadcrumb">
       <li v-for="(crumb, index) in breadcrumb" :key="index" class="breadcrumb-item">
-        <router-link :to="crumb.to" v-if="!crumb.active">{{ crumb.text }}</router-link>
-        <span v-else>{{ crumb.text }}</span>
+        <span v-if="crumb.active" >{{ crumb.text }}</span>
+        <router-link v-else :to="crumb.to">{{ crumb.text }}</router-link>
       </li>
     </ol>
   </nav>

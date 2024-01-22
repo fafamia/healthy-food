@@ -255,6 +255,7 @@ export default {
                         position = 0;
                     }
                 }
+                cancelAnimationFrame(animateMarquee);
                 requestAnimationFrame(animateMarquee); 
                 //性能優化 ( 當我視窗化最小or window沒有在閱覽 他會自動暫停 )
             }

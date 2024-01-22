@@ -52,8 +52,7 @@
         </div>
         <p class="vegetable_title">{{ item.prod_name }}</p>
         <p class="vegetable_price">$ {{ item.prod_sellingprice }}</p>
-        <a href="/productinfo" class="btn-product">查看商品詳情</a>
-
+        <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
       </div>
     </div>
 
