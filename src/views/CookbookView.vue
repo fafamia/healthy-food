@@ -1,16 +1,16 @@
 
 
 <template>
-  <div id="app">
+  <div class="cookbook">
     <div class="banner">
-      <img src="/src/assets/images/cookbook/banner.jpg" alt="熱門食譜">
+      <img src="@/assets/images/cookbook/banner.jpg" alt="熱門食譜">
       <h1>熱門食譜</h1>
     </div>
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
     <div class="tag">
-      <button :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#素食</button>
-      <button :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#肉類</button>
-      <button :class="{ 'styled-button': isStyled }" @click="changeStyle" type="button">#冷食</button>
+      <button class="" :class="{ 'styled-button': isStyled[0] }" @click="changeStyle(0)" type="button">#素食</button>
+      <button :class="{ 'styled-button': isStyled[1] }" @click="changeStyle(1)" type="button">#肉類</button>
+      <button :class="{ 'styled-button': isStyled[2] }" @click="changeStyle(2)" type="button">#冷食</button>
     </div>
     <div class="container cookbook-list">
       <ul>
@@ -51,10 +51,11 @@ export default {
       currentPage: 1,
       // 麵包屑數據
       yourBreadcrumbData: [
-        { text: '首頁', to: '/' },
+        { text: '首頁', active: false, to: '/' },
         { text: '熱門食譜', active: true }
       ],
-      isStyled: false,
+      isStyled: [false,false,false]
+    
 
     };
   },
@@ -68,6 +69,7 @@ export default {
       return this.products.slice(startIndex, endIndex);
     },
   },
+  
   mounted() {
     this.fetchData();
   },
@@ -102,9 +104,8 @@ export default {
       product.like = !product.like;
       product.iconLike = product.like ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up';
     },
-    changeStyle() {
-      this.isStyled = !this.isStyled;
-      console.log("ji3ldjl");
+    changeStyle(i) {
+      this.isStyled = this.isStyled.map((_, index) => index === i);
     },
   },
   components: {

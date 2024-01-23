@@ -141,9 +141,9 @@
                         <div class="orther-way">
                             <h4>或其他方式快速登入</h4>
                             <div class="fast-img">
-                                <RouterLink to=""><img src="/src/assets/images/home/google.png" alt="google_login">
+                                <RouterLink to=""><img src="@/assets/images/home/google.png" alt="google_login">
                                 </RouterLink>
-                                <RouterLink to=""><img src="/src/assets/images/home/fb.png" alt="facebook_login">
+                                <RouterLink to=""><img src="@/assets/images/home/fb.png" alt="facebook_login">
                                 </RouterLink>
                             </div>
                         </div>
