@@ -8,7 +8,7 @@
                 <nav>
                     <ul class="header_phone_nav">
                         <li @click="toggleModel"><i class="fa-solid fa-user"></i></li>
-                        <li><i class="fa-solid fa-cart-shopping"></i></li>
+                        <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
                     </ul>
                 </nav>
@@ -122,7 +122,8 @@
                                 <h3 :class="{ title_active: isLogin, title_inactive: !isLogin }" @click="toggleLogin(true)">
                                     登入</h3>
                                 <h3 :class="{ title_active: !isLogin, title_inactive: isLogin }"
-                                    @click="toggleLogin(false)">註冊</h3>
+                                    @click="toggleLogin(false)">註冊
+                                </h3>
                             </div>
                             <div class="header_login_model" v-if="isLogin">
                                 <form action="/login" method="post">
@@ -200,11 +201,21 @@
                     </div>
                 </div>
             </div>
+            <div class="shoppingCart_drawer" v-show="drawerStatus">
+                <div class="shoppingCart_drawer_bg" @click="toggleShoppingDrawer">
+                    <div class="drawer" @click.stop>
+                        <h2 class="drawer_title">product items</h2>
+                        <span class="drawer_close" @click="toggleShoppingDrawer"><i class="fa-solid fa-xmark"></i></span>
+                        <router-link to="/checkout" class="drawer_addCart btn-primary">結帳</router-link>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 </template>
 <script>
-import { RouterLink } from 'vue-router'
+import { RouterLink } from 'vue-router';
+
 export default {
     data() {
         return {
@@ -216,6 +227,7 @@ export default {
             },
             modelStatus: false,
             isLogin: true,
+            drawerStatus: false,
         }
     },
     created() { },
@@ -231,12 +243,23 @@ export default {
         },
         toggleLogin(isLogin) {
             this.isLogin = isLogin;
+
+        }, toggleShoppingDrawer() {
+            this.drawerStatus = !this.drawerStatus
         },
     },
     components: {
         RouterLink,
     },
-}
+    watch: {
+        drawerStatus: {
+            handler() {
+                const body = document.getElementsByTagName('body')[0];
+                body.classList.toggle("overflow-hidden");
+            },
+        }
+    },
+}    
 </script>
 
 <style lang="scss">
