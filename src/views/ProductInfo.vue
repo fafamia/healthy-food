@@ -32,7 +32,13 @@ export default {
     addTOCart(product){
       console.log(product);
       this.cart.push(this)
-    }
+    },
+    increment() {
+      this.count += 1;
+    },
+    addCart(){
+      //接續day5下午的購物車流程GoGo~~
+    },
   },
   components: {
     Breadcrumb
@@ -101,6 +107,7 @@ export default {
           @click="addTOCart()"
           >
           加入購物車</button>
+          <button type="button" class="btn-primary" @click="addCart">加入購物車</button>
         </div>
       </div>
     </div>

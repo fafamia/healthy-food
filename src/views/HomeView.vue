@@ -2,10 +2,16 @@
     <div class="home">
         <!-- 第一區塊 banner -->
         <div ref="myBanner" class="home_banner">
-            <div class="banner_content">
-                <div class="banner_wall" v-for="num in home_banner_text.length" :key="num">
-                    <img class="home_bannerpic" :width="divWidth" :src="getImageUrl(`banner/banner0${num}.jpg`)"
+            <div class="banner_content"
+            :width="divWidth">
+                <div class="banner_wall">
+                    <div class="bag_banner_img" 
+                    v-for="num in home_banner_text.length" 
+                    :key="num">
+                        <img class="home_bannerpic" 
+                        :src="getImageUrl(`banner/banner0${num}.jpg`)" :width="divWidth"
                         alt="banner">
+                    </div>
                 </div>
             </div>
             <div class="home_banner_textbackground">
@@ -18,9 +24,8 @@
             </div>
         </div>
     </div>
-    <button class="aaaaa" @click="aaaaa()">按我</button>
     <!-- 第二區塊 feature -->
-    <div class="feature container">
+    <div ref="featureContainer" class="feature container">
         <div class="row">
             <div v-for="iconNum in feature.length" class="feature_card col-12 col-lg-3">
                 <h2 class="feature_title">{{ feature[iconNum - 1].title }}</h2>
@@ -33,14 +38,21 @@
     <div class="featured_commodity_background">
         <div class="featured_commodity">
             <div class="commodity_pic_countainer">
-                <button class="leftbutton" type="button">《</button>
+                <button class="leftbutton" type="button" @click="goleft">《</button>
                 <div class="bigpic_item">
                     <div class="pic_wall">
-                        <img class="commodity_bigpic" v-for="commodityNum in 3"
-                            :src="getImageUrl(`featured_commodity/commodity0${commodityNum}.png`)" alt="圖片">
+                        <div class="bag_commodity_pic">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity01.png" alt="">
+                        </div>
+                        <div class="second_picture bag_commodity_pic">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity02.png" alt="">
+                        </div>
+                        <div class="bag_commodity_pic">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity03.png" alt="">
+                        </div>
                     </div>
                 </div>
-                <button class="rightbutton" type="button">》</button>
+                <button class="rightbutton" type="button" @click="goright">》</button>
             </div>
             <div class="commodity_introduce">
                 <h3 class="commodity_title">餐盒/食材介紹</h3>
@@ -51,44 +63,72 @@
         </div>
     </div>
     <!-- 第四區塊 comment -->
-    <div class="comment">
+    <div ref="homeComment" class="comment">
         <h3>留言評論</h3>
         <div class="comment_wall">
-            <div class="comment_card" v-for="commentNum in comment.length" :key="commentNum">
-                <div class="person"></div>
-                <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
-                <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
-
-                <div class="comment_star">
-                    <img v-for="n in comment[commentNum - 1].star" src="../assets/images/home/comment/Star.png" alt="">
+            <div class="comment_card" 
+            v-for="commentNum in comment.length" 
+            :key="commentNum">
+                <div class="person">
+                    <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
+                    <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
                 </div>
-                <div class="comment_message">{{ comment[commentNum - 1].message }}
+                <div class="comment_star">
+                    <img 
+                    v-for="n in comment[commentNum - 1].star" 
+                    src="../assets/images/home/comment/Star.png" alt="">
+                </div>
+                <div class="comment_message">
+                    <p>
+                        {{ comment[commentNum - 1].message }}
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-    <!--健康專欄-->
-  <h2>健康專欄</h2>
 
-<div class="article-overview">
-    <div class="article-img">
-      <img src="/src/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
+<!----------- 專欄 ------------>
+<h2 class="home-title">健康專欄</h2>
+<div class="home-article-link">
+      <div class="home-article-container container">
+        <div class="home-article-img">
+          <img :src="articles[0].imageSrc" :alt="articles[0].altText">
+        </div>
+        <div class="home-article-txt">
+          <h3>{{ articles[0].title }}</h3>
+          <p>{{ articles[0].description }}</p>
+          <div class="btn_bar">
+            <router-link :to="articles[0].link" class="btn-outline-white">觀看更多</router-link>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="article"></div>
-      <p>
-        <span>營養均衡，從餐桌開始</span>
-        在現代快節奏的生活中，人們越來越注重健康。而要實現真正的健康，一頓營養均衡的餐點是不可或缺的一環。飲食不僅關係到我們的體重管理，更關係到身體各個器官的正常運作和免疫系統的強壯。
-      </p>
-  <a href="" class="btn-outline-white">觀看更多</a>     
-</div>
 
-<!--熱門食譜-->
-<h2>熱門食譜</h2>
-<div class="hot-recipe">
+<!----------- 食譜 ------------>
+<h2 class="home-title">熱門食譜</h2>
+<div class="home-recipe-link">
+    <div v-for="(recipe, index) in recipes" :key="index" :class="{ 'home-recipe-link-reverse': index % 2 !== 0 }">
+      <div class="home-recipe-container container">
+        <div class="home-recipe-img">
+          <img :src="recipe.imageSrc" :alt="`熱門食譜-${index + 1}`">
+        </div>
+        <div class="home-recipe-txt">
+          <h3>{{ recipe.title }}</h3>
+          <span>{{ recipe.ingredientsTitle }}</span>
+          <ul>
+            <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li>
+          </ul>
+          <div class="btn_bar"><a :href="recipe.link" class="btn-outline-white">探索更多</a></div>
+        </div>
+      </div>
+    </div>
+</div>  
+<!------- 食譜(手機版) ------->
+<div class="home-phone-recipe">
     <div class="first-recipe">
       <img src="/src/assets/images/home/recipe-1.png" alt="熱門食譜-1">
     </div>
-    <div class="recipe">
+    <div class="phone-recipe">
       <h3>素食彩虹沙拉</h3>
       <span>食材</span>
       <ul>
@@ -102,11 +142,12 @@
       <a href="" class="btn-outline-white">探索更多</a>    
   </div>
 </div>
-<div class="hot-recipe">
-    <div class="recipe-img">
+
+<div class="home-phone-recipe">
+    <div class="phone-recipe-img">
       <img src="/src/assets/images/home/recipe-2.png" alt="熱門食譜-1">
     </div>
-    <div class="recipe">
+    <div class="phone-recipe">
       <h3>紫薯蕎麥鬆餅</h3>
       <span>食材</span>
       <ul>
@@ -121,11 +162,44 @@
   </div>
 </div>
 
-<!--健康小幫手-->
-<h2>健康小幫手</h2>
-<h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
-<h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>
-<div class="assistant">
+<!----------- 小幫手 ------------>
+<h2 class="home-title">健康小幫手</h2>
+<div class="home-assistant-container">
+    <div class="assistant-row row">
+        <RouterLink to="/bmi">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/bmi-icon.png" alt="BMI計算">
+                <h4>BMI計算</h4>
+                <p>衡量身體的肥胖程度</p>
+            </div>
+        </RouterLink>
+        <RouterLink to="/bmr">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/cpf-icon.png" alt="基礎代謝計算">
+                <h4>基礎代謝率</h4>
+                <p>了解你身體在靜息狀態下維持基本生命活動所需的能量消耗</p>
+            </div>
+        </RouterLink>
+        <RouterLink to="/cal">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/cal-icon.png" alt="CAL計算">
+                <h4>卡路里計算</h4>
+                <p>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</p>
+            </div>
+        </RouterLink>
+        <RouterLink to="/gi">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/gi-icon.png" alt="GI計算">
+                <h4>GI飲食計算</h4>
+                <p>低GI飲食有助於穩定血糖水平。</p>
+            </div>
+        </RouterLink>
+    </div>
+</div>
+<!------- 小幫手(手機版) ------->
+<div class="phone-assistant-container">
+  <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
+  <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>  
   <a href="" class="assistant-item">
     <img src="/src/assets/images/home/assistant.png" alt="">
     <div class="switch">
@@ -139,13 +213,23 @@
   </a>
   <div class="btn"><a href="" class="btn-primary">前往計算</a></div>
 </div>
+
+<!----------- 小遊戲 ------------>
+<h2 class="home-title">玩遊戲，享優惠！</h2>
+<div class="home-game-card">
+    
+</div>
+
+<!----------- end ------------>
+
 </template>
 
 <script>
+import { RouterLink } from 'vue-router'
 export default {
     data() {
         return {
-            imgnum: 1,
+            imgnum: 1, //照片index(配合文字也吃)
             home_banner_text: [
                 '嚴選有機食材<br>為您和家人打造營養均衡的每一餐',
                 '嚴選有機食材<br>為您和寵物打造營養均衡的每一餐',
@@ -192,34 +276,133 @@ export default {
                     star: 5,
                 },
             ],
+            articles: [
+                {
+                    title: "營養均衡，從餐桌開始",
+                    description: "在現代快節奏的生活中，人們越來越注重健康。而要實現真正的健康，一頓營養均衡的餐點是不可或缺的一環。飲食不僅關係到我們的體重管理，更關係到身體各個器官的正常運作和免疫系統的強壯。",
+                    imageSrc: "/src/assets/images/home/ARTICLE_OVERVIEW.png",
+                    altText: "健康專欄",
+                    link: "/path-to-article-1",
+                },
+            ],
+            recipes: [
+                {
+                title: '素食彩虹沙拉',
+                ingredientsTitle: '食材',
+                ingredients: [
+                    '·生菜葉（任選擇的種類），洗淨切碎',
+                    '·紅椒、黃椒、橙椒，切絲',
+                    '·黃瓜，切薄片',
+                    '·紫甘藍，切碎',
+                    '·胡蘿蔔，切絲或用刨絲器刨成薄片',
+                    '·紅洋蔥，切絲',
+                    '·紅蘿蔔，刨成絲',
+                    '·玉米粒，瀝乾',
+                    '·青豆，瀝乾',
+                    '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
+                    '·鹽和黑胡椒調味',
+                ],
+                imageSrc: '/src/assets/images/home/recipe-1.png',
+                link: '/recipe1'
+                },
+                
+                {
+                title: '紫薯蕎麥鬆餅',
+                ingredientsTitle: '食材',
+                ingredients: [
+                    '·生菜葉（任選擇的種類），洗淨切碎',
+                    '·紅椒、黃椒、橙椒，切絲',
+                    '·黃瓜，切薄片',
+                    '·紫甘藍，切碎',
+                    '·胡蘿蔔，切絲或用刨絲器刨成薄片',
+                    '·紅洋蔥，切絲',
+                    '·紅蘿蔔，刨成絲',
+                    '·玉米粒，瀝乾',
+                    '·青豆，瀝乾',
+                    '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
+                    '·鹽和黑胡椒調味',
+                ],
+                imageSrc: '/src/assets/images/home/recipe-2.png',
+                link: '/recipe2'
+                }
+            ],
             divWidth: 0,
             elements: [],
+            divWidth: 0, //banner寬度
+            elements: [], //banner的照片
+            timer: null, //自動輪播的計時器變數
+            speed: `translateX (-10px) `, // 跑馬燈速度，數值越大越慢
         };
     },
     methods: {
         getImageUrl(paths) {
             return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
         },
+        updateDimensions() {  //抓取banner 並且同步寬度
+            this.divWidth = this.$refs.myBanner.offsetWidth;
+        },
+
+        startSlideshow() {
+            this.timer = setInterval(() => {
+                const nextImage = this.imgnum === this.home_banner_text.length ? 1 : this.imgnum + 1; 
+                //判斷 imgnum 的值 是不是 home_banner_text.length 的值  如果是回傳 1 給 nextImage 如果不是 nextImage + 1
+                this.setActiveImage(nextImage); // 把 nextImage 當參數 回傳給 setActiveImage
+            }, 5000); // 每5000毫秒更換一次圖片
+        },
         setActiveImage(buttonNum) {
-            this.imgnum = buttonNum;
-            this.applyTransition();
+            this.imgnum = buttonNum; // 將 imgnum 設置為 buttonNum 的值  設置要顯示的圖片。
+            this.applyTransition(); //呼叫
         },
-        aaaaa() {
-            alert(this.divWidth);
-            alert(this.elements.length);
+        applyTransition() {
+            const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`; //計算用 imgnum 計算 translateX 值,每張圖片水平平移 100%
+            this.$refs.myBanner.querySelector('.banner_content').style.transform = transitionValue; //將 transform 屬性應用到banner_content上 (用這個方法改變CSS)
         },
+        startComment() {
+            const commentWall = this.$refs.homeComment.querySelector('.comment_wall'); // 獲取照片牆
+            let position = 0; // 設定初值
+            let isPaused = false; // 鼠标事件開關
+            function animateMarquee() {
+                if (!isPaused) {
+                    position -= 0.5;  
+                    console.log('Position:', position);
+                    console.log('CommentWall Width:', commentWall.offsetWidth);
+                    commentWall.style.transform = `translateX(${position}px)`;
+                    // 判斷position 是否 >= commentWall 的寬度 衝心呼叫此函數
+                    if (position*-1 -550 >= commentWall.offsetWidth) {
+                        position = 0;
+                    }
+                }
+                cancelAnimationFrame(animateMarquee);
+                requestAnimationFrame(animateMarquee); 
+                //性能優化 ( 當我視窗化最小or window沒有在閱覽 他會自動暫停 )
+            }
+            this.$refs.homeComment.addEventListener('mouseenter', () => {
+                isPaused = true; //mouseenter 把開關 關起來
+            });
+            this.$refs.homeComment.addEventListener('mouseleave', () => {
+                isPaused = false;//mouseleave 重新呼叫
+                animateMarquee();
+            });
+            animateMarquee();
+        },
+
     },
 
 
     computed() {
     },
 
-
-    mounted() {
+    mounted() { // Vue 實例創建之後立即被調用
         this.$nextTick(() => {
-            this.divWidth = this.$refs.myBanner.offsetWidth;
-            this.elements = this.$refs.myBanner.querySelectorAll('img');
+            this.updateDimensions();
+            window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
+            this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
+            this.startSlideshow(); //啟動自動輪播
+            this.startComment();
         });
+    },
+    components: {
+        RouterLink,
     },
 };
 </script>

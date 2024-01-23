@@ -55,7 +55,7 @@
         font-weight: $fw-bold;
         letter-spacing: 10px;
         text-shadow: 0px 4px 4px #333;
-        z-index: 100;
+        z-index: 1;
 
 
 
@@ -90,9 +90,12 @@
     }
 }
 
-.styled-button {
-    background-color: $primary;
-    color: $white;
+.cookbook {
+
+    .styled-button {
+        background-color: $primary;
+        color: $white;
+    }
 }
 
 .bookmark {

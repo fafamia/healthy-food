@@ -13,6 +13,8 @@
 //組件
 @import "components/btn";
 @import "components/breadcrumb";
+@import "components/pagenumber";
+@import "components/vegetableCard";
 
 // layout
 @import "layout/header";
@@ -25,5 +27,6 @@
 @import "page/productInfo";
 @import "page/cookbook";
 @import "page/product";
+// @import "page/bmi";
 
 //套件
