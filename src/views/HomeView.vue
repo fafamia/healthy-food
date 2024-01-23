@@ -67,6 +67,8 @@
         <h3>留言評論</h3>
         <div class="comment_wall">
             <div class="comment_card" 
+            @mouseenter="handlHomeCommentMouseenter"
+            @mouseleave="handlHomeCommentMouseleave"
             v-for="commentNum in comment.length" 
             :key="commentNum">
                 <div class="person">
@@ -214,7 +216,8 @@ export default {
             divWidth: 0, //banner寬度
             elements: [], //banner的照片
             timer: null, //自動輪播的計時器變數
-            speed: `translateX (-10px) `, // 跑馬燈速度，數值越大越慢
+            isPaused: true, 
+            position: 0,
         };
     },
     methods: {
@@ -237,38 +240,35 @@ export default {
             this.applyTransition(); //呼叫
         },
         applyTransition() {
-            const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`; //計算用 imgnum 計算 translateX 值,每張圖片水平平移 100%
-            this.$refs.myBanner.querySelector('.banner_content').style.transform = transitionValue; //將 transform 屬性應用到banner_content上 (用這個方法改變CSS)
+            const bannerContent = this.$refs.myBanner?.querySelector('.banner_content');
+
+            if (bannerContent) {
+                const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`;
+                bannerContent.style.transform = transitionValue;
+            }
         },
+        
         startComment() {
             const commentWall = this.$refs.homeComment.querySelector('.comment_wall'); // 獲取照片牆
-            let position = 0; // 設定初值
-            let isPaused = false; // 鼠标事件開關
-            function animateMarquee() {
-                if (!isPaused) {
-                    position -= 0.5;  
-                    console.log('Position:', position);
-                    console.log('CommentWall Width:', commentWall.offsetWidth);
-                    commentWall.style.transform = `translateX(${position}px)`;
-                    // 判斷position 是否 >= commentWall 的寬度 衝心呼叫此函數
-                    if (position*-1 -550 >= commentWall.offsetWidth) {
-                        position = 0;
+            const animateMarquee = () => {
+                if (this.isPaused) {
+                    this.position -= 1.5;
+                    commentWall.style.transform = `translateX(${this.position}px)`;
+                    if (this.position * -1 - 550 >= commentWall.offsetWidth) {
+                        this.position = 0;
                     }
                 }
                 cancelAnimationFrame(animateMarquee);
-                requestAnimationFrame(animateMarquee); 
-                //性能優化 ( 當我視窗化最小or window沒有在閱覽 他會自動暫停 )
-            }
-            this.$refs.homeComment.addEventListener('mouseenter', () => {
-                isPaused = true; //mouseenter 把開關 關起來
-            });
-            this.$refs.homeComment.addEventListener('mouseleave', () => {
-                isPaused = false;//mouseleave 重新呼叫
-                animateMarquee();
-            });
+                requestAnimationFrame(animateMarquee);
+            };
             animateMarquee();
         },
-
+        handlHomeCommentMouseenter() {
+            this.isPaused = false; //mouseenter 把開關 關起來
+        },
+        handlHomeCommentMouseleave() {
+            this.isPaused = true; //mouseenter 把開關 關起來
+        },
     },
 
 
@@ -281,8 +281,11 @@ export default {
             window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
             this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
             this.startSlideshow(); //啟動自動輪播
-            this.startComment();
         });
+        this.startComment();
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.updateDimensions )
     },
 };
 </script>
