@@ -67,28 +67,49 @@
             </div>
         </div>
     </div>
-    <!--健康專欄-->
-  <h2>健康專欄</h2>
 
-<div class="article-overview">
-    <div class="article-img">
-      <img src="/src/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
+<!----------- 專欄 ------------>
+<h2 class="home-title">健康專欄</h2>
+<div class="home-article-link">
+      <div class="home-article-container container">
+        <div class="home-article-img">
+          <img :src="articles[0].imageSrc" :alt="articles[0].altText">
+        </div>
+        <div class="home-article-txt">
+          <h3>{{ articles[0].title }}</h3>
+          <p>{{ articles[0].description }}</p>
+          <div class="btn_bar">
+            <router-link :to="articles[0].link" class="btn-outline-white">觀看更多</router-link>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="article"></div>
-      <p>
-        <span>營養均衡，從餐桌開始</span>
-        在現代快節奏的生活中，人們越來越注重健康。而要實現真正的健康，一頓營養均衡的餐點是不可或缺的一環。飲食不僅關係到我們的體重管理，更關係到身體各個器官的正常運作和免疫系統的強壯。
-      </p>
-  <a href="" class="btn-outline-white">觀看更多</a>     
-</div>
 
-<!--熱門食譜-->
-<h2>熱門食譜</h2>
-<div class="hot-recipe">
+<!----------- 食譜 ------------>
+<h2 class="home-title">熱門食譜</h2>
+<div class="home-recipe-link">
+    <div v-for="(recipe, index) in recipes" :key="index" :class="{ 'home-recipe-link-reverse': index % 2 !== 0 }">
+      <div class="home-recipe-container container">
+        <div class="home-recipe-img">
+          <img :src="recipe.imageSrc" :alt="`熱門食譜-${index + 1}`">
+        </div>
+        <div class="home-recipe-txt">
+          <h3>{{ recipe.title }}</h3>
+          <span>{{ recipe.ingredientsTitle }}</span>
+          <ul>
+            <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li>
+          </ul>
+          <div class="btn_bar"><a :href="recipe.link" class="btn-outline-white">探索更多</a></div>
+        </div>
+      </div>
+    </div>
+</div>  
+<!------- 食譜(手機版) ------->
+<div class="home-phone-recipe">
     <div class="first-recipe">
       <img src="/src/assets/images/home/recipe-1.png" alt="熱門食譜-1">
     </div>
-    <div class="recipe">
+    <div class="phone-recipe">
       <h3>素食彩虹沙拉</h3>
       <span>食材</span>
       <ul>
@@ -102,11 +123,12 @@
       <a href="" class="btn-outline-white">探索更多</a>    
   </div>
 </div>
-<div class="hot-recipe">
-    <div class="recipe-img">
+
+<div class="home-phone-recipe">
+    <div class="phone-recipe-img">
       <img src="/src/assets/images/home/recipe-2.png" alt="熱門食譜-1">
     </div>
-    <div class="recipe">
+    <div class="phone-recipe">
       <h3>紫薯蕎麥鬆餅</h3>
       <span>食材</span>
       <ul>
@@ -121,11 +143,44 @@
   </div>
 </div>
 
-<!--健康小幫手-->
-<h2>健康小幫手</h2>
-<h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
-<h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>
-<div class="assistant">
+<!----------- 小幫手 ------------>
+<h2 class="home-title">健康小幫手</h2>
+<div class="home-assistant-container">
+    <div class="assistant-row row">
+        <RouterLink to="/bmi">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/bmi-icon.png" alt="BMI計算">
+                <h4>BMI計算</h4>
+                <p>衡量身體的肥胖程度</p>
+            </div>
+        </RouterLink>
+        <RouterLink to="/bmr">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/cpf-icon.png" alt="基礎代謝計算">
+                <h4>基礎代謝率</h4>
+                <p>了解你身體在靜息狀態下維持基本生命活動所需的能量消耗</p>
+            </div>
+        </RouterLink>
+        <RouterLink to="/cal">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/cal-icon.png" alt="CAL計算">
+                <h4>卡路里計算</h4>
+                <p>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</p>
+            </div>
+        </RouterLink>
+        <RouterLink to="/gi">
+            <div class="assistant-icon-card">
+                <img src="/src/assets/images/home/gi-icon.png" alt="GI計算">
+                <h4>GI飲食計算</h4>
+                <p>低GI飲食有助於穩定血糖水平。</p>
+            </div>
+        </RouterLink>
+    </div>
+</div>
+<!------- 小幫手(手機版) ------->
+<div class="phone-assistant-container">
+  <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
+  <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>  
   <a href="" class="assistant-item">
     <img src="/src/assets/images/home/assistant.png" alt="">
     <div class="switch">
@@ -139,9 +194,19 @@
   </a>
   <div class="btn"><a href="" class="btn-primary">前往計算</a></div>
 </div>
+
+<!----------- 小遊戲 ------------>
+<h2 class="home-title">玩遊戲，享優惠！</h2>
+<div class="home-game-card">
+    
+</div>
+
+<!----------- end ------------>
+
 </template>
 
 <script>
+import { RouterLink } from 'vue-router'
 export default {
     data() {
         return {
@@ -192,6 +257,56 @@ export default {
                     star: 5,
                 },
             ],
+            articles: [
+                {
+                    title: "營養均衡，從餐桌開始",
+                    description: "在現代快節奏的生活中，人們越來越注重健康。而要實現真正的健康，一頓營養均衡的餐點是不可或缺的一環。飲食不僅關係到我們的體重管理，更關係到身體各個器官的正常運作和免疫系統的強壯。",
+                    imageSrc: "/src/assets/images/home/ARTICLE_OVERVIEW.png",
+                    altText: "健康專欄",
+                    link: "/path-to-article-1",
+                },
+            ],
+            recipes: [
+                {
+                title: '素食彩虹沙拉',
+                ingredientsTitle: '食材',
+                ingredients: [
+                    '·生菜葉（任選擇的種類），洗淨切碎',
+                    '·紅椒、黃椒、橙椒，切絲',
+                    '·黃瓜，切薄片',
+                    '·紫甘藍，切碎',
+                    '·胡蘿蔔，切絲或用刨絲器刨成薄片',
+                    '·紅洋蔥，切絲',
+                    '·紅蘿蔔，刨成絲',
+                    '·玉米粒，瀝乾',
+                    '·青豆，瀝乾',
+                    '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
+                    '·鹽和黑胡椒調味',
+                ],
+                imageSrc: '/src/assets/images/home/recipe-1.png',
+                link: '/recipe1'
+                },
+                
+                {
+                title: '紫薯蕎麥鬆餅',
+                ingredientsTitle: '食材',
+                ingredients: [
+                    '·生菜葉（任選擇的種類），洗淨切碎',
+                    '·紅椒、黃椒、橙椒，切絲',
+                    '·黃瓜，切薄片',
+                    '·紫甘藍，切碎',
+                    '·胡蘿蔔，切絲或用刨絲器刨成薄片',
+                    '·紅洋蔥，切絲',
+                    '·紅蘿蔔，刨成絲',
+                    '·玉米粒，瀝乾',
+                    '·青豆，瀝乾',
+                    '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
+                    '·鹽和黑胡椒調味',
+                ],
+                imageSrc: '/src/assets/images/home/recipe-2.png',
+                link: '/recipe2'
+                }
+            ],
             divWidth: 0,
             elements: [],
         };
@@ -220,6 +335,9 @@ export default {
             this.divWidth = this.$refs.myBanner.offsetWidth;
             this.elements = this.$refs.myBanner.querySelectorAll('img');
         });
+    },
+    components: {
+        RouterLink,
     },
 };
 </script>
