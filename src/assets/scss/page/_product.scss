@@ -35,7 +35,9 @@
     .product-list {
         display: flex;
 
-        aside {
+        ul {
+            display: block;
+
             li {
                 list-style: none;
                 width: 150px;
@@ -46,66 +48,117 @@
                 margin: $sp-1 ;
                 cursor: pointer;
 
-                hr{
+                hr {
                     border: 1px solid black;
                 }
-                .lunchbox{
+
+                .lunchbox {
                     font-weight: bold;
                 }
+
                 .freshfood {
                     font-weight: bold;
                     display: flex;
 
-                    h3{
+                    h3 {
                         font-size: $fs-2;
                     }
-                    i{
+
+                    i {
                         margin: auto;
                     }
                 }
-                
+
 
             }
         }
-            .items {
 
-                .vegetable_card {
-                    background-color: #fff;
-                    height: 440px;
-                    text-align: center;
+        .phoneList {
+            display: none;
+        }
+
+        .product_items {
+
+            .vegetable_card {
+                background-color: #fff;
+                height: 440px;
+                text-align: center;
+                border-radius: $border-r-2;
+                position: relative;
+                margin: $sp-2;
+
+                .product_tag {
+                    position: absolute;
+                    right: 0;
+                    border: 1px solid $dark-line;
                     border-radius: $border-r-2;
-                    position: relative;
-                    margin: $sp-2;
+                    color: $dark-line ;
+                    width: 30%;
+                    text-align: center;
+                    margin: $sp-1;
 
-                    .product_tag {
-                        position: absolute;
-                        right: 0;
-                        border: 1px solid $dark-line;
-                        border-radius: $border-r-2;
-                        color: $dark-line ;
-                        width: 30%;
-                        text-align: center;
-                        margin: $sp-1;
+                }
 
-                    }
+                img {
+                    margin: $sp-3 0 $sp-2 0;
+                    padding: $sp-1 ;
+                    width: calc(80%);
+                    height: calc(80%);
+                    // aspect-ratio: 2/1;
+                }
 
-                    img {
-                        margin: $sp-3 0 $sp-2 0;
-                        padding: $sp-1 ;
-                        width: 100%;
-                        // aspect-ratio: 2/1;
-                    }
+                .vegetable_title {
+                    font-weight: bold;
+                }
 
-                    .vegetable_title {
-                        font-weight: bold;
-                    }
-
-                    .vegetable_price {
-                        font-weight: bold;
-                        margin: $sp-1 0 $sp-2 0;
-                    }
+                .vegetable_price {
+                    font-weight: bold;
+                    margin: $sp-1 0 $sp-2 0;
                 }
             }
-        
+        }
+
+    }
+
+    @media screen and (max-width:$md) {
+        .product-list {
+            display: block;
+
+            ul {
+                display: none;
+            }
+
+            .phoneList {
+                display: block;
+                margin: $sp-1;
+                
+                
+                select{
+                    border: none;
+                    background-color: #FFF3E0;
+                    font-size: $fs-3;
+                    padding: $sp-1;
+                    font-weight: bold;
+                    option{
+                        font-weight: bold;
+                    }
+                    
+                }
+                
+            }
+
+
+        }
+    }
+
+    @media screen and (min-width: 430px) and (max-width: 767px) {
+        .product-list {
+            .items {
+                .vegetable_card {
+                    height: 700px;
+
+                }
+            }
+        }
     }
 }
