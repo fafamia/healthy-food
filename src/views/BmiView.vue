@@ -37,9 +37,15 @@
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前BMI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
-                <div class="recommend_card"></div>
-                <div class="recommend_card"></div>
-                <div class="recommend_card"></div>
+                <div class="recommend_card">
+                    
+                </div>
+                <div class="recommend_card">
+                    
+                </div>
+                <div class="recommend_card">
+                    
+                </div>
             </div>
         </div>
     </div>
@@ -47,6 +53,7 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
+import VegetableCard from "@/components/VegetableCard.vue";
 export default {
     data() {
         return {
@@ -76,8 +83,13 @@ export default {
         RouterLink,
         RouterView,
         Breadcrumb,
+        VegetableCard,
     },
     }
 </script>
+
+<style lang="scss">
+@import "@/assets/scss/page/_bmi.scss";
+</style>
 
 

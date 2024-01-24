@@ -43,4 +43,8 @@ export default {
 }
 </script>
 
+<style lang="scss">
+@import "@/assets/scss/page/_bmr.scss";
+</style>
+
 
