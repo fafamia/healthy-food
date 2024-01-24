@@ -12,8 +12,6 @@
                         name: 'productinfo',
                         params: { id: product.id }
                     }" class="btn-product">查看商品詳情</router-link>
-
-
                 </div>
         </div>
 
@@ -22,7 +20,7 @@
 
 <script>
 export default {
-    props: ['product'],
+    props: ['tag','name','price'],
     computed: {},
     methods: {
         

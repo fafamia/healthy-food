@@ -324,8 +324,6 @@ export default {
                     link: '/recipe2'
                 }
             ],
-            divWidth: 0,
-            elements: [],
             divWidth: 0, //banner寬度
             elements: [], //banner的照片
             timer: null, //自動輪播的計時器變數
@@ -353,7 +351,7 @@ export default {
             this.applyTransition(); //呼叫
         },
         applyTransition() {
-            const bannerContent = this.$refs.myBanner?.querySelector('.banner_content');
+            const bannerContent = this.$refs.myBanner.querySelector('.banner_content');
 
             if (bannerContent) {
                 const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`;
@@ -365,7 +363,7 @@ export default {
             const commentWall = this.$refs.homeComment.querySelector('.comment_wall'); // 獲取照片牆
             const animateMarquee = () => {
                 if (this.isPaused) {
-                    this.position -= 1.5;
+                    this.position -= 1;
                     commentWall.style.transform = `translateX(${this.position}px)`;
                     if (this.position * -1 - 550 >= commentWall.offsetWidth) {
                         this.position = 0;
