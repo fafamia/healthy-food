@@ -240,5 +240,10 @@ export default {
 };
 </script>
 
+<style lang="scss">
+@import "@/assets/scss/page/_cookbook.scss";
+@import "@/assets/scss/page/_cookbookinfo.scss";
+</style>
+
 
 

@@ -132,7 +132,9 @@ export default {
 
 </template>
 
-
+<style lang="scss">
+@import "@/assets/scss/page/_foodmap.scss";
+</style>
 
 
 
