@@ -3,76 +3,66 @@
 	// width: 100%;
 	height: 555px;
 	margin: auto;
-	overflow: hidden;
+    overflow: hidden;
     .banner_content{
-        position: relative;
+        height: 555px;
+        transition: transform 0.5s ease;
         .banner_wall{
             display: flex;
-            // .home_bannerpic{}
+            position: relative;
+            .bag_banner_img{
+                .home_bannerpic{
+                    height: 555px;
+                    object-fit:cover
+                }
+            }
         }
+    }
+    .home_banner_textbackground{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 36px;
+        max-width: 1200px;
+        width: 100%;
+        height: 291px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background-color: $banner-white;
+        text-align: center;
+        h1{
+            font-size: 36px;
+            display: inline-block;
+            @media(width>=1200px){
+                font-size: 48px;
+            }
+        }
+    }
+    .carousel_buttons{
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        z-index: 2;
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .carousel_button{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #D9D9D9;
+        margin: 10px;
+    }
+    .active {
+        background-color: #7A7A7A;
     }
 }
 
 
-
-// .home_banner01_1{
-//     min-width: 300px;
-//     max-width: 500px;
-//     width: 35%;
-//     position: absolute;
-//     bottom: -100px;
-//     right: -100px;
-// }
-// .home_banner01_2{
-//     min-width: 300px;
-//     max-width: 500px;
-//     width: 35%;
-//     position: absolute;
-//     top: -100px;
-//     left: -130px;
-// }
-
-.home_banner_textbackground{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 36px;
-    max-width: 1200px;
-    width: 100%;
-    height: 291px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background-color: $banner-white;
-    text-align: center;
-    h1{
-        font-size: 36px;
-        display: inline-block;
-        @media(width>=1200px){
-            font-size: 48px;
-        }
-    }
-}
-.carousel_buttons{
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    z-index: 2;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.carousel_button{
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #D9D9D9;
-    margin: 10px;
-}
-.active {
-    background-color: #7A7A7A;
-}
 //  第二區塊 feature 
 .feature{
     margin-top: $sp-4;
@@ -89,6 +79,7 @@
         }
         .title_pic{
             margin-bottom: $sp-2;
+
         }
     }
 }
@@ -96,7 +87,7 @@
 .featured_commodity_background{
     background-color: $primary;
     width: 100%;
-    color: white;
+    color: $white;
     .featured_commodity{
         display: flex;
         flex-direction: column;
@@ -110,12 +101,12 @@
         .commodity_pic_countainer{
             padding: 10px;
             width: 100%;
-            @media (width >= 576px) {
-                width: 65%;
-            } 
             display: flex;
             align-items: center;
             justify-content: center;
+            @media (width >= 576px) {
+                width: 65%;
+            } 
             .leftbutton{
                 border: none;
                 background-color: $primary;
@@ -126,27 +117,25 @@
             .bigpic_item{
                 width: 100%;
                 overflow: hidden;
+                transition: transform 0.5s ease;
                 @media (width >= 576px) {
                     overflow:visible;
                 } 
                 .pic_wall{
                     display: flex;
-                    @media (width >= 576px) {
-                        width: 100%;
-                    }
-                    .commodity_bigpic {
-                        width: 100%;
-                        max-width: 100%;
-                        height: auto;
-                        display: block;
-                        margin: 0 auto;
-                    }
-                    @media (min-width: 576px) {
-                        .commodity_bigpic img:nth-child(2) {
-                            width: 50%;
+                    position: relative;
+                    .bag_commodity_pic{
+                        .commodity_pic {
+                            width: 100%;
+                            max-width: 100%;
+                            height: auto;
+                            display: block;
+                            margin: 0 auto;
                         }
-                        .commodity_bigpic {
-                            max-width: 33.333333%;
+                        @media (width >= 576px) {
+                            .commodity_pic {
+                                max-width: 33.333333%;
+                            }
                         }
                     }
                 }
@@ -194,11 +183,20 @@
         }
     }
 }
-
+.second_picture{
+    position: absolute;
+    width: 110%;
+    top: -90%;
+    left: -5%;
+}
 //  第四區塊 comment 
 .comment{
+    max-width: 1200px;
     margin-top: $sp-2;
     margin-bottom: $sp-2;
+    transition: transform 1s linear;
+    overflow: hidden;
+    margin: auto;
     h3{
         text-align: center;
         font-size: $h2;
@@ -210,119 +208,305 @@
         } 
     }
     .comment_wall{
+        width: 100%;
         display: flex;
-        overflow: hidden;
+        @media (width >= 576px) {
+            margin-top: $sp-3;
+        } 
         .comment_card{
-            width: 246px;
             background-color: $green;
-            padding: 10px;
+            padding: 20px;
             margin: $sp-2;
-            display: flex;
             flex-direction: column;
-            border-radius: 50px;
+            border-radius: 40px;
             @media (width >= 576px) {
                 margin: $sp-3;
-                width: 380px;
             } 
             .person{
                 display: flex;
+                margin-top: $sp-3;
+                margin-bottom: $sp-3;
+                margin: auto;
                 align-items: center;
-                .comment_card img{
+                position: relative;
+                img{
                     width: 100px;
+                    position: absolute;
+                    left: -30px;
+                    top: -50px;
+                    @media (width >= 576px) {
+                        width: 150px;
+                        top: -80px;
+                        left: -50px;
+                    } 
                 }
                 .comment_name{
+                    margin: auto;
                     color: $white;
-                    font-size: 20px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    font-size: $fs-2;
                     @media (width >= 576px) {
                         font-size: $h2;
                     } 
                 }
             }
             .comment_star{
+                margin-top: 10px;
                 display: flex;
             }
             .comment_message{
+                width: 250px;
+                height: 250px;
                 background-color: #DFEBE6;
-                border-radius: 50px;
+                border-radius: 20px;
+                padding: 20px;
+                margin-top: 10px;
+                @media (width >= 576px) {
+                    padding: 40px;
+                    width: 360px;
+                    height: 200px;
+                    margin-top: 20px;
+                    padding: 40px;
+                } 
             }
         }
     }
 }
 
+
 // 標題
-h2 {
+.home-title {
     font-size: $h2;
     color: $primary;
     text-align: center;
-    margin: $sp-2;
+    margin: $sp-5*2 0 $sp-4;
     @media (min-width:$xl) {
       font-size: $h1;
     }
 }
 
 // 健康專欄
-.article-overview {
+.home-article-link{
+    overflow: hidden;
     display: flex;
-    flex-wrap: wrap;
-    margin-bottom: $sp-3 * 2;
-    @media (min-width:$xl) {
-      width: 1200px;
-      margin: auto;
-    }
-    a{
-      margin: auto;
-      margin-top: -70px;
-    }
-    .article-img {
-        width: 387px;
-        margin: 0px 0px -230px 0px ;
-        @media (min-width:$xl) {
-          margin: 0 auto -510px 0;
-        }
-        img {
-          width: 90%;
-          border-radius: $border-r-3;
-          display: block;
-          @media (min-width:$xl) {
-            width: 580px;
-            height: 580px;
-          } 
-        }
-      }
-      .article {
-        background: $primary;
-        height: 600px;
-        width: 100%;
-        z-index: -1;
-        @media (min-width: $xl) {
-          width: 100%; 
-        }
-        }
-        p {
-          color: $white;
-          margin-top: -360px; 
-          padding: 0 40px;
-          font-size: 20px;
-          @media (min-width:$xl) {
-            width: 600px;
-            margin-top: -430px; 
-            margin-left: 585px;
-          }
-          span{
+    justify-content: center;
+    .home-article-container{
+        display: flex;
+        align-items: center;
+        position: relative;
+        margin-bottom: $sp-2;
+        &::after{
+            background: $primary;
+            position: absolute;
             display: block;
-            text-align: center;
-            font-size: $fs-2;
-            margin: 10px 0;
-          }
-      }
+            width: 300%; 
+            height: 90%;
+            left: -50%;
+            bottom: -50px; 
+            z-index: -1;
+            content: "";
+        }
+        @media (max-width:$md) {
+            flex-wrap: wrap;
+        }
+        .home-article-img{
+            width: 50%;
+            @media (max-width:$md) {
+                width: 100%;
+            }
+            img{
+                width: 580px;
+                height: 580px;
+                object-fit: cover;
+                border-radius: 40px;
+                @media (max-width:$md) {
+                    width: 325px;
+                    height: 325px;
+                    position: relative;
+                    left: -10px;
+                }
+            }
+        }
+        .home-article-txt{
+            width: 50%; 
+            padding: 0 $sp-2; 
+            color: #fff;
+            @media (max-width:$md) {
+                width: 100%;
+            }
+            h3{
+                font-size: 24px;
+                margin: 30px 0;
+                @media (max-width:$md) {
+                    width: 100%;
+                }
+            }
+            p{
+                font-size: $fs-3;
+            }
+            .btn_bar{
+                width: 100%;
+                text-align:right;
+                padding-right: 15px;
+                margin-top: $sp-2;
+                a{
+                    display: inline-block;
+                }
+                @media (max-width:$md) {
+                    text-align: center;
+                    margin-top: $sp-2;
+                }
+            }
+        }
+    }
 }
-
 // 熱門食譜
-.hot-recipe{
+.home-recipe-container {
     display: flex;
-    flex-wrap: wrap;
-    margin-bottom: $sp-3 * 2;
-    .first-recipe, .recipe-img{
+    align-items: center;
+    position: relative;
+    margin-bottom: $sp-2;
+    flex-direction: row-reverse;
+    @media (max-width:$md) {
+        display: none;
+    }
+   .home-recipe-link-reverse &{
+        flex-direction: row;
+    
+        .home-recipe-img {
+          margin-top: 127px
+        }
+    
+        .home-recipe-txt {
+          left: 65%;
+        }
+    
+        &::after {
+          left: 40%;
+          width: 1067px;
+          height: 699px;
+          bottom: -60px;
+        }
+      }
+    &::after {
+      background: $secondary;
+      position: absolute;
+      display: block;
+      width: 1015px;
+      height: 842px;
+      right: 45%;
+      bottom: -354px;
+      z-index: -1;
+      content: "";
+    }
+    @media (max-width: $md) {
+      flex-wrap: wrap;
+    }
+  
+    .home-recipe-img {
+      width: 50%;
+  
+      @media (max-width: $md) {
+        width: 100%;
+      }
+  
+      img {
+        width: 580px;
+        height: 580px;
+        object-fit: cover;
+        border-radius: 40px;
+  
+        @media (max-width: $md) {
+          width: 325px;
+          height: 325px;
+          position: relative;
+          left: -10px;
+        }
+      }
+    }
+  
+    .home-recipe-txt {
+      width: 50%;
+      padding: 0 $sp-2;
+      color: $primary;
+  
+      @media (max-width: $md) {
+        width: 100%;
+      }
+  
+      position: absolute;
+      top: 50%;
+      transform: translateY(-30%);
+      left: 0; 
+  
+      h3 {
+        font-size: $h2;
+        font-weight: $fw-bold;
+        margin: 30px 0;
+  
+        @media (max-width: $md) {
+          width: 100%;
+        }
+      }
+  
+      span {
+        font-size: $fs-3;
+      }
+  
+      ul {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        margin-bottom: 15px; 
+        max-width: 600px; 
+        &:before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            width: 520px;
+            height: 1px;
+            background-color: $primary; 
+            margin-top: -290px; 
+          }
+        li {
+            width: 48%; 
+            margin-bottom: 10px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+      }
+  
+      .btn_bar {
+        width: 100%;
+        text-align: right;
+        padding-right: 15px;
+        margin-top: $sp-2;
+  
+        a {
+          display: inline-block;
+        }
+  
+        @media (max-width: $md) {
+          text-align: center;
+          margin-top: $sp-2;
+        }
+      }
+    }
+  }
+  
+// 熱門食譜(手機版)
+.home-phone-recipe{
+    display: none;
+    @media (max-width:$md) {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: $sp-3 * 2;
+    }  
+    .first-recipe, .phone-recipe-img{
         margin: 0px 0px -220px 0px;
         width: 338px;
         z-index: 1  ;
@@ -336,7 +520,7 @@ h2 {
       margin-left: auto;
       
     }
-    .recipe {
+    .phone-recipe {
         background-color: $secondary;
         overflow: hidden;
         width: 100%; 
@@ -365,15 +549,45 @@ h2 {
             z-index: 1;
           }
     }
+} 
+
+//健康小幫手
+.home-assistant-container{
+  width: 1200px;
+  margin: auto;
+  display: block;
+  @media (max-width:$md) {
+    display: none;
+  }
+  .assistant-row {
+    a{
+      color: #000;
+      .assistant-icon-card{
+      text-align: center;
+      width: 260px;
+      margin: $sp-2;
+        h4{
+          font-size: $h2;
+          margin: $sp-2 0 $sp-3;
+        }
+        p{
+        font-size: $fs-2;
+        }
+      }
+    }
+  }
 }
 
-// 健康小幫手
-h3{
-  text-align: center;
-  font-size: 20px;
-}
-.assistant{
-
+// 健康小幫手(手機版)
+.phone-assistant-container{
+  display: none;
+  @media (max-width:$md) {
+    display: block;
+  }
+  h3{
+    text-align: center;
+    font-size: 20px;
+  }
   .assistant-item{
     display: block;
     text-align: center;
@@ -408,7 +622,9 @@ h3{
     }
   }
   .btn{
-    margin: 0 35%;
+    text-align: center;
+    margin-bottom: $sp-3;
   }
 }
 
+//小遊戲

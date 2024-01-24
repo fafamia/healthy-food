@@ -6,8 +6,10 @@
 
 @include btn-l-icon(primary, $primary); // btn-l-icon-primary
 @include btn-r-icon(primary, $primary); //btn-r-icon-primary
-@include btn-l-icon(secondary, $primary); // btn-l-icon-secondary
-@include btn-r-icon(secondary, $primary); //btn-r-icon-secondary
+@include btn-l-icon(secondary, $secondary); // btn-l-icon-secondary
+@include btn-r-icon(secondary, $secondary); //btn-r-icon-secondary
+@include btn-l-icon(btn, $btn); // btn-l-icon-btn
+@include btn-r-icon(btn, $btn); //btn-r-icon-btn
 
 @include btn-outline-l-icon(primary, $primary); // btn-outline-l-icon-primary
 @include btn-outline-r-icon(primary, $primary); //btn-outline-r-icon-primary
