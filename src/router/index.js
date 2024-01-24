@@ -91,7 +91,7 @@ const router = createRouter({
     {
       path: '/cookbookinfo',
       name: 'cookbookinfo',
-      component: () => import('../views/CookbookInfo.vue'),
+      component: () => import('../views/CookbookInfoView.vue'),
     },
   ]
 })
