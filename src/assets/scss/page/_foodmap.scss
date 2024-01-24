@@ -1,0 +1,49 @@
+.foodmap{
+    background-image: url('/src/assets/images/foodmap/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    img{
+        width: 100%;
+    }
+    svg{
+        width: 100%;
+    }
+}
+.taiwan{
+    position: relative;
+    .item{
+        position: absolute;
+        top:0;
+    }
+    .fish{
+        left:1000px;
+        top:100px;
+    }
+    .bean{
+        left:900px;
+        top:-50px;
+    }
+}
+.article{
+    width: 450px;
+    position: relative;
+    
+    img{
+        width: 80px;
+        margin-bottom: 20px;
+    }
+    p{
+        background-color: #FFF3E0;
+        font-size: 16px;
+        padding: 30px 20px 20px 20px;
+    }
+    h2{
+        font-size: $fs-2;
+        color:black;
+        background-color: $secondary;
+        display: inline-block;
+        position: absolute;
+        top:70px;
+        left: -40px;
+    }
+}
