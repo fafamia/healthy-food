@@ -17,9 +17,9 @@
         <li v-for="product in displayedProducts" :key="product.prod_id">
           <article>
             <i @click="toggleBookmark(product)" :class="product.iconClass" class="bookmark"></i>
-            <img :src="getProductImage(product)" :alt="product.prod_name">
+            <a href="/cookbookinfo"><img :src="getProductImage(product)" :alt="product.prod_name"></a>
             <div class="text">
-              <h4>{{ product.prod_name }}</h4>
+              <a href="/cookbookinfo"><h4>{{ product.prod_name }}</h4></a>
               <p>{{ product.prod_des2 }}</p>
             </div>
             <div class="like">
@@ -54,8 +54,8 @@ export default {
         { text: '首頁', active: false, to: '/' },
         { text: '熱門食譜', active: true }
       ],
-      isStyled: [false,false,false]
-    
+      isStyled: [false, false, false]
+
 
     };
   },
@@ -69,7 +69,7 @@ export default {
       return this.products.slice(startIndex, endIndex);
     },
   },
-  
+
   mounted() {
     this.fetchData();
   },
@@ -115,4 +115,8 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import "@/assets/scss/page/_cookbook.scss";
+</style>
 

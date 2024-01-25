@@ -1,0 +1,297 @@
+* {
+    margin: 0 auto;
+}
+
+.recipe_container {
+    margin: auto;
+    padding: 0 140px;
+}
+
+.title {
+    h6 {
+        font-size: $h2;
+    }
+
+    span {
+        font-size: 16px;
+    }
+}
+
+.recipe_card {
+    .recipe_img {
+        width: 700px;
+        height: 425px;
+        border-radius: $border-r-3;
+        overflow: hidden;
+        margin-top: 20px;
+
+        img {
+            width: 100%;
+        }
+
+    }
+
+    display: flex;
+}
+
+.box {
+    margin: 80px 0 50px 50px;
+    font-size: $fs-2 ;
+
+    p {
+        line-height: 2;
+        margin-bottom: 30px;
+    }
+
+    a {
+        padding: 15px 40px;
+        background-color: $primary;
+        color: $white;
+        border-radius: $border-r-1;
+
+    }
+
+    button {
+        margin-top: 80px;
+        width: 150px;
+        padding: 15px 40px;
+        background-color: $primary;
+        color: $white;
+        border-radius: $border-r-1;
+        border: none;
+        font-size: $fs-2 ;
+        margin-right: 30px;
+        cursor: pointer;
+
+    }
+
+}
+
+.time {
+    font-size: $fs-2 ;
+    margin-bottom: 50px;
+
+    span {
+        background-color: $white;
+        border-radius: $border-r-1;
+        width: 580px;
+        display: inline-block;
+        color: $primary;
+        text-align: center;
+        line-height: 100px;
+
+        &:first-child {
+            margin-right: 30px;
+        }
+    }
+}
+
+.ingredients {
+    background-color: $white;
+    color: $primary;
+    font-size: $fs-2;
+    padding: 30px;
+    margin-bottom: 50px;
+
+    .name {
+        border-bottom: 1px solid $primary;
+        padding-bottom: 30px;
+
+        h5 {
+            font-size: $h2;
+            padding: 0 0 0 40px;
+        }
+    }
+
+    p {
+        margin-top: 30px;
+        padding: 0 40px 0 40px;
+    }
+}
+
+.content {
+    padding: 0 70px 60px 70px;
+    font-size: $fs-2;
+    border-bottom: 1px solid;
+
+    h5 {
+        font-size: $h2;
+        margin-bottom: 50px;
+    }
+}
+
+
+.comment {
+    margin-bottom: 100px;
+    button{
+        margin: 0 20px;
+        color:$primary;
+        background: none;
+        border: none;
+        font-size: 50px;
+        cursor: pointer;
+    }
+    .comment-card-wrapper{
+    overflow-x: hidden;
+    white-space: nowrap;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    }
+    h4 {
+        font-size: $h1;
+        color: $primary;
+        padding: 30px 140px;
+        margin-bottom: 30px;
+    }
+}
+
+.comment_card {
+    padding: 0 55px;
+    font-size: $fs-2;
+    display: flex;
+    transition: transform 0.3s ease;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+
+    .card_top {
+        padding: 30px;
+
+        h6 {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            white-space: normal;
+        }
+    }
+
+    article {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 568px;
+
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    li {
+        width: 387px;
+        height: 568px;
+        background-color: #FFE8A3;
+        border-radius: $border-r-2;
+        margin-right: 10px;
+    }
+
+    .comment_pic {
+        height: 177px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .icon {
+        margin: 0 10px;
+        display: flex;
+        justify-content: space-between;
+
+        .fa-triangle-exclamation {
+            padding: 10px;
+            cursor: pointer;
+        }
+    }
+
+    .comment_like {
+        background-color: $white;
+        padding: 5px 10px;
+        border-radius: $border-r-2;
+        color: #FFBB00;
+        i{
+            cursor: pointer;
+        }
+    }
+
+
+}
+.letter{
+    padding: 0 200px;
+    text-align: center;
+    margin-bottom: 100px;
+    h5{
+        
+        font-size: $h2;
+        margin-bottom: 50px;
+    }
+    .letter_box{
+        background-color: $primary;
+        margin: 0 150px;
+        padding: 50px 0;
+        position: relative;
+        border-radius: $border-r-1;
+        button{
+            font-size: $fs-2;
+            cursor: pointer;
+        }
+        .login{
+            padding: 15px 70px;
+            background-color: #D9D9D9;
+            border: none;
+            border-radius: $border-r-1;
+            color:$primary;
+            font-weight: bold;
+            margin-right: 100px;
+            
+        }
+        .upload{
+            background-color: $white;
+            border: none;
+            border-radius: $border-r-1;
+            color:$primary;
+            font-weight: bold;
+            padding: 10px 15px;
+            margin-right: 150px;
+        }
+        textarea{
+            width: 600px;
+            margin-top: 30px;
+            border-radius: $border-r-1;
+            border:none;
+            padding: 20px;
+            font-size: $fs-2;
+        }
+        .submit{
+            background-color: $white;
+            border: none;
+            border-radius: $border-r-1;
+            padding:10px 50px;
+            margin-top:30px;
+            margin-right: -430px;
+        }
+        
+    }
+    .letter_box::after{
+        content: "";
+        position: absolute;
+        bottom:-45px;
+        right:0;
+        border-right: 50px solid transparent;
+        border-top:50px solid $primary;
+
+    }
+}

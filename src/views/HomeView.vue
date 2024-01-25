@@ -237,13 +237,7 @@
         <span class="message-time">{{ message.time }}</span>
       </div>
     </div>
-    </div>    
-
- <!-- 關鍵字 -->
- <div class="horizontal-scroll-container">
-       
-       <button v-for="(keyword, keywordIndex) in keywords" :key="keywordIndex" @click="handleKeywordClick(keyword)" class="keyword-button">{{ keyword }}便當</button>
-       </div>
+    </div>
 
  <!-- 使用者訊息輸入 -->
   <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
@@ -385,7 +379,7 @@ export default {
             chatContainerRight: 'calc(20px + 60px)', // 初始位置，60px 是 floating-icon 的寬度
             chatContainerBottom: '20px', // 初始位置
             userInput: '',
-            messages: [],   
+            messages: [],      
             qaPairs: {
                 '你好': '你好! 需要什麼幫助呢？',
                 '你是誰': '我是健康小精靈，很高興為您服務。',
@@ -453,7 +447,7 @@ export default {
             });
             animateMarquee();
         },
-            sendMessage() {
+        sendMessage() {
                 const userMessage = this.userInput.trim();
                 if (userMessage === '') return;
 
@@ -480,32 +474,8 @@ export default {
                 this.chatContainerBottom = '20px';
                 }
             },
-            handleKeywordClick(keyword) {
-                // 根据点击的关键字生成相应的回复
-                const reply = this.generateReplyForKeyword(keyword);
-
-                // 将回复添加到消息数组中
-                this.messages.push({
-                type: 'bot',
-                text: reply
-                });
-            },
-
-            generateReplyForKeyword(keyword) {
-                // 根据关键字生成相应的回复逻辑，这里可以是一些预定的回复或者其他逻辑
-                // 你需要根据你的应用场景来实现这个方法
-                // 以下是一个简单的示例
-                switch (keyword) {
-                case '关键字1':
-                    return '关键字1的回复内容';
-                case '关键字2':
-                    return '关键字2的回复内容';
-                // 添加更多关键字的处理逻辑
-                default:
-                    return '默认回复内容';
-    }
-  }
         },
+
 
     computed() {
     },
@@ -524,5 +494,6 @@ export default {
     },
 };
 </script>
-
-<style></style>
+<style lang="scss">
+@import "@/assets/scss/page/_index.scss";
+</style>
