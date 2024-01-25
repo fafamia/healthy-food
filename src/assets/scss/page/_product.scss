@@ -47,6 +47,7 @@
                 font-size: $fs-2;
                 margin: $sp-1 ;
                 cursor: pointer;
+                
 
                 hr {
                     border: 1px solid black;
@@ -60,15 +61,37 @@
                     font-weight: bold;
                     display: flex;
 
+
                     h3 {
                         font-size: $fs-2;
                     }
 
                     i {
                         margin: auto;
+
                     }
+
                 }
 
+                .dropdown {
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 2s ease;
+                  }
+                  
+                  .expanded {
+                    max-height: 1000px; /* 設置一個足夠大的值，以確保內容可以完全顯示 */
+                  }
+                  
+                  .egg,
+                  .oil,
+                  .fish,
+                  .vegetable,
+                  hr {
+                    transition: opacity 2s ease;
+                  }
+
+                  
 
             }
         }
@@ -86,6 +109,7 @@
                 border-radius: $border-r-2;
                 position: relative;
                 margin: $sp-2;
+                box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
 
                 .product_tag {
                     position: absolute;
@@ -120,7 +144,7 @@
 
     }
 
-    @media screen and (max-width:$md) {
+    @media screen and (max-width:802px) {
         .product-list {
             display: block;
 
@@ -131,29 +155,30 @@
             .phoneList {
                 display: block;
                 margin: $sp-1;
-                
-                
-                select{
+
+
+                select {
                     border: none;
                     background-color: #FFF3E0;
                     font-size: $fs-3;
                     padding: $sp-1;
                     font-weight: bold;
-                    option{
+
+                    option {
                         font-weight: bold;
                     }
-                    
+
                 }
-                
+
             }
 
 
         }
     }
 
-    @media screen and (min-width: 430px) and (max-width: 767px) {
+    @media screen and (min-width: 430px) and (max-width: 767.5px) {
         .product-list {
-            .items {
+            .product_items {
                 .vegetable_card {
                     height: 700px;
 
