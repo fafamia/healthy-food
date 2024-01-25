@@ -165,37 +165,16 @@
 <!----------- 小幫手 ------------>
 <h2 class="home-title">健康小幫手</h2>
 <div class="home-assistant-container">
-    <div class="assistant-row row">
-        <RouterLink to="/bmi">
-            <div class="assistant-icon-card">
-                <img src="/src/assets/images/home/bmi-icon.png" alt="BMI計算">
-                <h4>BMI計算</h4>
-                <p>衡量身體的肥胖程度</p>
-            </div>
-        </RouterLink>
-        <RouterLink to="/bmr">
-            <div class="assistant-icon-card">
-                <img src="/src/assets/images/home/cpf-icon.png" alt="基礎代謝計算">
-                <h4>基礎代謝率</h4>
-                <p>了解你身體在靜息狀態下維持基本生命活動所需的能量消耗</p>
-            </div>
-        </RouterLink>
-        <RouterLink to="/cal">
-            <div class="assistant-icon-card">
-                <img src="/src/assets/images/home/cal-icon.png" alt="CAL計算">
-                <h4>卡路里計算</h4>
-                <p>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</p>
-            </div>
-        </RouterLink>
-        <RouterLink to="/gi">
-            <div class="assistant-icon-card">
-                <img src="/src/assets/images/home/gi-icon.png" alt="GI計算">
-                <h4>GI飲食計算</h4>
-                <p>低GI飲食有助於穩定血糖水平。</p>
-            </div>
-        </RouterLink>
+      <div class="assistant-row row">
+        <router-link v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
+          <div class="assistant-icon-card">
+            <img :src="assistant.iconSrc" :alt="`健康小幫手-${index + 1}`">
+            <h4>{{ assistant.title }}</h4>
+            <p>{{ assistant.description }}</p>
+          </div>
+        </router-link>
+      </div>
     </div>
-</div>
 <!------- 小幫手(手機版) ------->
 <div class="phone-assistant-container">
   <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
@@ -216,8 +195,58 @@
 
 <!----------- 小遊戲 ------------>
 <h2 class="home-title">玩遊戲，享優惠！</h2>
-<div class="home-game-card">
-    
+<div class="index_game container">
+    <h3>準備好了嗎？接受我們的健康問答挑戰，贏得您的折價券！</h3>
+    <div class="game_start row">
+          <div class="game_start_img col-12 col-xl-6">
+            <img src="/src/assets/images/game/game1.png" alt="健康知識大挑戰">
+          </div>
+          <div class="game_start_text col-12 col-xl-6">
+            <h2 class="game_start_title">健康知識大挑戰</h2>
+            <p>挑戰您的飲食知識，贏取專屬的折價券！只要您回答正確，即可獲得專屬折扣。讓您在享受美食的同時，豐富自己的營養知識。</p>
+            <router-link to="/game" class="btn-l-icon-btn btn-r-icon-btn"><i class="fa-solid fa-gamepad"></i>遊戲連結<i
+                class="fa-solid fa-arrow-up-right-from-square"></i></router-link>
+          </div>
+    </div>
+</div>
+
+<!----------- 機器人 ------------>
+
+ <!-- 健康小精靈ICON -->
+ <div class="rotbot-icon" @click="toggleChat">
+      <img src="/src/assets/images/home/robot.png" alt="Floating Icon">
+    </div>
+
+ <!-- 健康小精靈訊息框 -->
+    <div v-show="isChatOpen" id="chat-container" :style="{ right: chatContainerRight, bottom: chatContainerBottom }">
+      <div class="chat-header">
+        <img src="/src/assets/images/home/robot-img.png" alt="機器人頭像" class="avatar">
+        <span class="bot-name">健康小精靈</span>
+        <button @click="closeChat" class="close-button"><img src="/src/assets/images/home/XX.png" alt=""></button>
+      </div>
+      <hr class="line-divider">
+
+    <div id="chat-messages">
+      <div v-for="(message, index) in messages" :key="index" class="message" :class="{ 'user-message': message.type === 'user', 'bot-message': message.type === 'bot' }">
+      <span v-if="message.type === 'user'"></span>
+      <span v-if="message.type === 'bot'"></span>
+      
+ <!-- 顯示訊息跟時間 -->
+      <div class="message-content">
+        <span class="message-text">{{ message.text }}</span>
+        <span class="message-time">{{ message.time }}</span>
+      </div>
+    </div>
+    </div>    
+
+ <!-- 關鍵字 -->
+ <div class="horizontal-scroll-container">
+       
+       <button v-for="(keyword, keywordIndex) in keywords" :key="keywordIndex" @click="handleKeywordClick(keyword)" class="keyword-button">{{ keyword }}便當</button>
+       </div>
+
+ <!-- 使用者訊息輸入 -->
+  <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
 </div>
 
 <!----------- end ------------>
@@ -326,6 +355,45 @@ export default {
                 link: '/recipe2'
                 }
             ],
+            assistants: [
+                {
+                title: 'BMI計算',
+                description: '衡量身體的肥胖程度',
+                iconSrc: '/src/assets/images/home/bmi-icon.png',
+                link: '/bmi',
+                },
+                {
+                title: '基礎代謝率',
+                description: '了解你身體在靜息狀態下維持基本生命活動所需的能量消耗',
+                iconSrc: '/src/assets/images/home/cpf-icon.png',
+                link: '/bmr',
+                },
+                {
+                title: '卡路里計算',
+                description: '了解你每天攝取的卡路里量有助於維持健康的飲食習慣',
+                iconSrc: '/src/assets/images/home/cal-icon.png',
+                link: '/cal',
+                },
+                {
+                title: 'GI飲食計算',
+                description: '低GI飲食有助於穩定血糖水平',
+                iconSrc: '/src/assets/images/home/gi-icon.png',
+                link: '/gi',
+                },
+            ],
+            isChatOpen: false,
+            chatContainerRight: 'calc(20px + 60px)', // 初始位置，60px 是 floating-icon 的寬度
+            chatContainerBottom: '20px', // 初始位置
+            userInput: '',
+            messages: [],   
+            qaPairs: {
+                '你好': '你好! 需要什麼幫助呢？',
+                '你是誰': '我是健康小精靈，很高興為您服務。',
+                '健康': '關於健康的問題，問我就對了。',
+                '再見': '再見！如果有任何問題，歡迎隨時回來。',
+                '付款': '付款相關問題的話可以參考以下',
+                '便當': '便當相關問題的話可以參考以下',
+            },
             divWidth: 0,
             elements: [],
             divWidth: 0, //banner寬度
@@ -385,9 +453,59 @@ export default {
             });
             animateMarquee();
         },
+            sendMessage() {
+                const userMessage = this.userInput.trim();
+                if (userMessage === '') return;
 
-    },
+                const currentTime = new Date().toLocaleTimeString();
+                
+                this.messages.push({ type: 'user', text: userMessage, time: currentTime });
+                this.userInput = '';
 
+                const botReply = this.qaPairs[userMessage];
+                
+                if (botReply) {
+                    this.messages.push({ type: 'bot', text: botReply, time: currentTime });
+                } else {
+                    this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
+                }
+            },
+            closeChat() {
+                this.isChatOpen = false;  // 用於關閉 chat-container
+                },
+            toggleChat() {
+                this.isChatOpen = !this.isChatOpen;
+                if (this.isChatOpen) {
+                this.chatContainerRight = 'calc(100px + 60px)';
+                this.chatContainerBottom = '20px';
+                }
+            },
+            handleKeywordClick(keyword) {
+                // 根据点击的关键字生成相应的回复
+                const reply = this.generateReplyForKeyword(keyword);
+
+                // 将回复添加到消息数组中
+                this.messages.push({
+                type: 'bot',
+                text: reply
+                });
+            },
+
+            generateReplyForKeyword(keyword) {
+                // 根据关键字生成相应的回复逻辑，这里可以是一些预定的回复或者其他逻辑
+                // 你需要根据你的应用场景来实现这个方法
+                // 以下是一个简单的示例
+                switch (keyword) {
+                case '关键字1':
+                    return '关键字1的回复内容';
+                case '关键字2':
+                    return '关键字2的回复内容';
+                // 添加更多关键字的处理逻辑
+                default:
+                    return '默认回复内容';
+    }
+  }
+        },
 
     computed() {
     },
