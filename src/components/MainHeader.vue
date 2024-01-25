@@ -110,7 +110,7 @@
                     </nav>
                     <ul class="header_pc_icon_nav">
                         <li @click="toggleModel"><i class="fa-solid fa-user"></i></li>
-                        <li><i class="fa-solid fa-cart-shopping"></i></li>
+                        <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                     </ul>
                 </div>
             </div>
@@ -201,20 +201,13 @@
                     </div>
                 </div>
             </div>
-            <div class="shoppingCart_drawer" v-show="drawerStatus">
-                <div class="shoppingCart_drawer_bg" @click="toggleShoppingDrawer">
-                    <div class="drawer" @click.stop>
-                        <h2 class="drawer_title">product items</h2>
-                        <span class="drawer_close" @click="toggleShoppingDrawer"><i class="fa-solid fa-xmark"></i></span>
-                        <router-link to="/checkout" class="drawer_addCart btn-primary">結帳</router-link>
-                    </div>
-                </div>
-            </div>
+            <ShoppingCart ref="shoppingCartRef"/>
         </div>
     </header>
 </template>
 <script>
 import { RouterLink } from 'vue-router';
+import ShoppingCart from "@/components/ShoppingCart.vue"
 
 export default {
     data() {
@@ -227,7 +220,6 @@ export default {
             },
             modelStatus: false,
             isLogin: true,
-            drawerStatus: false,
         }
     },
     created() { },
@@ -244,24 +236,19 @@ export default {
         toggleLogin(isLogin) {
             this.isLogin = isLogin;
 
-        }, toggleShoppingDrawer() {
-            this.drawerStatus = !this.drawerStatus
         },
+        toggleShoppingDrawer(){
+            this.$refs.shoppingCartRef.toggleShoppingDrawer()
+        }
     },
     components: {
         RouterLink,
-    },
-    watch: {
-        drawerStatus: {
-            handler() {
-                const body = document.getElementsByTagName('body')[0];
-                body.classList.toggle("overflow-hidden");
-            },
-        }
+        ShoppingCart,
     },
 }    
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/main.scss';
 @import "@/assets/scss/layout/_header.scss";
 </style>

@@ -445,7 +445,7 @@ export default {
                 isPaused = false;//mouseleave 重新呼叫
                 animateMarquee();
             });
-            animateMarquee();
+            //animateMarquee();
         },
         sendMessage() {
                 const userMessage = this.userInput.trim();

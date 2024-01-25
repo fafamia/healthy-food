@@ -48,7 +48,13 @@
             </div>
             <p class="vegetable_title">{{ item.name }}</p>
             <p class="vegetable_price">{{ item.price }}</p>
-            <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
+            <router-link class="btn-product" 
+            :to="{
+              name:'productinfo',
+              params:{id:item.id}
+            }" >
+            查看商品詳情
+          </router-link>
           </div>
         </template>
       </div>
@@ -80,45 +86,48 @@ export default {
       ],
       displayData: [
         {
-          index: 4,
-          name: "冷凍蔬菜",
-          price: "$330",
-          image: "../../src/assets/images/product/vegetable_cover.png",
-          type: "vegetable"
-        },
-        {
-          index: 0,
+          index:0,
+          id: 1001,
           name: "南瓜蔬食調理包",
           price: "$170",
           image: "../../src/assets/images/product/pumpkin_cover.png",
           type: "lunchbox"
         },
         {
-          index: 2,
+          index:1,
+          id: 2001,
           name: "有機雞蛋",
           price: "$100",
           image: "../../src/assets/images/product/eggs-cover.png",
           type: "egg"
         },
         {
-          index: 1,
+          index:2,
+          id: 3001,
           name: "食用油",
           price: "$300",
           image: "../../src/assets/images/product/oil-cover.png",
           type: "oil"
         },
         {
-          index: 3,
+          index:3,
+          id: 4001,
           name: "水產養殖鮮魚",
           price: "$500",
           image: "../../src/assets/images/product/fish-cover.png",
           type: "fish"
         },
+        {
+          index:4,
+          id: 5001,
+          name: "冷凍蔬菜",
+          price: "$330",
+          image: "../../src/assets/images/product/vegetable_cover.png",
+          type: "vegetable"
+        },
       ],
       toggle: true,
       productDisplay: []
-
-
     };
   },
   components: {
@@ -179,23 +188,21 @@ export default {
     },
 
 
-
-    filter(filterIndex, filterType) {
-      this.change = filterIndex
-      //篩選商品:透過陣列filter方法篩選物件中type相同的商品
-      if (filterType === 'freshfood') {
-        this.productDisplay = this.displayData.filter(item => {
-          return item.index >= 1 && item.index <= 4;
-        })
-      } else {
-        this.productDisplay = this.displayData.filter(item => {
-          // console.log(this.productDisplay.length);
-          return item.index === filterIndex
-        })
-      }
-    },
-
-  }
+  filter(filterIndex, filterType) {
+    this.change = filterIndex
+    //篩選商品:透過陣列filter方法篩選物件中type相同的商品
+    if (filterType === 'freshfood') {
+      this.productDisplay = this.displayData.filter(item => {
+        return item.index >= 1 && item.index <= 4;
+      })
+    } else {
+      this.productDisplay = this.displayData.filter(item => {
+        // console.log(this.productDisplay.length);
+        return item.index === filterIndex
+      })
+    }
+  },
+}
 }
 </script>
 

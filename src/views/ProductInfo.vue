@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script>
 import Breadcrumb from "@/components/Breadcrumb.vue"
 
@@ -47,22 +48,24 @@ export default {
 </script>
 
 
+=======
+>>>>>>> milo
 <template>
   <Breadcrumb :breadcrumb="yourBreadcrumbData" />
-  <div class="productInfo container">
+  <div class="productInfo container" v-if="productInfo">
     <div class="productInfo_product row ">
       <div class="productInfo_product_image col-12 col-md-6">
-        <img src="../assets/images/productInfo/product1.png" alt="product1">
+        <img :src="productInfo.image" alt="product1">
       </div>
       <div class="productInfo_product_txt col-12 col-md-6">
         <div class="productInfo_product_txtWrap">
           <div class="productInfo_product_txt_title">
-            <h1>冷凍蔬菜</h1>
-            <span>$330</span>
+            <h1>{{ productInfo.name }}</h1>
+            <span>${{productInfo.price}}</span>
           </div>
           <div class="productInfo_product_txt_describe">
-            <p>商品編號#00001</p>
-            <p>精選優質食材，以先進冷凍技術保存新鮮風味。營養豐富，方便快速，每一口都是對健康的呵護。從現在開始，享受美味。</p>
+            <p>商品編號#{{ productInfo.id }}</p>
+            <p>{{productInfo.desc}}</p>
           </div>
           <div class="productInfo_product_collapse">
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('location')">
@@ -101,16 +104,87 @@ export default {
             <span>{{ count }}</span>
             <button @click="updateCount('increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
           </div>
-          <button type="button" class="btn-primary" @click="addTOCart()">
-            加入購物車</button>
           <button type="button" class="btn-primary" @click="addCart">加入購物車</button>
         </div>
       </div>
     </div>
+  </div>
+  <div v-else>
+    <P>查無此商品</P>
   </div>
 </template>
 <style lang="scss">
 @import "@/assets/scss/page/_productInfo.scss";
 </style>
 
+<script>
+import Breadcrumb from "@/components/Breadcrumb.vue"
+import { useProductStore } from '@/stores/Product';
+import { useCartStore } from "@/stores/Cart";
+
+export default {
+  setup() {
+    const CartStore = useCartStore();
+    return {
+      CartStore
+    }
+  },
+  data() {
+    return {
+      yourBreadcrumbData: [
+        { text: '首頁', to: '/' },
+        { text: '健康小舖', to: '/products' },
+        { text: '商品資訊', active: true }
+      ],
+      collapseStatus:{
+        location:false,
+        spec:false,
+        nutrition:false
+      },
+      count: 1,
+      productInfo:{},
+    }
+  },
+  computed:{
+    productId(){
+      return this.$route.params.id
+    },
+  },
+  watch:{
+    productId(newId){
+      return fetchProductInfo(newId)
+    },
+  },
+  methods: {
+    toggleCollapse(collapseName){
+      this.collapseStatus[collapseName] = !this.collapseStatus[collapseName]
+    },
+    updateCount(action){
+      if (action === 'increment'){
+        this.count +=1
+      }else if(action === 'decrement' && this.count >1){
+        this.count -= 1;
+      }
+    },
+    fetchProductInfo(id){
+      const productStore = useProductStore();
+      this.productInfo = productStore.getProductById(parseInt(id));
+    },
+    addCart(){
+      this.CartStore.addCart({
+        id: this.productInfo.id,
+        name:this.productInfo.name,
+        count: this.count,
+        img:this.productInfo.image,
+      })
+    },
+  },
+  created(){
+    this.fetchProductInfo(this.productId);
+  },
+  components: {
+    Breadcrumb
+  },
+}
+</script>
 

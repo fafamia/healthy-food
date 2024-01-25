@@ -79,9 +79,10 @@ const router = createRouter({
       component: () => import('../views/CarView.vue'),
     },
     {
-      path: '/productinfo',
+      path: '/productinfo/:id',
       name: 'productinfo',
       component: () => import('../views/ProductInfo.vue'),
+      props:true
     },
     {
       path: '/articleinfo',

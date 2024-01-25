@@ -374,47 +374,4 @@ header {
             height: 60px;
         }
     }
-
-    p {
-        text-align: center;
-    }
-}
-
-.shoppingCart_drawer {
-    &_bg {
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.3);
-        top: 0;
-        left: 0;
-        z-index: 1;
-
-        .drawer {
-            position: absolute;
-            width: 500px;
-            height: 100vh;
-            background-color: $bgc;
-            top: 0;
-            right: 0;
-            z-index: 2;
-
-            &_close {
-                font-size: $fs-2;
-                color: rgba(0, 0, 0, 0.70);
-                position: absolute;
-                top: 10px;
-                right: 40px;
-                cursor: pointer;
-
-                &:hover {
-                    color: $primary;
-                }
-            }
-        }
-    }
-}
-
-.overflow-hidden {
-    overflow: hidden;
 }
