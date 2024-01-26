@@ -352,7 +352,6 @@ export default {
         },
         applyTransition() {
             const bannerContent = this.$refs.myBanner.querySelector('.banner_content');
-
             if (bannerContent) {
                 const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`;
                 bannerContent.style.transform = transitionValue;
