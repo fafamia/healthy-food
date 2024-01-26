@@ -144,9 +144,15 @@ export default {
       return Object.keys(this.responseData).length === 0
     },
     displayedComments() {
-      const startIndex = this.currentIndex;
-      const endIndex = startIndex + this.commentsPerPage;
-      return this.comments.slice(startIndex, endIndex);
+
+      if (this.isMobile) {
+        return this.comments.slice(this.currentIndex, this.currentIndex + 1);
+      } else {
+        return this.comments.slice(this.currentIndex, this.currentIndex + 3);
+      }
+    },
+    isMobile() {
+      return window.innerWidth <= 802; 
     },
     totalComments() {
       return this.comments.length;
