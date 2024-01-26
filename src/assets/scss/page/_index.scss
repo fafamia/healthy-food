@@ -362,9 +362,12 @@
     }
 }
 // 熱門食譜
+.home-recipe-link{
+  overflow: hidden;
+}
 .home-recipe-container {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     position: relative;
     margin-bottom: $sp-2;
     flex-direction: row-reverse;
@@ -373,15 +376,10 @@
     }
    .home-recipe-link-reverse &{
         flex-direction: row;
-    
+        align-items: center;
         .home-recipe-img {
           margin-top: 127px
-        }
-    
-        .home-recipe-txt {
-          left: 65%;
-        }
-    
+        }    
         &::after {
           left: 40%;
           width: 1067px;
@@ -430,16 +428,11 @@
       width: 50%;
       padding: 0 $sp-2;
       color: $primary;
-  
+      margin: 0 $sp-3; 
       @media (max-width: $md) {
         width: 100%;
       }
-  
-      position: absolute;
-      top: 50%;
-      transform: translateY(-30%);
-      left: 0; 
-  
+      // position: absolute;
       h3 {
         font-size: $h2;
         font-weight: $fw-bold;
@@ -453,7 +446,9 @@
       span {
         font-size: $fs-3;
       }
-  
+      hr{
+        border: 1px solid $primary;
+      }
       ul {
         display: flex;
         justify-content: space-between;
@@ -461,16 +456,7 @@
         margin-top: 40px;
         margin-bottom: 15px; 
         max-width: 600px; 
-        &:before {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 20px;
-            width: 520px;
-            height: 1px;
-            background-color: $primary; 
-            margin-top: -290px; 
-          }
+        
         li {
             width: 48%; 
             margin-bottom: 10px; 
@@ -485,9 +471,10 @@
         text-align: right;
         padding-right: 15px;
         margin-top: $sp-2;
-  
         a {
           display: inline-block;
+          color: $primary;
+          border: 1px solid $primary;
         }
   
         @media (max-width: $md) {
