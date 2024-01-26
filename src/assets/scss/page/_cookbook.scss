@@ -120,7 +120,7 @@
 
 
 .pagination {
-    margin-top: 20px;
+    margin: 20px 0;
     display: flex;
     justify-content: center;
 }
@@ -128,6 +128,11 @@
 .page-link {
     cursor: pointer;
     margin: 0 5px;
-    color: $primary;
+    color: $bgc;
+    background-color: $primary;
     text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid $primary;
+    border-radius: 50%;
+    font-weight: bold;
 }
