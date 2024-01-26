@@ -123,23 +123,26 @@
 
 .comment {
     margin-bottom: 100px;
-    button{
+
+    button {
         margin: 0 20px;
-        color:$primary;
+        color: $primary;
         background: none;
         border: none;
         font-size: 50px;
         cursor: pointer;
     }
-    .comment-card-wrapper{
-    overflow-x: hidden;
-    white-space: nowrap;
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: flex-start;
+
+    .comment-card-wrapper {
+        overflow-x: hidden;
+        white-space: nowrap;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: flex-start;
     }
+
     h4 {
         font-size: $h1;
         color: $primary;
@@ -222,76 +225,213 @@
         padding: 5px 10px;
         border-radius: $border-r-2;
         color: #FFBB00;
-        i{
+
+        i {
             cursor: pointer;
         }
     }
 
 
 }
-.letter{
+
+.letter {
     padding: 0 200px;
     text-align: center;
     margin-bottom: 100px;
-    h5{
-        
+
+    h5 {
+
         font-size: $h2;
         margin-bottom: 50px;
     }
-    .letter_box{
+
+    .letter_box {
         background-color: $primary;
         margin: 0 150px;
         padding: 50px 0;
         position: relative;
         border-radius: $border-r-1;
-        button{
+
+        button {
             font-size: $fs-2;
             cursor: pointer;
         }
-        .login{
+
+        .login {
             padding: 15px 70px;
             background-color: #D9D9D9;
             border: none;
             border-radius: $border-r-1;
-            color:$primary;
+            color: $primary;
             font-weight: bold;
             margin-right: 100px;
-            
+
         }
-        .upload{
+
+        .upload {
             background-color: $white;
             border: none;
             border-radius: $border-r-1;
-            color:$primary;
+            color: $primary;
             font-weight: bold;
             padding: 10px 15px;
             margin-right: 150px;
         }
-        textarea{
+
+        textarea {
             width: 600px;
             margin-top: 30px;
             border-radius: $border-r-1;
-            border:none;
+            border: none;
             padding: 20px;
             font-size: $fs-2;
         }
-        .submit{
+
+        .submit {
             background-color: $white;
             border: none;
             border-radius: $border-r-1;
-            padding:10px 50px;
-            margin-top:30px;
+            padding: 10px 50px;
+            margin-top: 30px;
             margin-right: -430px;
+        }
+
+    }
+
+    .letter_box::after {
+        content: "";
+        position: absolute;
+        bottom: -45px;
+        right: 0;
+        border-right: 50px solid transparent;
+        border-top: 50px solid $primary;
+
+    }
+}
+
+@media screen and (max-width:802px) {
+    .recipe_container {
+        padding: 10px 20px;
+
+    }
+
+    .cookbookinfo {
+        overflow: hidden;
+    }
+
+    .title {
+        h6 {
+            font-size: 1.7em;
+        }
+
+        span {
+            font-size: 1em;
+        }
+    }
+
+    .recipe_card {
+        flex-wrap: wrap;
+    }
+
+    .box {
+        margin: 0;
+
+        p {
+            font-size: 0.8em;
+        }
+
+        a {
+            font-size: 0.8em;
+        }
+
+        button {
+            margin: 30px 20px 20px 0;
+            font-size: 0.8em;
+
+        }
+    }
+
+    .time {
+        span {
+            font-size: 0.8em;
+            width: 10em;
+            line-height: 4em;
+
+            &:first-child {
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .ingredients {
+        font-size: 1em;
+
+        .name {
+            h5 {
+                font-size: 2em;
+                padding: 0 10px;
+            }
+           
+        }
+        p{
+            padding: 0 10px;
+        }
+    }
+
+    .content{
+        font-size: 1em;
+        padding: 0 35px 50px 35px;
+        h5{
+            font-size: 2em;
+            margin-bottom: 20px;
+            
+        }
+    }
+    .comment{
+        h4{
+            padding: 10px 35px;
+            font-size: 2em;
+        }
+    }
+    .comment_card{
+        padding: 0;
+        li{
+            width: auto;
+        }
+        .card_top{
+            p{
+                font-size: 0.7em;
+            }
         }
         
     }
-    .letter_box::after{
-        content: "";
-        position: absolute;
-        bottom:-45px;
-        right:0;
-        border-right: 50px solid transparent;
-        border-top:50px solid $primary;
+    .letter{
+        h5{
+            font-size: 2em;
+        }
+        padding: 0;
+        .letter_box{
+            margin: 10px;
+            button{
+                font-size: 1em;
+            }
+            
 
+            .login{
+                margin-right: 20px;
+            
+            }
+            .upload{
+                margin: 0;
+            }
+            textarea{
+                width: 400px;
+                font-size: 1em;
+            }
+            .submit{
+                margin: 20px 0;
+            }
+        }
+        
     }
 }

@@ -1,49 +1,39 @@
+
+
 .foodmap{
     background-image: url('/src/assets/images/foodmap/bg.jpg');
     background-size: cover;
     background-position: center;
-    img{
-        width: 100%;
-    }
+    position: relative;
+    margin-top: -20px;
     svg{
         width: 100%;
+        transition: transform 0.3s ease-out;
+    }
+    .breadcrumb{
+      padding-top: 30px;
     }
 }
-.taiwan{
-    position: relative;
-    .item{
-        position: absolute;
-        top:0;
-    }
-    .fish{
-        left:1000px;
-        top:100px;
-    }
-    .bean{
-        left:900px;
-        top:-50px;
-    }
-}
-.article{
-    width: 450px;
-    position: relative;
-    
-    img{
-        width: 80px;
-        margin-bottom: 20px;
-    }
-    p{
-        background-color: #FFF3E0;
-        font-size: 16px;
-        padding: 30px 20px 20px 20px;
-    }
-    h2{
-        font-size: $fs-2;
-        color:black;
-        background-color: $secondary;
-        display: inline-block;
-        position: absolute;
-        top:70px;
-        left: -40px;
-    }
-}
+
+    .shaking {
+        animation: shake 0.5s ease-in-out infinite alternate;
+      }
+
+      @keyframes shake {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(20px); 
+        }
+      }
+
+      @media screen and (max-width:802px){
+        .foodmap{
+          svg{
+            width: 90vw;
+          height: auto;
+          }
+          
+        }
+      }

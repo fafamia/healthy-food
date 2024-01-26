@@ -35,20 +35,21 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
 }
-
 .bmi_countainer{
     display: flex;
     flex-direction: column;
     max-width: 1200px;
-    border: 1px $border-bg solid;
+    border: 3px $border-bg solid;
     border-radius: 40px;
     background-color: $white;
     margin: 10px;
     align-items: center;
     @media(width>=1200px){
         margin: auto;
+        margin-bottom: 40px;
     }
     h2{
+        margin-top: 32px;
         font-size: $fs-2;
         color: black;
         @media(width>=576px){
@@ -58,16 +59,17 @@ input[type=number]::-webkit-outer-spin-button {
     }
     .bmi_countainer_text{
         margin: 0 12px 0 12px;
+        margin-top: $sp-2;
         @media(width>=576px){
             font-size: $fs-2;
             width: 60%;
-            margin-top: $sp-2;
         }
     }
     .bmi_item{
         margin-top: 10px;
         display: flex;
         flex-direction: column;
+        margin-top: $sp-2;
         @media(width>=576px){
             flex-direction: row;
             gap: 100px;
@@ -89,6 +91,9 @@ input[type=number]::-webkit-outer-spin-button {
         margin-top: 5px;
         border: 1px solid black;
         padding: 10px;
+        @media(width>=1024px){
+            width: 285px;
+        }
     }
 }
 .bmi_inputs_weight{
@@ -112,4 +117,101 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 
+.healthy_recommend{
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    border: 3px $border-bg solid;
+    border-radius: 40px;
+    background-color: $white;
+    margin: 10px;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+    @media(width>=1200px){
+        margin: auto;
+        margin-bottom: 40px;
+    }
+    span{
+        color: $primary;
+    }
+    h2{
+        font-size: $fs-2;
+        margin-top: 24px;
+        @media(width>=1024px){
+            font-size: $h2;
+        }
+    }
+    h3{
+        font-size: $fs-2;
+        margin-top: 40px;
+        color: $primary;
+        @media(width>=1024px){
+            font-size: $h2;
+        }
+    }
+    p{
+    margin-top: 18px;
+        @media(width>=1024px){
+            font-size: $fs-2;
+        }
+    }
+    button{
+        margin-bottom: 30px;
+        @media(width>=576px){
+        }
+    }
+}
+.recommend_wall{
+    margin-top: 30px;
+    margin-bottom: 40px;
+    @media(width>=1024px){
+        display: flex;
+        margin-top: 20px;
+    }
+}
+.bmi_recommend_card{
+    position: relative;
+    border: 1px $black solid;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    span{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #BDBDBD;
+        border: 1px solid #BDBDBD;
+        border-radius: 100px;
+        width: 90px;
+        height: 30px;
+        line-height: 28px;
+    }
+    .bmi_card_img{
+        margin-top: 40px;
+    }
+    .bmi_card_title{
+        margin-top: 5px;
+        font-size: 24px;
+    }
+    .bmi_card_price{
+        margin-top: 5px;
+        font-size: 24px;
+    }
+    a{
+        width: 160px;
+        display: block;
+        margin: auto;
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+}
+
+.healthy_recommend{
+    display: none;
+}
+.bmi_countainer{
+    display: flex;
+}
 

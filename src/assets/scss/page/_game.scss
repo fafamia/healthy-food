@@ -50,6 +50,7 @@
     align-items: center;
     margin: 0 auto;
     position: relative;
+    margin-bottom: $sp-2;
 
     .q_bar_circle {
         width: 70px;
@@ -62,8 +63,122 @@
     .q_bar_line {
         background-color: $dark-line;
         height: 5px;
+        width: 90%;
         position: absolute;
         z-index: 1;
-        width: calc((90% - 70px * 5) / 4);
+    }
+}
+
+.game_q {
+    text-align: center;
+    border: 1px solid #000;
+    border-radius: $border-r-3;
+    padding: $sp-2 $sp-4 $sp-1 $sp-4;
+    margin-bottom: $sp-4 ;
+    min-height: 500px;
+
+    .game_q_num {
+        font-size: $h1;
+        font-weight: $fw-bold;
+        margin-bottom: $sp-2;
+    }
+
+    .game_q_topic {
+        font-size: $h2;
+        margin-bottom: $sp-3;
+    }
+
+    .game_q_options {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        li {
+            font-size: $fs-1;
+            font-weight: $fw-bold;
+            width: 47%;
+            border-radius: 50px;
+            border: 3px solid $btn;
+            background: $white;
+            padding-top: $sp-2;
+            padding-bottom: $sp-2;
+            margin-bottom: $sp-3;
+            cursor: pointer;
+            color: $btn;
+
+            &:hover {
+                color: $white;
+                background: $btn;
+            }
+        }
+
+        li:first-child,
+        li:nth-child(3) {
+            margin-right: 6%;
+        }
+    }
+}
+
+.game_a {
+    justify-content: space-between;
+    align-items: center;
+    height: 500px;
+    border-radius: $border-r-3;
+    margin-bottom: $sp-4 ;
+    border: 1px solid #000;
+    overflow: hidden;
+
+    .game_a_img {
+        height: 500px;
+        border-radius: $border-r-3 0 0 $border-r-3;
+        padding: 0;
+
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: $border-r-3 0 0 $border-r-3;
+            vertical-align: middle;
+        }
+    }
+
+    .game_a_text {
+        text-align: center;
+
+        .game_a_title {
+            font-size: $h1;
+            font-weight: $fw-bold;
+            margin-bottom: $sp-2;
+        }
+
+        p {
+            font-size: $fs-1;
+            text-align: left;
+            margin-bottom: $sp-3;
+        }
+
+        button {
+            font-size: $fs-1;
+            width: 50%;
+        }
+    }
+}
+
+.coupon-modal {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+
+    .modal {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }

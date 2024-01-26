@@ -20,11 +20,13 @@
             <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
           </div>
           <hr>
-          <div class="oil" v-if="!toggle" @click="filter(1, 'oil')">雜糧、油品</div>
-          <div class="egg" v-if="!toggle" @click="filter(2, 'egg')">蛋、豆</div>
+          <div class="dropdown" :class="{ 'expanded': !toggle }">
+          <div class="egg" v-if="!toggle" @click="filter(1, 'egg')">蛋、豆</div>
+          <div class="oil" v-if="!toggle" @click="filter(2, 'oil')">雜糧、油品</div>
           <div class="fish" v-if="!toggle" @click="filter(3, 'fish')">魚、肉</div>
           <div class="vegetable" v-if="!toggle" @click="filter(4, 'vegetable')">蔬菜</div>
           <hr v-if="!toggle">
+          </div>
         </li>
       </ul>
 
@@ -32,30 +34,31 @@
         <select @change="filterPhoneList">
           <option value="">所有商品</option>
           <option value="lunchbox">調理包</option>
-          <option value='oil'>雜糧、油品</option>
           <option value='egg'>蛋、豆</option>
+          <option value='oil'>雜糧、油品</option>
           <option value='fish'>魚、肉</option>
           <option value='vegetable'>蔬菜</option>
         </select>
       </div>
       <div class="row product_items">
-        <template v-for="outerIndex in 9" :key="outerIndex">
-          <div v-for="(item, innerIndex) in productDisplay" :key="`${outerIndex}-${innerIndex}`"
-            class="col-12 col-md-3 vegetable_card">
-            <p class="product_tag">#NEW</p>
-            <div class="product_card_img">
-              <img :src="item.image" alt="item.name">
-            </div>
-            <p class="vegetable_title">{{ item.name }}</p>
-            <p class="vegetable_price">{{ item.price }}</p>
-            <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
+        <div v-for="item in displayList" :key="item.id" class="col-12 col-md-3 vegetable_card">
+          <p class="product_tag">#NEW</p>
+          <div class="product_card_img">
+            <img :src="item.image" alt="item.name">
           </div>
-        </template>
+          <p class="vegetable_title">{{ item.name }}</p>
+          <p class="vegetable_price">{{ item.price }}</p>
+          <router-link :to="{
+              name: 'productinfo',
+              params: {id: item.id}}" 
+            class="btn-product"
+            >查看商品詳情</router-link>
+        </div>
       </div>
     </div>
 
     <div class="home-container">
-      <PageNumber @change-page='changePage' :pagesize='9' :total='45' :page='1' />
+      <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='displayData.length' :page="reqParams.page" />
     </div>
 
   </div>
@@ -69,6 +72,130 @@ import PageNumber from '@/components/PageNumber.vue';
 
 import { reactive } from 'vue'
 
+const originData = [
+  
+  {
+    index:0,
+    id: 1001,
+    name: "南瓜蔬食調理包",
+    price: "$170",
+    image: "../../src/assets/images/product/pumpkin_cover.png",
+    type: "lunchbox"
+  },
+  {
+    index:0,
+    id: 1101,
+    name: "南瓜蔬食調理包",
+    price: "$170",
+    image: "../../src/assets/images/product/pumpkin_cover.png",
+    type: "lunchbox"
+  },
+  {
+    index:0,
+    id: 1201,
+    name: "南瓜蔬食調理包",
+    price: "$170",
+    image: "../../src/assets/images/product/pumpkin_cover.png",
+    type: "lunchbox"
+  },
+  
+  {
+    index:1,
+    id: 2001,
+    name: "有機雞蛋",
+    price: "$100",
+    image: "../../src/assets/images/product/eggs-cover.png",
+    type: "egg"
+  },
+  {
+    index:1,
+    id: 2101,
+    name: "有機雞蛋",
+    price: "$100",
+    image: "../../src/assets/images/product/eggs-cover.png",
+    type: "egg"
+  },
+  {
+    index:1,
+    id: 2201,
+    name: "有機雞蛋",
+    price: "$100",
+    image: "../../src/assets/images/product/eggs-cover.png",
+    type: "egg"
+  },
+  {
+    index:2,
+    id: 3001,
+    name: "食用油",
+    price: "$300",
+    image: "../../src/assets/images/product/oil-cover.png",
+    type: "oil"
+  },
+  {
+    index:2,
+    id: 3101,
+    name: "食用油",
+    price: "$300",
+    image: "../../src/assets/images/product/oil-cover.png",
+    type: "oil"
+  },
+  {
+    index:2,
+    id: 3201,
+    name: "食用油",
+    price: "$300",
+    image: "../../src/assets/images/product/oil-cover.png",
+    type: "oil"
+  },
+  {
+    index:3,
+    id: 4001,
+    name: "水產養殖鮮魚",
+    price: "$500",
+    image: "../../src/assets/images/product/fish-cover.png",
+    type: "fish"
+  },
+  {
+    index:3,
+    id: 4101,
+    name: "水產養殖鮮魚",
+    price: "$500",
+    image: "../../src/assets/images/product/fish-cover.png",
+    type: "fish"
+  },
+  {
+    index:3,
+    id: 4201,
+    name: "水產養殖鮮魚",
+    price: "$500",
+    image: "../../src/assets/images/product/fish-cover.png",
+    type: "fish"
+  },
+  {
+    index:4,
+    id: 5001,
+    name: "冷凍蔬菜",
+    price: "$330",
+    image: "../../src/assets/images/product/vegetable_cover.png",
+    type: "vegetable"
+  },
+  {
+    index:4,
+    id: 5101,
+    name: "冷凍蔬菜",
+    price: "$330",
+    image: "../../src/assets/images/product/vegetable_cover.png",
+    type: "vegetable"
+  },
+  {
+    index:4,
+    id: 5201,
+    name: "冷凍蔬菜",
+    price: "$330",
+    image: "../../src/assets/images/product/vegetable_cover.png",
+    type: "vegetable"
+  },
+]
 
 export default {
   data() {
@@ -78,47 +205,12 @@ export default {
         { text: '首頁', to: '/' },
         { text: '健康小舖', active: true },
       ],
-      displayData: [
-        {
-          index: 4,
-          name: "冷凍蔬菜",
-          price: "$330",
-          image: "../../src/assets/images/product/vegetable_cover.png",
-          type: "vegetable"
-        },
-        {
-          index: 0,
-          name: "南瓜蔬食調理包",
-          price: "$170",
-          image: "../../src/assets/images/product/pumpkin_cover.png",
-          type: "lunchbox"
-        },
-        {
-          index: 2,
-          name: "有機雞蛋",
-          price: "$100",
-          image: "../../src/assets/images/product/eggs-cover.png",
-          type: "egg"
-        },
-        {
-          index: 1,
-          name: "食用油",
-          price: "$300",
-          image: "../../src/assets/images/product/oil-cover.png",
-          type: "oil"
-        },
-        {
-          index: 3,
-          name: "水產養殖鮮魚",
-          price: "$500",
-          image: "../../src/assets/images/product/fish-cover.png",
-          type: "fish"
-        },
-      ],
+      displayData: [...originData].map((v, i) => ({
+        ...v,
+        id: i + v.id
+      })),
       toggle: true,
       productDisplay: []
-
-
     };
   },
   components: {
@@ -142,63 +234,65 @@ export default {
     })
     // 控制頁碼的變化
     const changePage = (page) => {
-      // console.log(page)
+      //console.log(page)
       reqParams.page = page
     }
 
-    return { changePage }
+    return { changePage, reqParams }
   },
 
-
-  methods: {
-    axiosGetData() {
-      // axios.get('https://tibamef2e.com/chd103/g1/phps/shop.php')
-
-      //   .then(res => {
-      //     if (res && res.data) {
-      //       // this.responseData = res.data
-      //       this.displayData = res.data
-      //     }
-      //   })
+  computed: {
+    displayList() {
+      const startIndex = (this.reqParams.page - 1) * this.reqParams.pageSize;
+      const endIndex = this.reqParams.page * this.reqParams.pageSize;
+      return this.displayData.slice(startIndex, endIndex);
     },
-    // getImage(item) {
-    //   return `https://tibamef2e.com/chd103/g1/image/productimage/${item.prod_img}`;
-    // },
+
+  },
+  methods: {
     filterPhoneList(e) {
       const filterPhoneType = e.target.value;
 
       if (!filterPhoneType || filterPhoneType === '') {
         // 如果選擇的是空字符串或 undefined，顯示所有商品
-        this.productDisplay = this.displayData;
+        this.displayData = originData;
       } else if (['lunchbox', 'oil', 'egg', 'fish', 'vegetable'].includes(filterPhoneType)) {
         // 否則，進行其他商品類型的篩選
-        this.productDisplay = this.displayData.filter(item => {
+        this.displayData = originData.filter(item => {
           return item.type === filterPhoneType;
         });
       }
     },
 
-
-
     filter(filterIndex, filterType) {
-      this.change = filterIndex
-      //篩選商品:透過陣列filter方法篩選物件中type相同的商品
-      if (filterType === 'freshfood') {
-        this.productDisplay = this.displayData.filter(item => {
-          return item.index >= 1 && item.index <= 4;
-        })
-      } else {
-        this.productDisplay = this.displayData.filter(item => {
-          // console.log(this.productDisplay.length);
-          return item.index === filterIndex
-        })
-      }
-    },
+      this.change = filterIndex;
 
+      // 不需要更新productDisplay，直接更新displayData
+      if (filterType === 'freshfood') {
+        this.displayData = originData.filter(item => item.index >= 1 && item.index <= 4);
+      } else {
+        this.displayData = originData.filter(item => item.index === filterIndex);
+      }
+
+      // 在應用篩選時重置頁碼為1
+      this.reqParams.page = 1;
+    },
+     // axiosGetData() {
+    //   axios.get('https://tibamef2e.com/chd103/g1/phps/shop.php')
+
+    //     .then(res => {
+    //       if (res && res.data) {
+    //         // this.responseData = res.data
+    //         this.displayData = res.data
+    //       }
+    //     })
+    // },
+    // getImage(item) {
+    //   return `https://tibamef2e.com/chd103/g1/image/productimage/${item.prod_img}`;
+    // },
   }
 }
 </script>
-
 <style lang="scss">
-@import "@/assets/scss/page/_product.scss";
+@import "@/assets/scss/page/product.scss";
 </style>

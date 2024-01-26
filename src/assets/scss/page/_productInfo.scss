@@ -1,10 +1,11 @@
 .productInfo_product {
     flex-direction: row-reverse;
-
+    margin-bottom: $sp-2;
     &_image>img {
         width: 100%;
         vertical-align: top;
     }
+
     &_txt {
         display: flex;
         flex-direction: column;
@@ -18,19 +19,23 @@
         &_title>* {
             font-size: $h1;
         }
+
         &_describe p:last-child {
             display: inline-block;
             margin: $sp-2 0;
-            @media screen and (min-width:$md){
+
+            @media screen and (min-width:$md) {
                 margin: $sp-3 0;
             }
         }
     }
+
     &_btn {
         margin-top: $sp-2;
         display: flex;
         justify-content: end;
     }
+
     &_btn>* {
         margin-right: $sp-2 ;
     }
@@ -44,27 +49,29 @@
         border-bottom: 1px solid #000;
         cursor: pointer;
     }
+
     &_txt {
         margin-bottom: $sp-2;
     }
 }
 
-.productInfo_product_btn{
+.productInfo_product_btn {
     display: flex;
     justify-content: end;
+
     &_count {
         border: 3px solid $primary;
         border-radius: $border-r-3;
         display: flex;
         justify-content: space-around;
-    
+
         button {
             font-size: $fs-1;
             background-color: transparent;
             border: none;
             cursor: pointer;
         }
-    
+
         span {
             font-size: $fs-1;
             font-weight: $fw-bold;
@@ -72,6 +79,81 @@
             color: $primary;
             display: inline-block;
             padding: 0 $sp-1;
+        }
+    }
+}
+
+
+
+.more_title {
+hr {
+    border: 1px solid black;
+    margin: auto;
+    width: 80%;
+    margin-bottom: $sp-4;
+}
+    h2 {
+        font-size: $h2;
+        text-align: center;
+        margin-bottom: $sp-3;
+    }
+}
+
+.more_product {
+    flex-wrap: nowrap;
+    margin-bottom: $sp-3;
+    .more_itemsCard {
+        background-color: #fff;
+        height: 440px;
+        text-align: center;
+        border-radius: $border-r-2;
+        position: relative;
+        margin: $sp-2;
+        box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+
+        .product_tag {
+            position: absolute;
+            right: 0;
+            border: 1px solid $dark-line;
+            border-radius: $border-r-2;
+            color: $dark-line ;
+            width: 30%;
+            text-align: center;
+            margin: $sp-1;
+
+        }
+
+        img {
+            margin: $sp-3 0 $sp-2 0;
+            padding: $sp-1 ;
+            width: calc(80%);
+            height: calc(80%);
+            // aspect-ratio: 2/1;
+        }
+
+        .vegetable_title {
+            font-weight: bold;
+        }
+
+        .vegetable_price {
+            font-weight: bold;
+            margin: $sp-1 0 $sp-2 0;
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .more_product {
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (min-width: 430px) and (max-width: 800.5px) {
+    .more_health {
+        .more_product {
+            .more_itemsCard {
+                height: 700px;
+            }
         }
     }
 }

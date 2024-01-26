@@ -1,24 +1,28 @@
 <template>
     <div class="bmi">
-        <div ref="bmiBanner" class="bmi_banner">
+        <div class="bmi_banner">
             <img src="../assets/images/bmi/bmi_banner.png.png" alt="" >
             <div class="bmi_banner_textbackground">
                 <h1>BMI計算</h1>
             </div>
         </div>
         <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
-        <div class="bmi_countainer">
+        <div ref="bmiCountainer" class="bmi_countainer">
             <h2>身體質量指數 (BMI) 計算器</h2>
             <p class="bmi_countainer_text">世界衛生組織建議以身體質量指數 (Body Mass Index, BMI) 來衡量肥胖程度，其計算公式是以體重 (公斤) 除以身高 (公尺) 的平方。</p>
             <div class="bmi_item">
                 <div class="bmi_inputs">
                     <div class="bmi_input_height">
                         <p>身高(公分)</p>
-                        <input placeholder="輸入身高" type="number">
+                        <input placeholder="輸入身高" type="number"
+                        v-model="personHeight"
+                        >
                     </div>
                     <div class="bmi_inputs_weight">
                         <p>體重(公斤)</p>
-                        <input placeholder="輸入體重" type="number">
+                        <input placeholder="輸入體重" type="number"
+                        v-model="personWeight"
+                        >
                     </div>
                 </div>
                 <div class="bmi_standard">
@@ -28,25 +32,32 @@
                     <p>BMI ≥ 27「肥胖」</p>
                 </div>
             </div>
-            <button class="btn-product">立即計算</button>
+            <button class="btn-product"
+            @click="calculate"
+            >立即計算</button>
         </div>
 
-        <div class="healthy_recommend">
-            <h3>身高 180 公分 體重 80 公斤您的 BMI 24.7 體重過重</h3>
-            <p>肥胖容易引起疾病，您得要多多注意自己的健康囉！</p>
+        <div ref="healthyRecommend" class="healthy_recommend">
+            <h2>身高 {{ personHeight }} 公分 體重 {{ personWeight }} 公斤<span>您的BMI 為{{ bmi }} {{ bmiTitle }}</span></h2>
+            <p>{{ suggestionText }}</p>
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前BMI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
-                <div class="recommend_card">
-                    
-                </div>
-                <div class="recommend_card">
-                    
-                </div>
-                <div class="recommend_card">
-                    
+                <div class="bmi_recommend_card"
+                v-for="(item, index) in displatdata"
+                :key="item"
+                >
+                    <span class="bmi_tag">#NEW</span>
+                    <div class="bmi_card_img">
+                        <img :src="item.image" alt="item.name">
+                    </div>
+                    <p class="bmi_card_title">{{ item.name }}</p>
+                    <p class="bmi_card_price">{{ item.price }}</p>
+                    <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
+            <button class="btn-product"
+            @click="recalculate">重新計算</button>
         </div>
     </div>
 </template>
@@ -57,6 +68,48 @@ import VegetableCard from "@/components/VegetableCard.vue";
 export default {
     data() {
         return {
+            personHeight:null,
+            personWeight:null,
+            bmi: null,  
+            bmiTitle: "",
+            suggestionText:"",  
+            suggestiondata:[
+                {
+                    bmiTitle: "體重過輕",
+                    suggestionText: "增加營養攝取，多補充高蛋白、高纖食物，定期運動，諮詢醫生或營養師建議~",
+                },
+                {
+                    bmiTitle: "健康體位",
+                    suggestionText: "維持正確體重，均衡飲食，保持運動，定期檢查健康。",
+                },
+                {
+                    bmiTitle: "體重過重",
+                    suggestionText: "肥胖容易引起疾病，您得要多多注意自己的健康囉！",
+                },
+            ],
+            displatdata:[
+                {
+                    index: 1,
+                    name: "有機雞蛋",
+                    price: "$100",
+                    image: "../../src/assets/images/product/eggs-cover.png",
+                    type: "egg"
+                },
+                {
+                    index: 2,
+                    name: "食用油",
+                    price: "$300",
+                    image: "../../src/assets/images/product/oil-cover.png",
+                    type: "oil"
+                },
+                {
+                    index: 3,
+                    name: "水產養殖鮮魚",
+                    price: "$500",
+                    image: "../../src/assets/images/product/fish-cover.png",
+                    type: "fish"
+                },
+            ],
             divWidth: 0,
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
@@ -66,18 +119,37 @@ export default {
         };
     },
     methods: {
-        updateDimensions() {  //抓取banner 並且同步寬度
-            this.divWidth = this.$refs.bmiBanner.offsetWidth;
+        calculate() {
+            if (this.personHeight && this.personWeight && !isNaN(this.personHeight) && !isNaN(this.personWeight)) {
+                // 計算BMI的邏輯
+                this.$refs.bmiCountainer.style.display = "none";
+                this.$refs.healthyRecommend.style.display = "flex";
+                let heightMeter = (this.personHeight / 100) * (this.personHeight / 100);
+                this.bmi = parseFloat((this.personWeight / heightMeter).toFixed(1)); // 保留一位小數
+                if(this.bmi<18.5){
+                    this.bmiTitle = this.suggestiondata[0].bmiTitle;
+                    this.suggestionText = this.suggestiondata[0].suggestionText;
+                } else if ( 18.5<= this.bmi && this.bmi <= 24 ){
+                    this.bmiTitle = this.suggestiondata[1].bmiTitle;
+                    this.suggestionText = this.suggestiondata[1].suggestionText;
+                } else {
+                    this.bmiTitle = this.suggestiondata[2].bmiTitle;
+                    this.suggestionText = this.suggestiondata[2].suggestionText;
+                }
+            }
         },
+
+        recalculate(){
+            this.$refs.bmiCountainer.style.display = "flex";
+            this.$refs.healthyRecommend.style.display = "none";
+            this.personHeight = '';
+            this.personWeight = '';
+        }
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.updateDimensions); //移除事件聆聽
     },
     mounted() { // Vue 實例創建之後立即被調用
-        this.$nextTick(() => {
-            this.updateDimensions();
-            window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
-        });
     },
     components: {
         RouterLink,

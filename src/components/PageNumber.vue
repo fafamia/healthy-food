@@ -3,6 +3,7 @@
         <a @click.prevent='changePage(false)' :class="{ disabled: currentPage === 1 }" id="prevpage"><i class="fa-solid fa-chevron-left" style="color: #e73f14;"></i></a>
         <a @click.prevent='changePage(item)'  :class='{ active: currentPage === item }' v-for='item in list'
             :key='item'>{{ item }}</a>
+
         <a @click.prevent='changePage(true)' :class='{ disabled: currentPage === pages }' id="nextpage"><i class="fa-solid fa-chevron-right" style="color: #e73f14;"></i></a>
     </div>
 </template>
@@ -23,6 +24,7 @@ export default {
         }
     },
     setup(props, { emit, attrs }) {
+
         const pages = computed(() => Math.ceil(props.total / props.pagesize))
         // 當前頁碼
         const currentPage = ref(attrs.page || 1)
@@ -79,6 +81,11 @@ export default {
         }
         return { list, currentPage, pages, changePage }
 
-    }
+    },
+
 }
 </script>
+
+<style lang="scss">
+@import "@/assets/scss/components/_pagenumber.scss";
+</style>
