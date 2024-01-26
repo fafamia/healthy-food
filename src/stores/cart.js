@@ -4,8 +4,8 @@ export const useCartStore =  defineStore("CartStore", {
     state: () => {
         return{
             cartList: [],
-            quantity:1,
-            ProductInfo:{},
+            // ProductInfo:{},
+            currentQuantity:0,
         }
     },
     getters: {},
@@ -14,22 +14,25 @@ export const useCartStore =  defineStore("CartStore", {
             let storage = localStorage;
             const isInCart = this.cartList.findIndex(item=>item.id === product.id) > -1;
             if (isInCart){
-                this.cartList[isInCart].quantity += product.quantity || 1;
+                this.quantity += product.quantity || 1;
             }else{
                 this.cartList.push({
                     id: product.id,
                     name:product.name,
-                    quantity: this.quantity || 1,
-                    img:product.image,
+                    quantity: product.quantity || 1,
+                    image:product.image,
                 });
             }
             storage.setItem(product.id,product.quantity.toString());
         },
-        updateQuantity(action){
+        updateQuantity(currentQuantity,action){
             if (action === 'increment'){
-                this.quantity += 1
+                console.log('increment');
+                console.log(currentQuantity);
+                return currentQuantity += 1;
             }else if(action === 'decrement' && this.quantity >1){
-                this.quantity -= 1;
+                currentQuantity -= 1;
+                console.log('decrement');
             }
         },
     }
