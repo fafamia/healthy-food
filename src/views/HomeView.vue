@@ -2,7 +2,7 @@
     <div class="home">
         <!-- 第一區塊 banner -->
         <div ref="myBanner" class="home_banner">
-            <div ref="bannerContent" class="banner_content" :width="divWidth">
+            <div class="banner_content" :width="divWidth">
                 <div class="banner_wall">
                     <div class="bag_banner_img" 
                     v-for="num in home_banner_text.length" 
@@ -392,8 +392,8 @@ export default {
             divWidth: 0, //banner寬度
             elements: [], //banner的照片
             timer: null, //自動輪播的計時器變數
-            isPaused: true,  //自動輪播開關
-            position: 0, //自動輪播初值
+            isPaused: true, 
+            position: 0,
         };
     },
     methods: {
@@ -416,14 +416,14 @@ export default {
             this.applyTransition(); //呼叫
         },
         applyTransition() {
-            const bannerContent = this.$refs.bannerContent;
+            const bannerContent = this.$refs.myBanner.querySelector('.banner_content');
             if (bannerContent) {
                 const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`;
                 bannerContent.style.transform = transitionValue;
             }
         },
         startComment() {
-            const commentWall = this.$refs.commentWall; // 獲取照片牆
+            const commentWall = this.$refs.homeComment.querySelector('.comment_wall'); // 獲取照片牆
             const animateMarquee = () => {
                 if (this.isPaused) {
                     this.position -= 1;
