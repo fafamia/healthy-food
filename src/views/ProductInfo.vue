@@ -9,11 +9,11 @@
         <div class="productInfo_product_txtWrap">
           <div class="productInfo_product_txt_title">
             <h1>{{ productInfo.name }}</h1>
-            <span>${{productInfo.price}}</span>
+            <span>${{ productInfo.price }}</span>
           </div>
           <div class="productInfo_product_txt_describe">
             <p>商品編號#{{ productInfo.id }}</p>
-            <p>{{productInfo.desc}}</p>
+            <p>{{ productInfo.desc }}</p>
           </div>
           <div class="productInfo_product_collapse">
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('location')">
@@ -60,6 +60,25 @@
   <div v-else>
     <P>查無此商品</P>
   </div>
+  
+  <div class="more_title">
+    <hr>
+    <h2>多點健康</h2>
+  </div>
+  <div class="more_health container">
+    <div class="more_product row ">
+      <div v-for="item in getRandomSubset(originData, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
+        <p class="product_tag">#NEW</p>
+          <div class="product_card_img">
+            <img :src="item.image" alt="item.name">
+          </div>
+          <p class="vegetable_title">{{ item.name }}</p>
+          <p class="vegetable_price">{{ item.price }}</p>
+          <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
+      </div>
+    </div>
+
+  </div>
 </template>
 <style lang="scss">
 @import "@/assets/scss/page/_productInfo.scss";
@@ -70,11 +89,142 @@ import Breadcrumb from "@/components/Breadcrumb.vue"
 import { useProductStore } from '@/stores/Product';
 import { useCartStore } from "@/stores/Cart";
 
+
 export default {
   setup() {
     const CartStore = useCartStore();
+    //會生成一個介於 -0.5 到 0.5 之間的隨機數,大於 0.5，則返回正數，a 和 b 位置交換
+    const getRandomSubset = (array, size) => {
+      const shuffledArray = array.slice().sort(() => Math.random() - 0.5);
+      return shuffledArray.slice(0, size);
+    };
     return {
-      CartStore
+      CartStore,
+      getRandomSubset,
+      originData : [
+  
+  {
+    index:0,
+    id: 1001,
+    name: "南瓜蔬食調理包",
+    price: "$170",
+    image: "../../src/assets/images/product/pumpkin_cover.png",
+    type: "lunchbox"
+  },
+  {
+    index:0,
+    id: 1101,
+    name: "南瓜蔬食調理包",
+    price: "$170",
+    image: "../../src/assets/images/product/pumpkin_cover.png",
+    type: "lunchbox"
+  },
+  {
+    index:0,
+    id: 1201,
+    name: "南瓜蔬食調理包",
+    price: "$170",
+    image: "../../src/assets/images/product/pumpkin_cover.png",
+    type: "lunchbox"
+  },
+  
+  {
+    index:1,
+    id: 2001,
+    name: "有機雞蛋",
+    price: "$100",
+    image: "../../src/assets/images/product/eggs-cover.png",
+    type: "egg"
+  },
+  {
+    index:1,
+    id: 2101,
+    name: "有機雞蛋",
+    price: "$100",
+    image: "../../src/assets/images/product/eggs-cover.png",
+    type: "egg"
+  },
+  {
+    index:1,
+    id: 2201,
+    name: "有機雞蛋",
+    price: "$100",
+    image: "../../src/assets/images/product/eggs-cover.png",
+    type: "egg"
+  },
+  {
+    index:2,
+    id: 3001,
+    name: "食用油",
+    price: "$300",
+    image: "../../src/assets/images/product/oil-cover.png",
+    type: "oil"
+  },
+  {
+    index:2,
+    id: 3101,
+    name: "食用油",
+    price: "$300",
+    image: "../../src/assets/images/product/oil-cover.png",
+    type: "oil"
+  },
+  {
+    index:2,
+    id: 3201,
+    name: "食用油",
+    price: "$300",
+    image: "../../src/assets/images/product/oil-cover.png",
+    type: "oil"
+  },
+  {
+    index:3,
+    id: 4001,
+    name: "水產養殖鮮魚",
+    price: "$500",
+    image: "../../src/assets/images/product/fish-cover.png",
+    type: "fish"
+  },
+  {
+    index:3,
+    id: 4101,
+    name: "水產養殖鮮魚",
+    price: "$500",
+    image: "../../src/assets/images/product/fish-cover.png",
+    type: "fish"
+  },
+  {
+    index:3,
+    id: 4201,
+    name: "水產養殖鮮魚",
+    price: "$500",
+    image: "../../src/assets/images/product/fish-cover.png",
+    type: "fish"
+  },
+  {
+    index:4,
+    id: 5001,
+    name: "冷凍蔬菜",
+    price: "$330",
+    image: "../../src/assets/images/product/vegetable_cover.png",
+    type: "vegetable"
+  },
+  {
+    index:4,
+    id: 5101,
+    name: "冷凍蔬菜",
+    price: "$330",
+    image: "../../src/assets/images/product/vegetable_cover.png",
+    type: "vegetable"
+  },
+  {
+    index:4,
+    id: 5201,
+    name: "冷凍蔬菜",
+    price: "$330",
+    image: "../../src/assets/images/product/vegetable_cover.png",
+    type: "vegetable"
+  },
+]
     }
   },
   data() {
@@ -84,50 +234,50 @@ export default {
         { text: '健康小舖', to: '/products' },
         { text: '商品資訊', active: true }
       ],
-      collapseStatus:{
-        location:false,
-        spec:false,
-        nutrition:false
+      collapseStatus: {
+        location: false,
+        spec: false,
+        nutrition: false
       },
       count: 1,
-      productInfo:{},
+      productInfo: {},
     }
   },
-  computed:{
-    productId(){
+  computed: {
+    productId() {
       return this.$route.params.id
     },
   },
-  watch:{
-    productId(newId){
+  watch: {
+    productId(newId) {
       return fetchProductInfo(newId)
     },
   },
   methods: {
-    toggleCollapse(collapseName){
+    toggleCollapse(collapseName) {
       this.collapseStatus[collapseName] = !this.collapseStatus[collapseName]
     },
-    updateCount(action){
-      if (action === 'increment'){
-        this.count +=1
-      }else if(action === 'decrement' && this.count >1){
+    updateCount(action) {
+      if (action === 'increment') {
+        this.count += 1
+      } else if (action === 'decrement' && this.count > 1) {
         this.count -= 1;
       }
     },
-    fetchProductInfo(id){
+    fetchProductInfo(id) {
       const productStore = useProductStore();
       this.productInfo = productStore.getProductById(parseInt(id));
     },
-    addCart(){
+    addCart() {
       this.CartStore.addCart({
         id: this.productInfo.id,
-        name:this.productInfo.name,
+        name: this.productInfo.name,
         count: this.count,
-        img:this.productInfo.image,
+        img: this.productInfo.image,
       })
     },
   },
-  created(){
+  created() {
     this.fetchProductInfo(this.productId);
   },
   components: {

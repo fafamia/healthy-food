@@ -41,7 +41,7 @@
         </select>
       </div>
       <div class="row product_items">
-        <div v-for="(item, index) in displayList" :key="item.id" class="col-12 col-md-3 vegetable_card">
+        <div v-for="item in displayList" :key="item.id" class="col-12 col-md-3 vegetable_card">
           <p class="product_tag">#NEW</p>
           <div class="product_card_img">
             <img :src="item.image" alt="item.name">
@@ -289,3 +289,6 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@import "@/assets/scss/page/product.scss";
+</style>

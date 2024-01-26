@@ -47,7 +47,7 @@
                 font-size: $fs-2;
                 margin: $sp-1 ;
                 cursor: pointer;
-                
+
 
                 hr {
                     border: 1px solid black;
@@ -77,21 +77,22 @@
                     max-height: 0;
                     overflow: hidden;
                     transition: max-height 2s ease;
-                  }
-                  
-                  .expanded {
-                    max-height: 1000px; /* 設置一個足夠大的值，以確保內容可以完全顯示 */
-                  }
-                  
-                  .egg,
-                  .oil,
-                  .fish,
-                  .vegetable,
-                  hr {
-                    transition: opacity 2s ease;
-                  }
+                }
 
-                  
+                .expanded {
+                    max-height: 1000px;
+                    /* 設置一個足夠大的值，以確保內容可以完全顯示 */
+                }
+
+                .egg,
+                .oil,
+                .fish,
+                .vegetable,
+                hr {
+                    transition: opacity 2s ease;
+                }
+
+
 
             }
         }
