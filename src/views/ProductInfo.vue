@@ -8,21 +8,12 @@
       <div class="productInfo_product_txt col-12 col-md-6">
         <div class="productInfo_product_txtWrap">
           <div class="productInfo_product_txt_title">
-<<<<<<< HEAD
-            <h1>{{ productInfo.name }}</h1>
-            <span>${{ productInfo.price }}</span>
-          </div>
-          <div class="productInfo_product_txt_describe">
-            <p>商品編號#{{ productInfo.id }}</p>
-            <p>{{ productInfo.desc }}</p>
-=======
             <h1>{{ ProductDisplay.name }}</h1>
             <span>${{ ProductDisplay.price }}</span>
           </div>
           <div class="productInfo_product_txt_describe">
             <p>商品編號#{{ ProductDisplay.id }}</p>
             <p>{{ ProductDisplay.desc }}</p>
->>>>>>> milo
           </div>
           <div class="productInfo_product_collapse">
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('location')">
@@ -58,7 +49,7 @@
         <div class="productInfo_product_btn">
           <div class="productInfo_product_btn_count">
             <button @click="updateQuantity('decrement')"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
-            <span>{{ CartStore.quantity }}</span>
+            <span>{{ quantity }}</span>
             <button @click="updateQuantity('increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
           </div>
           <button type="button" class="btn-primary" @click="addCart">加入購物車</button>
@@ -70,7 +61,7 @@
     <P>查無此商品</P>
   </div>
   
-  <div class="more_title">
+  <!-- <div class="more_title">
     <hr>
     <h2>多點健康</h2>
   </div>
@@ -87,15 +78,17 @@
       </div>
     </div>
 
-  </div>
+  </div> -->
 </template>
 
 
 <script>
-//import { Breadcrumb } from "@/components/Breadcrumb.vue";
+import  Breadcrumb  from "@/components/Breadcrumb.vue";
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/Product';
+import { ref } from 'vue';
+
 import { useCartStore } from "@/stores/Cart";
 
 
@@ -104,23 +97,29 @@ export default {
     const route = useRoute();
     const ProductStore = useProductStore();
     const CartStore = useCartStore();
+    
 
     const ProductId = computed(()=>parseInt(route.params.id));
     const ProductDisplay = computed(()=>ProductStore.getProductById(ProductId.value));
     
+    const quantity = ref(1);
+    
+    const updateQuantity = (action)=>{
+      CartStore.updateQuantity(quantity.value,action);
+      console.log(quantity.value);
+    }
     //CartStore.setProductInfo(ProductDisplay.value)
     const addCart = ()=> CartStore.addCart({
       id: ProductDisplay.value.id,
       name:ProductDisplay.value.name,
-      quantity: CartStore.quantity,
-      img:ProductDisplay.value.image,
+      quantity: CartStore.currentQuantity,
+      image:ProductDisplay.value.image,
     });
-    const updateQuantity = (action)=>{
-      CartStore.updateQuantity(action);
-    }
+    
     return {
-      CartStore,
       ProductDisplay,
+      CartStore,
+      quantity,
       addCart,
       updateQuantity,
     }
@@ -163,7 +162,7 @@ export default {
     // this.fetchProductInfo(this.productId);
   },
   components: {
-    //Breadcrumb
+    Breadcrumb
   },
 }
 </script>

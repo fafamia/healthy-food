@@ -2,14 +2,11 @@
     <div class="home">
         <!-- 第一區塊 banner -->
         <div ref="myBanner" class="home_banner">
-            <div class="banner_content" :width="divWidth">
+            <div ref="bannerContent" class="banner_content" :width="divWidth">
                 <div class="banner_wall">
-                    <div class="bag_banner_img" 
-                    v-for="num in home_banner_text.length" 
-                    :key="num">
-                        <img class="home_bannerpic" 
-                        :src="getImageUrl(`banner/banner0${num}.jpg`)" :width="divWidth"
-                        alt="banner">
+                    <div class="bag_banner_img" v-for="num in home_banner_text.length" :key="num">
+                        <img class="home_bannerpic" :src="getImageUrl(`banner/banner0${num}.jpg`)" :width="divWidth"
+                            alt="banner">
                     </div>
                 </div>
             </div>
@@ -41,13 +38,16 @@
                 <div class="bigpic_item">
                     <div class="pic_wall">
                         <div class="bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity01.png" alt="">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity01.png"
+                                alt="">
                         </div>
                         <div class="second_picture bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity02.png" alt="">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity02.png"
+                                alt="">
                         </div>
                         <div class="bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity03.png" alt="">
+                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity03.png"
+                                alt="">
                         </div>
                     </div>
                 </div>
@@ -66,6 +66,8 @@
         <h3>留言評論</h3>
         <div ref="commentWall" class="comment_wall">
             <div class="comment_card" 
+            @mouseenter="handlHomeCommentMouseenter"
+            @mouseleave="handlHomeCommentMouseleave"
             v-for="commentNum in comment.length" 
             :key="commentNum">
                 <div class="person">
@@ -73,9 +75,7 @@
                     <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
                 </div>
                 <div class="comment_star">
-                    <img 
-                    v-for="n in comment[commentNum - 1].star" 
-                    src="../assets/images/home/comment/Star.png" alt="">
+                    <img v-for="n in comment[commentNum - 1].star" src="../assets/images/home/comment/Star.png" alt="">
                 </div>
                 <div class="comment_message">
                     <p>
@@ -401,7 +401,9 @@ export default {
             return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
         },
         updateDimensions() {  //抓取banner 並且同步寬度
-            this.divWidth = this.$refs.myBanner.offsetWidth;
+            if(this.$refs.myBanner){
+                this.divWidth = this.$refs.myBanner.offsetWidth;
+            }
         },
 
         startSlideshow() {
@@ -416,14 +418,14 @@ export default {
             this.applyTransition(); //呼叫
         },
         applyTransition() {
-            const bannerContent = this.$refs.myBanner.querySelector('.banner_content');
+            const bannerContent = this.$refs.bannerContent;
             if (bannerContent) {
                 const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`;
                 bannerContent.style.transform = transitionValue;
             }
         },
         startComment() {
-            const commentWall = this.$refs.homeComment.querySelector('.comment_wall'); // 獲取照片牆
+            const commentWall = this.$refs.commentWall; // 獲取照片牆
             const animateMarquee = () => {
                 if (this.isPaused) {
                     this.position -= 1;
@@ -433,18 +435,19 @@ export default {
                     }
                 }
                 cancelAnimationFrame(animateMarquee);
-                requestAnimationFrame(animateMarquee); 
-                //性能優化 ( 當我視窗化最小or window沒有在閱覽 他會自動暫停 )
-            }
-            this.$refs.homeComment.addEventListener('mouseenter', () => {
-                isPaused = true; //mouseenter 把開關 關起來
-            });
-            this.$refs.homeComment.addEventListener('mouseleave', () => {
-                isPaused = false;//mouseleave 重新呼叫
-                animateMarquee();
-            });
-            //animateMarquee();
+                requestAnimationFrame(animateMarquee);
+            };
+            animateMarquee();
         },
+        handlHomeCommentMouseenter() {
+            this.isPaused = false; //mouseenter 把開關 關起來
+        },
+        handlHomeCommentMouseleave() {
+            this.isPaused = true; //mouseenter 把開關 關起來
+        },
+
+
+
         sendMessage() {
                 const userMessage = this.userInput.trim();
                 if (userMessage === '') return;

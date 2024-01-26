@@ -7,7 +7,7 @@
                         :key="item.id"
                         class="drawer_product">
                         <div class="drawer_product_image ">
-                            <img :src=item.img>
+                            <img :src=item.image>
                         </div>
                         <p class="drawer_product_name">{{ item.name }}</p>
                         <div class="productInfo_product_btn_count">
