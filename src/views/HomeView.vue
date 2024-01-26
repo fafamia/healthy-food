@@ -2,7 +2,7 @@
     <div class="home">
         <!-- 第一區塊 banner -->
         <div ref="myBanner" class="home_banner">
-            <div class="banner_content" :width="divWidth">
+            <div ref="bannerContent" class="banner_content" :width="divWidth">
                 <div class="banner_wall">
                     <div class="bag_banner_img" v-for="num in home_banner_text.length" :key="num">
                         <img class="home_bannerpic" :src="getImageUrl(`banner/banner0${num}.jpg`)" :width="divWidth"
@@ -64,7 +64,7 @@
     <!-- 第四區塊 comment -->
     <div ref="homeComment" class="comment">
         <h3>留言評論</h3>
-        <div class="comment_wall">
+        <div ref="commentWall" class="comment_wall">
             <div class="comment_card" 
             @mouseenter="handlHomeCommentMouseenter"
             @mouseleave="handlHomeCommentMouseleave"
@@ -327,8 +327,8 @@ export default {
             divWidth: 0, //banner寬度
             elements: [], //banner的照片
             timer: null, //自動輪播的計時器變數
-            isPaused: true, 
-            position: 0,
+            isPaused: true,  //自動輪播開關
+            position: 0, //自動輪播初值
         };
     },
     methods: {
@@ -351,7 +351,7 @@ export default {
             this.applyTransition(); //呼叫
         },
         applyTransition() {
-            const bannerContent = this.$refs.myBanner.querySelector('.banner_content');
+            const bannerContent = this.$refs.bannerContent;
             if (bannerContent) {
                 const transitionValue = `translateX(-${(this.imgnum - 1) * 100}%)`;
                 bannerContent.style.transform = transitionValue;
@@ -359,7 +359,7 @@ export default {
         },
         
         startComment() {
-            const commentWall = this.$refs.homeComment.querySelector('.comment_wall'); // 獲取照片牆
+            const commentWall = this.$refs.commentWall; // 獲取照片牆
             const animateMarquee = () => {
                 if (this.isPaused) {
                     this.position -= 1;
@@ -397,6 +397,7 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.updateDimensions )
+        this.isPaused = false
     },
 };
 </script>
