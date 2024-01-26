@@ -1,20 +1,26 @@
 <template>
     <div class="shoppingCart_drawer" v-show="drawerStatus" >
-            <div class="shoppingCart_drawer_bg" @click="toggleShoppingDrawer">
+            <div class="shoppingCart_drawer_bg " @click="toggleShoppingDrawer">
                 <div class="drawer" @click.stop>
-                    <h2 class="drawer_title">商品清單</h2>
-                    <div v-for="item in cartList" 
-                        :key="item.id"            
+                    <h3 class="drawer_title">商品清單</h3>
+                    <div v-for="item in cartList"
+                        :key="item.id"
                         class="drawer_product">
-                        <div class="drawer_product_image">
+                        <div class="drawer_product_image ">
                             <img :src=item.img>
                         </div>
                         <p class="drawer_product_name">{{ item.name }}</p>
-                        <p class="drawer_product_count">{{ item.count }}</p>
+                        <div class="productInfo_product_btn_count">
+                            <button @click="updateCount('decrement')"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
+                            <span></span>
+                            <button @click="updateCount('increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
+                        </div>
                     </div>
                     <span class="drawer_close" @click="toggleShoppingDrawer"><i class="fa-solid fa-xmark"
                         ></i></span>
                     <router-link to="/checkout" class="drawer_addCart btn-primary">結帳</router-link>
+                    <div class="drawer_wrapper">
+                    </div>
                 </div>
             </div>
         </div>
