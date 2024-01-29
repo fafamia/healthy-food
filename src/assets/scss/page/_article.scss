@@ -31,24 +31,23 @@
        }
     }
 
-// Tag
-.article-tag {
-    width: 1200px;
-    margin: auto;
-}
-
 // article-container
 .article-container{
+    // display: grid;
+    // grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    // gap: $sp-3;
     display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
     overflow: hidden;
-    justify-content: center;
 }
 .article-card{
     width: 380px;
-    margin: $sp-3 auto;
+    margin: $sp-3 5px;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    color: #000;
     img{
         width: 100%;
         border-radius: 50px;
@@ -56,10 +55,33 @@
     h3{
         font-size: 24px;
         line-height: $sp-3; 
-        margin: 0;      
+        margin: $sp-2 0; 
+        height: 2.2em;     
     }
     p{
         font-size: 16px;
         margin: $sp-2 0;
     }
 }
+
+//filter-buttons
+.filter-buttons {
+    max-width: 1200px;
+    margin: auto;
+    button {
+        background-color: $white;
+        color: $primary;
+        border: none;
+        border-radius: 50px;
+        font-size: 24px;
+        font-family: "Noto Sans TC", sans-serif;
+        width: 120px;
+        padding: 10px;
+        margin: 0 $sp-1;
+        margin-top: $sp-3;
+      &.active {
+        background-color: $primary;
+        color: $white;      
+      }
+    }
+  }
