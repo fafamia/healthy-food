@@ -45,10 +45,11 @@
           <p class="product_tag">#NEW</p>
 
 
-          <div class="product_card_img"> 
+          <div class="product_card_img">
             <img :src="item.image" alt="item.name" class="product_image">
             <button class="heart" @click="keepProd(item)">
-              <i :class="{'fa-regular':!item.heartFilled,'fa-solid':item.heartFilled, 'fa-heart':true} " style="color: #f50a0a;"></i>
+              <i :class="{ 'fa-regular': !item.heartFilled, 'fa-solid': item.heartFilled, 'fa-heart': true }"
+                style="color: #f50a0a;"></i>
             </button>
 
           </div>
@@ -60,13 +61,15 @@
             params: { id: item.id }
           }" class="btn-product">查看商品詳情</router-link>
         </div>
-      </div>
-    </div>
-
-    <div class="home-container">
+        <div class="home-container" >
       <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='productDisplay.length'
         :page="reqParams.page" />
     </div>
+      </div>
+
+    </div>
+    
+
 
   </div>
 </template>
@@ -98,47 +101,47 @@ export default {
           index: 0,
           id: 1001,
           name: "南瓜蔬食調理包",
-          price: "$160",
+          price: "160",
           image: "../../src/assets/images/product/pumpkin_cover.png",
           type: "lunchbox",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 0,
           id: 1101,
           name: "高蛋白營養調理包",
-          price: "$180",
+          price: "180",
           image: "../../src/assets/images/product/protein2.png",
           type: "lunchbox",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 0,
           id: 1201,
           name: "牛肉補元氣調理包",
-          price: "$200",
+          price: "200",
           image: "../../src/assets/images/product/beef.svg",
           type: "lunchbox",
-          heartFilled:false
+          heartFilled: false
         },
 
         {
           index: 1,
           id: 2001,
           name: "有機雞蛋",
-          price: "$100",
+          price: "100",
           image: "../../src/assets/images/product/eggs-cover.png",
           type: "egg",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 1,
           id: 2101,
           name: "有機小農豆漿",
-          price: "$150",
+          price: "150",
           image: "../../src/assets/images/product/soymilk.png",
           type: "egg",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 1,
@@ -152,82 +155,82 @@ export default {
           index: 2,
           id: 3001,
           name: "純香食用油",
-          price: "$300",
+          price: "300",
           image: "../../src/assets/images/product/oil-cover.jpg",
           type: "oil",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 2,
           id: 3101,
           name: "台東優質池上米",
-          price: "$150",
+          price: "150",
           image: "../../src/assets/images/product/rice.png",
           type: "oil",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 2,
           id: 3201,
           name: "高纖天然燕麥",
-          price: "$320",
+          price: "320",
           image: "../../src/assets/images/product/oats.png",
           type: "oil",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 3,
           id: 4001,
           name: "基隆水產養殖鮮魚",
-          price: "$500",
+          price: "500",
           image: "../../src/assets/images/product/fish-cover.png",
           type: "fish",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 3,
           id: 4101,
           name: "頂級穀飼牛肉",
-          price: "$700",
+          price: "700",
           image: "../../src/assets/images/product/beef.png",
           type: "fish",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 3,
           id: 4201,
           name: "霸王大草蝦",
-          price: "$400",
+          price: "400",
           image: "../../src/assets/images/product/shrimp.png",
           type: "fish",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 4,
           id: 5001,
           name: "冷凍蔬菜",
-          price: "$330",
+          price: "330",
           image: "../../src/assets/images/product/vegetable_cover.jpg",
           type: "vegetable",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 4,
           id: 5101,
           name: "非基改玉米",
-          price: "$220",
+          price: "220",
           image: "../../src/assets/images/product/corn.png",
           type: "vegetable",
-          heartFilled:false
+          heartFilled: false
         },
         {
           index: 4,
           id: 5201,
           name: "冷凍新鮮豌豆",
-          price: "$200",
+          price: "200",
           image: "../../src/assets/images/product/peas.jpg",
           type: "vegetable",
-          heartFilled:false
+          heartFilled: false
         },
       ],
     };
@@ -249,7 +252,7 @@ export default {
       // 目前頁碼
       page: 1,
       // 每頁的數量
-      pageSize: 9
+      pageSize: 6
     })
     // 控制頁碼的變化
     const changePage = (page) => {
@@ -258,16 +261,16 @@ export default {
       scrollToTop(); // 新增：在換頁碼時滾動到最上面
     }
 
-    
-// 滾動到最上面的方法
-const scrollToTop = () => {
+
+    // 滾動到最上面的方法
+    const scrollToTop = () => {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     };
 
-    
+
 
     return { changePage, reqParams }
   },
@@ -283,7 +286,7 @@ const scrollToTop = () => {
 
   },
   methods: {
-    keepProd(item){
+    keepProd(item) {
       item.heartFilled = !item.heartFilled;
     },
 

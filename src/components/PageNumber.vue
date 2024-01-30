@@ -20,7 +20,7 @@ export default {
         },
         pagesize: {
             type: Number,
-            default: 9
+            default: 6
         }
     },
     setup(props, { emit, attrs }) {
