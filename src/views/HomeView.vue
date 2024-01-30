@@ -103,7 +103,7 @@
           <h3>{{ articles[0].title }}</h3>
           <p>{{ articles[0].description }}</p>
           <div class="btn_bar">
-            <router-link :to="articles[0].link" class="btn-outline-white">觀看更多</router-link>
+            <router-link to="/article" class="btn-outline-white">觀看更多</router-link>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
     <div v-for="(recipe, index) in recipes" :key="index" :class="{ 'home-recipe-link-reverse': index % 2 !== 0 }">
       <div class="home-recipe-container container">
         <div class="home-recipe-img">
-          <img :src="recipe.imageSrc" :alt="`熱門食譜-${index + 1}`">
+            <img :src="getImageUrl(`recipe-${index+1}.png`)" :alt="`熱門食譜-${index+1}`">
         </div>
         <div class="home-recipe-txt">
           <h3>{{ recipe.title }}</h3>
@@ -124,7 +124,7 @@
           <ul>
             <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li>
           </ul>
-          <div class="btn_bar"><a :href="recipe.link" class="btn-outline-white">探索更多</a></div>
+          <div class="btn_bar"><router-link to="/cookbook" class="btn-outline-white">探索更多</router-link></div>
         </div>
       </div>
     </div>
@@ -132,7 +132,7 @@
 <!------- 食譜(手機版) ------->
 <div class="home-phone-recipe">
     <div class="first-recipe">
-      <img src="/src/assets/images/home/recipe-1.png" alt="熱門食譜-1">
+      <img src="../assets/images/home/recipe-1.png" alt="熱門食譜-1">
     </div>
     <div class="phone-recipe">
       <h3>素食彩虹沙拉</h3>
@@ -145,13 +145,13 @@
         <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
         <li>·紅洋蔥, 切絲........ </li>
       </ul>
-      <a href="" class="btn-outline-white">探索更多</a>    
+      <router-link to="/cookbook" class="btn-outline-white">探索更多</router-link>    
   </div>
 </div>
 
 <div class="home-phone-recipe">
     <div class="phone-recipe-img">
-      <img src="/src/assets/images/home/recipe-2.png" alt="熱門食譜-1">
+      <img src="../assets/images/home/recipe-2.png" alt="熱門食譜-1">
     </div>
     <div class="phone-recipe">
       <h3>紫薯蕎麥鬆餅</h3>
@@ -164,39 +164,39 @@
         <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
         <li>·紅洋蔥, 切絲........ </li>
       </ul>
-      <a href="" class="btn-outline-white">探索更多</a>    
+      <router-link to="/cookbook" class="btn-outline-white">探索更多</router-link>    
   </div>
 </div>
 
 <!----------- 小幫手 ------------>
 <h2 class="home-title">健康小幫手</h2>
 <div class="home-assistant-container">
-      <div class="assistant-row row">
-        <router-link v-bind:data-type='(assistant.type)' v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
-          <div class="assistant-icon-card">
-            <img :src="assistant.iconSrc" :alt="`健康小幫手-${index + 1}`">
-            <h4>{{ assistant.title }}</h4>
-            <p>{{ assistant.description }}</p>
-          </div>
-        </router-link>
+  <div class="assistant-row row">
+    <router-link v-bind:data-type="(assistant.type)" v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
+      <div class="assistant-icon-card">
+        <img :src="getImageUrl(`assistant-icon/assistant${assistant.type}.png`)" :alt="`健康小幫手-${index + 1}`">
+        <h4>{{ assistant.title }}</h4>
+        <p>{{ assistant.description }}</p>
       </div>
+    </router-link>
+  </div>
 </div>
 <!------- 小幫手(手機版) ------->
 <div class="phone-assistant-container">
   <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
   <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>  
-  <a href="" class="assistant-item">
+  <router-link to="" class="assistant-item">
     <img src="/src/assets/images/home/assistant.png" alt="">
     <div class="switch">
-      <div class="prev"><img src="/src/assets/images/home/prev.svg" alt=""></div>
+      <div class="prev"><img src="../assets/images/home/prev.svg" alt=""></div>
       <h4>卡路里計算</h4>
-      <div class="next"><img src="/src/assets/images/home/next.svg" alt=""></div>
+      <div class="next"><img src="../assets/images/home/next.svg" alt=""></div>
     </div>
     <div class="text">
       <span>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</span> 
     </div>
-  </a>
-  <div class="btn"><a href="" class="btn-primary">前往計算</a></div>
+  </router-link>
+  <div class="btn"><router-link to="" class="btn-primary">前往計算</router-link></div>
 </div>
 
 <!----------- 小遊戲 ------------>
@@ -205,7 +205,7 @@
     <h3>準備好了嗎？接受我們的健康問答挑戰，贏得您的折價券！</h3>
     <div class="game_start row">
           <div class="game_start_img col-12 col-xl-6">
-            <img src="/src/assets/images/game/game1.png" alt="健康知識大挑戰">
+            <img src="../assets/images/game/game1.png" alt="健康知識大挑戰">
           </div>
           <div class="game_start_text col-12 col-xl-6">
             <h2 class="game_start_title">健康知識大挑戰</h2>
@@ -220,15 +220,15 @@
 
  <!-- 健康小精靈ICON -->
  <div class="rotbot-icon" @click="toggleChat">
-    <img src="/src/assets/images/home/robot.png" alt="Floating Icon">
+    <img src="../assets/images/home/robot.png" alt="Floating Icon">
 </div>
 
 <!-- 健康小精靈訊息框 -->
 <div v-show="isChatOpen" id="chat-container" :style="{ right: chatContainerRight, bottom: chatContainerBottom }">
     <div class="chat-header">
-        <img src="/src/assets/images/home/robot-img.png" alt="機器人頭像" class="avatar">
+        <img src="../assets/images/home/robot-img.png" alt="機器人頭像" class="avatar">
         <span class="bot-name">健康小精靈</span>
-        <button @click="closeChat" class="close-button"><img src="/src/assets/images/home/XX.png" alt=""></button>
+        <button @click="closeChat" class="close-button"><img src="../assets/images/home/XX.png" alt=""></button>
     </div>
     <hr class="line-divider">
 
@@ -253,7 +253,7 @@
     <div class="input-container">
         <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
         <button @click="sendMessage" class="send-button">
-            <img src="/src/assets/images/home/Vector.svg" alt="Send">
+            <img src="../assets/images/home/Vector.svg" alt="Send">
         </button>
     </div>
 </div>
@@ -374,7 +374,6 @@ export default {
                     '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
                     '·鹽和黑胡椒調味',
                 ],
-                imageSrc: '/src/assets/images/home/recipe-1.png',
                 link: '/recipe1'
                 },
                 
@@ -394,7 +393,6 @@ export default {
                     '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
                     '·鹽和黑胡椒調味',
                 ],
-                imageSrc: '/src/assets/images/home/recipe-2.png',
                 link: '/recipe2'
                 }
             ],
@@ -402,28 +400,24 @@ export default {
                 {
                 title: 'BMI計算',
                 description: '衡量身體的肥胖程度',
-                iconSrc: '/src/assets/images/home/bmi-icon.png',
                 link: '/bmi',
                 type:1,
                 },
                 {
                 title: '基礎代謝率',
                 description: '了解你身體在靜息狀態下維持基本生命活動所需的能量消耗',
-                iconSrc: '/src/assets/images/home/cpf-icon.png',
                 link: '/bmr',
                 type:2,
                 },
                 {
                 title: '卡路里計算',
                 description: '了解你每天攝取的卡路里量有助於維持健康的飲食習慣',
-                iconSrc: '/src/assets/images/home/cal-icon.png',
                 link: '/cal',
                 type:3,
                 },
                 {
                 title: 'GI飲食計算',
                 description: '低GI飲食有助於穩定血糖水平',
-                iconSrc: '/src/assets/images/home/gi-icon.png',
                 link: '/gi',
                 type:4,
                 },

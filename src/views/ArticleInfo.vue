@@ -32,7 +32,7 @@
       <p :style="{ fontSize: infoFontSize + 'px' }">此外，均衡飲食還對心理健康有積極影響。飲食中豐富的Omega-3脂肪酸和抗氧化劑與情緒健康的改善有關。這表明，我們的飲食選擇不僅影響身體，還影響心靈。</p>
       <p :style="{ fontSize: infoFontSize + 'px' }">然而，實現均衡飲食可能是一項挑戰。在生活中忙碌的時候，我們經常傾向於選擇便利食品而非健康選擇。為了實現均衡飲食，我們可以嘗試制定合理的飲食計劃，增加蔬菜和水果的攝取，減少加工食品的消耗。</p>
       <p :style="{ fontSize: infoFontSize + 'px' }">在結論時，均衡飲食不僅是對身體的呵護，更是對生活品質的投資。通過深入了解各種食物對我們的影響，我們可以更智慧地選擇食物，實現健康、快樂的生活。讓我們一起探索飲食的奧秘，迎接更健康的未來。</p>
-  <img src="/src/assets/images/article/articleinfo-1.jpg" alt="飲食健康">
+  <img src="../assets/images/article/articleinfo-1.jpg" alt="飲食健康">
     </div>
   </div>
   <div class="tag-button">

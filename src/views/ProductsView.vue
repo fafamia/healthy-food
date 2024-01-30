@@ -56,7 +56,7 @@
           </div>
 
           <p class="vegetable_title">{{ item.name }}</p>
-          <p class="vegetable_price">{{ item.price }}</p>
+          <p class="vegetable_price">${{ item.price }}</p>
           <router-link :to="{
             name: 'productinfo',
             params: { id: item.id }
