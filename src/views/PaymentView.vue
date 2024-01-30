@@ -1,0 +1,126 @@
+<template>
+    <CheckOutStage />
+    <div class="payment container">
+        <div class="payment_paymentWrap row">
+            <table class="col-12 col-md-6 payment_info">
+                <tr class="payment_info_infoTr">
+                    <th>訂購人資訊</th>
+                    <td>
+                        <input type="checkbox" id="asMemberInfo">
+                        <label for="asMemberInfo">同會員資料</label>
+                    </td>
+                </tr>
+                <tr class="payment_info_infoTr">
+                    <th>姓名:</th>
+                    <td>
+                        <input 
+                        type="text" 
+                        placeholder="請輸入您的姓名"
+                        v-model="CartStore.orderName"
+                        @input="e => CartStore.updateField('orderName', e.target.value)"
+                        >
+                    </td>
+                </tr>
+                <tr class="payment_info_infoTr">
+                    <th>手機:</th>
+                    <td>
+                        <input 
+                        type="text" 
+                        placeholder="請輸入您的手機號碼"
+                        v-model="CartStore.orderNumber">
+                    </td>
+                </tr>
+                <tr class="payment_info_infoTr">
+                    <th>地址:</th>
+                    <td>
+                        <input 
+                        type="text" 
+                        placeholder="請輸入您的地址"
+                        v-model="CartStore.orderAddr">
+                    </td>
+                </tr>
+                <tr class="payment_info_infoTr">
+                    <th rowspan="2">運送方式:</th>
+                    <td>
+                        <input
+                        name="delivery"
+                        id="deliveryHome"
+                        type="radio"
+                        value="宅配到府"
+                        v-model="CartStore.delivery">
+                        <label for="deliveryHome">宅配到府 ( 運費$80TWD )</label>
+                    </td>
+                </tr>
+                <tr class="payment_info_infoTr">
+                    <td>
+                        <input
+                        name="delivery"
+                        id="deliveryStore" 
+                        type="radio"
+                        value="7-11取貨"
+                        v-model="CartStore.delivery">
+                        <label for="deliveryStore">7-11取貨 ( 運費$60TWD )</label>
+                    </td>
+                </tr>
+                <tr class="payment_info_infoTr">
+                    <th>付款方式:</th>
+                    <td>
+                        <input
+                        name="payment"
+                        id="paymentOnline" 
+                        type="radio"
+                        value="線上付款"
+                        v-model="CartStore.payment">
+                        <label for="paymentOnline">線上付款</label>
+                        <input 
+                        name="payment"
+                        id="paymentCash"
+                        type="radio"
+                        value="取貨付款"
+                        v-model="CartStore.payment">
+                        <label for="paymentCash">取貨付款</label>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-12 col-md-6 payMent_detail">
+                <CartDetail/>
+            </div>
+        </div>
+        <div class="payment_page">
+            <router-link to="/checkout" class="payment_page_pageUP"><i class="fa-solid fa-angle-left" style="color: #f99c84;"></i>上一頁</router-link>
+            <router-link to="/confirm" class="payment_page_pageDown">下一頁<i class="fa-solid fa-angle-right" style="color: #f73f14;"></i></router-link>
+        </div>
+    </div>
+</template>
+
+<script>
+import { RouterLink, RouterView } from 'vue-router';
+import CheckOutStage from '@/components/CheckOutStage.vue';
+import CartDetail from '@/components/CartDetail.vue';
+import { useCartStore } from '@/stores/Cart';
+//import { computed } from 'vue'
+
+export default{
+    setup(){
+        const CartStore = useCartStore();
+        // const orderName = computed({
+        //     get:()=>CartStore.orderName,
+        //     set:(value) => { CartStore.updateOrderName(value); }
+        // })
+        return{
+            CartStore,
+            //orderName,
+        }
+    },
+    components: {
+        RouterLink,
+        RouterView,
+        CheckOutStage,
+        CartDetail,
+    }
+}
+</script>
+
+<style lang="scss">
+    @import '@/assets/scss/page/_payment.scss';
+</style>

@@ -3,17 +3,17 @@
             <div class="shoppingCart_drawer_bg " @click="toggleShoppingDrawer">
                 <div class="drawer" @click.stop>
                     <h3 class="drawer_title">商品清單</h3>
-                    <div v-for="item in cartList"
-                        :key="item.id"
+                    <div v-for="product in cartList"
+                        :key="product.id"
                         class="drawer_product">
                         <div class="drawer_product_image ">
-                            <img :src=item.image>
+                            <img :src=product.image>
                         </div>
-                        <p class="drawer_product_name">{{ item.name }}</p>
-                        <div class="productInfo_product_btn_count">
-                            <button @click="updateCount('decrement')"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
-                            <span></span>
-                            <button @click="updateCount('increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
+                        <p class="drawer_product_name">{{ product.name }}</p>
+                        <div class="drawer_product_btn_count">
+                            <button class="quantityButton" @click="newQuantityUpdate(product.id,'decrement')"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
+                            <span class="quantityNum" >{{ product.quantity }}</span>
+                            <button class="quantityButton" @click="newQuantityUpdate(product.id,'increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
                         </div>
                     </div>
                     <span class="drawer_close" @click="toggleShoppingDrawer"><i class="fa-solid fa-xmark"
@@ -33,27 +33,25 @@ import { useCartStore } from "@/stores/Cart";
 export default {
     name:'ShoppingCart',
     setup() {
-        const cartStore = useCartStore();
-        return {
-            cartList:cartStore.cartList,
+        //使用pinia中CartStore存放的資料
+        const CartStore = useCartStore();
+        //使用存在CartStore中的購物車array
+        const cartList = CartStore.cartList
+        //使用存在CartStore中的購物車array,用id和動作指定個別的商品數量加或減
+        const newQuantityUpdate = (id,action)=>{
+            CartStore.newQuantityUpdate(id,action);
         }
-        // function loadCartFormLocalStorage(){
-        //     cartStore.cartList.forEach(item=>{
-        //         let count = localStorage.getItem(item.id)
-        //         if(count !== null){
-        //             item.count = parseInt(count,1);
-        //         }
-        //     })
-        // };
-        // loadCartFormLocalStorage();
-
+        return {
+            CartStore,
+            cartList,
+            newQuantityUpdate,
+        }
     },
     data() {
         return {
             drawerStatus: false,
         }
     },
-    computed: {},
     expose:[
         'toggleShoppingDrawer'
     ],

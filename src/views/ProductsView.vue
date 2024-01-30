@@ -81,7 +81,6 @@ import { reactive } from 'vue'
 
 
 
-
 export default {
   data() {
     return {
@@ -278,7 +277,6 @@ const scrollToTop = () => {
       const endIndex = this.reqParams.page * this.reqParams.pageSize;
       // console.log(this.productDisplay.length);
       return this.productDisplay.slice(startIndex, endIndex);
-
     },
 
   },
