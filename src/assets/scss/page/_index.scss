@@ -3,7 +3,7 @@
 	// width: 100%;
 	height: 555px;
 	margin: auto;
-  overflow: hidden;
+    overflow: hidden;
     .banner_content{
         height: 555px;
         transition: transform 0.5s ease;
@@ -91,7 +91,7 @@
     .featured_commodity{
         display: flex;
         flex-direction: column;
-        @media (width >= 576px) {
+        @media (width >= 1200px) {
             flex-direction: row;
         } 
         justify-content: space-between;
@@ -104,7 +104,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            @media (width >= 576px) {
+            @media (width >= 1200px) {
                 width: 65%;
             } 
             .leftbutton{
@@ -116,11 +116,7 @@
             }
             .bigpic_item{
                 width: 100%;
-                overflow: hidden;
-                transition: transform 0.5s ease;
-                @media (width >= 576px) {
-                    overflow:visible;
-                } 
+                // overflow: hidden;
                 .pic_wall{
                     display: flex;
                     position: relative;
@@ -132,7 +128,7 @@
                             display: block;
                             margin: 0 auto;
                         }
-                        @media (width >= 576px) {
+                        @media (width >= 1200px) {
                             .commodity_pic {
                                 max-width: 33.333333%;
                             }
@@ -155,7 +151,7 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            @media (width >= 576px) {
+            @media (width >= 1200px) {
                 max-width: 894px;
                 width: 30%;
             } 
@@ -189,14 +185,17 @@
     top: -90%;
     left: -5%;
 }
+
+
+
+
 //  第四區塊 comment 
 .comment{
-    max-width: 1200px;
-    margin-top: $sp-2;
+    width: 100%;
+    margin-top: $sp-4;
     margin-bottom: $sp-2;
     transition: transform 1s linear;
     overflow: hidden;
-    margin: auto;
     h3{
         text-align: center;
         font-size: $h2;
@@ -211,7 +210,7 @@
         width: 100%;
         display: flex;
         @media (width >= 576px) {
-            margin-top: $sp-3;
+            margin-top: $sp-5;
         } 
         .comment_card{
             background-color: $green;
@@ -282,7 +281,7 @@
     text-align: center;
     margin: $sp-5*2 0 $sp-4;
     @media (min-width:$xl) {
-      font-size: $h1;
+        font-size: $h1;
     }
 }
 

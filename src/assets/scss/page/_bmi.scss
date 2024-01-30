@@ -39,22 +39,24 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     max-width: 1200px;
+    margin: auto;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
     border: 3px $border-bg solid;
     border-radius: 40px;
     background-color: $white;
     margin: 10px;
-    align-items: center;
     @media(width>=1200px){
         margin: auto;
         margin-bottom: 40px;
     }
     h2{
-        margin-top: 32px;
+        margin-top: 12px;
         font-size: $fs-2;
-        color: black;
         @media(width>=576px){
             font-size: $h2;
-            margin-top: $sp-3;
         }
     }
     .bmi_countainer_text{
@@ -162,6 +164,9 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
 }
+
+
+
 .recommend_wall{
     margin-top: 30px;
     margin-bottom: 40px;
