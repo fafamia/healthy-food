@@ -1,14 +1,16 @@
 <template>
-    <div class="game_a row">
-        <div class="game_a_img col-12 col-xl-6">
-            <img :src="image" :alt="altText" />
-        </div>
-        <div class="game_a_text col-12 col-xl-6">
-            <h2 class="game_a_title">{{ title }}</h2>
-            <p>{{ explanation }}</p>
-            <button type="button" class="btn-product" @click="nextQuestion">
-                {{ isLastQuestion ? '挑戰完成' : '下一題' }}
-            </button>
+    <div class="game_a_area">
+        <div class="row game_a">
+            <div class="game_a_img col-12 col-md-6">
+                <img :src="image" :alt="altText" />
+            </div>
+            <div class="game_a_text col-12 col-md-6">
+                <h2 class="game_a_title">{{ title }}</h2>
+                <p>{{ explanation }}</p>
+                <button type="button" class="btn-product" @click="nextQuestion">
+                    {{ isLastQuestion ? '挑戰完成' : '下一題' }}
+                </button>
+            </div>
         </div>
     </div>
 </template>
