@@ -75,14 +75,14 @@
     @media screen and (min-width:$md){
         width: 80%;
     }
-    button {
+    .quantityButton {
         font-size: $fs-3;
         background-color: transparent;
         border: none;
         cursor: pointer;
     }
 
-    span {
+    .quantityNum {
         font-size: $fs-3;
         font-weight: $fw-bold;
         line-height: $fs-3;

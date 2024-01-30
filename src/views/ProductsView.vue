@@ -58,7 +58,7 @@
     </div>
 
     <div class="home-container">
-      <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='displayData.length' :page="reqParams.page" />
+      <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='productDisplay.length' :page="reqParams.page" />
     </div>
 
   </div>
@@ -72,7 +72,19 @@ import PageNumber from '@/components/PageNumber.vue';
 
 import { reactive } from 'vue'
 
-const originData = [
+
+
+export default {
+  data() {
+    return {
+      // 麵包屑數據
+      yourBreadcrumbData: [
+        { text: '首頁', to: '/' },
+        { text: '健康小舖', active: true },
+      ],
+      toggle: true,
+      productDisplay: [],
+      originData : [
   
   {
     index:0,
@@ -196,21 +208,6 @@ const originData = [
     type: "vegetable"
   },
 ]
-
-export default {
-  data() {
-    return {
-      // 麵包屑數據
-      yourBreadcrumbData: [
-        { text: '首頁', to: '/' },
-        { text: '健康小舖', active: true },
-      ],
-      displayData: [...originData].map((v, i) => ({
-        ...v,
-        id: i + v.id
-      })),
-      toggle: true,
-      productDisplay: []
     };
   },
   components: {
@@ -221,7 +218,7 @@ export default {
   },
   created() {
     // this.axiosGetData();
-    this.productDisplay = this.displayData;
+    this.productDisplay = this.originData;
 
   },
   setup() {
@@ -245,7 +242,9 @@ export default {
     displayList() {
       const startIndex = (this.reqParams.page - 1) * this.reqParams.pageSize;
       const endIndex = this.reqParams.page * this.reqParams.pageSize;
-      return this.displayData.slice(startIndex, endIndex);
+      // console.log(this.productDisplay.length);
+      return this.productDisplay.slice(startIndex, endIndex);
+      
     },
 
   },
@@ -255,10 +254,10 @@ export default {
 
       if (!filterPhoneType || filterPhoneType === '') {
         // 如果選擇的是空字符串或 undefined，顯示所有商品
-        this.displayData = originData;
+        this.productDisplay = this.originData;
       } else if (['lunchbox', 'oil', 'egg', 'fish', 'vegetable'].includes(filterPhoneType)) {
         // 否則，進行其他商品類型的篩選
-        this.displayData = originData.filter(item => {
+        this.productDisplay = this.originData.filter(item => {
           return item.type === filterPhoneType;
         });
       }
@@ -269,9 +268,9 @@ export default {
 
       // 不需要更新productDisplay，直接更新displayData
       if (filterType === 'freshfood') {
-        this.displayData = originData.filter(item => item.index >= 1 && item.index <= 4);
+        this.productDisplay = this.originData.filter(item => item.index >= 1 && item.index <= 4);
       } else {
-        this.displayData = originData.filter(item => item.index === filterIndex);
+        this.productDisplay = this.originData.filter(item => item.index === filterIndex);
       }
 
       // 在應用篩選時重置頁碼為1

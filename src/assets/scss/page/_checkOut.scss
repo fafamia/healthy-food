@@ -1,0 +1,109 @@
+.checkOut{
+    &_list{
+        display: block;
+        height: 300px;
+        overflow-y: scroll;
+        &_title{
+            display: grid;
+            grid-template-columns:5% 15% 30% 20% 10% 10%;
+            gap:$sp-1 ;
+            justify-items: center;
+            margin-bottom:$sp-2 ;
+            border-bottom: 2px solid $dark-line;
+        }
+        &_content{
+            display: grid;
+            grid-template-columns:5% 20% 28% 20% 10% 5%;
+            gap:$sp-1 ;
+            justify-items: center;
+            align-items: center;
+            margin-bottom: $sp-1;
+            &_image{
+                width: 80px;
+                border-radius: $border-r-1;
+                overflow: hidden;
+                img{
+                    width: 100%;
+                    vertical-align: bottom;
+                }
+                @media screen and (min-width:$sm){
+                    width: 100px;
+                }
+            }
+            &_name{
+                justify-self: self-start;
+            }
+            &_delete{
+                cursor: pointer;
+            }
+        }
+    }
+    &_checkOutWrap{
+        padding: $sp-1;
+        position: relative;
+    }
+    &_coupon{
+        background-color: #fff;
+        padding: $sp-1;
+        text-align: center;
+        margin-bottom: $sp-2;
+        &_select{
+            width: 150px;
+            margin-right: $sp-2;
+            border-radius: $border-r-1;
+        }
+    }
+    &_price{
+        background-color: #fff;
+        &_priceWrap{
+            margin: 0 auto;
+        }
+        &_priceTr{
+            &:last-child{
+                border-top:2px solid $dark-line ;
+            }
+        }
+        &_priceTh{
+            text-align: left;
+        }
+        &_priceTd{
+            padding:$sp-1 0 $sp-1 $sp-3;
+            text-align: right;
+        }
+    }
+}
+.fixTop{
+    table-layout: fixed;
+    height: 30px;
+    overflow: hidden;
+}
+.sideWrap{
+    padding: $sp-2;
+}
+.go_payment{
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    border-radius: 0 0 $border-r-1 $border-r-1;
+}
+.checkOut_list_content_quantity{
+    display: flex;
+    border: 3px solid $primary;
+    border-radius: $border-r-3;
+    justify-content: space-around;
+    width: 90%;
+    height: 30px;
+    .quantityButton {
+        font-size: $fs-3;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+    .quantityNum {
+        font-size: $fs-3;
+        font-weight: $fw-bold;
+        line-height: $fs-3;
+        color: $primary;
+        display: inline-block;
+    }
+}

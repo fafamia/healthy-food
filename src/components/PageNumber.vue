@@ -16,7 +16,7 @@ export default {
     props: {
         total: {
             type: Number,
-            default: 45
+            default: 15
         },
         pagesize: {
             type: Number,

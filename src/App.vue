@@ -17,7 +17,7 @@ export default {
 <template>
   <MainHeader />
   <!-- 頁面路由route渲染的地方 -->
-  <RouterView />
+  <RouterView :key="$route.params.id"/>
 
   <MainFooter />
 </template>
