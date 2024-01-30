@@ -48,7 +48,8 @@
         </div>
         <div class="productInfo_product_btn">
           <div class="productInfo_product_btn_count">
-            <button @click="updateQuantity('decrement')"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
+            <button @click="updateQuantity('decrement')"><i class="fa-solid fa-minus"
+                style="color: #e73f14;"></i></button>
             <span>{{ quantity }}</span>
             <button @click="updateQuantity('increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
           </div>
@@ -58,10 +59,10 @@
     </div>
   </div>
   <div v-else>
-    <P>查無此商品</P>
+    <P>此商品缺貨</P>
   </div>
-  
-  <!-- <div class="more_title">
+
+  <div class="more_title">
     <hr>
     <h2>多點健康</h2>
   </div>
@@ -69,21 +70,25 @@
     <div class="more_product row ">
       <div v-for="item in getRandomSubset(originData, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
         <p class="product_tag">#NEW</p>
-          <div class="product_card_img">
-            <img :src="item.image" alt="item.name">
-          </div>
-          <p class="vegetable_title">{{ item.name }}</p>
-          <p class="vegetable_price">{{ item.price }}</p>
-          <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
+        <div class="product_card_img">
+          <img :src="item.image" alt="item.name">
+        </div>
+        <p class="vegetable_title">{{ item.name }}</p>
+        <p class="vegetable_price">{{ item.price }}</p>
+        <router-link :to="{
+              name: 'productinfo',
+              params: {id: item.id}}" 
+            class="btn-product"
+            >查看商品詳情</router-link>
       </div>
     </div>
 
-  </div> -->
+  </div>
 </template>
 
 
 <script>
-import  Breadcrumb  from "@/components/Breadcrumb.vue";
+import Breadcrumb from "@/components/Breadcrumb.vue";
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/Product';
@@ -92,36 +97,170 @@ import { ref } from 'vue';
 import { useCartStore } from "@/stores/Cart";
 
 
+
 export default {
   setup() {
     const route = useRoute();
     const ProductStore = useProductStore();
     const CartStore = useCartStore();
-    
 
-    const ProductId = computed(()=>parseInt(route.params.id));
-    const ProductDisplay = computed(()=>ProductStore.getProductById(ProductId.value));
-    
+
+    const ProductId = computed(() => parseInt(route.params.id));
+    const ProductDisplay = computed(() => ProductStore.getProductById(ProductId.value));
+
     const quantity = ref(1);
-    
-    const updateQuantity = (action)=>{
-      CartStore.updateQuantity(quantity.value,action);
+
+    const updateQuantity = (action) => {
+      CartStore.updateQuantity(quantity.value, action);
       console.log(quantity.value);
     }
     //CartStore.setProductInfo(ProductDisplay.value)
-    const addCart = ()=> CartStore.addCart({
+    const addCart = () => CartStore.addCart({
       id: ProductDisplay.value.id,
-      name:ProductDisplay.value.name,
+      name: ProductDisplay.value.name,
       quantity: CartStore.currentQuantity,
-      image:ProductDisplay.value.image,
+      image: ProductDisplay.value.image,
     });
-    
+
+    //會生成一個介於 -0.5 到 0.5 之間的隨機數,大於 0.5，則返回正數，a 和 b 位置交換
+    const getRandomSubset = (array, size) => {
+      const shuffledArray = array.slice().sort(() => Math.random() - 0.5);
+      return shuffledArray.slice(0, size);
+    };
+
+
     return {
       ProductDisplay,
       CartStore,
       quantity,
       addCart,
       updateQuantity,
+      getRandomSubset,
+      originData: [
+
+        {
+          index: 0,
+          id: 1001,
+          name: "南瓜蔬食調理包",
+          price: "$170",
+          image: "../../src/assets/images/product/pumpkin_cover.png",
+          type: "lunchbox"
+        },
+        {
+          index: 0,
+          id: 1101,
+          name: "南瓜蔬食調理包",
+          price: "$170",
+          image: "../../src/assets/images/product/pumpkin_cover.png",
+          type: "lunchbox"
+        },
+        {
+          index: 0,
+          id: 1201,
+          name: "南瓜蔬食調理包",
+          price: "$170",
+          image: "../../src/assets/images/product/pumpkin_cover.png",
+          type: "lunchbox"
+        },
+
+        {
+          index: 1,
+          id: 2001,
+          name: "有機雞蛋",
+          price: "$100",
+          image: "../../src/assets/images/product/eggs-cover.png",
+          type: "egg"
+        },
+        {
+          index: 1,
+          id: 2101,
+          name: "有機雞蛋",
+          price: "$100",
+          image: "../../src/assets/images/product/eggs-cover.png",
+          type: "egg"
+        },
+        {
+          index: 1,
+          id: 2201,
+          name: "有機雞蛋",
+          price: "$100",
+          image: "../../src/assets/images/product/eggs-cover.png",
+          type: "egg"
+        },
+        {
+          index: 2,
+          id: 3001,
+          name: "食用油",
+          price: "$300",
+          image: "../../src/assets/images/product/oil-cover.png",
+          type: "oil"
+        },
+        {
+          index: 2,
+          id: 3101,
+          name: "食用油",
+          price: "$300",
+          image: "../../src/assets/images/product/oil-cover.png",
+          type: "oil"
+        },
+        {
+          index: 2,
+          id: 3201,
+          name: "食用油",
+          price: "$300",
+          image: "../../src/assets/images/product/oil-cover.png",
+          type: "oil"
+        },
+        {
+          index: 3,
+          id: 4001,
+          name: "水產養殖鮮魚",
+          price: "$500",
+          image: "../../src/assets/images/product/fish-cover.png",
+          type: "fish"
+        },
+        {
+          index: 3,
+          id: 4101,
+          name: "水產養殖鮮魚",
+          price: "$500",
+          image: "../../src/assets/images/product/fish-cover.png",
+          type: "fish"
+        },
+        {
+          index: 3,
+          id: 4201,
+          name: "水產養殖鮮魚",
+          price: "$500",
+          image: "../../src/assets/images/product/fish-cover.png",
+          type: "fish"
+        },
+        {
+          index: 4,
+          id: 5001,
+          name: "冷凍蔬菜",
+          price: "$330",
+          image: "../../src/assets/images/product/vegetable_cover.png",
+          type: "vegetable"
+        },
+        {
+          index: 4,
+          id: 5101,
+          name: "冷凍蔬菜",
+          price: "$330",
+          image: "../../src/assets/images/product/vegetable_cover.png",
+          type: "vegetable"
+        },
+        {
+          index: 4,
+          id: 5201,
+          name: "冷凍蔬菜",
+          price: "$330",
+          image: "../../src/assets/images/product/vegetable_cover.png",
+          type: "vegetable"
+        },
+      ]
+
     }
   },
   data() {
@@ -139,12 +278,12 @@ export default {
       //ProductInfo:{},
     }
   },
-  computed:{
+  computed: {
     // productId(){
     //   return this.$route.params.id
     // },
   },
-  watch:{
+  watch: {
     // productId(newId){
     //   return fetchProductInfo(newId)
     // },
@@ -158,7 +297,7 @@ export default {
     //   this.productInfo = productStore.getProductById(parseInt(id));
     // },
   },
-  created(){
+  created() {
     // this.fetchProductInfo(this.productId);
   },
   components: {
