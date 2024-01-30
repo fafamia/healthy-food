@@ -831,6 +831,11 @@
   width: 200px;
 }
 
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
 input{
   border-radius: 50px;
   margin: 10px auto;
@@ -853,3 +858,9 @@ input{
   left: 0;
 }
 
+.send-button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  margin-left: -45px; 
+}

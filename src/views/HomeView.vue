@@ -174,7 +174,7 @@
           </div>
         </router-link>
       </div>
-    </div>
+</div>
 <!------- 小幫手(手機版) ------->
 <div class="phone-assistant-container">
   <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
@@ -240,8 +240,14 @@
     </div>
 
  <!-- 使用者訊息輸入 -->
-  <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
+    <div class="input-container">
+        <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
+        <button @click="sendMessage" class="send-button">
+            <img src="/src/assets/images/home/Vector.svg" alt="Send">
+        </button>
+    </div>
 </div>
+
 
 <!----------- end ------------>
 
@@ -389,7 +395,7 @@ export default {
                 '你是誰': '我是健康小精靈，很高興為您服務。',
                 '健康': '關於健康的問題，問我就對了。',
                 '再見': '再見！如果有任何問題，歡迎隨時回來。',
-                '付款': '付款相關問題的話可以參考以下',
+                '付款': { text: '付款相關問題的話可以參考以下', link: '/faq' },
                 '便當': '便當相關問題的話可以參考以下',
             },
             divWidth: 0,

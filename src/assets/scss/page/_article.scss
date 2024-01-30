@@ -83,5 +83,8 @@
         background-color: $primary;
         color: $white;      
       }
+      &:hover{
+        cursor: pointer;
+      }
     }
   }
