@@ -67,7 +67,7 @@
   </div>
   <div class="more_health container">
     <div class="more_product row ">
-      <div v-for="item in getRandomSubset(originData, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
+      <div v-for="item in getRandomSubset(ProductStore.products, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
         <p class="product_tag">#NEW</p>
           <div class="product_card_img">
             <img :src="item.image" alt="item.name">
@@ -132,135 +132,13 @@ export default {
     };
 
     return {
-      ProductDisplay,
+      ProductStore,
       CartStore,
+      ProductDisplay,
       pageQuantity,
       pageQuantityUpdate,
       addCart,
       getRandomSubset,
-      originData: [
-        {
-          index: 0,
-          id: 1001,
-          name: "南瓜蔬食調理包",
-          price: "$170",
-          image: "../../src/assets/images/product/pumpkin_cover.png",
-          type: "lunchbox"
-        },
-        {
-          index: 0,
-          id: 1101,
-          name: "南瓜蔬食調理包",
-          price: "$170",
-          image: "../../src/assets/images/product/pumpkin_cover.png",
-          type: "lunchbox"
-        },
-        {
-          index: 0,
-          id: 1201,
-          name: "南瓜蔬食調理包",
-          price: "$170",
-          image: "../../src/assets/images/product/pumpkin_cover.png",
-          type: "lunchbox"
-        },
-
-        {
-          index: 1,
-          id: 2001,
-          name: "有機雞蛋",
-          price: "$100",
-          image: "../../src/assets/images/product/eggs-cover.png",
-          type: "egg"
-        },
-        {
-          index: 1,
-          id: 2101,
-          name: "有機雞蛋",
-          price: "$100",
-          image: "../../src/assets/images/product/eggs-cover.png",
-          type: "egg"
-        },
-        {
-          index: 1,
-          id: 2201,
-          name: "有機雞蛋",
-          price: "$100",
-          image: "../../src/assets/images/product/eggs-cover.png",
-          type: "egg"
-        },
-        {
-          index: 2,
-          id: 3001,
-          name: "食用油",
-          price: "$300",
-          image: "../../src/assets/images/product/oil-cover.png",
-          type: "oil"
-        },
-        {
-          index: 2,
-          id: 3101,
-          name: "食用油",
-          price: "$300",
-          image: "../../src/assets/images/product/oil-cover.png",
-          type: "oil"
-        },
-        {
-          index: 2,
-          id: 3201,
-          name: "食用油",
-          price: "$300",
-          image: "../../src/assets/images/product/oil-cover.png",
-          type: "oil"
-        },
-        {
-          index: 3,
-          id: 4001,
-          name: "水產養殖鮮魚",
-          price: "$500",
-          image: "../../src/assets/images/product/fish-cover.png",
-          type: "fish"
-        },
-        {
-          index: 3,
-          id: 4101,
-          name: "水產養殖鮮魚",
-          price: "$500",
-          image: "../../src/assets/images/product/fish-cover.png",
-          type: "fish"
-        },
-        {
-          index: 3,
-          id: 4201,
-          name: "水產養殖鮮魚",
-          price: "$500",
-          image: "../../src/assets/images/product/fish-cover.png",
-          type: "fish"
-        },
-        {
-          index: 4,
-          id: 5001,
-          name: "冷凍蔬菜",
-          price: "$330",
-          image: "../../src/assets/images/product/vegetable_cover.png",
-          type: "vegetable"
-        },
-        {
-          index: 4,
-          id: 5101,
-          name: "冷凍蔬菜",
-          price: "$330",
-          image: "../../src/assets/images/product/vegetable_cover.png",
-          type: "vegetable"
-        },
-        {
-          index: 4,
-          id: 5201,
-          name: "冷凍蔬菜",
-          price: "$330",
-          image: "../../src/assets/images/product/vegetable_cover.png",
-          type: "vegetable"
-        },
-      ]
     }
   },
   data() {
