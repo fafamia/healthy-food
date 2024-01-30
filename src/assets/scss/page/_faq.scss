@@ -6,8 +6,9 @@
         margin: auto;
         object-fit:cover;
         img {
+            height: 300px;
             width: 100%;
-            vertical-align: bottom;
+            object-fit:cover;
         }
         .banner_title {
             display: flex;
@@ -71,8 +72,9 @@
 }
 
 hr {
-    width: 1200px;
+    max-width: 1200px;
     margin-top: -17px; 
+    overflow: hidden;
 }
 
 .line-extension {

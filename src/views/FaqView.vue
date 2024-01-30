@@ -18,26 +18,28 @@
   </div>
   <hr>
   <div class="faq-container container">
-        <div v-for="(faqItem, index) in filteredFaqs" :key="index" class="faq-item">
-          <div class="question" @click="toggleAnswer(faqItem)">
-            <span>{{ faqItem.question }}</span>
-            <img
-            v-if="faqItem.expanded"
-            class="arrow-icon"
-            src="@/assets/images/faq/arrow-up.png"
-            alt="arrow-up"
-            />
-            <img
-            v-else
-            class="arrow-icon"
-            src="@/assets/images/faq/arrow-down.png"
-            alt="arrow-down"
-            />
-          </div>
-          <div class="answer" v-show="faqItem.expanded">
-            {{ faqItem.answer }}
-          </div>
+    <div v-for="(faqItem, index) in filteredFaqs" :key="index" class="faq-item">
+      <div class="question" @click="toggleAnswer(faqItem)">
+        <span>{{ faqItem.question }}</span>
+        <img
+          v-if="faqItem.expanded"
+          class="arrow-icon"
+          src="@/assets/images/faq/arrow-up.png"
+          alt="arrow-up"
+        />
+        <img
+          v-else
+          class="arrow-icon"
+          src="@/assets/images/faq/arrow-down.png"
+          alt="arrow-down"
+        />
+      </div>
+      <transition name="fade">
+        <div class="answer" v-show="faqItem.expanded">
+          {{ faqItem.answer }}
         </div>
+      </transition>
+    </div>
   </div>
   </template>
   <!----------- end ------------>

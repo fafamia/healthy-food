@@ -97,7 +97,7 @@
 <div class="home-article-link">
       <div class="home-article-container container">
         <div class="home-article-img">
-          <img :src="articles[0].imageSrc" :alt="articles[0].altText">
+          <img src="/src/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
         </div>
         <div class="home-article-txt">
           <h3>{{ articles[0].title }}</h3>
@@ -220,32 +220,36 @@
 
  <!-- 健康小精靈ICON -->
  <div class="rotbot-icon" @click="toggleChat">
-      <img src="/src/assets/images/home/robot.png" alt="Floating Icon">
-    </div>
+    <img src="/src/assets/images/home/robot.png" alt="Floating Icon">
+</div>
 
- <!-- 健康小精靈訊息框 -->
-    <div v-show="isChatOpen" id="chat-container" :style="{ right: chatContainerRight, bottom: chatContainerBottom }">
-      <div class="chat-header">
+<!-- 健康小精靈訊息框 -->
+<div v-show="isChatOpen" id="chat-container" :style="{ right: chatContainerRight, bottom: chatContainerBottom }">
+    <div class="chat-header">
         <img src="/src/assets/images/home/robot-img.png" alt="機器人頭像" class="avatar">
         <span class="bot-name">健康小精靈</span>
         <button @click="closeChat" class="close-button"><img src="/src/assets/images/home/XX.png" alt=""></button>
-      </div>
-      <hr class="line-divider">
+    </div>
+    <hr class="line-divider">
 
     <div id="chat-messages">
-      <div v-for="(message, index) in messages" :key="index" class="message" :class="{ 'user-message': message.type === 'user', 'bot-message': message.type === 'bot' }">
-      <span v-if="message.type === 'user'"></span>
-      <span v-if="message.type === 'bot'"></span>
-      
- <!-- 顯示訊息跟時間 -->
-      <div class="message-content">
-        <span class="message-text">{{ message.text }}</span>
+    <div v-for="(message, index) in messages" :key="index" class="message" :class="{ 'user-message': message.type === 'user', 'bot-message': message.type === 'bot' }">
+        <div class="message-content">
+            <span class="message-text" v-html="message.text"></span>
+        </div>
         <span class="message-time">{{ message.time }}</span>
-      </div>
     </div>
-    </div>
+</div>
 
- <!-- 使用者訊息輸入 -->
+    <!-- 關鍵字按鈕 -->
+    <div class="keyword-filter-buttons">
+        <button @click="filterByKeyword('如何付款?')">如何付款?</button>
+        <button @click="filterByKeyword('是否提供有機食材？')">是否提供有機食材？</button>
+        <button @click="filterByKeyword('食材是提供來自當地農產的選擇？')">食材是提供來自當地農產的選擇？</button>
+        <button @click="filterByKeyword('如何查詢訂單的運送狀態？')">如何查詢訂單的運送狀態？</button>
+    </div> 
+
+    <!-- 使用者訊息輸入 -->
     <div class="input-container">
         <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
         <button @click="sendMessage" class="send-button">
@@ -350,8 +354,6 @@ export default {
                 {
                     title: "營養均衡，從餐桌開始",
                     description: "在現代快節奏的生活中，人們越來越注重健康。而要實現真正的健康，一頓營養均衡的餐點是不可或缺的一環。飲食不僅關係到我們的體重管理，更關係到身體各個器官的正常運作和免疫系統的強壯。",
-                    imageSrc: "/src/assets/images/home/ARTICLE_OVERVIEW.png",
-                    altText: "健康專欄",
                     link: "/path-to-article-1",
                 },
             ],
@@ -436,8 +438,11 @@ export default {
                 '你是誰': '我是健康小精靈，很高興為您服務。',
                 '健康': '關於健康的問題，問我就對了。',
                 '再見': '再見！如果有任何問題，歡迎隨時回來。',
-                '付款': { text: '付款相關問題的話可以參考以下', link: '/faq' },
-                '便當': '便當相關問題的話可以參考以下',
+                '購買': '如果有購買問題，可至健康小舖內逛逛或至聯絡我們提供任何意見~',
+                '如何付款?': '1.信用卡即時線上一次刷卡付款<br>2.ATM付款<br>3.LINE Pay',
+                '是否提供有機食材？':'是的，我們提供部分有機食材，以提供更多元的選擇。',
+                '食材是提供來自當地農產的選擇？':'是的，我們鼓勵並提供當地農產食材，以支持本地農業和提供更環保的食材選擇。',
+                '如何查詢訂單的運送狀態？':'在訂單頁面您可以追蹤訂單的運送狀態，也會發送通知郵件給您。',
             },
             divWidth: 0,
             elements: [],
@@ -526,6 +531,20 @@ export default {
                 this.chatContainerRight = 'calc(100px + 60px)';
                 this.chatContainerBottom = '20px';
                 }
+            },
+            filterByKeyword(keyword) {
+            // 手動設置使用者訊息，將按鈕上的文本作為使用者訊息
+            const currentTime = new Date().toLocaleTimeString();
+            this.messages.push({ type: 'user', text: keyword, time: currentTime });
+
+            // 根據使用者輸入觸發相應的機器人回應
+            const botReply = this.qaPairs[keyword];
+
+            if (botReply) {
+                this.messages.push({ type: 'bot', text: botReply.text || botReply, time: currentTime });
+            } else {
+                this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
+            }
             },
         },
 

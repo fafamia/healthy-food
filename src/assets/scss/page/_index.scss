@@ -696,7 +696,7 @@
     right: 0;
   }
   @media (max-width:$md) {
-    right: -50px;
+    right: -60px;
   }
   img{
     width: 100%;
@@ -704,14 +704,14 @@
       width: 70%;
     }
     @media (max-width:$md) {
-      width: 60%;
+      width: 50%;
     }
   }
 }
 
 #chat-container {
   width: 415px;
-  height: 600px;
+  height: 610px;
   margin: 50px auto;
   background: $secondary;
   border-radius: 50px;
@@ -722,7 +722,7 @@
   @media (max-width:1440px) {
     margin: -10px auto;
     width: 420px;
-    height: 530px;
+    height: 550px;
   }
   @media (max-width:$md) {
     margin: -10px auto;
@@ -733,7 +733,7 @@
   @media (max-width:$sm) {
     margin: -10px auto;
     width: 290px;
-    height: 480px;
+    height: 500px;
     margin-right: -80px;
     margin-bottom: 50px;
   }
@@ -788,12 +788,12 @@
 }
 
 #chat-messages {
-  height: 410px;
+  height: 370px;
   overflow-y: scroll;
   border-radius: 10px;
   padding-top: 10px;
   @media (max-width:1440px) {
-    height: 345px;
+    height: 300px;
   }
 }
 
@@ -813,21 +813,27 @@
 .message {
   font-size: 20px;
   margin: 10px;
-  border-radius: 10px;
   padding: 10px;
   position: relative;
+  overflow: hidden; 
 }
 
 .user-message {
-  text-align: center;
+  text-align: right; 
   background-color: #fff;
-  margin-left: 260px;
+  border-radius: 10px;
+  margin-left: auto; 
+  margin-right: 10px; 
+  width: fit-content; 
 }
 
 .bot-message {
+  text-align: left;
   background-color: #fff;
-  margin-right: 100px;
-  width: 200px;
+  border-radius: 10px;
+  margin-left: 10px; 
+  margin-right: auto; 
+  width: fit-content; 
 }
 
 .input-container {
@@ -837,7 +843,7 @@
 
 input{
   border-radius: 50px;
-  margin: 10px auto;
+  margin: -5px auto;
   padding: 20px;
   width: 100%;
   @media (max-width:$md) {
@@ -849,12 +855,19 @@ input{
     margin: 20px auto;
   }
 }
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.message-text {
+  margin-bottom: 5px; 
+}
+
 .message-time {
   font-size: 12px;
   color: #888;
-  position: absolute;
-  bottom: -20px; 
-  left: 0;
 }
 
 .send-button {
@@ -862,4 +875,43 @@ input{
   border: none;
   background: none;
   margin-left: -45px; 
+}
+//------關鍵字按鈕---------
+.keyword-filter-buttons {
+  display: flex;
+  margin-bottom: 10px;
+  overflow-x: auto; 
+  max-width: 400px; 
+}
+
+.keyword-filter-buttons::-webkit-scrollbar {
+  width: 20px;
+}
+
+.keyword-filter-buttons::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.keyword-filter-buttons::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #ccc;
+}
+
+.keyword-filter-buttons button {
+  padding: 8px 16px;
+  margin: 0 10px;
+  border: none;
+  background-color: #fff;
+  color: #000;
+  border-radius: 10px;
+  cursor: pointer;
+  max-width: 100%; 
+  white-space: nowrap; 
+  font-size: $fs-4;
+  font-family: "Noto Sans TC", sans-serif;
+}
+
+.keyword-filter-buttons button:hover {
+  background-color: $btn;
+  color: #fff;
 }
