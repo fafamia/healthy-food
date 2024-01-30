@@ -6,6 +6,7 @@ export const useCartStore =  defineStore("CartStore", {
         return{
             cartList: JSON.parse(localStorage.getItem("items")) || [],
             userInput:'',
+            selectAll:false,
             couponList:[
                 {   
                     id:"001",
@@ -90,6 +91,13 @@ export const useCartStore =  defineStore("CartStore", {
             this.cartList.splice(index,1);
             this.saveLocalstorage();
         },
+        toggleAll(){
+            this.cartList.forEach(product => {
+                product.checked = this.selectAll;                
+                console.log(this.selectAll);
+            });
+        },
+        deleteSelected(){},
         updateUserInput(value) {
             this.userInput = value;
         },
