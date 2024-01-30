@@ -49,7 +49,8 @@
             <img :src=getImageUrl(item.image) alt="item.name" class="product_image">
             <!-- <img :src="item.image" alt="item.name" class="product_image"> -->
             <button class="heart" @click="keepProd(item)">
-              <i :class="{'fa-regular':!item.heartFilled,'fa-solid':item.heartFilled, 'fa-heart':true} " style="color: #f50a0a;"></i>
+              <i :class="{ 'fa-regular': !item.heartFilled, 'fa-solid': item.heartFilled, 'fa-heart': true }"
+                style="color: #f50a0a;"></i>
             </button>
 
           </div>
@@ -61,13 +62,15 @@
             params: { id: item.id }
           }" class="btn-product">查看商品詳情</router-link>
         </div>
-      </div>
-    </div>
-
-    <div class="home-container">
+        <div class="home-container" >
       <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='productDisplay.length'
         :page="reqParams.page" />
     </div>
+      </div>
+
+    </div>
+    
+
 
   </div>
 </template>
@@ -89,7 +92,7 @@ export default {
       // 目前頁碼
       page: 1,
       // 每頁的數量
-      pageSize: 9
+      pageSize: 6
     })
     // 控制頁碼的變化
     const changePage = (page) => {
@@ -289,7 +292,7 @@ export default {
 
   },
   methods: {
-    keepProd(item){
+    keepProd(item) {
       item.heartFilled = !item.heartFilled;
     },
 
