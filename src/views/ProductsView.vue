@@ -46,7 +46,8 @@
 
 
           <div class="product_card_img"> 
-            <img :src="item.image" alt="item.name" class="product_image">
+            <img :src=getImageUrl(item.image) alt="item.name" class="product_image">
+            <!-- <img :src="item.image" alt="item.name" class="product_image"> -->
             <button class="heart" @click="keepProd(item)">
               <i :class="{'fa-regular':!item.heartFilled,'fa-solid':item.heartFilled, 'fa-heart':true} " style="color: #f50a0a;"></i>
             </button>
@@ -77,171 +78,11 @@ import Breadcrumb from '@/components/Breadcrumb.vue';
 import axios from 'axios';
 import PageNumber from '@/components/PageNumber.vue';
 
-import { reactive } from 'vue'
-
+import { reactive,ref } from 'vue'
+import { useProductStore } from '@/stores/Product';
 
 
 export default {
-  data() {
-    return {
-      // 麵包屑數據
-      yourBreadcrumbData: [
-        { text: '首頁', to: '/' },
-        { text: '健康小舖', active: true },
-      ],
-      toggle: true,
-      productDisplay: [],
-      originData: [
-
-        {
-          index: 0,
-          id: 1001,
-          name: "南瓜蔬食調理包",
-          price: "$160",
-          image: "../../src/assets/images/product/pumpkin_cover.png",
-          type: "lunchbox",
-          heartFilled:false
-        },
-        {
-          index: 0,
-          id: 1101,
-          name: "高蛋白營養調理包",
-          price: "$180",
-          image: "../../src/assets/images/product/protein2.png",
-          type: "lunchbox",
-          heartFilled:false
-        },
-        {
-          index: 0,
-          id: 1201,
-          name: "牛肉補元氣調理包",
-          price: "$200",
-          image: "../../src/assets/images/product/beef.svg",
-          type: "lunchbox",
-          heartFilled:false
-        },
-
-        {
-          index: 1,
-          id: 2001,
-          name: "有機雞蛋",
-          price: "$100",
-          image: "../../src/assets/images/product/eggs-cover.png",
-          type: "egg",
-          heartFilled:false
-        },
-        {
-          index: 1,
-          id: 2101,
-          name: "有機小農豆漿",
-          price: "$150",
-          image: "../../src/assets/images/product/soymilk.png",
-          type: "egg",
-          heartFilled:false
-        },
-        {
-          index: 1,
-          id: 2201,
-          name: "非基改濃醇豆腐",
-          price: "$170",
-          image: "../../src/assets/images/product/tofu.jpg",
-          type: "egg"
-        },
-        {
-          index: 2,
-          id: 3001,
-          name: "純香食用油",
-          price: "$300",
-          image: "../../src/assets/images/product/oil-cover.jpg",
-          type: "oil",
-          heartFilled:false
-        },
-        {
-          index: 2,
-          id: 3101,
-          name: "台東優質池上米",
-          price: "$150",
-          image: "../../src/assets/images/product/rice.png",
-          type: "oil",
-          heartFilled:false
-        },
-        {
-          index: 2,
-          id: 3201,
-          name: "高纖天然燕麥",
-          price: "$320",
-          image: "../../src/assets/images/product/oats.png",
-          type: "oil",
-          heartFilled:false
-        },
-        {
-          index: 3,
-          id: 4001,
-          name: "基隆水產養殖鮮魚",
-          price: "$500",
-          image: "../../src/assets/images/product/fish-cover.png",
-          type: "fish",
-          heartFilled:false
-        },
-        {
-          index: 3,
-          id: 4101,
-          name: "頂級穀飼牛肉",
-          price: "$700",
-          image: "../../src/assets/images/product/beef.png",
-          type: "fish",
-          heartFilled:false
-        },
-        {
-          index: 3,
-          id: 4201,
-          name: "霸王大草蝦",
-          price: "$400",
-          image: "../../src/assets/images/product/shrimp.png",
-          type: "fish",
-          heartFilled:false
-        },
-        {
-          index: 4,
-          id: 5001,
-          name: "冷凍蔬菜",
-          price: "$330",
-          image: "../../src/assets/images/product/vegetable_cover.jpg",
-          type: "vegetable",
-          heartFilled:false
-        },
-        {
-          index: 4,
-          id: 5101,
-          name: "非基改玉米",
-          price: "$220",
-          image: "../../src/assets/images/product/corn.png",
-          type: "vegetable",
-          heartFilled:false
-        },
-        {
-          index: 4,
-          id: 5201,
-          name: "冷凍新鮮豌豆",
-          price: "$200",
-          image: "../../src/assets/images/product/peas.jpg",
-          type: "vegetable",
-          heartFilled:false
-        },
-      ],
-    };
-  },
-  components: {
-    RouterLink,
-    RouterView,
-    Breadcrumb,
-    PageNumber
-  },
-  created() {
-    // this.axiosGetData();
-    this.productDisplay = this.originData;
-
-  },
   setup() {
     // 篩選條件準備
     const reqParams = reactive({
@@ -257,20 +98,187 @@ export default {
       scrollToTop(); // 新增：在換頁碼時滾動到最上面
     }
 
+    // 滾動到最上面的方法
+    const scrollToTop = () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        };
+    //使用ProductStore
+    const ProductStore = useProductStore();
+    const originData = ProductStore.products;
+    const productDisplay = ref([]);
+    const getImageUrl = ProductStore.getImageUrl;
     
-// 滾動到最上面的方法
-const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    };
-
-    
-
-    return { changePage, reqParams }
+    return { 
+      changePage, 
+      reqParams,
+      originData,
+      productDisplay,
+      getImageUrl,
+    }
   },
+  data() {
+    return {
+      // 麵包屑數據
+      yourBreadcrumbData: [
+        { text: '首頁', to: '/' },
+        { text: '健康小舖', active: true },
+      ],
+      toggle: true,
+      // productDisplay: [],
+      // originData: [
 
+      //   {
+      //     index: 0,
+      //     id: 1001,
+      //     name: "南瓜蔬食調理包",
+      //     price: "$160",
+      //     image: "../../src/assets/images/product/pumpkin_cover.png",
+      //     type: "lunchbox",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 0,
+      //     id: 1101,
+      //     name: "高蛋白營養調理包",
+      //     price: "$180",
+      //     image: "../../src/assets/images/product/protein2.png",
+      //     type: "lunchbox",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 0,
+      //     id: 1201,
+      //     name: "牛肉補元氣調理包",
+      //     price: "$200",
+      //     image: "../../src/assets/images/product/beef.svg",
+      //     type: "lunchbox",
+      //     heartFilled:false
+      //   },
+
+      //   {
+      //     index: 1,
+      //     id: 2001,
+      //     name: "有機雞蛋",
+      //     price: "$100",
+      //     image: "../../src/assets/images/product/eggs-cover.png",
+      //     type: "egg",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 1,
+      //     id: 2101,
+      //     name: "有機小農豆漿",
+      //     price: "$150",
+      //     image: "../../src/assets/images/product/soymilk.png",
+      //     type: "egg",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 1,
+      //     id: 2201,
+      //     name: "非基改濃醇豆腐",
+      //     price: "$170",
+      //     image: "../../src/assets/images/product/tofu.jpg",
+      //     type: "egg"
+      //   },
+      //   {
+      //     index: 2,
+      //     id: 3001,
+      //     name: "純香食用油",
+      //     price: "$300",
+      //     image: "../../src/assets/images/product/oil-cover.jpg",
+      //     type: "oil",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 2,
+      //     id: 3101,
+      //     name: "台東優質池上米",
+      //     price: "$150",
+      //     image: "../../src/assets/images/product/rice.png",
+      //     type: "oil",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 2,
+      //     id: 3201,
+      //     name: "高纖天然燕麥",
+      //     price: "$320",
+      //     image: "../../src/assets/images/product/oats.png",
+      //     type: "oil",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 3,
+      //     id: 4001,
+      //     name: "基隆水產養殖鮮魚",
+      //     price: "$500",
+      //     image: "../../src/assets/images/product/fish-cover.png",
+      //     type: "fish",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 3,
+      //     id: 4101,
+      //     name: "頂級穀飼牛肉",
+      //     price: "$700",
+      //     image: "../../src/assets/images/product/beef.png",
+      //     type: "fish",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 3,
+      //     id: 4201,
+      //     name: "霸王大草蝦",
+      //     price: "$400",
+      //     image: "../../src/assets/images/product/shrimp.png",
+      //     type: "fish",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 4,
+      //     id: 5001,
+      //     name: "冷凍蔬菜",
+      //     price: "$330",
+      //     image: "../../src/assets/images/product/vegetable_cover.jpg",
+      //     type: "vegetable",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 4,
+      //     id: 5101,
+      //     name: "非基改玉米",
+      //     price: "$220",
+      //     image: "../../src/assets/images/product/corn.png",
+      //     type: "vegetable",
+      //     heartFilled:false
+      //   },
+      //   {
+      //     index: 4,
+      //     id: 5201,
+      //     name: "冷凍新鮮豌豆",
+      //     price: "$200",
+      //     image: "../../src/assets/images/product/peas.jpg",
+      //     type: "vegetable",
+      //     heartFilled:false
+      //   },
+      // ],
+    };
+  },
+  components: {
+    RouterLink,
+    RouterView,
+    Breadcrumb,
+    PageNumber
+  },
+  created() {
+    // this.axiosGetData();
+    //this.productDisplay = this.originData;
+
+  },
   computed: {
     displayList() {
       const startIndex = (this.reqParams.page - 1) * this.reqParams.pageSize;

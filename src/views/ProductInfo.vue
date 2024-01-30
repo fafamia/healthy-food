@@ -3,7 +3,7 @@
   <div class="productInfo container" v-if="ProductDisplay">
     <div class="productInfo_product row ">
       <div class="productInfo_product_image col-12 col-md-6">
-        <img :src="ProductDisplay.image" alt="product1">
+        <img :src=getImageUrl(ProductDisplay.image) alt="product1">
       </div>
       <div class="productInfo_product_txt col-12 col-md-6">
         <div class="productInfo_product_txtWrap">
@@ -70,7 +70,7 @@
       <div v-for="item in getRandomSubset(ProductStore.products, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
         <p class="product_tag">#NEW</p>
           <div class="product_card_img">
-            <img :src="item.image" alt="item.name">
+            <img :src=getImageUrl(ProductDisplay.image) alt="item.name">
           </div>
           <p class="vegetable_title">{{ item.name }}</p>
           <p class="vegetable_price">{{ item.price }}</p>
@@ -94,6 +94,7 @@ import { computed,ref } from 'vue';
 
 
 
+
 export default {
   setup() {
     //使用ProductStore
@@ -103,6 +104,8 @@ export default {
     //使用ProductStore中根據route綁定id所送出的data
     const ProductId = computed(()=>parseInt(route.params.id));
     const ProductDisplay = computed(()=>ProductStore.getProductById(ProductId.value));
+
+    const getImageUrl = ProductStore.getImageUrl;
     
     //頁面商品數量加減
     const pageQuantity = ref(1);
@@ -139,6 +142,7 @@ export default {
       pageQuantityUpdate,
       addCart,
       getRandomSubset,
+      getImageUrl,
     }
   },
   data() {

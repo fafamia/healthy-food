@@ -4,7 +4,7 @@
         <div class="row checkOut_checkOutWrap">
             <table class="col-12 col-md-8 checkOut_list fixTop">
                 <tr class="checkOut_list_title">
-                    <th><input type="checkbox"></th>
+                    <th><input type="checkbox" v-model="CartStore.selectAll" @change="CartStore.toggleAll"></th>
                     <th>商品</th>
                     <th></th>
                     <th>數量</th>
