@@ -6,7 +6,7 @@
                 <div v-for="item in products" :key="item.id" class="member_vegetable_card">
                     <p class="member_product_tag">#NEW</p>
                     <div class="member_product_card_img">
-                        <img :src="item.image" alt="item.name">
+                        <img src="../../src/assets/images/product/pumpkin_cover.png" alt="item.name">
                     </div>
                     <p class="member_vegetable_title">{{ item.name }}</p>
                     <p class="member_vegetable_price">{{ item.price }}</p>
@@ -30,7 +30,6 @@ export default {
                     id: 1001,
                     name: "南瓜蔬食調理包",
                     price: "$170",
-                    image: "../../src/assets/images/product/pumpkin_cover.png",
                     type: "lunchbox"
                 },
                 {
@@ -38,7 +37,6 @@ export default {
                     id: 1001,
                     name: "南瓜蔬食調理包",
                     price: "$170",
-                    image: "../../src/assets/images/product/pumpkin_cover.png",
                     type: "lunchbox"
                 },
                 {
@@ -46,7 +44,6 @@ export default {
                     id: 1001,
                     name: "南瓜蔬食調理包",
                     price: "$170",
-                    image: "../../src/assets/images/product/pumpkin_cover.png",
                     type: "lunchbox"
                 },
             ],
