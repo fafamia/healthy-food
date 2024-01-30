@@ -19,7 +19,9 @@
             <i @click="toggleBookmark(product)" :class="product.iconClass" class="bookmark"></i>
             <a href="/cookbookinfo"><img :src="getProductImage(product)" :alt="product.prod_name"></a>
             <div class="text">
-              <a href="/cookbookinfo"><h4>{{ product.prod_name }}</h4></a>
+              <a href="/cookbookinfo">
+                <h4>{{ product.prod_name }}</h4>
+              </a>
               <p>{{ product.prod_des2 }}</p>
             </div>
             <div class="like">
