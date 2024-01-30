@@ -60,7 +60,7 @@
         border-radius: $border-r-1;
         border: none;
         font-size: $fs-2 ;
-        margin-right: 30px;
+        margin-right: 10px;
         cursor: pointer;
 
     }
@@ -74,14 +74,14 @@
     span {
         background-color: $white;
         border-radius: $border-r-1;
-        width: 580px;
+        width: 48%;
         display: inline-block;
         color: $primary;
         text-align: center;
         line-height: 100px;
 
         &:first-child {
-            margin-right: 30px;
+            margin-right: 20px;
         }
     }
 }
@@ -193,7 +193,7 @@
     }
 
     li {
-        width: 387px;
+        width: 32%;
         height: 568px;
         background-color: #FFE8A3;
         border-radius: $border-r-2;
@@ -247,14 +247,16 @@
 
     .letter_box {
         background-color: $primary;
-        margin: 0 150px;
-        padding: 50px 0;
+        margin: 0 80px;
+        padding: 50px 100px;
         position: relative;
         border-radius: $border-r-1;
 
         button {
             font-size: $fs-2;
             cursor: pointer;
+            display: flex;
+            flex-wrap: nowrap;
         }
 
         .login {
@@ -264,7 +266,9 @@
             border-radius: $border-r-1;
             color: $primary;
             font-weight: bold;
-            margin-right: 100px;
+            // margin-right: 100px;
+            text-align: left;
+            margin-bottom: 10px;
 
         }
 
@@ -275,11 +279,11 @@
             color: $primary;
             font-weight: bold;
             padding: 10px 15px;
-            margin-right: 150px;
+            // margin-right: 150px;
         }
 
         textarea {
-            width: 600px;
+            width: 100%;
             margin-top: 30px;
             border-radius: $border-r-1;
             border: none;
@@ -293,7 +297,7 @@
             border-radius: $border-r-1;
             padding: 10px 50px;
             margin-top: 30px;
-            margin-right: -430px;
+            // margin-right: -430px;
         }
 
     }
