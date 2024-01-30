@@ -120,6 +120,7 @@
         <div class="home-recipe-txt">
           <h3>{{ recipe.title }}</h3>
           <span>{{ recipe.ingredientsTitle }}</span>
+          <hr>
           <ul>
             <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li>
           </ul>
@@ -171,7 +172,7 @@
 <h2 class="home-title">健康小幫手</h2>
 <div class="home-assistant-container">
       <div class="assistant-row row">
-        <router-link v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
+        <router-link v-bind:data-type='(assistant.type)' v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
           <div class="assistant-icon-card">
             <img :src="assistant.iconSrc" :alt="`健康小幫手-${index + 1}`">
             <h4>{{ assistant.title }}</h4>
@@ -395,24 +396,28 @@ export default {
                 description: '衡量身體的肥胖程度',
                 iconSrc: '/src/assets/images/home/bmi-icon.png',
                 link: '/bmi',
+                type:1,
                 },
                 {
                 title: '基礎代謝率',
                 description: '了解你身體在靜息狀態下維持基本生命活動所需的能量消耗',
                 iconSrc: '/src/assets/images/home/cpf-icon.png',
                 link: '/bmr',
+                type:2,
                 },
                 {
                 title: '卡路里計算',
                 description: '了解你每天攝取的卡路里量有助於維持健康的飲食習慣',
                 iconSrc: '/src/assets/images/home/cal-icon.png',
                 link: '/cal',
+                type:3,
                 },
                 {
                 title: 'GI飲食計算',
                 description: '低GI飲食有助於穩定血糖水平',
                 iconSrc: '/src/assets/images/home/gi-icon.png',
                 link: '/gi',
+                type:4,
                 },
             ],
             isChatOpen: false,
