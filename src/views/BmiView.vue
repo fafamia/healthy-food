@@ -53,7 +53,7 @@
                     </div>
                     <p class="bmi_card_title">{{ item.name }}</p>
                     <p class="bmi_card_price">{{ item.price }}</p>
-                    <router-link to="/productinfo" class="btn-product">查看商品詳情</router-link>
+                    <router-link :to="{name: 'productinfo',params: {id: item.id}}" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
             <button class="btn-product"
@@ -89,21 +89,24 @@ export default {
             ],
             displatdata:[
                 {
-                    index: 1,
+                    index:1,
+                    id: 2001,
                     name: "有機雞蛋",
                     price: "$100",
                     image: "../../src/assets/images/product/eggs-cover.png",
                     type: "egg"
                 },
                 {
-                    index: 2,
+                    index:2,
+                    id: 3001,
                     name: "食用油",
                     price: "$300",
                     image: "../../src/assets/images/product/oil-cover.png",
                     type: "oil"
                 },
                 {
-                    index: 3,
+                    index:3,
+                    id: 4001,
                     name: "水產養殖鮮魚",
                     price: "$500",
                     image: "../../src/assets/images/product/fish-cover.png",
@@ -120,10 +123,10 @@ export default {
     },
     methods: {
         calculate() {
-            if (this.personHeight && this.personWeight && !isNaN(this.personHeight) && !isNaN(this.personWeight)) {
-                // 計算BMI的邏輯
+            if (this.personHeight && this.personWeight) {
                 this.$refs.bmiCountainer.style.display = "none";
                 this.$refs.healthyRecommend.style.display = "flex";
+                // 計算BMI的邏輯
                 let heightMeter = (this.personHeight / 100) * (this.personHeight / 100);
                 this.bmi = parseFloat((this.personWeight / heightMeter).toFixed(1)); // 保留一位小數
                 if(this.bmi<18.5){

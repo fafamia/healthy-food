@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  scrollBehavior(){
+    return{top:0}
+  },
   routes: [
     {
       path: '/',
@@ -98,6 +101,16 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: () => import('../views/CheckOutView.vue'),
+    },
+    {
+      path: '/payment',
+      name: 'payment',
+      component: () => import('../views/PaymentView.vue'),
+    },
+    {
+      path: '/confirm',
+      name: 'confirm',
+      component: () => import('../views/ConfirmView.vue'),
     },
   ]
 })

@@ -3,7 +3,7 @@
 	// width: 100%;
 	height: 555px;
 	margin: auto;
-  overflow: hidden;
+    overflow: hidden;
     .banner_content{
         height: 555px;
         transition: transform 0.5s ease;
@@ -91,7 +91,7 @@
     .featured_commodity{
         display: flex;
         flex-direction: column;
-        @media (width >= 576px) {
+        @media (width >= 1200px) {
             flex-direction: row;
         } 
         justify-content: space-between;
@@ -104,7 +104,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            @media (width >= 576px) {
+            @media (width >= 1200px) {
                 width: 65%;
             } 
             .leftbutton{
@@ -116,11 +116,7 @@
             }
             .bigpic_item{
                 width: 100%;
-                overflow: hidden;
-                transition: transform 0.5s ease;
-                @media (width >= 576px) {
-                    overflow:visible;
-                } 
+                // overflow: hidden;
                 .pic_wall{
                     display: flex;
                     position: relative;
@@ -132,7 +128,7 @@
                             display: block;
                             margin: 0 auto;
                         }
-                        @media (width >= 576px) {
+                        @media (width >= 1200px) {
                             .commodity_pic {
                                 max-width: 33.333333%;
                             }
@@ -155,7 +151,7 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            @media (width >= 576px) {
+            @media (width >= 1200px) {
                 max-width: 894px;
                 width: 30%;
             } 
@@ -189,14 +185,17 @@
     top: -90%;
     left: -5%;
 }
+
+
+
+
 //  第四區塊 comment 
 .comment{
-    max-width: 1200px;
-    margin-top: $sp-2;
+    width: 100%;
+    margin-top: $sp-4;
     margin-bottom: $sp-2;
     transition: transform 1s linear;
     overflow: hidden;
-    margin: auto;
     h3{
         text-align: center;
         font-size: $h2;
@@ -211,7 +210,7 @@
         width: 100%;
         display: flex;
         @media (width >= 576px) {
-            margin-top: $sp-3;
+            margin-top: $sp-5;
         } 
         .comment_card{
             background-color: $green;
@@ -282,7 +281,7 @@
     text-align: center;
     margin: $sp-5*2 0 $sp-4;
     @media (min-width:$xl) {
-      font-size: $h1;
+        font-size: $h1;
     }
 }
 
@@ -352,6 +351,9 @@
                 margin-top: $sp-2;
                 a{
                     display: inline-block;
+                    &:hover{
+                      color: $primary;
+                    }
                 }
                 @media (max-width:$md) {
                     text-align: center;
@@ -362,9 +364,12 @@
     }
 }
 // 熱門食譜
+.home-recipe-link{
+  overflow: hidden;
+}
 .home-recipe-container {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     position: relative;
     margin-bottom: $sp-2;
     flex-direction: row-reverse;
@@ -373,15 +378,10 @@
     }
    .home-recipe-link-reverse &{
         flex-direction: row;
-    
+        align-items: center;
         .home-recipe-img {
           margin-top: 127px
-        }
-    
-        .home-recipe-txt {
-          left: 65%;
-        }
-    
+        }    
         &::after {
           left: 40%;
           width: 1067px;
@@ -430,16 +430,11 @@
       width: 50%;
       padding: 0 $sp-2;
       color: $primary;
-  
+      margin: 0 $sp-3; 
       @media (max-width: $md) {
         width: 100%;
       }
-  
-      position: absolute;
-      top: 50%;
-      transform: translateY(-30%);
-      left: 0; 
-  
+      // position: absolute;
       h3 {
         font-size: $h2;
         font-weight: $fw-bold;
@@ -453,7 +448,9 @@
       span {
         font-size: $fs-3;
       }
-  
+      hr{
+        border: 1px solid $primary;
+      }
       ul {
         display: flex;
         justify-content: space-between;
@@ -461,16 +458,7 @@
         margin-top: 40px;
         margin-bottom: 15px; 
         max-width: 600px; 
-        &:before {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 20px;
-            width: 520px;
-            height: 1px;
-            background-color: $primary; 
-            margin-top: -290px; 
-          }
+        
         li {
             width: 48%; 
             margin-bottom: 10px; 
@@ -485,9 +473,10 @@
         text-align: right;
         padding-right: 15px;
         margin-top: $sp-2;
-  
         a {
           display: inline-block;
+          color: $primary;
+          border: 1px solid $primary;
         }
   
         @media (max-width: $md) {
@@ -566,6 +555,18 @@
       text-align: center;
       width: 260px;
       margin: $sp-2;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+        &:hover {
+          transform: scale(1.1); 
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: 10px; 
+        }
         h4{
           font-size: $h2;
           margin: $sp-2 0 $sp-3;
@@ -684,12 +685,28 @@
   }
 }
 
-
+// rotbot
 .rotbot-icon {
   position: fixed;
   bottom: 20px;
   right: 20px;
   cursor: pointer;
+  z-index: 100;
+  @media (max-width:1440px) {
+    right: 0;
+  }
+  @media (max-width:$md) {
+    right: -50px;
+  }
+  img{
+    width: 100%;
+    @media (max-width:1440px) {
+      width: 70%;
+    }
+    @media (max-width:$md) {
+      width: 60%;
+    }
+  }
 }
 
 #chat-container {
@@ -701,15 +718,42 @@
   padding: 10px;
   position:fixed;
   filter: drop-shadow(10px 10px 3px rgba(0, 0, 0, 0.15));
+  z-index: 100;
+  @media (max-width:1440px) {
+    margin: -10px auto;
+    width: 420px;
+    height: 530px;
+  }
+  @media (max-width:$md) {
+    margin: -10px auto;
+    width: 317px;
+    height: 464px;
+    margin-right: -50px;
+  }
+  @media (max-width:$sm) {
+    margin: -10px auto;
+    width: 290px;
+    height: 480px;
+    margin-right: -80px;
+    margin-bottom: 50px;
+  }
   .chat-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
+    @media (max-width:$md) {
+      height: 50px;
+    }
     .avatar {
       width: 69px;
       height: 69px;
       border-radius: 50%;
+      @media (max-width:$md) {
+          width: 50px;
+          height: 50px;
+          margin-bottom: 20px;
+      }
     }
     
     .bot-name {
@@ -717,6 +761,11 @@
       margin-left: 10px;
       font-size: 24px;
       margin-top: 10px;
+      @media (max-width:$md) {
+        font-size: 20px;
+        margin-left: 0;
+        margin-top: 0;
+      }
     }
   
     .close-button {
@@ -725,6 +774,9 @@
       cursor: pointer;
       font-size: 20px;
       margin-left: 135px;
+      @media (max-width:$md) {
+        margin-left: 0;
+      }
     }
   }
 }
@@ -740,6 +792,9 @@
   overflow-y: scroll;
   border-radius: 10px;
   padding-top: 10px;
+  @media (max-width:1440px) {
+    height: 345px;
+  }
 }
 
 #chat-messages::-webkit-scrollbar {
@@ -775,11 +830,24 @@
   width: 200px;
 }
 
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
 input{
   border-radius: 50px;
   margin: 10px auto;
   padding: 20px;
   width: 100%;
+  @media (max-width:$md) {
+    margin: auto;
+    padding: 10px;
+    width: 100%;
+  }
+  @media (max-width:$sm) {
+    margin: 20px auto;
+  }
 }
 .message-time {
   font-size: 12px;
@@ -787,4 +855,11 @@ input{
   position: absolute;
   bottom: -20px; 
   left: 0;
+}
+
+.send-button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  margin-left: -45px; 
 }

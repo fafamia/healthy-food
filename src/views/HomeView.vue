@@ -38,15 +38,15 @@
                 <div class="bigpic_item">
                     <div class="pic_wall">
                         <div class="bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity01.png"
+                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity01.png`)"
                                 alt="">
                         </div>
                         <div class="second_picture bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity02.png"
+                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity02.png`)"
                                 alt="">
                         </div>
                         <div class="bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity03.png"
+                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity03.png`)"
                                 alt="">
                         </div>
                     </div>
@@ -61,6 +61,12 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    
     <!-- 第四區塊 comment -->
     <div ref="homeComment" class="comment">
         <h3>留言評論</h3>
@@ -71,7 +77,7 @@
             v-for="commentNum in comment.length" 
             :key="commentNum">
                 <div class="person">
-                    <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
+                    <img :src="getImageUrl(`comment/avatar${commentNum}.png`)" alt="avatar">
                     <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
                 </div>
                 <div class="comment_star">
@@ -114,6 +120,7 @@
         <div class="home-recipe-txt">
           <h3>{{ recipe.title }}</h3>
           <span>{{ recipe.ingredientsTitle }}</span>
+          <hr>
           <ul>
             <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li>
           </ul>
@@ -165,7 +172,7 @@
 <h2 class="home-title">健康小幫手</h2>
 <div class="home-assistant-container">
       <div class="assistant-row row">
-        <router-link v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
+        <router-link v-bind:data-type='(assistant.type)' v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
           <div class="assistant-icon-card">
             <img :src="assistant.iconSrc" :alt="`健康小幫手-${index + 1}`">
             <h4>{{ assistant.title }}</h4>
@@ -173,7 +180,7 @@
           </div>
         </router-link>
       </div>
-    </div>
+</div>
 <!------- 小幫手(手機版) ------->
 <div class="phone-assistant-container">
   <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
@@ -239,8 +246,14 @@
     </div>
 
  <!-- 使用者訊息輸入 -->
-  <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
+    <div class="input-container">
+        <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
+        <button @click="sendMessage" class="send-button">
+            <img src="/src/assets/images/home/Vector.svg" alt="Send">
+        </button>
+    </div>
 </div>
+
 
 <!----------- end ------------>
 
@@ -294,6 +307,41 @@ export default {
                 },
                 {
                     name: '郭小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '陳小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '梁小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '琳小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '周先生',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '康先生',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '董小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '彭先生',
                     message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
                     star: 5,
                 },
@@ -354,24 +402,28 @@ export default {
                 description: '衡量身體的肥胖程度',
                 iconSrc: '/src/assets/images/home/bmi-icon.png',
                 link: '/bmi',
+                type:1,
                 },
                 {
                 title: '基礎代謝率',
                 description: '了解你身體在靜息狀態下維持基本生命活動所需的能量消耗',
                 iconSrc: '/src/assets/images/home/cpf-icon.png',
                 link: '/bmr',
+                type:2,
                 },
                 {
                 title: '卡路里計算',
                 description: '了解你每天攝取的卡路里量有助於維持健康的飲食習慣',
                 iconSrc: '/src/assets/images/home/cal-icon.png',
                 link: '/cal',
+                type:3,
                 },
                 {
                 title: 'GI飲食計算',
                 description: '低GI飲食有助於穩定血糖水平',
                 iconSrc: '/src/assets/images/home/gi-icon.png',
                 link: '/gi',
+                type:4,
                 },
             ],
             isChatOpen: false,
@@ -384,7 +436,7 @@ export default {
                 '你是誰': '我是健康小精靈，很高興為您服務。',
                 '健康': '關於健康的問題，問我就對了。',
                 '再見': '再見！如果有任何問題，歡迎隨時回來。',
-                '付款': '付款相關問題的話可以參考以下',
+                '付款': { text: '付款相關問題的話可以參考以下', link: '/faq' },
                 '便當': '便當相關問題的話可以參考以下',
             },
             divWidth: 0,
@@ -392,8 +444,8 @@ export default {
             divWidth: 0, //banner寬度
             elements: [], //banner的照片
             timer: null, //自動輪播的計時器變數
-            isPaused: true, 
-            position: 0,
+            isPaused: true, // 輪播開關
+            position: 0, //輪播位移 初值
         };
     },
     methods: {
@@ -414,8 +466,10 @@ export default {
             }, 5000); // 每5000毫秒更換一次圖片
         },
         setActiveImage(buttonNum) {
+            clearInterval(this.timer);
             this.imgnum = buttonNum; // 將 imgnum 設置為 buttonNum 的值  設置要顯示的圖片。
             this.applyTransition(); //呼叫
+            this.startSlideshow();
         },
         applyTransition() {
             const bannerContent = this.$refs.bannerContent;
@@ -428,9 +482,9 @@ export default {
             const commentWall = this.$refs.commentWall; // 獲取照片牆
             const animateMarquee = () => {
                 if (this.isPaused) {
-                    this.position -= 1;
+                    this.position -= 0.5;
                     commentWall.style.transform = `translateX(${this.position}px)`;
-                    if (this.position * -1 - 550 >= commentWall.offsetWidth) {
+                    if (this.position * -1 - 2500 >= commentWall.offsetWidth) {
                         this.position = 0;
                     }
                 }
@@ -445,8 +499,6 @@ export default {
         handlHomeCommentMouseleave() {
             this.isPaused = true; //mouseenter 把開關 關起來
         },
-
-
 
         sendMessage() {
                 const userMessage = this.userInput.trim();
