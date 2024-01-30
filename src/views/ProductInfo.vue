@@ -70,7 +70,7 @@
       <div v-for="item in getRandomSubset(ProductStore.products, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
         <p class="product_tag">#NEW</p>
           <div class="product_card_img">
-            <img :src=getImageUrl(ProductDisplay.image) alt="item.name">
+            <img :src=getImageUrl(item.image) alt="item.name">
           </div>
           <p class="vegetable_title">{{ item.name }}</p>
           <p class="vegetable_price">{{ item.price }}</p>

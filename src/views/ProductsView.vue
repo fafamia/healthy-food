@@ -276,7 +276,7 @@ export default {
   },
   created() {
     // this.axiosGetData();
-    //this.productDisplay = this.originData;
+    this.productDisplay = this.originData;
 
   },
   computed: {

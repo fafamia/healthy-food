@@ -96,6 +96,7 @@ export const useCartStore =  defineStore("CartStore", {
                 product.checked = this.selectAll;                
                 console.log(this.selectAll);
             });
+            console.log(this.cartList)
         },
         deleteSelected(){},
         updateUserInput(value) {
