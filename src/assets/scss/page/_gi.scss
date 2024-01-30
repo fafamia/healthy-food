@@ -2,7 +2,7 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none;
 }
-.bmr_banner{
+.gi_banner{
     width: 100%;
     position: relative;
 	margin: auto;
@@ -11,7 +11,7 @@ input[type=number]::-webkit-outer-spin-button {
         width: 100%;
         object-fit:cover;
     }
-    .bmr_banner_textbackground{
+    .gi_banner_textbackground{
         display: flex;
         align-items: center;
         justify-content: center;
@@ -35,16 +35,19 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
 }
-.bmr_countainer{
-    padding: 12px;
+.gi_countainer{
     display: flex;
     flex-direction: column;
     max-width: 1200px;
+    margin: auto;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
     border: 3px $border-bg solid;
     border-radius: 40px;
     background-color: $white;
     margin: 10px;
-    align-items: center;
     @media(width>=1200px){
         margin: auto;
         margin-bottom: 40px;
@@ -56,109 +59,128 @@ input[type=number]::-webkit-outer-spin-button {
             font-size: $h2;
         }
     }
-    .bmr_countainer_text{
-        margin-top: $sp-2;
+    p{
+        max-width: 900px;
         @media(width>=576px){
             font-size: $fs-2;
-            width: 60%;
-        }
-    }
-    .bmr_item{
-        display: flex;
-        flex-direction: column;
-        margin-top: $sp-2;
-        @media(width>=576px){
-            margin-top: -10px;
-            flex-direction: row;
-            gap: 100px;
-            align-items: center;
-            padding: 40px;
         }
     }
     button{
-        margin-bottom: 30px;
+        margin-bottom: 15px;
         @media(width>=576px){
-            margin-top: 30px;
+            margin-top: 15px;
         }
     }
 }
-.bmr_input_sex{
-    margin-bottom:15px;
-    input{
-        margin-top: 10px;
+.gi_inputs{
+    display: flex;
+    justify-content: space-between;
+    max-width: 650px;
+    width: 100%;
+}
+.gi_food{
+    width: 45%;
+    p{
+        @media(width>=576px){
+            font-size: $fs-2;
+        }
+    }
+    select{
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid $black;
+        height: 40px;
+        margin: 10px 0;
+        border: 1px solid black;
         padding: 10px;
-        width: 30px;
     }
 }
-.bmr_input_age{
-    margin-bottom:15px;
+.gi_g{
+    width: 45%;
+    p{
+        @media(width>=576px){
+            font-size: $fs-2;
+        }
+    }
     input{
         width: 100%;
-        height: 40px;
         border-radius: 10px;
-        margin-top: 5px;
+        border: 1px solid $black;
+        height: 40px;
+        margin: 10px 0;
         border: 1px solid black;
         padding: 10px;
     }
 }
 
-.bmr_input_height{
-    margin-bottom:15px;
-    input {
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
-        margin-top: 5px;
-        border: 1px solid black;
-        padding: 10px;
-        @media(width>=1024px){
-            width: 285px;
-        }
+
+.gi_word_card{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+    @media(width>=1024px){
+        flex-direction: row;
     }
 }
-.bmr_input_weight{
-    margin-bottom:15px;
-    input{
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
-        margin-top: 5px;
-        border: 1px solid black;
-        padding: 10px;
-    }
-}
-.bmr_input_sports{
-    margin-bottom:15px;
-    select{
-        width: 100%;
-        height: 40px;
-        border-radius: 10px;
-        margin-top: 5px;
-        border: 1px solid black;
-        padding: 10px;
-    }
-}
-.bmr_standard{
-    margin-top: 15px;
-    margin-bottom: 30px;
+
+
+.gi_word_card ul{
+    width: 300px;
     background-color: #FFF3E0;
     border-radius: 20px;
     box-shadow: 0 0 5px;
     padding: 15px 8px 15px 8px;
-    @media(width>=576px){
-        width: 350px;
+    padding: 12px;
+    @media(width>=1024px){
+        height: 220px;
+    }
+    li{
+        margin: 12px;
+    }
+}
+.gi_danger{
+    width: 300px;
+    background-color: #FFF3E0;
+    border-radius: 20px;
+    box-shadow: 0 0 5px;
+    padding: 15px 8px 15px 8px;
+    padding: 12px;
+    @media(width>=1024px){
+        height: 220px;
     }
     h4{
         text-align: center;
         font-size: $fs-3;
-        margin-bottom: 16px;
-        @media(width>=576px){
-            font-size: $fs-1;
-        }
+        margin-bottom: 8px;
+    }
+    p{
+        font-size: 16px;
+    }
+}
+.gi_optimal{
+    width: 300px;
+    background-color: #FFF3E0;
+    border-radius: 20px;
+    box-shadow: 0 0 5px;
+    padding: 15px 8px 15px 8px;
+    padding: 12px;
+    @media(width>=1024px){
+        height: 220px;
+    }
+    h4{
+        text-align: center;
+        font-size: $fs-3;
+        margin-bottom: 8px;
+    }
+    p{
+        font-size: 16px;
     }
 }
 
-.bmr_healthy_recommend{
+
+
+.gi_healthy_recommend{
     display: flex;
     flex-direction: column;
     max-width: 1200px;
@@ -203,9 +225,6 @@ input[type=number]::-webkit-outer-spin-button {
         }
     }
 }
-
-
-
 .recommend_wall{
     margin-top: 30px;
     margin-bottom: 40px;
@@ -214,7 +233,7 @@ input[type=number]::-webkit-outer-spin-button {
         margin-top: 20px;
     }
 }
-.bmr_recommend_card{
+.gi_recommend_card{
     position: relative;
     border: 1px $black solid;
     border-radius: 20px;
@@ -232,14 +251,14 @@ input[type=number]::-webkit-outer-spin-button {
         height: 30px;
         line-height: 28px;
     }
-    .bmr_card_img{
+    .gi_card_img{
         margin-top: 40px;
     }
-    .bmr_card_title{
+    .gi_card_title{
         margin-top: 5px;
         font-size: 24px;
     }
-    .bmr_card_price{
+    .gi_card_price{
         margin-top: 5px;
         font-size: 24px;
     }
@@ -252,10 +271,10 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
-.bmr_healthy_recommend{
+.gi_healthy_recommend{
     display: none;
 }
-.bmr_countainer{
+.gi_countainer{
     display: flex;
 }
 

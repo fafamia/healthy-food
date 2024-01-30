@@ -38,15 +38,15 @@
                 <div class="bigpic_item">
                     <div class="pic_wall">
                         <div class="bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity01.png"
+                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity01.png`)"
                                 alt="">
                         </div>
                         <div class="second_picture bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity02.png"
+                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity02.png`)"
                                 alt="">
                         </div>
                         <div class="bag_commodity_pic">
-                            <img class="commodity_pic" src="../assets/images/home/featured_commodity/commodity03.png"
+                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity03.png`)"
                                 alt="">
                         </div>
                     </div>
@@ -61,6 +61,12 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+    
     <!-- 第四區塊 comment -->
     <div ref="homeComment" class="comment">
         <h3>留言評論</h3>
@@ -71,7 +77,7 @@
             v-for="commentNum in comment.length" 
             :key="commentNum">
                 <div class="person">
-                    <img :src="getImageUrl(`comment/avatar0${commentNum}.png`)" alt="avatar">
+                    <img :src="getImageUrl(`comment/avatar${commentNum}.png`)" alt="avatar">
                     <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
                 </div>
                 <div class="comment_star">
@@ -297,6 +303,41 @@ export default {
                     message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
                     star: 5,
                 },
+                {
+                    name: '陳小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '梁小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '琳小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '周先生',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '康先生',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '董小姐',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
+                {
+                    name: '彭先生',
+                    message: '作為一個注重健身的人，我對於飲食特別講究。這款健康餐盒完全滿足了我的需求，高蛋白、低脂肪，而且味道還好吃！是我每日訓練後的最佳補充。',
+                    star: 5,
+                },
             ],
             articles: [
                 {
@@ -392,8 +433,8 @@ export default {
             divWidth: 0, //banner寬度
             elements: [], //banner的照片
             timer: null, //自動輪播的計時器變數
-            isPaused: true, 
-            position: 0,
+            isPaused: true, // 輪播開關
+            position: 0, //輪播位移 初值
         };
     },
     methods: {
@@ -414,8 +455,10 @@ export default {
             }, 5000); // 每5000毫秒更換一次圖片
         },
         setActiveImage(buttonNum) {
+            clearInterval(this.timer);
             this.imgnum = buttonNum; // 將 imgnum 設置為 buttonNum 的值  設置要顯示的圖片。
             this.applyTransition(); //呼叫
+            this.startSlideshow();
         },
         applyTransition() {
             const bannerContent = this.$refs.bannerContent;
@@ -428,9 +471,9 @@ export default {
             const commentWall = this.$refs.commentWall; // 獲取照片牆
             const animateMarquee = () => {
                 if (this.isPaused) {
-                    this.position -= 1;
+                    this.position -= 0.5;
                     commentWall.style.transform = `translateX(${this.position}px)`;
-                    if (this.position * -1 - 550 >= commentWall.offsetWidth) {
+                    if (this.position * -1 - 2500 >= commentWall.offsetWidth) {
                         this.position = 0;
                     }
                 }
@@ -445,8 +488,6 @@ export default {
         handlHomeCommentMouseleave() {
             this.isPaused = true; //mouseenter 把開關 關起來
         },
-
-
 
         sendMessage() {
                 const userMessage = this.userInput.trim();
