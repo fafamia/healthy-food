@@ -58,7 +58,7 @@ export default {
             { text: '蘋果', isCorrect: false },
             { text: '豆腐', isCorrect: true },
           ],
-          img: '/src/assets/images/game/ans_1.jpg',
+          img: new URL('/src/assets/images/game/ans_1.jpg', import.meta.url).href,
           ans: '豆腐是優質植物蛋白來源，含豐富礦物質如鈣、鐵，低飽和脂肪，有益心血管健康。富含維生素B群和植物雌激素，是低熱量、營養均衡的食品，對腸道和骨骼健康有益。'
         },
         {
@@ -69,7 +69,7 @@ export default {
             { text: '人體質量指數', isCorrect: true },
             { text: '營養狀態指數', isCorrect: false },
           ],
-          img: '/src/assets/images/game/ans_2.jpg',
+          img: new URL('/src/assets/images/game/ans_2.jpg', import.meta.url).href,
           ans: 'BMI是人體質量指數的縮寫，用於評估一個人的體重是否在健康範圍內。'
         },
         {
@@ -80,7 +80,7 @@ export default {
             { text: '維生素C', isCorrect: true },
             { text: '維生素D', isCorrect: false },
           ],
-          img: '/src/assets/images/game/ans_3.jpg',
+          img: new URL('/src/assets/images/game/ans_3.jpg', import.meta.url).href,
           ans: '維生素C有助於增強免疫系統，有助於抵抗感染。'
         },
         {
@@ -91,7 +91,7 @@ export default {
             { text: '豬肉', isCorrect: false },
             { text: '雞肉', isCorrect: false },
           ],
-          img: '/src/assets/images/game/ans_4.jpg',
+          img: new URL('/src/assets/images/game/ans_4.jpg', import.meta.url).href,
           ans: '魚類是富含omega-3脂肪酸的食物，對心臟健康有益。'
         },
         {
@@ -102,7 +102,7 @@ export default {
             { text: '牛奶', isCorrect: false },
             { text: '西瓜', isCorrect: false },
           ],
-          img: '/src/assets/images/game/ans_5.jpg',
+          img: new URL('/src/assets/images/game/ans_5.jpg', import.meta.url).href,
           ans: '維生素D的主要來源之一是陽光，皮膚暴露於陽光下可以合成維生素D。'
         },
         {
@@ -113,7 +113,7 @@ export default {
             { text: '燕麥', isCorrect: true },
             { text: '薯條', isCorrect: false },
           ],
-          img: '/src/assets/images/game/ans_6.jpg',
+          img: new URL('/src/assets/images/game/ans_6.jpg', import.meta.url).href,
           ans: '燕麥含有大量的纖維，有助於促進消化健康。'
         },
         {
@@ -124,7 +124,7 @@ export default {
             { text: '地中海飲食', isCorrect: true },
             { text: '快餐飲食', isCorrect: false },
           ],
-          img: '/src/assets/images/game/ans_7.jpg',
+          img: new URL('/src/assets/images/game/ans_7.jpg', import.meta.url).href,
           ans: '地中海飲食模式強調攝取大量蔬菜、水果和全穀物，有益健康。'
         },
         {
@@ -135,7 +135,7 @@ export default {
             { text: '油炸食品', isCorrect: false },
             { text: '水果和蔬菜', isCorrect: true },
           ],
-          img: '/src/assets/images/game/ans_8.jpg',
+          img: new URL('/src/assets/images/game/ans_8.jpg', import.meta.url).href,
           ans: '水果和蔬菜是富含抗氧化劑的良好來源，有助於對抗自由基損害。'
         },
         {
@@ -146,7 +146,7 @@ export default {
             { text: '纖維', isCorrect: false },
             { text: '脂肪', isCorrect: false },
           ],
-          img: '/src/assets/images/game/ans_9.jpg',
+          img: new URL('/src/assets/images/game/ans_9.jpg', import.meta.url).href,
           ans: '抗氧化劑在水果和蔬菜中豐富，有助於預防氧化損傷，保護細胞免受自由基損害。'
         },
         {
@@ -157,7 +157,7 @@ export default {
             { text: '紅肉', isCorrect: false },
             { text: '雞胸肉', isCorrect: true },
           ],
-          img: '/src/assets/images/game/ans_10.jpg',
+          img: new URL('/src/assets/images/game/ans_10.jpg', import.meta.url).href,
           ans: '雞胸肉是優質蛋白質的良好來源，有助於肌肉修復和生長。'
         },
       ],

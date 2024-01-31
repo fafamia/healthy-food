@@ -7,7 +7,9 @@
                 </RouterLink>
                 <nav>
                     <ul class="header_phone_nav">
-                        <li @click="toggleModel"><i class="fa-solid fa-user"></i></li>
+                        <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
+                        <li v-else class="fa-solid fa-icon-you-want"><router-link to="/member"><img
+                                    src="/src/assets/images/home/header_img.png"></router-link></li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
                     </ul>
