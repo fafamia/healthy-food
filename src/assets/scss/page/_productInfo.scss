@@ -101,10 +101,12 @@ hr {
 
 .more_product {
     flex-wrap: nowrap;
+    justify-content: center;
     margin-bottom: $sp-3;
     .more_itemsCard {
         background-color: #fff;
         height: 440px;
+        width: 300px;
         text-align: center;
         border-radius: $border-r-2;
         position: relative;
@@ -145,15 +147,5 @@ hr {
 @media screen and (max-width: 800px) {
     .more_product {
         flex-wrap: wrap;
-    }
-}
-
-@media screen and (min-width: 430px) and (max-width: 800.5px) {
-    .more_health {
-        .more_product {
-            .more_itemsCard {
-                height: 700px;
-            }
-        }
     }
 }
