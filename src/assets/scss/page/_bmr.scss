@@ -214,7 +214,11 @@ input[type=number]::-webkit-outer-spin-button {
         margin-top: 20px;
     }
 }
+.bmr_card_img img{
+    width: 100%;
+}
 .bmr_recommend_card{
+    width: 280px;
     position: relative;
     border: 1px $black solid;
     border-radius: 20px;
