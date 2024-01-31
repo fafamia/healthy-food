@@ -229,98 +229,10 @@
         <div class="message-content">
             <span class="message-text" v-html="message.text"></span>
         </div>
+        <span class="message-time">{{ message.time }}</span>
     </div>
+</div>
 
-    <!----------- 小幫手 ------------>
-    <h2 class="home-title">健康小幫手</h2>
-    <div class="home-assistant-container">
-        <div class="assistant-row row">
-            <router-link v-bind:data-type="(assistant.type)" v-for="(assistant, index) in assistants" :key="index"
-                :to="assistant.link">
-                <div class="assistant-icon-card">
-                    <img :src="getImageUrl(`assistant-icon/assistant${assistant.type}.png`)" :alt="`健康小幫手-${index + 1}`">
-                    <h4>{{ assistant.title }}</h4>
-                    <p>{{ assistant.description }}</p>
-                </div>
-            </router-link>
-        </div>
-    </div>
-    <!------- 小幫手(手機版) ------->
-    <div class="phone-assistant-container">
-        <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
-        <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>
-        <router-link to="" class="assistant-item">
-            <img src="/src/assets/images/home/assistant.png" alt="">
-            <div class="switch">
-                <div class="prev"><img src="../assets/images/home/prev.svg" alt=""></div>
-                <h4>卡路里計算</h4>
-                <div class="next"><img src="../assets/images/home/next.svg" alt=""></div>
-            </div>
-            <div class="text">
-                <span>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</span>
-            </div>
-        </router-link>
-        <div class="btn"><router-link to="" class="btn-primary">前往計算</router-link></div>
-    </div>
-
-    <!----------- 小遊戲 ------------>
-    <h2 class="home-title">玩遊戲，享優惠！</h2>
-    <div class="index_game container">
-        <h3>準備好了嗎？接受我們的健康問答挑戰，贏得您的折價券！</h3>
-        <div class="game_start row">
-            <div class="game_start_img col-12 col-xl-6">
-                <img src="../assets/images/game/game1.png" alt="健康知識大挑戰">
-            </div>
-            <div class="game_start_text col-12 col-xl-6">
-                <h2 class="game_start_title">健康知識大挑戰</h2>
-                <p>挑戰您的飲食知識，贏取專屬的折價券！只要您回答正確，即可獲得專屬折扣。讓您在享受美食的同時，豐富自己的營養知識。</p>
-                <router-link to="/game" class="btn-l-icon-btn btn-r-icon-btn"><i class="fa-solid fa-gamepad"></i>遊戲連結<i
-                        class="fa-solid fa-arrow-up-right-from-square"></i></router-link>
-            </div>
-        </div>
-    </div>
-
-    <!----------- 機器人 ------------>
-
-    <!-- 健康小精靈ICON -->
-    <div class="rotbot-icon" @click="toggleChat">
-        <img src="../assets/images/home/robot.png" alt="Floating Icon">
-    </div>
-
-    <!-- 健康小精靈訊息框 -->
-    <div v-show="isChatOpen" id="chat-container" :style="{ right: chatContainerRight, bottom: chatContainerBottom }">
-        <div class="chat-header">
-            <img src="../assets/images/home/robot-img.png" alt="機器人頭像" class="avatar">
-            <span class="bot-name">健康小精靈</span>
-            <button @click="closeChat" class="close-button"><img src="../assets/images/home/XX.png" alt=""></button>
-        </div>
-        <hr class="line-divider">
-
-        <div id="chat-messages">
-            <div v-for="(message, index) in messages" :key="index" class="message"
-                :class="{ 'user-message': message.type === 'user', 'bot-message': message.type === 'bot' }">
-                <div class="message-content">
-                    <span class="message-text" v-html="message.text"></span>
-                </div>
-                <span class="message-time">{{ message.time }}</span>
-            </div>
-        </div>
-
-        <!-- 關鍵字按鈕 -->
-        <div class="keyword-filter-buttons">
-            <button @click="filterByKeyword('如何付款?')">如何付款?</button>
-            <button @click="filterByKeyword('是否提供有機食材？')">是否提供有機食材？</button>
-            <button @click="filterByKeyword('食材是提供來自當地農產的選擇？')">食材是提供來自當地農產的選擇？</button>
-            <button @click="filterByKeyword('如何查詢訂單的運送狀態？')">如何查詢訂單的運送狀態？</button>
-        </div>
-
-        <!-- 使用者訊息輸入 -->
-        <div class="input-container">
-            <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
-            <button @click="sendMessage" class="send-button">
-                <img src="../assets/images/home/Vector.svg" alt="Send">
-            </button>
-        </div>
     <!-- 關鍵字按鈕 -->
     <div class="keyword-filter-buttons">
         <button @click="filterByKeyword('如何付款?')">如何付款?</button>
@@ -331,11 +243,12 @@
 
     <!-- 使用者訊息輸入 -->
     <div class="input-container">
-        <input  class="user-input" type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
+        <input class="user-input" type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
         <button @click="sendMessage" class="send-button">
             <img src="../assets/images/home/Vector.svg" alt="Send">
         </button>
     </div>
+</div>
 
 
     <!----------- end ------------>
