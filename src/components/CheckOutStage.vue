@@ -32,21 +32,11 @@
     </div>
 </template>
 
+
 <script>
-    export default{
-        props:{
-            currentStep:{
-                type:String,
-                required:true
-            }
-        },
-        stepColor:{
-            type:String,
-            default: '#F73F14'
-        }
-    }
+export default {}
 </script>
 
 <style lang="scss">
-    @import '@/assets/scss/components/_checkOutStage.scss' ;
+@import '@/assets/scss/components/_checkOutStage.scss';
 </style>

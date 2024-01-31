@@ -4,7 +4,7 @@ import { ref } from 'vue';
 export const useCartStore =  defineStore("CartStore", {
     state: () => {
         return{
-            cartList: JSON.parse(localStorage.getItem("items")) || [],
+            cartList: JSON.parse(localStorage.getItem("items")) || [] ,
             userInput:'',
             selectAll:false,
             couponList:[
@@ -69,6 +69,7 @@ export const useCartStore =  defineStore("CartStore", {
                 this.cartList.push(product)
             };
             this.saveLocalstorage();
+            console.log(this.cartList);
         },
         newQuantityUpdate(id, action) {
             //判斷商品是否已在購物車
@@ -94,16 +95,16 @@ export const useCartStore =  defineStore("CartStore", {
         toggleAll(){
             this.cartList.forEach(product => {
                 product.checked = this.selectAll;                
-                console.log(this.selectAll);
             });
-            console.log(this.cartList)
         },
-        deleteSelected(){},
-        updateUserInput(value) {
-            this.userInput = value;
+        deleteSelected(){
+            // this.cartList = this.cartList.filter(product => !product.checked)
+            for (let i = this.cartList.length - 1; i >= 0; i--) {
+                if (this.cartList[i].checked) {
+                    this.cartList.splice(i, 1);
+                }
+            }
+            this.saveLocalstorage();
         },
-        // updateOrderName(value) {
-        //     this.orderName = value;
-        // },
     }
 })

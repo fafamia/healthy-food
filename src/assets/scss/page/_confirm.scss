@@ -1,12 +1,17 @@
 .confirm{
-    position: relative;
-    &_confirmWrap{
-        margin-top: $sp-2;
-    }
     width: 100%;
+    position: relative;
     &_info{
-        text-align: left;
+        display: inline-block;
+        &_infoTable{
+            width: 100%;
+            margin:$sp-1 auto;
+            text-align: left;
+        }
         &_infoTr>*{
+            padding:0 0 $sp-1 $sp-2;
+        }
+        @media screen and (min-width:$sm){
             padding:0 0 $sp-1 $sp-2;
         }
     }
@@ -29,7 +34,7 @@
             background-color: rgba(0, 0, 0, 0.3);
             top: 0;
             left: 0;
-            z-index: 1;
+            z-index: 998;
         }
     }
 }

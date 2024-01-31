@@ -1,15 +1,22 @@
 .checkOut{
+    &_{
+        table-layout: fixed;
+        height: 30px;
+        overflow: hidden;
+    }
     &_list{
-        display: block;
+        display: inline-block;
         height: 300px;
         overflow-y: scroll;
         &_title{
             display: grid;
-            grid-template-columns:5% 15% 30% 20% 10% 10%;
+            // display: inline-block;
+            grid-template-columns:8% 10% 30% 20% 10% 10%;
             gap:$sp-1 ;
             justify-items: center;
-            margin-bottom:$sp-2 ;
             border-bottom: 2px solid $dark-line;
+            padding-bottom:$sp-1 ;
+            margin-bottom:$sp-1 ;
         }
         &_content{
             display: grid;
@@ -46,9 +53,10 @@
         background-color: #fff;
         padding: $sp-1;
         text-align: center;
-        margin-bottom: $sp-2;
+        margin: $sp-2 0;
         &_select{
-            width: 150px;
+            width: 100px;
+            padding: $sp-1;
             margin-right: $sp-2;
             border-radius: $border-r-1;
         }
@@ -71,11 +79,6 @@
             text-align: right;
         }
     }
-}
-.fixTop{
-    table-layout: fixed;
-    height: 30px;
-    overflow: hidden;
 }
 .sideWrap{
     padding: $sp-2;

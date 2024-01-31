@@ -104,7 +104,7 @@ export default {
     //使用ProductStore中根據route綁定id所送出的data
     const ProductId = computed(()=>parseInt(route.params.id));
     const ProductDisplay = computed(()=>ProductStore.getProductById(ProductId.value));
-
+    //抓到圖片路徑
     const getImageUrl = ProductStore.getImageUrl;
     
     //頁面商品數量加減
@@ -126,8 +126,8 @@ export default {
       quantity: pageQuantity.value,
       image:ProductDisplay.value.image,
       price:ProductDisplay.value.price,
+      checked:ProductDisplay.value.checked,
     });
-    
     //會生成一個介於 -0.5 到 0.5 之間的隨機數,大於 0.5，則返回正數，a 和 b 位置交換
     const getRandomSubset = (array, size) => {
       const shuffledArray = array.slice().sort(() => Math.random() - 0.5);

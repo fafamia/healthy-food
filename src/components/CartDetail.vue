@@ -7,7 +7,7 @@
                     :key="product.id" 
                     class="CartDetail_product_productTr">
                     <td class="CartDetail_product_image ">
-                        <img :src=product.image>
+                        <img :src=getImageUrl(product.image)>
                     </td>
                     <td class="CartDetail_product_name">{{ product.name }}</td>
                     <td class="CartDetail_product_price">{{ product.price }}</td>
@@ -43,6 +43,7 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
 import { useCartStore } from "@/stores/Cart";
+import { useProductStore } from '@/stores/Product';
 
 export default {
     setup() {
@@ -50,11 +51,11 @@ export default {
         const CartStore = useCartStore();
         //使用存在CartStore中的購物車array
         const cartList = CartStore.cartList
-        //使用存在CartStore中的購物車array,用id和動作指定個別的商品數量加或減
-
+        const ProductStore = useProductStore();
         return {
             CartStore,
             cartList,
+            getImageUrl:ProductStore.getImageUrl,
         }
     },
     components: {

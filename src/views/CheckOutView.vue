@@ -1,21 +1,21 @@
 <template>
-    <CheckOutStage />
+    <CheckOutStage/>
     <div class="container checkOut">
         <div class="row checkOut_checkOutWrap">
-            <table class="col-12 col-md-8 checkOut_list fixTop">
+            <table class="col-12 col-md-8 checkOut_fixTop">
                 <tr class="checkOut_list_title">
                     <th><input type="checkbox" v-model="CartStore.selectAll" @change="CartStore.toggleAll"></th>
                     <th>商品</th>
                     <th></th>
                     <th>數量</th>
                     <th>價格</th>
-                    <th><i class="fa-solid fa-xmark"></i></th>
+                    <th @click="CartStore.deleteSelected"><i class="fa-solid fa-xmark"></i></th>
                 </tr>
             </table>
             <table class="col-12 col-md-8 checkOut_list">
                 <tr v-for="product in cartList" :key="product.id" class="checkOut_list_content">
                     <td class="checkOut_list_content_check"><input type="checkbox" v-model="product.checked"></td>
-                    <td class="checkOut_list_content_image"><img :src="product.image"></td>
+                    <td class="checkOut_list_content_image"><img :src=getImageUrl(product.image)></td>
                     <td class="checkOut_list_content_name">{{ product.name }}</td>
                     <td class="checkOut_list_content_quantity">
                         <button class="quantityButton" @click="newQuantityUpdate(product.id, 'decrement')"><i
@@ -32,7 +32,7 @@
             <div class="col-12 col-md-4 sideWrap">
                 <div class="checkOut_coupon">
                     <p class="checkOut_coupon_title">使用折價券</p>
-                    <input type="text" placeholder="請輸入折價劵編號" class="checkOut_coupon_select" v-model="CartStore.userInput">
+                    <input type="text" placeholder="折價券編號" class="checkOut_coupon_select" v-model="CartStore.userInput">
                     <button class="btn-secondary">使用</button>
                 </div>
                 <div class="checkOut_price">
@@ -61,18 +61,19 @@
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import { RouterLink, RouterView } from 'vue-router';
 import { useCartStore } from '@/stores/Cart';
+import { useProductStore } from '@/stores/Product';
 
 export default {
     setup() {
-        //使用CartStore
         const CartStore = useCartStore();
+        const ProductStore = useProductStore();
         return {
             CartStore,
             cartList: CartStore.cartList,
+            getImageUrl:ProductStore.getImageUrl,
             newQuantityUpdate: (id, action) => CartStore.newQuantityUpdate(id, action),
             deleteCart: (id) => CartStore.deleteCart(id),
         };
-
     },
     components: {
         RouterLink,

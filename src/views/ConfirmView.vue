@@ -2,31 +2,33 @@
     <CheckOutStage />
     <div class="confirm container">
         <div class="confirm_confirmWrap row">
-            <table class="col-12 col-md-6 confirm_info">
-                <tr class="confirm_info_infoTr">
-                    <th>訂購人資訊</th>
-                </tr>
-                <tr class="confirm_info_infoTr">
-                    <th>姓名:</th>
-                    <td>{{ CartStore.orderName }}</td>
-                </tr>
-                <tr class="confirm_info_infoTr">
-                    <th>手機:</th>
-                    <td>{{ CartStore.orderNumber }}</td>
-                </tr>
-                <tr class="confirm_info_infoTr">
-                    <th>地址:</th>
-                    <td>{{ CartStore.orderAddr }}</td>
-                </tr>
-                <tr class="confirm_info_infoTr">
-                    <th>運送方式:</th>
-                    <td>{{ CartStore.delivery }}</td>
-                </tr>
-                <tr class="confirm_info_infoTr">
-                    <th>付款方式:</th>
-                    <td>{{ CartStore.payment }}</td>
-                </tr>
-            </table>
+            <div class="col-12 col-md-6 confirm_info">
+                <table class="col-12 col-md-6 confirm_info_infoTable">
+                    <tr class="confirm_info_infoTr">
+                        <th>訂購人資訊</th>
+                    </tr>
+                    <tr class="confirm_info_infoTr">
+                        <th>姓名:</th>
+                        <td>{{ CartStore.orderName }}</td>
+                    </tr>
+                    <tr class="confirm_info_infoTr">
+                        <th>手機:</th>
+                        <td>{{ CartStore.orderNumber }}</td>
+                    </tr>
+                    <tr class="confirm_info_infoTr">
+                        <th>地址:</th>
+                        <td>{{ CartStore.orderAddr }}</td>
+                    </tr>
+                    <tr class="confirm_info_infoTr">
+                        <th>運送方式:</th>
+                        <td>{{ CartStore.delivery }}</td>
+                    </tr>
+                    <tr class="confirm_info_infoTr">
+                        <th>付款方式:</th>
+                        <td>{{ CartStore.payment }}</td>
+                    </tr>
+                </table>
+            </div>
             <div class="col-12 col-md-6 confirm_detail">
                 <CartDetail/>
             </div>
@@ -52,18 +54,12 @@ import { RouterLink, RouterView } from 'vue-router';
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import CartDetail from '@/components/CartDetail.vue';
 import { useCartStore } from '@/stores/Cart';
-//import { computed } from 'vue'
 
 export default{
     setup(){
         const CartStore = useCartStore();
-        // const orderName = computed({
-        //     get:()=>CartStore.orderName,
-        //     set:(value) => { CartStore.updateOrderName(value); }
-        // })
         return{
             CartStore,
-            //orderName,
         }
     },
     components: {
@@ -80,7 +76,6 @@ export default{
     methods:{
         toggleSuccess(){
             this.isSuccess = !this.isSuccess
-            console.log(this.isSuccess);
         },
         linkToHome(){
             this.$router.push('/');

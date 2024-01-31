@@ -7,7 +7,7 @@
                         :key="product.id"
                         class="drawer_product">
                         <div class="drawer_product_image ">
-                            <img :src=product.image>
+                            <img :src=getImageUrl(product.image)>
                         </div>
                         <p class="drawer_product_name">{{ product.name }}</p>
                         <div class="drawer_product_btn_count">
@@ -29,22 +29,30 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
 import { useCartStore } from "@/stores/Cart";
+import { useProductStore } from '@/stores/Product';
 
 export default {
     name:'ShoppingCart',
     setup() {
+        //使用ProductStore
+        const ProductStore = useProductStore();
+        //const getImageUrl = ProductStore.getImageUrl;
         //使用pinia中CartStore存放的資料
         const CartStore = useCartStore();
         //使用存在CartStore中的購物車array
-        const cartList = CartStore.cartList
+        const cartList = CartStore.cartList;
+
         //使用存在CartStore中的購物車array,用id和動作指定個別的商品數量加或減
-        const newQuantityUpdate = (id,action)=>{
-            CartStore.newQuantityUpdate(id,action);
-        }
+        // const newQuantityUpdate = (id,action)=>{
+        //     CartStore.newQuantityUpdate(id,action);
+        // }
         return {
             CartStore,
             cartList,
-            newQuantityUpdate,
+            ProductStore,
+            //getImageUrl,
+            getImageUrl:ProductStore.getImageUrl,
+            newQuantityUpdate: (id, action) => CartStore.newQuantityUpdate(id, action),
         }
     },
     data() {
@@ -66,7 +74,6 @@ export default {
                 const body = document.getElementsByTagName('body')[0];
                 body.classList.toggle("overflow-hidden");
             },
-
         }
     },
     components: {
