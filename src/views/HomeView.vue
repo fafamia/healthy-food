@@ -201,14 +201,14 @@
 
 <!----------- 小遊戲 ------------>
 <h2 class="home-title">玩遊戲，享優惠！</h2>
-<div class="index_game container">
+<div class="index-game container">
     <h3>準備好了嗎？接受我們的健康問答挑戰，贏得您的折價券！</h3>
-    <div class="game_start row">
-          <div class="game_start_img col-12 col-xl-6">
+    <div class="game-start row">
+          <div class="game-start-img col-12 col-xl-6">
             <img src="../assets/images/game/game1.png" alt="健康知識大挑戰">
           </div>
-          <div class="game_start_text col-12 col-xl-6">
-            <h2 class="game_start_title">健康知識大挑戰</h2>
+          <div class="game-start-text col-12 col-xl-6">
+            <h2 class="game-start-title">健康知識大挑戰</h2>
             <p>挑戰您的飲食知識，贏取專屬的折價券！只要您回答正確，即可獲得專屬折扣。讓您在享受美食的同時，豐富自己的營養知識。</p>
             <router-link to="/game" class="btn-l-icon-btn btn-r-icon-btn"><i class="fa-solid fa-gamepad"></i>遊戲連結<i
                 class="fa-solid fa-arrow-up-right-from-square"></i></router-link>
@@ -251,7 +251,7 @@
 
     <!-- 使用者訊息輸入 -->
     <div class="input-container">
-        <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
+        <input  class="user-input" type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
         <button @click="sendMessage" class="send-button">
             <img src="../assets/images/home/Vector.svg" alt="Send">
         </button>
