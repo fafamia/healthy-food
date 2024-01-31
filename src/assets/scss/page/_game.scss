@@ -309,12 +309,12 @@
         .modal_text {
             background-color: $bgc;
             border-radius: $border-r-1;
-            padding: $sp-2 $sp-4;
+            padding: $sp-2 $sp-1;
             text-align: center;
         }
 
         p {
-            font-size: $fs-1;
+            font-size: $fs-3;
             margin-bottom: $sp-2;
         }
 
@@ -322,6 +322,16 @@
             font-size: $fs-3;
             margin: 0 auto;
             width: 50%;
+        }
+
+        @media (width>=768px) {
+            .modal_text {
+                padding: $sp-2 $sp-4;
+            }
+
+            p {
+                font-size: $fs-1;
+            }
         }
     }
 }
