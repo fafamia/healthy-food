@@ -28,7 +28,7 @@ export default {
     emits: ['next-question'],
     methods: {
         nextQuestion() {
-            // 发出 next-question 事件
+            // 發出 next-question 事件
             this.$emit('next-question');
         }
     }

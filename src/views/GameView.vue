@@ -16,6 +16,23 @@
     <GameAnswer v-if="gameStep === 2" :image="currentQuestion.img" :altText="'描述文本'" :title="answerTitle"
       :explanation="currentQuestion.ans" :isLastQuestion="currentQuestionIndex === selectedQuestions.length - 1"
       @next-question="nextQuestion" />
+
+    <div class="game_coupon_modal" v-if="isModalVisible">
+      <div class="coupon_modal_bg">
+        <div class="coupon_modal">
+          <div class="modal_text">
+            <p v-if="correctAnswersCount > 2">恭喜您！</p>
+            <p v-if="correctAnswersCount > 2">在5題挑戰中答對了 {{ correctAnswersCount }} 題</p>
+            <p v-if="correctAnswersCount === 3">您贏得了 10 元的折價券！</p>
+            <p v-else-if="correctAnswersCount === 4">您贏得了 20 元的折價券！</p>
+            <p v-else-if="correctAnswersCount === 5">您贏得了 30 元的折價券！</p>
+            <p v-if="correctAnswersCount <= 2">您已答對 {{ correctAnswersCount }} 題，仍有進步空間。</p>
+            <p v-if="correctAnswersCount <= 2">雖未獲得折扣券，但別氣餒，期待您下次的精彩表現！</p>
+            <button type="button" class="btn-primary" @click="toGameStart">確定</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -150,6 +167,7 @@ export default {
       selectedQuestions: [],
       answerTitle: '',
       correctAnswersCount: 0,
+      isModalVisible: false,
     };
   },
   components: {
@@ -157,6 +175,17 @@ export default {
     GameStart,
     GameQuestion,
     GameAnswer,
+  },
+  mounted() {
+    this.randomQuestions();
+  },
+  computed: {
+    currentQuestion() {
+      if (this.currentQuestionIndex < this.selectedQuestions.length) {
+        return this.selectedQuestions[this.currentQuestionIndex];
+      }
+      return null; // 或返回一个默认的问题对象
+    },
   },
   methods: {
     toNextStep() {
@@ -168,7 +197,7 @@ export default {
     },
     handleOptionSelected(selectedOption) {
       if (selectedOption.isCorrect) {
-        // 如果选项是正确的，则增加答对题数
+        // 如果選項是正确的，則增加答對題數
         this.correctAnswersCount++;
       }
       this.answerTitle = selectedOption.isCorrect ? '答對了' : '答錯了';
@@ -176,26 +205,25 @@ export default {
     },
     nextQuestion() {
       if (this.gameStep === 2) {
-        // 只有在当前显示的是答案时才更新进度
+        // 只有在當前顯示的是答案時才更新進度
         this.progressStep++;
       }
-
-      this.gameStep = 1; // 设置为 1 以显示下一个问题
-      this.currentQuestionIndex++;
-
-      if (this.currentQuestionIndex >= this.selectedQuestions.length) {
-        alert(`您答對了 ${this.correctAnswersCount} / ${this.selectedQuestions.length} 題`);
+      if (this.currentQuestionIndex < this.selectedQuestions.length - 1) {
+        this.currentQuestionIndex++;
+        this.gameStep = 1;
+      } else {
+        this.isModalVisible = true;
       }
     },
-  },
-  mounted() {
-    this.randomQuestions();
-  },
-  computed: {
-    currentQuestion() {
-      return this.selectedQuestions[this.currentQuestionIndex];
+    toGameStart() {
+      this.gameStep = 0;
+      this.progressStep = 1;
+      this.currentQuestionIndex = 0;
+      this.correctAnswersCount = 0;
+      this.isModalVisible = false;
+      this.randomQuestions();
     },
-  }
+  },
 }
 
 </script>

@@ -20,7 +20,6 @@ export default {
     },
     methods: {
         selectOption(option) {
-            // 发出选项被选中的事件
             this.$emit('option-selected', option);
         }
     }

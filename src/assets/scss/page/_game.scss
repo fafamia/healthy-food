@@ -290,3 +290,38 @@
         align-items: center;
     }
 }
+
+.coupon_modal_bg {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+
+    .coupon_modal {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .modal_text {
+            background-color: $bgc;
+            border-radius: $border-r-1;
+            padding: $sp-2 $sp-4;
+            text-align: center;
+        }
+
+        p {
+            font-size: $fs-1;
+            margin-bottom: $sp-2;
+        }
+
+        button {
+            font-size: $fs-3;
+            margin: 0 auto;
+            width: 50%;
+        }
+    }
+}

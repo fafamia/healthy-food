@@ -271,7 +271,8 @@ header {
         }
     }
 
-    input:not(.keep-login) {
+    .header_login_input,
+    .signup_modal_input {
         display: block;
         width: 100%;
         padding: 10px;
@@ -308,11 +309,11 @@ header {
         }
     }
 
-    input.member-btn {
+    .member-btn {
         margin-bottom: $sp-1;
     }
 
-    input.keep-login {
+    .keep-login {
         margin-bottom: $sp-3;
     }
 
@@ -341,7 +342,7 @@ header {
         align-items: center;
         margin-bottom: $sp-2;
 
-        input {
+        .signup_modal_input {
             width: 60%;
             margin-bottom: 0;
         }

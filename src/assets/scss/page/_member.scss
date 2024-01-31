@@ -156,7 +156,8 @@
             margin-bottom: $sp-1;
         }
 
-        input {
+        .account_set_input,
+        .account_set_address {
             height: 48px;
             padding: $sp-1;
             border: 1px solid $border-bg;
@@ -179,7 +180,7 @@
         }
 
         .set_address {
-            input {
+            .account_set_address {
                 width: 48%;
                 margin-right: 0;
             }
@@ -207,7 +208,7 @@
         position: relative;
         width: 40%;
 
-        input {
+        .input_eye_area {
             height: 48px;
             padding: $sp-1;
             border: 1px solid $border-bg;
@@ -245,7 +246,7 @@
         border-bottom: 1px solid $border-bg;
         margin-bottom: $sp-2;
 
-        input {
+        .input_coupon {
             height: 48px;
             padding: $sp-1;
             border: 1px solid $border-bg;
@@ -419,7 +420,7 @@
     gap: $sp-2;
     margin-bottom: $sp-2;
 
-    input {
+    .order_time {
         height: 40px;
         padding: $sp-1;
         font-size: 16px;
@@ -439,20 +440,20 @@
     width: 100%;
     border-collapse: collapse;
 
-    th,
-    td {
+    .order_th,
+    .order_td {
         border: 1px solid $border-bg;
         text-align: left;
         padding: $sp-1;
         font-weight: $fw-bold;
     }
 
-    th {
+    .order_th {
         color: $white;
         background-color: $btn;
     }
 
-    td {
+    .order_td {
         background-color: $adminbg;
         padding: $sp-2 $sp-1;
     }

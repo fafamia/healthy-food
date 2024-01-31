@@ -13,11 +13,11 @@
 
                 <div class="set_name col-12 col-lg-4">
                     <label for="memName">姓名：</label>
-                    <input type="text" name="memName" id="memName" value="王小明">
+                    <input class="account_set_input" type="text" name="memName" id="memName" value="王小明">
                 </div>
                 <div class="set_birthday col-12 col-lg-4">
                     <label for="memBirthday">生日：</label>
-                    <input type="date" name="memBir" id="memBir">
+                    <input class="account_set_input" type="date" name="memBir" id="memBir">
                 </div>
                 <div class="set_sex col-12 col-lg-4">
                     <label>性別：</label>
@@ -30,11 +30,11 @@
                 </div>
                 <div class="set_email col-12 col-lg-4">
                     <label for="memEmail">Email：</label>
-                    <input type="email" name="memEmail" id="memEmail" value="aabb@test.com">
+                    <input class="account_set_input" type="email" name="memEmail" id="memEmail" value="aabb@test.com">
                 </div>
                 <div class="set_phone col-12 col-lg-4">
                     <label for="memPhone">手機號碼：</label>
-                    <input type="tel" name="memPhone" id="memPhone" value="0988168168">
+                    <input class="account_set_input" type="tel" name="memPhone" id="memPhone" value="0988168168">
                 </div>
                 <div class="set_address col-12 col-lg-12">
                     <label>聯絡地址：</label>
@@ -48,7 +48,7 @@
                         <option value="中區">中區</option>
                         <option value="南區">南區</option>
                     </select>
-                    <input type="text" value="成功路88號">
+                    <input class="account_set_address" type="text" value="成功路88號">
                 </div>
 
             </div>
@@ -57,21 +57,23 @@
                 <div class="old_password_area">
                     <label for="old_password">舊密碼：</label>
                     <div class="input_eye">
-                        <input type="old_password" id="old_password" placeholder="請輸入舊密碼" required>
+                        <input class="input_eye_area" type="old_password" id="old_password" placeholder="請輸入舊密碼" required>
                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                     </div>
                 </div>
                 <div class="new_password_area">
                     <label for="new_password">新密碼：</label>
                     <div class="input_eye">
-                        <input type="new_password" id="new_password" placeholder="請輸入新密碼(6~12碼英數字混合) " required>
+                        <input class="input_eye_area" type="new_password" id="new_password"
+                            placeholder="請輸入新密碼(6~12碼英數字混合) " required>
                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                     </div>
                 </div>
                 <div class="again_new_password_area">
                     <label for="again_new_password">確認新密碼：</label>
                     <div class="input_eye">
-                        <input type="again_new_password" id="again_new_password" placeholder="請再次輸入新密碼" required>
+                        <input class="input_eye_area" type="again_new_password" id="again_new_password"
+                            placeholder="請再次輸入新密碼" required>
                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                     </div>
                 </div>
@@ -95,6 +97,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "@/assets/scss/page/_member.scss";
-</style>
+<style lang="scss">@import "@/assets/scss/page/_member.scss";</style>

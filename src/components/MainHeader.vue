@@ -129,12 +129,14 @@
                                 <form action="/login" method="post">
                                     <label for="login" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
                                             @click="toggleModel"></i></label>
-                                    <input type="email" placeholder="請輸入E-mail" id="loginEmail" required>
+                                    <input class="header_login_input" type="email" placeholder="請輸入E-mail" id="loginEmail"
+                                        required>
                                     <div class="password">
-                                        <input type="password" placeholder="請輸入密碼" id="loginPassword" required>
+                                        <input class="header_login_input" type="password" placeholder="請輸入密碼"
+                                            id="loginPassword" required>
                                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
-                                    <input type="submit" class="member-btn" value="登入" id="submit-login">
+                                    <input type="submit" class="header_login_input member-btn" value="登入" id="submit-login">
                                 </form>
                                 <div class="remember-area">
                                     <input class="keep-login" type="checkbox" id="keep-log-in"><label
@@ -155,15 +157,16 @@
                                 <form action="/signup" method="post">
                                     <label for="signup" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
                                             @click="toggleModel"></i></label>
-                                    <input type="text" placeholder="請輸入您的姓名" required>
-                                    <input type="text" placeholder="請輸入您的手機號碼" required>
-                                    <input type="email" placeholder="請輸入您的電子信箱" required>
+                                    <input class="signup_modal_input" type="text" placeholder="請輸入您的姓名" required>
+                                    <input class="signup_modal_input" type="text" placeholder="請輸入您的手機號碼" required>
+                                    <input class="signup_modal_input" type="email" placeholder="請輸入您的電子信箱" required>
                                     <div class="password">
-                                        <input type="password" placeholder="請輸入密碼(6-12碼英數字混合)" required>
+                                        <input class="signup_modal_input" type="password" placeholder="請輸入密碼(6-12碼英數字混合)"
+                                            required>
                                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
                                     <div class="password">
-                                        <input type="password" placeholder="請再次輸入密碼" required>
+                                        <input class="signup_modal_input" type="password" placeholder="請再次輸入密碼" required>
                                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
                                     <div class="signup_select_area">
@@ -181,8 +184,8 @@
                                         </select>
                                     </div>
                                     <div class="check-num">
-                                        <input type="text" placeholder="請輸入右側驗證碼" required><span class="num">5566</span><a
-                                            href="#"><i class="fa-solid fa-rotate-right"></i></a>
+                                        <input class="signup_modal_input" type="text" placeholder="請輸入右側驗證碼" required><span
+                                            class="num">5566</span><a href="#"><i class="fa-solid fa-rotate-right"></i></a>
                                     </div>
                                 </form>
                                 <a href="#" class="member-btn">註冊</a>
@@ -201,7 +204,7 @@
                     </div>
                 </div>
             </div>
-            <ShoppingCart ref="shoppingCartRef"/>
+            <ShoppingCart ref="shoppingCartRef" />
         </div>
     </header>
 </template>
@@ -237,7 +240,7 @@ export default {
             this.isLogin = isLogin;
 
         },
-        toggleShoppingDrawer(){
+        toggleShoppingDrawer() {
             this.$refs.shoppingCartRef.toggleShoppingDrawer()
         }
     },
