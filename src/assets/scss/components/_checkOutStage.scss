@@ -9,6 +9,7 @@
     &_step{
         text-align: center;
         position: relative;
+        
         &_num{
             display: inline-block;
             width: 40px;
@@ -45,6 +46,7 @@
 .finish{
     color:$primary
 }
+
 .checkOutStage_step:not(.Order) div:first-child{
     position: relative;
 }
