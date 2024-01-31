@@ -109,7 +109,9 @@
                         </ul>
                     </nav>
                     <ul class="header_pc_icon_nav">
-                        <li @click="toggleModel"><i class="fa-solid fa-user"></i></li>
+                        <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
+                        <li v-else class="fa-solid fa-icon-you-want"><router-link to="/member"><img
+                                    src="/src/assets/images/home/header_img.png"></router-link></li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                     </ul>
                 </div>
@@ -126,14 +128,14 @@
                                 </h3>
                             </div>
                             <div class="header_login_model" v-if="isLogin">
-                                <form action="/login" method="post">
+                                <form @submit.prevent="handleLogin">
                                     <label for="login" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
                                             @click="toggleModel"></i></label>
                                     <input class="header_login_input" type="email" placeholder="請輸入E-mail" id="loginEmail"
-                                        required>
+                                        ref="loginEmail" required>
                                     <div class="password">
                                         <input class="header_login_input" type="password" placeholder="請輸入密碼"
-                                            id="loginPassword" required>
+                                            id="loginPassword" ref="loginPassword" required>
                                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
                                     <input type="submit" class="header_login_input member-btn" value="登入" id="submit-login">
@@ -187,8 +189,9 @@
                                         <input class="signup_modal_input" type="text" placeholder="請輸入右側驗證碼" required><span
                                             class="num">5566</span><a href="#"><i class="fa-solid fa-rotate-right"></i></a>
                                     </div>
+                                    <button type="button" class="member-btn" @click="toggleSignupDown">註冊</button>
                                 </form>
-                                <a href="#" class="member-btn">註冊</a>
+
                                 <div class="orther-way">
                                     <h4>或其他方式快速註冊</h4>
                                     <div class="fast-img">
@@ -200,6 +203,18 @@
                                 </div>
                                 <p>註冊即同意 隱私權政策 和 使用者條款</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="signup_down" v-if="isDown">
+                <div class="signup_down_bg" @click="closeSignupDown">
+                    <div class="signup_down_area">
+                        <div class="signup_down_text">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <h4>恭喜您註冊完成</h4>
+                            <p>請到您的信箱啟動驗證信件</p>
+                            <button type="button" class="btn-primary" @click="closeSignupDown">確認</button>
                         </div>
                     </div>
                 </div>
@@ -223,6 +238,8 @@ export default {
             },
             modelStatus: false,
             isLogin: true,
+            isDown: false,
+            isLoggedIn: false,
         }
     },
     created() { },
@@ -242,7 +259,28 @@ export default {
         },
         toggleShoppingDrawer() {
             this.$refs.shoppingCartRef.toggleShoppingDrawer()
-        }
+        },
+        toggleSignupDown() {
+            this.isDown = !this.isDown;
+            this.modelStatus = false;
+        },
+        closeSignupDown() {
+            this.isDown = false;
+        },
+        handleLogin() {
+            const email = this.$refs.loginEmail.value;
+            const password = this.$refs.loginPassword.value;
+
+            if (email === 'chd104g3@gmail.com' && password === '104g3gogo') {
+                // 登入成功的邏輯
+                alert('登入成功');
+                this.modelStatus = false;
+                this.isLoggedIn = true;
+            } else {
+                // 登入失敗的邏輯
+                alert('帳號或密碼錯誤');
+            }
+        },
     },
     components: {
         RouterLink,

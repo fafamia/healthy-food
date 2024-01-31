@@ -303,6 +303,9 @@ header {
         font-size: 16px;
         font-weight: bold;
         cursor: pointer;
+        outline: none;
+        border: 1px solid $primary;
+        width: 100%;
 
         &:hover {
             background-color: darken($primary, 10%);
@@ -373,6 +376,48 @@ header {
         img {
             width: 60px;
             height: 60px;
+        }
+    }
+}
+
+.signup_down_bg {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+
+    .signup_down_area {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .signup_down_text {
+            background-color: $bgc;
+            border-radius: $border-r-1;
+            padding: $sp-3 $sp-4;
+            text-align: center;
+        }
+
+        i {
+            font-size: 120px;
+            color: $primary;
+        }
+
+        h4 {
+            font-size: $h2;
+        }
+
+        p {
+            font-size: $fs-3;
+            margin-bottom: $sp-2;
+        }
+
+        button {
+            width: 100%;
         }
     }
 }
