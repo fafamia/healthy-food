@@ -440,17 +440,17 @@ export default {
             position: 0, //輪播位移 初值
             items: [
                 {
-                    image: '/src/assets/images/home/featured_commodity/commodity03.png',
+                    image: new URL('/src/assets/images/home/featured_commodity/commodity03.png', import.meta.url).href,
                     name: '地中海風味便當',
                     description: '品嚐地中海的魅力！這款地中海風味便當為您帶來了經典的鮮蔬烤魚，搭配酸甜多汁的檸檬，以及豐富的烤蔬菜。每一口都是對味蕾的極致呵護，讓您在繁忙的一天中也能享受到健康與美味的完美平衡。'
                 },
                 {
-                    image: '/src/assets/images/home/featured_commodity/commodity02.png',
+                    image: new URL('/src/assets/images/home/featured_commodity/commodity02.png', import.meta.url).href,
                     name: '烤雞肉沙拉餐盒',
                     description: '輕食的最佳選擇！我們的烤雞肉沙拉餐盒特選新鮮蔬菜與香嫩烤雞，佐以特製沙拉醬，每一口都清新爽口。為您的健康加分，為您的日常餐桌增添一份輕盈與活力。'
                 },
                 {
-                    image: '/src/assets/images/home/featured_commodity/commodity01.png',
+                    image: new URL('/src/assets/images/home/featured_commodity/commodity01.png', import.meta.url).href,
                     name: '綜合營養素食盒',
                     description: '綠色健康，素食者的完美選擇。我們精心準備的綜合營養素食盒，包含了各式顏色繽紛的蔬菜和全穀物，不僅滿足您的日常營養需求，更帶來滿滿的植物性能量。無論是午餐還是晚餐，它都是追求健康生活人士的優質選擇。'
                 }
