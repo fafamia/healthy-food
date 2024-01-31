@@ -49,7 +49,7 @@
                 >
                     <span class="bmi_tag">#NEW</span>
                     <div class="bmi_card_img">
-                        <img :src="item.image" alt="item.name">
+                        <img :src="getImageUrl(item.image)" alt="item.name">
                     </div>
                     <p class="bmi_card_title">{{ item.name }}</p>
                     <p class="bmi_card_price">{{ item.price }}</p>
@@ -93,7 +93,7 @@ export default {
                     id: 2001,
                     name: "有機雞蛋",
                     price: "$100",
-                    image: "../../src/assets/images/product/eggs-cover.png",
+                    image: "product/eggs-cover.png",
                     type: "egg"
                 },
                 {
@@ -101,7 +101,7 @@ export default {
                     id: 3001,
                     name: "食用油",
                     price: "$300",
-                    image: "../../src/assets/images/product/oil-cover.png",
+                    image: "product/oil-cover.jpg",
                     type: "oil"
                 },
                 {
@@ -109,7 +109,7 @@ export default {
                     id: 4001,
                     name: "水產養殖鮮魚",
                     price: "$500",
-                    image: "../../src/assets/images/product/fish-cover.png",
+                    image: "product/fish-cover.png",
                     type: "fish"
                 },
             ],
@@ -122,6 +122,9 @@ export default {
         };
     },
     methods: {
+        getImageUrl(paths) {
+            return new URL(`../assets/images/${paths}`, import.meta.url).href;
+        },
         calculate() {
             if (this.personHeight && this.personWeight) {
                 this.$refs.bmiCountainer.style.display = "none";
