@@ -30,34 +30,29 @@
             </div>
         </div>
     </div>
-    <!-- 第三區塊 featured_commodity -->
-    <div class="featured_commodity_background">
-        <div class="featured_commodity">
-            <div class="commodity_pic_countainer">
-                <button class="leftbutton" type="button" @click="goleft">《</button>
-                <div class="bigpic_item">
-                    <div class="pic_wall">
-                        <div class="bag_commodity_pic">
-                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity01.png`)"
-                                alt="">
-                        </div>
-                        <div class="second_picture bag_commodity_pic">
-                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity02.png`)"
-                                alt="">
-                        </div>
-                        <div class="bag_commodity_pic">
-                            <img class="commodity_pic" :src="getImageUrl(`featured_commodity/commodity03.png`)"
-                                alt="">
-                        </div>
+    <!-- 第三區塊 home_products_area -->
+    <div class="home_products_bg">
+        <div class="home_products_area container">
+            <div class="home_item_list row">
+                <div class="home_item_slider_area col-12 col-lg-8">
+                    <i class="fa-solid fa-chevron-left" @click="prevImage"></i>
+                    <div class="item_slider_imgs">
+                        <img class="slider_img_left" :src="leftImage" :alt="leftItemName">
+                        <img class="slider_img_middle" :src="middleImage" :alt="middleItemName">
+                        <img class="slider_img_right" :src="rightImage" :alt="rightItemName">
                     </div>
+                    <i class="fa-solid fa-chevron-right" @click="nextImage"></i>
                 </div>
-                <button class="rightbutton" type="button" @click="goright">》</button>
-            </div>
-            <div class="commodity_introduce">
-                <h3 class="commodity_title">餐盒/食材介紹</h3>
-                <p class="commodity_illustrate">
-                    採用有機、無農藥的新鮮蔬果，搭配優質蛋白質和健康澱粉，打造出多元的口味組合，無論您是追求高蛋白、低碳水化合物或素食主義者，都能在我們的餐盒中找到合適的選擇。</p>
-                <a class="commodity_more" href="">更多商品</a>
+                <div class="home_item_text col-12 col-lg-4">
+                    <div class="home_item_text_area">
+                        <h2 class="item_title">{{ items[currentIndex].name }}</h2>
+                        <p class="item_info">{{ items[currentIndex].description }}</p>
+                    </div>
+                    <router-link to="/products" class="item_more_btn">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        更多商品
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>
@@ -66,16 +61,13 @@
 
 
 
-    
+
     <!-- 第四區塊 comment -->
     <div ref="homeComment" class="comment">
         <h3>留言評論</h3>
         <div ref="commentWall" class="comment_wall">
-            <div class="comment_card" 
-            @mouseenter="handlHomeCommentMouseenter"
-            @mouseleave="handlHomeCommentMouseleave"
-            v-for="commentNum in comment.length" 
-            :key="commentNum">
+            <div class="comment_card" @mouseenter="handlHomeCommentMouseenter" @mouseleave="handlHomeCommentMouseleave"
+                v-for="commentNum in comment.length" :key="commentNum">
                 <div class="person">
                     <img :src="getImageUrl(`comment/avatar${commentNum}.png`)" alt="avatar">
                     <div class="comment_name">{{ comment[commentNum - 1].name }}</div>
@@ -92,175 +84,176 @@
         </div>
     </div>
 
-<!----------- 專欄 ------------>
-<h2 class="home-title">健康專欄</h2>
-<div class="home-article-link">
-      <div class="home-article-container container">
-        <div class="home-article-img">
-          <img src="/src/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
+    <!----------- 專欄 ------------>
+    <h2 class="home-title">健康專欄</h2>
+    <div class="home-article-link">
+        <div class="home-article-container container">
+            <div class="home-article-img">
+                <img src="/src/assets/images/home/ARTICLE_OVERVIEW.png" alt="健康專欄">
+            </div>
+            <div class="home-article-txt">
+                <h3>{{ articles[0].title }}</h3>
+                <p>{{ articles[0].description }}</p>
+                <div class="btn_bar">
+                    <router-link to="/article" class="btn-outline-white">觀看更多</router-link>
+                </div>
+            </div>
         </div>
-        <div class="home-article-txt">
-          <h3>{{ articles[0].title }}</h3>
-          <p>{{ articles[0].description }}</p>
-          <div class="btn_bar">
-            <router-link to="/article" class="btn-outline-white">觀看更多</router-link>
-          </div>
+    </div>
+
+    <!----------- 食譜 ------------>
+    <h2 class="home-title">熱門食譜</h2>
+    <div class="home-recipe-link">
+        <div v-for="(recipe, index) in recipes" :key="index" :class="{ 'home-recipe-link-reverse': index % 2 !== 0 }">
+            <div class="home-recipe-container container">
+                <div class="home-recipe-img">
+                    <img :src="getImageUrl(`recipe-${index + 1}.png`)" :alt="`熱門食譜-${index + 1}`">
+                </div>
+                <div class="home-recipe-txt">
+                    <h3>{{ recipe.title }}</h3>
+                    <span>{{ recipe.ingredientsTitle }}</span>
+                    <hr>
+                    <ul>
+                        <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li>
+                    </ul>
+                    <div class="btn_bar"><router-link to="/cookbook" class="btn-outline-white">探索更多</router-link></div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-
-<!----------- 食譜 ------------>
-<h2 class="home-title">熱門食譜</h2>
-<div class="home-recipe-link">
-    <div v-for="(recipe, index) in recipes" :key="index" :class="{ 'home-recipe-link-reverse': index % 2 !== 0 }">
-      <div class="home-recipe-container container">
-        <div class="home-recipe-img">
-            <img :src="getImageUrl(`recipe-${index+1}.png`)" :alt="`熱門食譜-${index+1}`">
+    <!------- 食譜(手機版) ------->
+    <div class="home-phone-recipe">
+        <div class="first-recipe">
+            <img src="../assets/images/home/recipe-1.png" alt="熱門食譜-1">
         </div>
-        <div class="home-recipe-txt">
-          <h3>{{ recipe.title }}</h3>
-          <span>{{ recipe.ingredientsTitle }}</span>
-          <hr>
-          <ul>
-            <li v-for="(ingredient, i) in recipe.ingredients" :key="i">{{ ingredient }}</li>
-          </ul>
-          <div class="btn_bar"><router-link to="/cookbook" class="btn-outline-white">探索更多</router-link></div>
+        <div class="phone-recipe">
+            <h3>素食彩虹沙拉</h3>
+            <span>食材</span>
+            <ul>
+                <li>·生菜葉（任選擇的種類），洗淨切碎</li>
+                <li>·紅椒、黃椒、橙椒，切絲</li>
+                <li>·黃瓜，切薄片</li>
+                <li>·紫甘藍，切碎</li>
+                <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
+                <li>·紅洋蔥, 切絲........ </li>
+            </ul>
+            <router-link to="/cookbook" class="btn-outline-white">探索更多</router-link>
         </div>
-      </div>
     </div>
-</div>  
-<!------- 食譜(手機版) ------->
-<div class="home-phone-recipe">
-    <div class="first-recipe">
-      <img src="../assets/images/home/recipe-1.png" alt="熱門食譜-1">
-    </div>
-    <div class="phone-recipe">
-      <h3>素食彩虹沙拉</h3>
-      <span>食材</span>
-      <ul>
-        <li>·生菜葉（任選擇的種類），洗淨切碎</li>
-        <li>·紅椒、黃椒、橙椒，切絲</li>
-        <li>·黃瓜，切薄片</li>
-        <li>·紫甘藍，切碎</li>
-        <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
-        <li>·紅洋蔥, 切絲........ </li>
-      </ul>
-      <router-link to="/cookbook" class="btn-outline-white">探索更多</router-link>    
-  </div>
-</div>
 
-<div class="home-phone-recipe">
-    <div class="phone-recipe-img">
-      <img src="../assets/images/home/recipe-2.png" alt="熱門食譜-1">
-    </div>
-    <div class="phone-recipe">
-      <h3>紫薯蕎麥鬆餅</h3>
-      <span>食材</span>
-      <ul>
-        <li>·生菜葉（任選擇的種類），洗淨切碎</li>
-        <li>·紅椒、黃椒、橙椒，切絲</li>
-        <li>·黃瓜，切薄片</li>
-        <li>·紫甘藍，切碎</li>
-        <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
-        <li>·紅洋蔥, 切絲........ </li>
-      </ul>
-      <router-link to="/cookbook" class="btn-outline-white">探索更多</router-link>    
-  </div>
-</div>
-
-<!----------- 小幫手 ------------>
-<h2 class="home-title">健康小幫手</h2>
-<div class="home-assistant-container">
-  <div class="assistant-row row">
-    <router-link v-bind:data-type="(assistant.type)" v-for="(assistant, index) in assistants" :key="index" :to="assistant.link">
-      <div class="assistant-icon-card">
-        <img :src="getImageUrl(`assistant-icon/assistant${assistant.type}.png`)" :alt="`健康小幫手-${index + 1}`">
-        <h4>{{ assistant.title }}</h4>
-        <p>{{ assistant.description }}</p>
-      </div>
-    </router-link>
-  </div>
-</div>
-<!------- 小幫手(手機版) ------->
-<div class="phone-assistant-container">
-  <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
-  <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>  
-  <router-link to="" class="assistant-item">
-    <img src="/src/assets/images/home/assistant.png" alt="">
-    <div class="switch">
-      <div class="prev"><img src="../assets/images/home/prev.svg" alt=""></div>
-      <h4>卡路里計算</h4>
-      <div class="next"><img src="../assets/images/home/next.svg" alt=""></div>
-    </div>
-    <div class="text">
-      <span>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</span> 
-    </div>
-  </router-link>
-  <div class="btn"><router-link to="" class="btn-primary">前往計算</router-link></div>
-</div>
-
-<!----------- 小遊戲 ------------>
-<h2 class="home-title">玩遊戲，享優惠！</h2>
-<div class="index_game container">
-    <h3>準備好了嗎？接受我們的健康問答挑戰，贏得您的折價券！</h3>
-    <div class="game_start row">
-          <div class="game_start_img col-12 col-xl-6">
-            <img src="../assets/images/game/game1.png" alt="健康知識大挑戰">
-          </div>
-          <div class="game_start_text col-12 col-xl-6">
-            <h2 class="game_start_title">健康知識大挑戰</h2>
-            <p>挑戰您的飲食知識，贏取專屬的折價券！只要您回答正確，即可獲得專屬折扣。讓您在享受美食的同時，豐富自己的營養知識。</p>
-            <router-link to="/game" class="btn-l-icon-btn btn-r-icon-btn"><i class="fa-solid fa-gamepad"></i>遊戲連結<i
-                class="fa-solid fa-arrow-up-right-from-square"></i></router-link>
-          </div>
-    </div>
-</div>
-
-<!----------- 機器人 ------------>
-
- <!-- 健康小精靈ICON -->
- <div class="rotbot-icon" @click="toggleChat">
-    <img src="../assets/images/home/robot.png" alt="Floating Icon">
-</div>
-
-<!-- 健康小精靈訊息框 -->
-<div v-show="isChatOpen" id="chat-container" :style="{ right: chatContainerRight, bottom: chatContainerBottom }">
-    <div class="chat-header">
-        <img src="../assets/images/home/robot-img.png" alt="機器人頭像" class="avatar">
-        <span class="bot-name">健康小精靈</span>
-        <button @click="closeChat" class="close-button"><img src="../assets/images/home/XX.png" alt=""></button>
-    </div>
-    <hr class="line-divider">
-
-    <div id="chat-messages">
-    <div v-for="(message, index) in messages" :key="index" class="message" :class="{ 'user-message': message.type === 'user', 'bot-message': message.type === 'bot' }">
-        <div class="message-content">
-            <span class="message-text" v-html="message.text"></span>
+    <div class="home-phone-recipe">
+        <div class="phone-recipe-img">
+            <img src="../assets/images/home/recipe-2.png" alt="熱門食譜-1">
         </div>
-        <span class="message-time">{{ message.time }}</span>
+        <div class="phone-recipe">
+            <h3>紫薯蕎麥鬆餅</h3>
+            <span>食材</span>
+            <ul>
+                <li>·生菜葉（任選擇的種類），洗淨切碎</li>
+                <li>·紅椒、黃椒、橙椒，切絲</li>
+                <li>·黃瓜，切薄片</li>
+                <li>·紫甘藍，切碎</li>
+                <li>·胡蘿蔔，切絲或用刨絲器刨成薄片</li>
+                <li>·紅洋蔥, 切絲........ </li>
+            </ul>
+            <router-link to="/cookbook" class="btn-outline-white">探索更多</router-link>
+        </div>
     </div>
-</div>
 
-    <!-- 關鍵字按鈕 -->
-    <div class="keyword-filter-buttons">
-        <button @click="filterByKeyword('如何付款?')">如何付款?</button>
-        <button @click="filterByKeyword('是否提供有機食材？')">是否提供有機食材？</button>
-        <button @click="filterByKeyword('食材是提供來自當地農產的選擇？')">食材是提供來自當地農產的選擇？</button>
-        <button @click="filterByKeyword('如何查詢訂單的運送狀態？')">如何查詢訂單的運送狀態？</button>
-    </div> 
-
-    <!-- 使用者訊息輸入 -->
-    <div class="input-container">
-        <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
-        <button @click="sendMessage" class="send-button">
-            <img src="../assets/images/home/Vector.svg" alt="Send">
-        </button>
+    <!----------- 小幫手 ------------>
+    <h2 class="home-title">健康小幫手</h2>
+    <div class="home-assistant-container">
+        <div class="assistant-row row">
+            <router-link v-bind:data-type="(assistant.type)" v-for="(assistant, index) in assistants" :key="index"
+                :to="assistant.link">
+                <div class="assistant-icon-card">
+                    <img :src="getImageUrl(`assistant-icon/assistant${assistant.type}.png`)" :alt="`健康小幫手-${index + 1}`">
+                    <h4>{{ assistant.title }}</h4>
+                    <p>{{ assistant.description }}</p>
+                </div>
+            </router-link>
+        </div>
     </div>
-</div>
+    <!------- 小幫手(手機版) ------->
+    <div class="phone-assistant-container">
+        <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
+        <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>
+        <router-link to="" class="assistant-item">
+            <img src="/src/assets/images/home/assistant.png" alt="">
+            <div class="switch">
+                <div class="prev"><img src="../assets/images/home/prev.svg" alt=""></div>
+                <h4>卡路里計算</h4>
+                <div class="next"><img src="../assets/images/home/next.svg" alt=""></div>
+            </div>
+            <div class="text">
+                <span>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</span>
+            </div>
+        </router-link>
+        <div class="btn"><router-link to="" class="btn-primary">前往計算</router-link></div>
+    </div>
+
+    <!----------- 小遊戲 ------------>
+    <h2 class="home-title">玩遊戲，享優惠！</h2>
+    <div class="index_game container">
+        <h3>準備好了嗎？接受我們的健康問答挑戰，贏得您的折價券！</h3>
+        <div class="game_start row">
+            <div class="game_start_img col-12 col-xl-6">
+                <img src="../assets/images/game/game1.png" alt="健康知識大挑戰">
+            </div>
+            <div class="game_start_text col-12 col-xl-6">
+                <h2 class="game_start_title">健康知識大挑戰</h2>
+                <p>挑戰您的飲食知識，贏取專屬的折價券！只要您回答正確，即可獲得專屬折扣。讓您在享受美食的同時，豐富自己的營養知識。</p>
+                <router-link to="/game" class="btn-l-icon-btn btn-r-icon-btn"><i class="fa-solid fa-gamepad"></i>遊戲連結<i
+                        class="fa-solid fa-arrow-up-right-from-square"></i></router-link>
+            </div>
+        </div>
+    </div>
+
+    <!----------- 機器人 ------------>
+
+    <!-- 健康小精靈ICON -->
+    <div class="rotbot-icon" @click="toggleChat">
+        <img src="../assets/images/home/robot.png" alt="Floating Icon">
+    </div>
+
+    <!-- 健康小精靈訊息框 -->
+    <div v-show="isChatOpen" id="chat-container" :style="{ right: chatContainerRight, bottom: chatContainerBottom }">
+        <div class="chat-header">
+            <img src="../assets/images/home/robot-img.png" alt="機器人頭像" class="avatar">
+            <span class="bot-name">健康小精靈</span>
+            <button @click="closeChat" class="close-button"><img src="../assets/images/home/XX.png" alt=""></button>
+        </div>
+        <hr class="line-divider">
+
+        <div id="chat-messages">
+            <div v-for="(message, index) in messages" :key="index" class="message"
+                :class="{ 'user-message': message.type === 'user', 'bot-message': message.type === 'bot' }">
+                <div class="message-content">
+                    <span class="message-text" v-html="message.text"></span>
+                </div>
+                <span class="message-time">{{ message.time }}</span>
+            </div>
+        </div>
+
+        <!-- 關鍵字按鈕 -->
+        <div class="keyword-filter-buttons">
+            <button @click="filterByKeyword('如何付款?')">如何付款?</button>
+            <button @click="filterByKeyword('是否提供有機食材？')">是否提供有機食材？</button>
+            <button @click="filterByKeyword('食材是提供來自當地農產的選擇？')">食材是提供來自當地農產的選擇？</button>
+            <button @click="filterByKeyword('如何查詢訂單的運送狀態？')">如何查詢訂單的運送狀態？</button>
+        </div>
+
+        <!-- 使用者訊息輸入 -->
+        <div class="input-container">
+            <input type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="提問問題..." />
+            <button @click="sendMessage" class="send-button">
+                <img src="../assets/images/home/Vector.svg" alt="Send">
+            </button>
+        </div>
+    </div>
 
 
-<!----------- end ------------>
-
+    <!----------- end ------------>
 </template>
 
 <script>
@@ -359,74 +352,74 @@ export default {
             ],
             recipes: [
                 {
-                title: '素食彩虹沙拉',
-                ingredientsTitle: '食材',
-                ingredients: [
-                    '·生菜葉（任選擇的種類），洗淨切碎',
-                    '·紅椒、黃椒、橙椒，切絲',
-                    '·黃瓜，切薄片',
-                    '·紫甘藍，切碎',
-                    '·胡蘿蔔，切絲或用刨絲器刨成薄片',
-                    '·紅洋蔥，切絲',
-                    '·紅蘿蔔，刨成絲',
-                    '·玉米粒，瀝乾',
-                    '·青豆，瀝乾',
-                    '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
-                    '·鹽和黑胡椒調味',
-                ],
-                link: '/recipe1'
+                    title: '素食彩虹沙拉',
+                    ingredientsTitle: '食材',
+                    ingredients: [
+                        '·生菜葉（任選擇的種類），洗淨切碎',
+                        '·紅椒、黃椒、橙椒，切絲',
+                        '·黃瓜，切薄片',
+                        '·紫甘藍，切碎',
+                        '·胡蘿蔔，切絲或用刨絲器刨成薄片',
+                        '·紅洋蔥，切絲',
+                        '·紅蘿蔔，刨成絲',
+                        '·玉米粒，瀝乾',
+                        '·青豆，瀝乾',
+                        '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
+                        '·鹽和黑胡椒調味',
+                    ],
+                    link: '/recipe1'
                 },
-                
+
                 {
-                title: '紫薯蕎麥鬆餅',
-                ingredientsTitle: '食材',
-                ingredients: [
-                    '·生菜葉（任選擇的種類），洗淨切碎',
-                    '·紅椒、黃椒、橙椒，切絲',
-                    '·黃瓜，切薄片',
-                    '·紫甘藍，切碎',
-                    '·胡蘿蔔，切絲或用刨絲器刨成薄片',
-                    '·紅洋蔥，切絲',
-                    '·紅蘿蔔，刨成絲',
-                    '·玉米粒，瀝乾',
-                    '·青豆，瀝乾',
-                    '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
-                    '·鹽和黑胡椒調味',
-                ],
-                link: '/recipe2'
+                    title: '紫薯蕎麥鬆餅',
+                    ingredientsTitle: '食材',
+                    ingredients: [
+                        '·生菜葉（任選擇的種類），洗淨切碎',
+                        '·紅椒、黃椒、橙椒，切絲',
+                        '·黃瓜，切薄片',
+                        '·紫甘藍，切碎',
+                        '·胡蘿蔔，切絲或用刨絲器刨成薄片',
+                        '·紅洋蔥，切絲',
+                        '·紅蘿蔔，刨成絲',
+                        '·玉米粒，瀝乾',
+                        '·青豆，瀝乾',
+                        '·義大利香草醬（或橄欖油和新鮮檸檬汁混合）',
+                        '·鹽和黑胡椒調味',
+                    ],
+                    link: '/recipe2'
                 }
             ],
             assistants: [
                 {
-                title: 'BMI計算',
-                description: '衡量身體的肥胖程度',
-                link: '/bmi',
-                type:1,
+                    title: 'BMI計算',
+                    description: '衡量身體的肥胖程度',
+                    link: '/bmi',
+                    type: 1,
                 },
                 {
-                title: '基礎代謝率',
-                description: '了解你身體在靜息狀態下維持基本生命活動所需的能量消耗',
-                link: '/bmr',
-                type:2,
+                    title: '基礎代謝率',
+                    description: '了解你身體在靜息狀態下維持基本生命活動所需的能量消耗',
+                    link: '/bmr',
+                    type: 2,
                 },
                 {
-                title: '卡路里計算',
-                description: '了解你每天攝取的卡路里量有助於維持健康的飲食習慣',
-                link: '/cal',
-                type:3,
+                    title: '卡路里計算',
+                    description: '了解你每天攝取的卡路里量有助於維持健康的飲食習慣',
+                    link: '/cal',
+                    type: 3,
                 },
                 {
-                title: 'GI飲食計算',
-                description: '低GI飲食有助於穩定血糖水平',
-                link: '/gi',
-                type:4,
+                    title: 'GI飲食計算',
+                    description: '低GI飲食有助於穩定血糖水平',
+                    link: '/gi',
+                    type: 4,
                 },
             ],
             isChatOpen: false,
             chatContainerRight: 'calc(20px + 60px)', // 初始位置，60px 是 floating-icon 的寬度
             chatContainerBottom: '20px', // 初始位置
             userInput: '',
-            messages: [],      
+            messages: [],
             qaPairs: {
                 '你好': '你好! 需要什麼幫助呢？',
                 '你是誰': '我是健康小精靈，很高興為您服務。',
@@ -434,9 +427,9 @@ export default {
                 '再見': '再見！如果有任何問題，歡迎隨時回來。',
                 '購買': '如果有購買問題，可至健康小舖內逛逛或至聯絡我們提供任何意見~',
                 '如何付款?': '1.信用卡即時線上一次刷卡付款<br>2.ATM付款<br>3.LINE Pay',
-                '是否提供有機食材？':'是的，我們提供部分有機食材，以提供更多元的選擇。',
-                '食材是提供來自當地農產的選擇？':'是的，我們鼓勵並提供當地農產食材，以支持本地農業和提供更環保的食材選擇。',
-                '如何查詢訂單的運送狀態？':'在訂單頁面您可以追蹤訂單的運送狀態，也會發送通知郵件給您。',
+                '是否提供有機食材？': '是的，我們提供部分有機食材，以提供更多元的選擇。',
+                '食材是提供來自當地農產的選擇？': '是的，我們鼓勵並提供當地農產食材，以支持本地農業和提供更環保的食材選擇。',
+                '如何查詢訂單的運送狀態？': '在訂單頁面您可以追蹤訂單的運送狀態，也會發送通知郵件給您。',
             },
             divWidth: 0,
             elements: [],
@@ -445,21 +438,63 @@ export default {
             timer: null, //自動輪播的計時器變數
             isPaused: true, // 輪播開關
             position: 0, //輪播位移 初值
+            items: [
+                {
+                    image: '/src/assets/images/home/featured_commodity/commodity03.png',
+                    name: '地中海風味便當',
+                    description: '品嚐地中海的魅力！這款地中海風味便當為您帶來了經典的鮮蔬烤魚，搭配酸甜多汁的檸檬，以及豐富的烤蔬菜。每一口都是對味蕾的極致呵護，讓您在繁忙的一天中也能享受到健康與美味的完美平衡。'
+                },
+                {
+                    image: '/src/assets/images/home/featured_commodity/commodity02.png',
+                    name: '烤雞肉沙拉餐盒',
+                    description: '輕食的最佳選擇！我們的烤雞肉沙拉餐盒特選新鮮蔬菜與香嫩烤雞，佐以特製沙拉醬，每一口都清新爽口。為您的健康加分，為您的日常餐桌增添一份輕盈與活力。'
+                },
+                {
+                    image: '/src/assets/images/home/featured_commodity/commodity01.png',
+                    name: '綜合營養素食盒',
+                    description: '綠色健康，素食者的完美選擇。我們精心準備的綜合營養素食盒，包含了各式顏色繽紛的蔬菜和全穀物，不僅滿足您的日常營養需求，更帶來滿滿的植物性能量。無論是午餐還是晚餐，它都是追求健康生活人士的優質選擇。'
+                }
+            ],
+            currentIndex: 0,
         };
+    },
+    computed: {
+        leftImage() {
+            let index = this.currentIndex - 1 < 0 ? this.items.length - 1 : this.currentIndex - 1;
+            return this.items[index].image;
+        },
+        middleImage() {
+            return this.items[this.currentIndex].image;
+        },
+        rightImage() {
+            let index = this.currentIndex + 1 >= this.items.length ? 0 : this.currentIndex + 1;
+            return this.items[index].image;
+        },
+        leftItemName() {
+            let index = this.currentIndex - 1 < 0 ? this.items.length - 1 : this.currentIndex - 1;
+            return this.items[index].name;
+        },
+        middleItemName() {
+            return this.items[this.currentIndex].name;
+        },
+        rightItemName() {
+            let index = this.currentIndex + 1 >= this.items.length ? 0 : this.currentIndex + 1;
+            return this.items[index].name;
+        }
     },
     methods: {
         getImageUrl(paths) {
             return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
         },
         updateDimensions() {  //抓取banner 並且同步寬度
-            if(this.$refs.myBanner){
+            if (this.$refs.myBanner) {
                 this.divWidth = this.$refs.myBanner.offsetWidth;
             }
         },
 
         startSlideshow() {
             this.timer = setInterval(() => {
-                const nextImage = this.imgnum === this.home_banner_text.length ? 1 : this.imgnum + 1; 
+                const nextImage = this.imgnum === this.home_banner_text.length ? 1 : this.imgnum + 1;
                 //判斷 imgnum 的值 是不是 home_banner_text.length 的值  如果是回傳 1 給 nextImage 如果不是 nextImage + 1
                 this.setActiveImage(nextImage); // 把 nextImage 當參數 回傳給 setActiveImage
             }, 5000); // 每5000毫秒更換一次圖片
@@ -500,33 +535,33 @@ export default {
         },
 
         sendMessage() {
-                const userMessage = this.userInput.trim();
-                if (userMessage === '') return;
+            const userMessage = this.userInput.trim();
+            if (userMessage === '') return;
 
-                const currentTime = new Date().toLocaleTimeString();
-                
-                this.messages.push({ type: 'user', text: userMessage, time: currentTime });
-                this.userInput = '';
+            const currentTime = new Date().toLocaleTimeString();
 
-                const botReply = this.qaPairs[userMessage];
-                
-                if (botReply) {
-                    this.messages.push({ type: 'bot', text: botReply, time: currentTime });
-                } else {
-                    this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
-                }
-            },
-            closeChat() {
-                this.isChatOpen = false;  // 用於關閉 chat-container
-                },
-            toggleChat() {
-                this.isChatOpen = !this.isChatOpen;
-                if (this.isChatOpen) {
+            this.messages.push({ type: 'user', text: userMessage, time: currentTime });
+            this.userInput = '';
+
+            const botReply = this.qaPairs[userMessage];
+
+            if (botReply) {
+                this.messages.push({ type: 'bot', text: botReply, time: currentTime });
+            } else {
+                this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
+            }
+        },
+        closeChat() {
+            this.isChatOpen = false;  // 用於關閉 chat-container
+        },
+        toggleChat() {
+            this.isChatOpen = !this.isChatOpen;
+            if (this.isChatOpen) {
                 this.chatContainerRight = 'calc(100px + 60px)';
                 this.chatContainerBottom = '20px';
-                }
-            },
-            filterByKeyword(keyword) {
+            }
+        },
+        filterByKeyword(keyword) {
             // 手動設置使用者訊息，將按鈕上的文本作為使用者訊息
             const currentTime = new Date().toLocaleTimeString();
             this.messages.push({ type: 'user', text: keyword, time: currentTime });
@@ -539,13 +574,14 @@ export default {
             } else {
                 this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
             }
-            },
         },
-
-
-    computed() {
+        prevImage() {
+            this.currentIndex = this.currentIndex - 1 < 0 ? this.items.length - 1 : this.currentIndex - 1;
+        },
+        nextImage() {
+            this.currentIndex = this.currentIndex + 1 >= this.items.length ? 0 : this.currentIndex + 1;
+        },
     },
-
     mounted() { // Vue 實例創建之後立即被調用
         this.$nextTick(() => {
             this.updateDimensions();
@@ -556,7 +592,7 @@ export default {
         });
     },
     beforeDestroy() {
-        window.removeEventListener('resize', this.updateDimensions )
+        window.removeEventListener('resize', this.updateDimensions)
     },
 };
 </script>
