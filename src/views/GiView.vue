@@ -14,7 +14,7 @@
             <div class="gi_inputs">
                 <div class="gi_food">
                     <p>食物(種類)</p>
-                    <select v-model="chooseFood" ref="chooseFood">
+                    <select class="gi_food_select" v-model="chooseFood" ref="chooseFood">
                         <option>請選擇食物種類</option>
                         <option value="10">全穀雜糧類</option>
                         <option value="10">豆魚蛋肉類</option>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="gi_g">
                     <p>份量(公克)</p>
-                    <input v-model="portionSize" type="number">
+                    <input class="gi_g_input" v-model="portionSize" type="number">
                 </div>
             </div>
             <button class="btn-product"

@@ -85,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
             font-size: $fs-2;
         }
     }
-    select{
+    .gi_food_select{
         width: 100%;
         border-radius: 10px;
         border: 1px solid $black;
@@ -102,7 +102,7 @@ input[type=number]::-webkit-outer-spin-button {
             font-size: $fs-2;
         }
     }
-    input{
+    .gi_g_input{
         width: 100%;
         border-radius: 10px;
         border: 1px solid $black;

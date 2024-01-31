@@ -14,13 +14,13 @@
                 <div class="bmi_inputs">
                     <div class="bmi_input_height">
                         <p>身高(公分)</p>
-                        <input placeholder="輸入身高" type="number"
+                        <input class="bmi_input_height_input" placeholder="輸入身高" type="number"
                         v-model="personHeight"
                         >
                     </div>
                     <div class="bmi_inputs_weight">
                         <p>體重(公斤)</p>
-                        <input placeholder="輸入體重" type="number"
+                        <input class="bmi_inputs_weight_input" placeholder="輸入體重" type="number"
                         v-model="personWeight"
                         >
                     </div>

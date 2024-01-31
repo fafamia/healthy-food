@@ -14,30 +14,30 @@
                 <div class="bmr_inputs">
                     <div class="bmr_input_sex">
                         <p>性別：</p>
-                        <input @click="bmrSex='男'" type="radio" name="sex">男
-                        <input @click="bmrSex='女'" type="radio" name="sex">女
+                        <input class="bmr_input_sex_sex" @click="bmrSex='男'" type="radio" name="sex">男
+                        <input class="bmr_input_sex_sex" @click="bmrSex='女'" type="radio" name="sex">女
                     </div>
                     <div class="bmr_input_age">
                         <p>年齡：</p>
-                        <input placeholder="輸入年齡" type="number"
+                        <input class="bmr_input_age_input" placeholder="輸入年齡" type="number"
                         v-model="bmrAge"
                         >
                     </div>
                     <div class="bmr_input_height">
                         <p>身高(公分)</p>
-                        <input placeholder="輸入身高" type="number"
+                        <input class="bmr_input_height_input" placeholder="輸入身高" type="number"
                         v-model="bmrHeight"
                         >
                     </div>
                     <div class="bmr_input_weight">
                         <p>體重(公斤)</p>
-                        <input  placeholder="輸入體重" type="number"
+                        <input class="bmr_input_weight_input" placeholder="輸入體重" type="number"
                         v-model="bmrWeight"
                         >
                     </div>
                     <div class="bmr_input_sports">
                         <p>身體活動狀態</p>
-                        <select ref="bmrSport" v-model="bmrSport">
+                        <select class="bmr_input_sports_select" ref="bmrSport" v-model="bmrSport">
                             <option disabled selected hidden>請選擇身體活動狀態</option>
                             <option value="1.2">活動趨於靜態</option>
                             <option value="1.375">活動程度較低</option>
