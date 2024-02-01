@@ -34,12 +34,12 @@
             </div>
         </div>
         <div class="confirm_page">
-            <router-link to="/payment" class="confirm_page_pageUP"><i class="fa-solid fa-angle-left" style="color: #f99c84;"></i>上一頁</router-link>
+            <router-link to="/payment" class="confirm_page_pageUP"><i class="fa-solid fa-angle-left" style="color: #f73f14;"></i>結帳資訊</router-link>
             <button class="btn-primary" @click="toggleSuccess">確認購買</button>
         </div>
-        <div class="confirm_success" v-show="isSuccess">
-            <div class="confirm_success_bg" @click="linkToHome">
-                <div class="success"  @click.stop>
+        <div class="confirm_success" v-show="isSuccess" @click="linkToHome">
+            <div class="confirm_success_bg">
+                <div class="success">
                     <div class="success_icon"><i class="fa-solid fa-check fa-2xl" style="color: #ffffff;"></i></div>
                     <p class="success_title">訂購成功！</p>
                     <p class="success_info">請至會員專區查看訂單</p>
@@ -57,7 +57,7 @@ import { useCartStore } from '@/stores/Cart';
 
 export default{
     setup(){
-        const CartStore = useCartStore();
+        const CartStore = useCartStore();      
         return{
             CartStore,
         }
@@ -76,6 +76,9 @@ export default{
     methods:{
         toggleSuccess(){
             this.isSuccess = !this.isSuccess
+            const CartStore = useCartStore();
+            CartStore.cartList.splice(0,CartStore.cartList.length);
+            CartStore.saveLocalstorage();
         },
         linkToHome(){
             this.$router.push('/');

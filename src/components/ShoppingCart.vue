@@ -29,6 +29,7 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
 import { useCartStore } from "@/stores/Cart";
+//疑問!!Cart.js這一支檔名每一次推上去後都會被改成小寫，但只有在這一個頁面會出現紅線，裡面的功能可以正常使用
 import { useProductStore } from '@/stores/Product';
 
 export default {
