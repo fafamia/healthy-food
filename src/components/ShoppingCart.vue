@@ -18,7 +18,7 @@
                     </div>
                     <span class="drawer_close" @click="toggleShoppingDrawer"><i class="fa-solid fa-xmark"
                         ></i></span>
-                    <router-link to="/checkout" class="drawer_addCart btn-primary">結帳</router-link>
+                    <router-link to="/checkout" class="drawer_addCart btn-primary" @click="toggleShoppingDrawer">結帳</router-link >
                     <div class="drawer_wrapper">
                     </div>
                 </div>
