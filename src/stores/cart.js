@@ -69,7 +69,6 @@ export const useCartStore =  defineStore("CartStore", {
                 this.cartList.push(product)
             };
             this.saveLocalstorage();
-            console.log(this.cartList);
         },
         newQuantityUpdate(id, action) {
             //判斷商品是否已在購物車
