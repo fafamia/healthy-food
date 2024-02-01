@@ -108,6 +108,7 @@ export default {
             ],
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
+                { text: '健康小幫手' , to: ''},
                 { text: '食物GI值查詢', active: true }
             ],
         };

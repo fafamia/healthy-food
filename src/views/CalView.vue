@@ -102,6 +102,7 @@ export default {
             ],
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
+                { text: '健康小幫手' , to: ''},
                 { text: '食物熱量計算', active: true }
             ],
         };
