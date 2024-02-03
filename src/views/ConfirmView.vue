@@ -53,13 +53,29 @@
 import { RouterLink, RouterView } from 'vue-router';
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import CartDetail from '@/components/CartDetail.vue';
-import { useCartStore } from '@/stores/Cart';
+import { useCartStore } from '@/stores/cart';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default{
     setup(){
-        const CartStore = useCartStore();      
+        const CartStore = useCartStore(); 
+        const router = useRouter();
+        const isSuccess = ref(false);
+        const toggleSuccess = ()=>{
+            isSuccess.value = !isSuccess.value
+            CartStore.cartList.splice(0);
+            localStorage.clear();
+        };
+        const linkToHome = ()=>{
+            router.push('/');
+        };
+
         return{
             CartStore,
+            isSuccess,
+            toggleSuccess,
+            linkToHome
         }
     },
     components: {
@@ -68,22 +84,6 @@ export default{
         CheckOutStage,
         CartDetail,
     },
-    data(){
-        return{
-            isSuccess:false,
-        }
-    },
-    methods:{
-        toggleSuccess(){
-            this.isSuccess = !this.isSuccess
-            const CartStore = useCartStore();
-            CartStore.cartList.splice(0,CartStore.cartList.length);
-            CartStore.saveLocalstorage();
-        },
-        linkToHome(){
-            this.$router.push('/');
-        }
-    }
 }
 </script>
 <style lang="scss">

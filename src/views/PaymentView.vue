@@ -103,7 +103,7 @@
 import { RouterLink, RouterView } from 'vue-router';
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import CartDetail from '@/components/CartDetail.vue';
-import { useCartStore } from '@/stores/Cart';
+import { useCartStore } from '@/stores/cart';
 
 export default{
     setup(){
