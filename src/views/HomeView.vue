@@ -173,21 +173,21 @@
 </div>
 <!------- 小幫手(手機版) ------->
 <div class="phone-assistant-container">
-  <h3>深入了解您的身體狀態<br>為健康生活打下堅實基礎</h3><br>
-  <h3>掌握每日飲食的能量和血糖影響<br>智慧選擇，健康飲食</h3>  
-  <router-link to="" class="assistant-item">
-    <img src="/src/assets/images/home/assistant.png" alt="">
+    <h3>{{ carouselItems[assistantsCurrentIndex].title }}</h3><br>
+    <h3>{{ carouselItems[assistantsCurrentIndex].subtitle }}</h3>
     <div class="switch">
-      <div class="prev"><img src="../assets/images/home/prev.svg" alt=""></div>
-      <h4>卡路里計算</h4>
-      <div class="next"><img src="../assets/images/home/next.svg" alt=""></div>
+      <div class="prev" @click="prevSlide"><img src="../assets/images/home/prev.svg" alt=""></div>
+      <div class="next" @click="nextSlide"><img src="../assets/images/home/next.svg" alt=""></div>
     </div>
-    <div class="text">
-      <span>了解你每天攝取的卡路里量有助於維持健康的飲食習慣。</span> 
-    </div>
-  </router-link>
-  <div class="btn"><router-link to="" class="btn-primary">前往計算</router-link></div>
-</div>
+    <router-link :to="carouselItems[assistantsCurrentIndex].link" class="assistant-item">
+      <img :src="carouselItems[assistantsCurrentIndex].image" alt="">
+      <h4>{{ carouselItems[assistantsCurrentIndex].label }}</h4>
+      <div class="text">
+        <span>{{ carouselItems[assistantsCurrentIndex].description }}</span>
+      </div>
+    </router-link>
+    <div class="phone-assistant-btn"><router-link :to="carouselItems[assistantsCurrentIndex].buttonLink" class="btn-primary">{{ carouselItems[assistantsCurrentIndex].buttonText }}</router-link></div>    
+  </div>
 
 <!----------- 小遊戲 ------------>
 <h2 class="home-title">玩遊戲，享優惠！</h2>
@@ -222,7 +222,7 @@
     </div>
     <hr class="line-divider">
 
-    <div id="chat-messages">
+    <div ref="chatMessages" id="chat-messages">
     <div v-for="(message, index) in messages" :key="index" class="message" :class="{ 'user-message': message.type === 'user', 'bot-message': message.type === 'bot' }">
         <div class="message-content">
             <span class="message-text" v-html="message.text"></span>
@@ -412,6 +412,49 @@ export default {
                     type: 4,
                 },
             ],
+            assistantsCurrentIndex: 0,
+            carouselItems: [
+                {
+                title: "深入了解您的身體狀態",
+                subtitle: "為健康生活打下堅實基礎",
+                link: "/bmi",
+                image: new URL('/src/assets/images/home/assistant-icon/assistant1.png', import.meta.url).href,
+                description: "了解你每天攝取的卡路里量有助於維持健康的飲食習慣。",
+                buttonLink: "/bmi",
+                buttonText: "前往計算",
+                label: "BMI計算",
+                },
+                {
+                title: "深入了解您的身體狀態",
+                subtitle: "為健康生活打下堅實基礎",
+                link: "/bmr",
+                image: new URL('/src/assets/images/home/assistant-icon/assistant2.png', import.meta.url).href,
+                description: "了解你身體在靜息狀態下維持基本生命活動所需的能量消耗",
+                buttonLink: "/bmr",
+                buttonText: "前往計算",
+                label: "基礎代謝率",
+                },
+                {
+                title: "深入了解您的身體狀態",
+                subtitle: "為健康生活打下堅實基礎",
+                link: "/cal",
+                image: new URL('/src/assets/images/home/assistant-icon/assistant3.png', import.meta.url).href,
+                description: "了解你每天攝取的卡路里量有助於維持健康的飲食習慣",
+                buttonLink: "/cal",
+                buttonText: "前往計算",
+                label: "卡路里計算",
+                },
+                {
+                title: "深入了解您的身體狀態",
+                subtitle: "為健康生活打下堅實基礎",
+                link: "/gi",
+                image: new URL('/src/assets/images/home/assistant-icon/assistant4.png', import.meta.url).href,
+                description: "低GI飲食有助於穩定血糖水平",
+                buttonLink: "/gi",
+                buttonText: "前往計算",
+                label: "GI飲食計算",
+                },
+            ],
             isChatOpen: false,
             chatContainerRight: 'calc(20px + 60px)', // 初始位置，60px 是 floating-icon 的寬度
             chatContainerBottom: '20px', // 初始位置
@@ -547,7 +590,18 @@ export default {
             } else {
                 this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
             }
+
+            // 滾動到底部
+            this.$nextTick(() => {
+                const chatMessages = this.$refs.chatMessages;
+                requestAnimationFrame(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    console.log('Scrolling to bottom');
+                    console.log('chatMessages:', chatMessages);
+                });
+            });
         },
+
         closeChat() {
             this.isChatOpen = false;  // 用於關閉 chat-container
         },
@@ -571,12 +625,25 @@ export default {
             } else {
                 this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
             }
+            // 滾動到底部
+            const chatMessages = this.$refs.chatMessages;
+            requestAnimationFrame(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                console.log('Scrolling to bottom');
+                console.log('chatMessages:', chatMessages);
+            });
         },
         prevImage() {
             this.currentIndex = this.currentIndex - 1 < 0 ? this.items.length - 1 : this.currentIndex - 1;
         },
         nextImage() {
             this.currentIndex = this.currentIndex + 1 >= this.items.length ? 0 : this.currentIndex + 1;
+        },
+        prevSlide() {
+            this.assistantsCurrentIndex = (this.assistantsCurrentIndex - 1 + this.carouselItems.length) % this.carouselItems.length;
+        },
+        nextSlide() {
+            this.assistantsCurrentIndex = (this.assistantsCurrentIndex + 1) % this.carouselItems.length;
         },
     },
     mounted() { // Vue 實例創建之後立即被調用
