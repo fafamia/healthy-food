@@ -389,10 +389,8 @@
         text-align: right;
         padding-right: 15px;
         margin-top: $sp-2;
-
         a {
           display: inline-block;
-
           &:hover {
             color: $primary;
           }
@@ -849,9 +847,9 @@
   z-index: 100;
 
   @media (max-width:1440px) {
-    margin: -10px auto;
+    margin: -15px auto;
     width: 420px;
-    height: 550px;
+    height: 540px;
   }
 
   @media (max-width:$md) {
