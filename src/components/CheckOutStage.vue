@@ -17,7 +17,7 @@
                 <div class="checkOutStage_step_check">
                     <i class="fa-solid fa-v" style="color: #f73f14;"></i>
                 </div>
-                <p class="checkOutStage_step_txt">付款資訊</p>
+                <p class="checkOutStage_step_txt">結帳資訊</p>
             </div>
             <div class="checkOutStage_step Confirm">
                 <div class="checkOutStage_step_num">

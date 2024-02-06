@@ -14,13 +14,13 @@
                 <div class="bmi_inputs">
                     <div class="bmi_input_height">
                         <p>身高(公分)</p>
-                        <input placeholder="輸入身高" type="number"
+                        <input class="bmi_input_height_input" placeholder="輸入身高" type="number"
                         v-model="personHeight"
                         >
                     </div>
                     <div class="bmi_inputs_weight">
                         <p>體重(公斤)</p>
-                        <input placeholder="輸入體重" type="number"
+                        <input class="bmi_inputs_weight_input" placeholder="輸入體重" type="number"
                         v-model="personWeight"
                         >
                     </div>
@@ -38,7 +38,7 @@
         </div>
 
         <div ref="healthyRecommend" class="healthy_recommend">
-            <h2>身高 {{ personHeight }} 公分 體重 {{ personWeight }} 公斤<span>您的BMI 為{{ bmi }} {{ bmiTitle }}</span></h2>
+            <h2>身高 {{ personHeight }} 公分 體重 {{ personWeight }} 公斤<span ref="bmiTotal">您的BMI 為{{ bmi }} {{ bmiTitle }}</span></h2>
             <p>{{ suggestionText }}</p>
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前BMI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
@@ -116,6 +116,7 @@ export default {
             divWidth: 0,
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
+                { text: '健康小幫手' , to: ''},
                 { text: '身體質量指數 (BMI) 計算器', active: true }
             ],
             
@@ -138,6 +139,7 @@ export default {
                 } else if ( 18.5<= this.bmi && this.bmi <= 24 ){
                     this.bmiTitle = this.suggestiondata[1].bmiTitle;
                     this.suggestionText = this.suggestiondata[1].suggestionText;
+                    this.$refs.bmiTotal.style.color = "black"
                 } else {
                     this.bmiTitle = this.suggestiondata[2].bmiTitle;
                     this.suggestionText = this.suggestiondata[2].suggestionText;

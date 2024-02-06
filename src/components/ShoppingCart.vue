@@ -18,7 +18,7 @@
                     </div>
                     <span class="drawer_close" @click="toggleShoppingDrawer"><i class="fa-solid fa-xmark"
                         ></i></span>
-                    <router-link to="/checkout" class="drawer_addCart btn-primary">結帳</router-link>
+                    <router-link to="/checkout" class="drawer_addCart btn-primary" @click="toggleShoppingDrawer">結帳</router-link >
                     <div class="drawer_wrapper">
                     </div>
                 </div>
@@ -28,8 +28,9 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router';
-import { useCartStore } from "@/stores/Cart";
+import { useCartStore } from "@/stores/cart";
 import { useProductStore } from '@/stores/Product';
+import { ref,watch } from 'vue';
 
 export default {
     name:'ShoppingCart',
@@ -42,38 +43,23 @@ export default {
         //使用存在CartStore中的購物車array
         const cartList = CartStore.cartList;
 
-        //使用存在CartStore中的購物車array,用id和動作指定個別的商品數量加或減
-        // const newQuantityUpdate = (id,action)=>{
-        //     CartStore.newQuantityUpdate(id,action);
-        // }
+        const drawerStatus = ref(false); 
+        const toggleShoppingDrawer = ()=>{
+            drawerStatus.value = !drawerStatus.value
+        }
+        watch(()=>drawerStatus.value,(newValue,oldValue)=>{
+            const body = document.getElementsByTagName('body')[0];
+            body.classList.toggle("overflow-hidden");
+        });
+        
         return {
             CartStore,
             cartList,
             ProductStore,
-            //getImageUrl,
             getImageUrl:ProductStore.getImageUrl,
             newQuantityUpdate: (id, action) => CartStore.newQuantityUpdate(id, action),
-        }
-    },
-    data() {
-        return {
-            drawerStatus: false,
-        }
-    },
-    expose:[
-        'toggleShoppingDrawer'
-    ],
-    methods: {
-        toggleShoppingDrawer(){
-            this.drawerStatus = !this.drawerStatus
-        },
-    },
-    watch:{
-        drawerStatus:{
-            handler(){
-                const body = document.getElementsByTagName('body')[0];
-                body.classList.toggle("overflow-hidden");
-            },
+            toggleShoppingDrawer,
+            drawerStatus,
         }
     },
     components: {

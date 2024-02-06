@@ -93,8 +93,8 @@
             </div>
         </div>
         <div class="payment_page">
-            <router-link to="/checkout" class="payment_page_pageUP"><i class="fa-solid fa-angle-left" style="color: #f99c84;"></i>上一頁</router-link>
-            <router-link to="/confirm" class="payment_page_pageDown">下一頁<i class="fa-solid fa-angle-right" style="color: #f73f14;"></i></router-link>
+            <router-link to="/checkout" class="payment_page_pageUP"><i class="fa-solid fa-angle-left" style="color: #f73f14;"></i>訂單資料</router-link>
+            <router-link to="/confirm" class="btn-primary payment_page_pageDown">訂單確認</router-link>
         </div>
     </div>
 </template>
@@ -103,7 +103,7 @@
 import { RouterLink, RouterView } from 'vue-router';
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import CartDetail from '@/components/CartDetail.vue';
-import { useCartStore } from '@/stores/Cart';
+import { useCartStore } from '@/stores/cart';
 
 export default{
     setup(){

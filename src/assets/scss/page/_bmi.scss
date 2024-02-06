@@ -86,7 +86,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 .bmi_input_height{
-    input {
+    .bmi_input_height_input {
         width: 100%;
         height: 40px;
         border-radius: 10px;
@@ -100,7 +100,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .bmi_inputs_weight{
     margin-top: 15px;
-    input{
+    .bmi_inputs_weight_input{
         width: 100%;
         height: 40px;
         border-radius: 10px;
@@ -179,6 +179,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 100%;
 }
 .bmi_recommend_card{
+    box-shadow: 5px 5px 5px #aaa;
     width: 280px;
     position: relative;
     border: 1px $black solid;

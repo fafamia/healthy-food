@@ -89,7 +89,7 @@
 import  Breadcrumb  from "@/components/Breadcrumb.vue";
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/Product';
-import { useCartStore } from "@/stores/Cart";
+import { useCartStore } from "@/stores/cart";
 import { computed,ref } from 'vue';
 
 
@@ -134,6 +134,21 @@ export default {
       return shuffledArray.slice(0, size);
     };
 
+    const collapseStatus = ref({ 
+      location: false,
+      spec: false,
+      nutrition: false
+    });
+    const toggleCollapse = (collapseName)=> {
+      collapseStatus[collapseName] = !collapseStatus[collapseName]
+    };
+
+    const yourBreadcrumbData = ref([
+        { text: '首頁', to: '/' },
+        { text: '健康小舖', to: '/products' },
+        { text: '商品資訊', active: true }
+      ])
+
     return {
       ProductStore,
       CartStore,
@@ -143,27 +158,10 @@ export default {
       addCart,
       getRandomSubset,
       getImageUrl,
+      collapseStatus,
+      toggleCollapse,
+      yourBreadcrumbData
     }
-  },
-  data() {
-    return {
-      yourBreadcrumbData: [
-        { text: '首頁', to: '/' },
-        { text: '健康小舖', to: '/products' },
-        { text: '商品資訊', active: true }
-      ],
-      collapseStatus: {
-        location: false,
-        spec: false,
-        nutrition: false
-      },
-      
-    }
-  },
-  methods: {
-    toggleCollapse(collapseName) {
-      this.collapseStatus[collapseName] = !this.collapseStatus[collapseName]
-    },
   },
   components: {
     Breadcrumb

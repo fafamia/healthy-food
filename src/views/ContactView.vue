@@ -8,16 +8,16 @@
         </div>
         <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
         <div class="contact_inputs">
-            <input placeholder="請輸入姓名" type="text">
-            <input placeholder="請輸入電子信箱" type="email">
-            <input placeholder="請輸入聯絡方式" type="tel">
-            <select name="" id="">
+            <input class="contact_inputs_input" placeholder="請輸入姓名" type="text">
+            <input class="contact_inputs_input" placeholder="請輸入電子信箱" type="email">
+            <input class="contact_inputs_input" placeholder="請輸入聯絡方式" type="tel">
+            <select class="contact_inputs_select" name="" id="">
                 <option disabled selected hidden>請選擇問題</option>
                 <option>付款問題</option>
                 <option>運費問題</option>
                 <option>匯款問題</option>
             </select>
-            <textarea placeholder="請輸入詳細內容" cols="30" rows="10"></textarea>
+            <textarea class="contact_inputs_textarea" placeholder="請輸入詳細內容" cols="30" rows="10"></textarea>
             <button class="btn-product">送出表單</button>
         </div>
     </div>

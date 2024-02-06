@@ -85,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
             font-size: $fs-2;
         }
     }
-    select{
+    .cal_food_select{
         width: 100%;
         border-radius: 10px;
         border: 1px solid $black;
@@ -102,7 +102,7 @@ input[type=number]::-webkit-outer-spin-button {
             font-size: $fs-2;
         }
     }
-    input{
+    .cal_g_input{
         width: 100%;
         border-radius: 10px;
         border: 1px solid $black;
@@ -179,6 +179,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 100%;
 }
 .cal_recommend_card{
+    box-shadow: 5px 5px 5px #aaa;
     width: 280px;
     position: relative;
     border: 1px $black solid;

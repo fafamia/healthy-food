@@ -77,11 +77,6 @@ const router = createRouter({
       component: () => import('../views/GameView.vue'),
     },
     {
-      path: '/car',
-      name: 'car',
-      component: () => import('../views/CarView.vue'),
-    },
-    {
       path: '/productinfo/:id',
       name: 'productinfo',
       component: () => import('../views/ProductInfo.vue'),

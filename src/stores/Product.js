@@ -176,8 +176,8 @@ export const useProductStore = defineStore("ProductStore",{
         getProductById:(state)=>{
             return(id) => state.products.find(product => product.id === id)
         },
-        getImageUrl:()=>(paths)=>{
-            return new URL(`../assets/images/${paths}`, import.meta.url).href;
+        getImageUrl:() => (paths) => {
+                return new URL(`../assets/images/${paths}`, import.meta.url).href;
         }, 
     },
 })
