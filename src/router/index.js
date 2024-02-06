@@ -112,6 +112,7 @@ const router = createRouter({
       name: 'confirm',
       component: () => import('../views/ConfirmView.vue'),
     },
+   
   ]
 })
 

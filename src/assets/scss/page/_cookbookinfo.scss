@@ -349,7 +349,7 @@
         }
 
         button {
-            margin: 30px 20px 20px 0;
+            // margin: 30px 20px 20px 0;
             font-size: 0.8em;
 
         }
@@ -358,7 +358,7 @@
     .time {
         span {
             font-size: 0.8em;
-            width: 10em;
+            width: 48%;
             line-height: 4em;
 
             &:first-child {
@@ -397,8 +397,17 @@
             font-size: 2em;
         }
     }
+
+    .comment-card-wrapper{
+        button{
+            margin: 0;
+        }
+    }
     .comment_card{
         padding: 0;
+        h5{
+            font-size: 0.8em;
+        }
         li{
             width: auto;
         }
@@ -422,6 +431,7 @@
             
 
             .login{
+                white-space: nowrap;
                 margin-right: 20px;
             
             }
@@ -429,7 +439,7 @@
                 margin: 0;
             }
             textarea{
-                width: 400px;
+                width: auto;
                 font-size: 1em;
             }
             .submit{
