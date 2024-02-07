@@ -66,7 +66,7 @@
     <h2>多點健康</h2>
   </div>
   <div class="more_health container">
-    <div class="more_product row ">
+    <div class="more_product ">
       <div v-for="item in getRandomSubset(ProductStore.products, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
         <p class="product_tag">#NEW</p>
           <div class="product_card_img">

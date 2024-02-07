@@ -9,12 +9,12 @@
     </div>
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
     <div class="product-list container">
-      <ul>
-        <li>
+      <ul class="product-list-ul">
+        <li class="product-list-li" >
           <div class="lunchbox" @click="filter(0, 'lunchbox')">調理包</div>
           <hr>
         </li>
-        <li>
+        <li class="product-list-li">
           <div class="freshfood" @click="toggle = !toggle; filter(5, 'freshfood')">
             <h3>生鮮食材</h3>
             <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
@@ -81,11 +81,17 @@ import Breadcrumb from '@/components/Breadcrumb.vue';
 import axios from 'axios';
 import PageNumber from '@/components/PageNumber.vue';
 
-import { reactive,ref } from 'vue'
+import { reactive,ref,onMounted, computed } from 'vue'
 import { useProductStore } from '@/stores/Product';
 
 
 export default {
+   components: {
+    RouterLink,
+    RouterView,
+    Breadcrumb,
+    PageNumber
+  },
   setup() {
     // 篩選條件準備
     const reqParams = reactive({
@@ -114,89 +120,67 @@ export default {
     const productDisplay = ref([]);
     const getImageUrl = ProductStore.getImageUrl;
     
-    return { 
-      changePage, 
+    // 在組件被掛載時獲取數據
+    onMounted(() => {
+      // this.axiosGetData(); // 如果有獲取數據的方法，取消註釋
+      productDisplay.value = originData;
+    });
+
+    // 麵包屑數據
+    const yourBreadcrumbData = ref([
+      { text: '首頁', to: '/' },
+      { text: '健康小舖', active: true },
+    ]);
+
+    const displayList = computed(() => {
+      const startIndex = (reqParams.page - 1) * reqParams.pageSize;
+      const endIndex = reqParams.page * reqParams.pageSize;
+      return productDisplay.value.slice(startIndex, endIndex);
+    });
+
+    const keepProd = (item) => {
+      item.heartFilled = !item.heartFilled;
+    };
+
+    const filterPhoneList = (e) => {
+      const filterPhoneType = e.target.value;
+
+      if (!filterPhoneType || filterPhoneType === '') {
+        productDisplay.value = originData;
+      } else if (['lunchbox', 'oil', 'egg', 'fish', 'vegetable'].includes(filterPhoneType)) {
+        productDisplay.value = originData.filter(item => item.type === filterPhoneType);
+      }
+    };
+
+    const change = ref(); // 定義 'change' 為 ref
+
+    const filter = (filterIndex, filterType) => {
+      change.value = filterIndex;
+
+      if (filterType === 'freshfood') {
+        productDisplay.value = originData.filter(item => item.index >= 1 && item.index <= 4);
+      } else {
+        productDisplay.value = originData.filter(item => item.index === filterIndex);
+      }
+
+      reqParams.page = 1;
+    };
+
+    return {
+      changePage,
       reqParams,
       originData,
       productDisplay,
       getImageUrl,
-    }
-  },
-  data() {
-    return {
-      // 麵包屑數據
-      yourBreadcrumbData: [
-        { text: '首頁', to: '/' },
-        { text: '健康小舖', active: true },
-      ],
-      toggle: true,
+      yourBreadcrumbData,
+      toggle: ref(true),
+      displayList,
+      keepProd,
+      filterPhoneList,
+      change, // 將 'change' 包含在返回對象中
+      filter,
     };
   },
-  components: {
-    RouterLink,
-    RouterView,
-    Breadcrumb,
-    PageNumber
-  },
-  created() {
-    // this.axiosGetData();
-    this.productDisplay = this.originData;
-
-  },
-  computed: {
-    displayList() {
-      const startIndex = (this.reqParams.page - 1) * this.reqParams.pageSize;
-      const endIndex = this.reqParams.page * this.reqParams.pageSize;
-      // console.log(this.productDisplay.length);
-      return this.productDisplay.slice(startIndex, endIndex);
-    },
-
-  },
-  methods: {
-    keepProd(item) {
-      item.heartFilled = !item.heartFilled;
-    },
-
-    filterPhoneList(e) {
-      const filterPhoneType = e.target.value;
-
-      if (!filterPhoneType || filterPhoneType === '') {
-        // 如果選擇的是空字符串或 undefined，顯示所有商品
-        this.productDisplay = this.originData;
-      } else if (['lunchbox', 'oil', 'egg', 'fish', 'vegetable'].includes(filterPhoneType)) {
-        // 否則，進行其他商品類型的篩選
-        this.productDisplay = this.originData.filter(item => {
-          return item.type === filterPhoneType;
-        });
-      }
-    },
-
-    filter(filterIndex, filterType) {
-      this.change = filterIndex;
-
-      if (filterType === 'freshfood') {
-        this.productDisplay = this.originData.filter(item => item.index >= 1 && item.index <= 4);
-      } else {
-        this.productDisplay = this.originData.filter(item => item.index === filterIndex);
-      }
-
-      // 在應用篩選時重置頁碼為1
-      this.reqParams.page = 1;
-    },
-    // axiosGetData() {
-    //   axios.get('https://tibamef2e.com/chd103/g1/phps/shop.php')
-
-    //     .then(res => {
-    //       if (res && res.data) {
-    //         // this.responseData = res.data
-    //         this.displayData = res.data
-    //       }
-    //     })
-    // },
-    // getImage(item) {
-    //   return `https://tibamef2e.com/chd103/g1/image/productimage/${item.prod_img}`;
-    // },
-  }
 }
 </script>
 <style lang="scss">

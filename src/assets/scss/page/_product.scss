@@ -45,10 +45,10 @@
     .product-list {
         display: flex;
 
-        ul {
+        .product-list-ul {
             display: block;
 
-            li {
+            .product-list-li {
                 list-style: none;
                 width: 150px;
                 border: none;
@@ -122,7 +122,7 @@
                 border-radius: $border-r-2;
                 position: relative;
                 margin: $sp-2;
-                box-shadow: 15px 15px 10px #ccc;
+                box-shadow:  2px 2px 2px 1px #ccc;
 
                 .product_tag {
                     position: absolute;
@@ -203,7 +203,7 @@
         .product-list {
             display: block;
 
-            ul {
+            .product-list-ul {
                 display: none;
             }
 
