@@ -130,17 +130,18 @@
                                 </h3>
                             </div>
                             <div class="header_login_model" v-if="isLogin">
-                                <form @submit.prevent="handleLogin">
+                                <form action="http://localhost/phpLab/healthy-food-php/front/front_login.php" method="post">
                                     <label for="login" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
                                             @click="toggleModel"></i></label>
-                                    <input class="header_login_input" type="email" placeholder="請輸入E-mail" id="loginEmail"
-                                        ref="loginEmail" required>
+                                    <input class="header_login_input" type="email" placeholder="請輸入E-mail" id="loginId"
+                                        v-model="user.memId" name="memId" required>
                                     <div class="password">
-                                        <input class="header_login_input" type="password" placeholder="請輸入密碼"
-                                            id="loginPassword" ref="loginPassword" required>
+                                        <input class="header_login_input" type="password" placeholder="請輸入密碼" id="loginPsw"
+                                            v-model="user.memPsw" name="memPsw" required>
                                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
-                                    <input type="submit" class="header_login_input member-btn" value="登入" id="submit-login">
+                                    <input type="submit" class="header_login_input member-btn" value="登入" id="submit-login"
+                                        @click.prevent="logIn">
                                 </form>
                                 <div class="remember-area">
                                     <input class="keep-login" type="checkbox" id="keep-log-in"><label
@@ -228,6 +229,7 @@
 <script>
 import { RouterLink } from 'vue-router';
 import ShoppingCart from "@/components/ShoppingCart.vue"
+import axios from 'axios';
 
 export default {
     data() {
@@ -242,6 +244,10 @@ export default {
             isLogin: true,
             isDown: false,
             isLoggedIn: false,
+            user: {
+                memId: '',
+                memPsw: '',
+            },
         }
     },
     created() { },
@@ -269,19 +275,51 @@ export default {
         closeSignupDown() {
             this.isDown = false;
         },
-        handleLogin() {
-            const email = this.$refs.loginEmail.value;
-            const password = this.$refs.loginPassword.value;
-
-            if (email === 'chd104g3@gmail.com' && password === '104g3gogo') {
-                // 登入成功的邏輯
-                alert('登入成功');
-                this.modelStatus = false;
-                this.isLoggedIn = true;
-            } else {
-                // 登入失敗的邏輯
-                alert('帳號或密碼錯誤');
+        setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
             }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        },
+        logIn(e) {
+            //阻止表單默認行為
+            e.preventDefault();
+
+            axios({
+                method: 'post',
+                url: 'http://localhost/phpLab/healthy-food-php/front/front_login.php',
+                data: this.user,
+                withCredentials: true, // 確保跨域請求時能夠發送 cookies（如果您的身份驗證機制依賴於此）
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+                .then(res => {
+                    const data = res.data;
+                    if (data.status === 'success') {
+                        console.log('登入成功', data.message);
+                        console.log(this.user);
+                        console.log(res);
+                        alert('登入成功');
+                        this.modelStatus = false;
+                        this.isLoggedIn = true;
+                        //前端存localStorage(cookie從後端直接存入)還不確定要用哪個先暫時這樣
+                        localStorage.setItem('member_no', data.member.member_no);
+                        localStorage.setItem('member_email', data.member.member_email);
+                        localStorage.setItem('member_name', data.member.member_name);
+                    } else {
+                        console.log('登入失敗', data.message);
+                        console.log(this.user);
+                        console.log(res);
+                        alert('帳號或密碼錯誤');
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         },
     },
     components: {
