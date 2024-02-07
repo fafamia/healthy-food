@@ -101,6 +101,7 @@ hr {
 
 .more_product {
     flex-wrap: nowrap;
+    display: flex;
     justify-content: center;
     margin-bottom: $sp-3;
     .more_itemsCard {
