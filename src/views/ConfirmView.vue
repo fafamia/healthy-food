@@ -1,5 +1,5 @@
 <template>
-    <CheckOutStage />
+    <CheckOutStage :currentStep="'Confirm'"/>
     <div class="confirm container">
         <div class="confirm_confirmWrap row">
             <div class="col-12 col-md-6 confirm_info">

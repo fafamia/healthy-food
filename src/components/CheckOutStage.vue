@@ -2,31 +2,22 @@
     <div class="container checkOutStage">
         <div class="row checkOutStage_stageWrap">
             <div class="checkOutStage_step Order">
-                <div class="checkOutStage_step_num">
+                <div class="checkOutStage_step_num" :class="{focous:isOrder}">
                     <span >1</span>
                 </div>
-                <div class="checkOutStage_step_check">
-                    <i class="fa-solid fa-v" style="color: #f73f14;"></i>
-                </div>
-                <p class="checkOutStage_step_txt">訂單資料</p>
+                <p class="checkOutStage_step_txt" :class="{focousTxt:isOrder}">訂單資料</p>
             </div>
             <div class="checkOutStage_step Payment">
-                <div class="checkOutStage_step_num">
+                <div class="checkOutStage_step_num" :class="{focous:isPayment}">
                     <span >2</span>
                 </div>
-                <div class="checkOutStage_step_check">
-                    <i class="fa-solid fa-v" style="color: #f73f14;"></i>
-                </div>
-                <p class="checkOutStage_step_txt">結帳資訊</p>
+                <p class="checkOutStage_step_txt" :class="{focousTxt:isPayment}">結帳資訊</p>
             </div>
             <div class="checkOutStage_step Confirm">
-                <div class="checkOutStage_step_num">
+                <div class="checkOutStage_step_num" :class="{focous:isConfirm}">
                     <span >3</span>
                 </div>
-                <div class="checkOutStage_step_check">
-                    <i class="fa-solid fa-v" style="color: #f73f14;"></i>
-                </div>
-                <p class="checkOutStage_step_txt">訂單確認</p>
+                <p class="checkOutStage_step_txt" :class="{focousTxt:isConfirm}">訂單確認</p>
             </div>
         </div>
     </div>
@@ -34,7 +25,20 @@
 
 
 <script>
-export default {}
+    export default {
+        props:['currentStep'],
+        computed:{
+            isOrder(){
+                return this.currentStep === "Order";
+            },
+            isPayment(){
+                return this.currentStep === "Payment";
+            },
+            isConfirm(){
+                return this.currentStep === "Confirm";
+            }
+        }
+    }
 </script>
 
 <style lang="scss">
