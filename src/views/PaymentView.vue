@@ -1,5 +1,5 @@
 <template>
-    <CheckOutStage />
+    <CheckOutStage :currentStep="'Payment'"/>
     <div class="payment container">
         <div class="payment_paymentWrap row">
             <div class="col-12 col-md-6 payment_info">

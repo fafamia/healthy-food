@@ -92,9 +92,6 @@ import { useProductStore } from '@/stores/Product';
 import { useCartStore } from "@/stores/cart";
 import { computed,ref } from 'vue';
 
-
-
-
 export default {
   setup() {
     //使用ProductStore
@@ -140,7 +137,8 @@ export default {
       nutrition: false
     });
     const toggleCollapse = (collapseName)=> {
-      collapseStatus[collapseName] = !collapseStatus[collapseName]
+      collapseStatus.value[collapseName] = !collapseStatus.value[collapseName]
+      console.log(collapseStatus.value);
     };
 
     const yourBreadcrumbData = ref([

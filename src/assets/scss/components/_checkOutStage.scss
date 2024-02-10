@@ -20,14 +20,6 @@
             line-height: 34px;
             color: $dark-line;
         }
-        &_check{
-            position: absolute;
-            z-index: 2;
-            top: 30%;
-            left: 47%;
-            transform: translate(-30%, -47%);
-            display: none;
-        }
         &_txt{
             color: $dark-line;
             font-weight: $fw-bold;
@@ -39,11 +31,7 @@
     background-color: $primary;
     color: $bgc;
 }
-.blur{
-    border: 3px solid  $primary;
-    color: $bgc;
-}
-.finish{
+.focousTxt{
     color:$primary
 }
 

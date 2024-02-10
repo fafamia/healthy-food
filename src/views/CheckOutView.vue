@@ -1,5 +1,5 @@
 <template>
-    <CheckOutStage/>
+    <CheckOutStage :currentStep="'Order'" />
     <div class="container checkOut">
         <div class="row checkOut_checkOutWrap">
             <table class="col-12 col-md-8 checkOut_fixTop">
