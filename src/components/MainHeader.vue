@@ -130,7 +130,7 @@
                                 </h3>
                             </div>
                             <div class="header_login_model" v-if="isLogin">
-                                <form action="http://localhost/phpLab/healthy-food-php/front/front_login.php" method="post">
+                                <form @submit.prevent="logIn">
                                     <label for="login" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
                                             @click="toggleModel"></i></label>
                                     <input class="header_login_input" type="email" placeholder="請輸入E-mail" id="loginId"

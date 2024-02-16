@@ -16,7 +16,8 @@ header {
     }
 
     .header_logo_link_phone {
-        background-image: url(/src/assets/images/home/phone_logo.png);
+        background-image: url(/src/assets/images/home/pc_logo.svg);
+        background-size: cover;
         width: 100px;
         height: 36px;
         display: block;
@@ -125,7 +126,8 @@ header {
     font-size: 20px;
 
     .header_logo_link_pc {
-        background-image: url(/src/assets/images/home/pc_logo.png);
+        background-image: url(/src/assets/images/home/pc_logo.svg);
+        background-size: cover;
         width: 155px;
         height: 55px;
         display: block;
