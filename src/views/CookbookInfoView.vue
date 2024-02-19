@@ -91,8 +91,7 @@
         <h5>我要留言</h5>
         <div class="letter_box">
           <button type="button" class="login">登入</button>
-          <button type="button" class="upload">↑上傳圖片 
-          </button>
+          <input type="file" id="fileInput">
           <br>
           <textarea name="comment" id="comment" cols="15" rows="6" placeholder="輸入內容（最多90字）
           "></textarea>
