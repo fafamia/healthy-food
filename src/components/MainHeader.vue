@@ -230,6 +230,8 @@
 import { RouterLink } from 'vue-router';
 import ShoppingCart from "@/components/ShoppingCart.vue"
 import axios from 'axios';
+import { mapActions } from 'pinia'
+import { userStore } from '../stores/user.js'
 
 export default {
     data() {
@@ -250,7 +252,16 @@ export default {
             },
         }
     },
-    created() { },
+    created() {
+        const store = userStore();
+        const user = store.checkLogin();
+        if (user) {
+            //有登入資訊轉到首頁
+            // this.$router.push('/')
+            //有登入資訊user icon換成圖片
+            this.isLoggedIn = true;
+        }
+    },
     methods: {
         toggleHeaderMenu() {
             this.HeaderMenuStatus = !this.HeaderMenuStatus
@@ -263,7 +274,6 @@ export default {
         },
         toggleLogin(isLogin) {
             this.isLogin = isLogin;
-
         },
         toggleShoppingDrawer() {
             this.$refs.shoppingCartRef.toggleShoppingDrawer()
@@ -275,19 +285,10 @@ export default {
         closeSignupDown() {
             this.isDown = false;
         },
-        setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        },
         logIn(e) {
             //阻止表單默認行為
             e.preventDefault();
-
+            const store = userStore();
             axios({
                 method: 'post',
                 url: 'http://localhost/phpLab/healthy-food-php/front/front_login.php',
@@ -300,20 +301,13 @@ export default {
                 .then(res => {
                     const data = res.data;
                     if (data.status === 'success') {
-                        console.log('登入成功', data.message);
-                        console.log(this.user);
-                        console.log(res);
                         alert('登入成功');
                         this.modelStatus = false;
                         this.isLoggedIn = true;
-                        //前端存localStorage(cookie從後端直接存入)還不確定要用哪個先暫時這樣
-                        localStorage.setItem('member_no', data.member.member_no);
-                        localStorage.setItem('member_email', data.member.member_email);
-                        localStorage.setItem('member_name', data.member.member_name);
+                        console.log(data);
+                        store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
+                        store.updateUserData(data.member);//將會員資料放入pinia中
                     } else {
-                        console.log('登入失敗', data.message);
-                        console.log(this.user);
-                        console.log(res);
                         alert('帳號或密碼錯誤');
                     }
                 })
@@ -325,6 +319,8 @@ export default {
     components: {
         RouterLink,
         ShoppingCart,
+        mapActions,
+        userStore,
     },
 }    
 </script>

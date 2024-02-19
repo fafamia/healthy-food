@@ -12,6 +12,7 @@
     "axios": "^1.6.5",
     "gsap": "^3.9.1",
     "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.1",
     "scrollmagic": "^2.0.8",
     "scrollmagic-plugin-gsap": "^1.0.4",
     "scrollmagic-plugins": "^1.0.8",
