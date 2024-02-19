@@ -252,7 +252,7 @@
         position: relative;
         border-radius: $border-r-1;
 
-        button {
+        button,input {
             font-size: $fs-2;
             cursor: pointer;
             display: flex;
@@ -272,7 +272,7 @@
 
         }
 
-        .upload {
+        input {
             background-color: $white;
             border: none;
             border-radius: $border-r-1;
@@ -425,7 +425,7 @@
         padding: 0;
         .letter_box{
             margin: 10px;
-            button{
+            button,input{
                 font-size: 1em;
             }
             
@@ -435,8 +435,9 @@
                 margin-right: 20px;
             
             }
-            .upload{
+            input{
                 margin: 0;
+                width: 250px;
             }
             textarea{
                 width: auto;
