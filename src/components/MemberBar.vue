@@ -14,18 +14,20 @@
         </div>
         <nav class="member_bar_list">
             <ul>
-                <li :class="{ 'active': activeView === 'info' }" @click="selectView('info')"> <i
-                        class=" fa-solid fa-gear"></i>帳號設定</li>
-                <li :class="{ 'active': activeView === 'coupon' }" @click="selectView('coupon')"><i
-                        class="fa-solid fa-money-check-dollar"></i>折價券</li>
-                <li :class="{ 'active': activeView === 'level' }" @click="selectView('level')"><i
-                        class="fa-solid fa-gift"></i>會員禮遇</li>
-                <li :class="{ 'active': activeView === 'order' }" @click="selectView('order')"><i
-                        class="fa-regular fa-file-lines"></i>訂單查詢</li>
-                <li :class="{ 'active': activeView === 'favourite' }" @click="selectView('favourite')"><i
-                        class="fa-regular fa-heart"></i>我的最愛</li>
-                <li :class="{ 'active': activeView === 'collection' }" @click="selectView('collection')"><i
-                        class="fa-regular fa-bookmark"></i>我的收藏</li>
+                <li :class="{ 'active': isActive('/member/info') }"><router-link to="/member/info"><i
+                            class=" fa-solid fa-gear"></i>帳號設定</router-link></li>
+                <li :class="{ 'active': isActive('/member/coupon') }"><router-link to="/member/coupon"><i
+                            class="fa-solid fa-money-check-dollar"></i>折價券</router-link></li>
+                <li :class="{ 'active': isActive('/member/level') }"><router-link to="/member/level"><i
+                            class="fa-solid fa-gift"></i>會員禮遇</router-link>
+                </li>
+                <li :class="{ 'active': isActive('/member/order') }"><router-link to="/member/order"><i
+                            class="fa-regular fa-file-lines"></i>訂單查詢</router-link></li>
+                <li :class="{ 'active': isActive('/member/favourite') }"><router-link to="/member/favourite">
+                        <i class="fa-regular fa-heart"></i>我的最愛
+                    </router-link></li>
+                <li :class="{ 'active': isActive('/member/collection') }"><router-link to="/member/collection"><i
+                            class="fa-regular fa-bookmark"></i>我的收藏</router-link></li>
             </ul>
         </nav>
     </div>
@@ -33,16 +35,10 @@
 
 <script>
 export default {
-    data() {
-        return {
-            activeView: 'info',
-        }
-    },
     methods: {
-        selectView(view) {
-            this.activeView = view;
-            this.$emit('select-view', view);
-        },
+        isActive(path) {
+            return this.$route.path === path;
+        }
     },
 }
 </script>
