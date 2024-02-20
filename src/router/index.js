@@ -1,9 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import { userStore } from '../stores/user.js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  scrollBehavior(){
-    return{top:0}
+  scrollBehavior() {
+    return { top: 0 }
   },
   routes: [
     {
@@ -68,8 +69,24 @@ const router = createRouter({
     },
     {
       path: '/member',
-      name: 'member',
       component: () => import('../views/MemberView.vue'),
+      beforeEnter: (to, from, next) => {
+        const store = userStore();
+        if (!store.checkLogin()) {
+          next('/'); // 如果用戶未登錄，跳轉首頁
+        } else {
+          next(); // 已登錄，允許訪問
+        }
+      },
+      children: [
+        { path: '', redirect: { name: 'memberInfo' } },
+        { path: 'info', name: 'memberInfo', component: () => import('@/components/MemberInfo.vue') },
+        { path: 'coupon', name: 'memberCoupon', component: () => import('@/components/MemberCoupon.vue') },
+        { path: 'level', name: 'memberLevel', component: () => import('@/components/MemberLevel.vue') },
+        { path: 'order', name: 'memberOrder', component: () => import('@/components/MemberOrder.vue') },
+        { path: 'favourite', name: 'memberFavourite', component: () => import('@/components/MemberFavourite.vue') },
+        { path: 'collection', name: 'memberCollection', component: () => import('@/components/MemberCollection.vue') },
+      ]
     },
     {
       path: '/game',
@@ -80,7 +97,7 @@ const router = createRouter({
       path: '/productinfo/:id',
       name: 'productinfo',
       component: () => import('../views/ProductInfo.vue'),
-      props:true
+      props: true
     },
     {
       path: '/articleinfo',
@@ -107,7 +124,7 @@ const router = createRouter({
       name: 'confirm',
       component: () => import('../views/ConfirmView.vue'),
     },
-   
+
   ]
 })
 

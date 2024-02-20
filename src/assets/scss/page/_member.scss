@@ -90,13 +90,21 @@
         display: flex;
         align-items: center;
         color: #6c6c6c;
-        cursor: pointer;
         padding-left: $sp-2;
 
         &:hover,
         &.active {
-            color: $primary;
             border-left: 5px solid $primary;
+
+            a {
+                color: $primary;
+            }
+
+
+        }
+
+        a {
+            color: #6c6c6c;
         }
 
         i {

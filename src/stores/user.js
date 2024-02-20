@@ -30,6 +30,12 @@ export const userStore = defineStore('userStore', {
                 return ''
             }
         },
+        clearToken() {
+            this.token = ''
+            this.userData = {}
+            localStorage.clear();
+        }
     },
+    //開啟pinia持久化插件
     persist: true,
 })
