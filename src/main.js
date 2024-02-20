@@ -2,7 +2,6 @@
 
 import { createApp } from 'vue' //來自套件
 import { createPinia } from 'pinia' //來自套件
-import { createPersistedState } from 'pinia-plugin-persistedstate' //持久化插件
 
 import App from './App.vue' //.src資料夾
 import router from './router' //.src資料夾
@@ -11,7 +10,6 @@ import router from './router' //.src資料夾
 const vueApp = createApp(App)
 
 const pinia = createPinia()
-pinia.use(createPersistedState())
 
 vueApp.use(pinia)
 vueApp.use(router)

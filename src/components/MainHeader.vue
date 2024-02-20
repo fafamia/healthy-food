@@ -299,12 +299,11 @@ export default {
             }
         }
     },
-    created() {
+    async created() {
         const store = userStore();
-        const user = store.checkLogin();
+        const user = await store.checkLogin();
         if (user) {
-            //有登入資訊轉到首頁
-            // this.$router.push('/')
+            console.log('有動');
             //有登入資訊user icon換成圖片
             this.isLoggedIn = true;
         }
