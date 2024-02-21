@@ -27,7 +27,7 @@ export const userStore = defineStore('userStore', {
 
                 axios({
                     method: 'post',
-                    url: 'http://localhost/phpLab/healthy-food-php/front/member/fornt_checkLogin.php',
+                    url: `${import.meta.env.VITE_API_URL}/front/member/front_checkLogin.php`,
                     headers: {
                         'Content-Type': 'application/json'
                     },
