@@ -348,7 +348,7 @@ export default {
             const store = userStore();
             axios({
                 method: 'post',
-                url: `${import.meta.env.VITE_API_URL}/front_login.php`,
+                url: `${import.meta.env.VITE_API_URL}/front/member/front_login.php`,
                 data: this.user,
                 withCredentials: true, // 確保跨域請求時能夠發送 cookies（如果您的身份驗證機制依賴於此）
                 headers: {
@@ -412,7 +412,7 @@ export default {
                 e.preventDefault();
                 axios({
                     method: 'post',
-                    url: `${import.meta.env.VITE_API_URL}/front_signup.php`,
+                    url: `${import.meta.env.VITE_API_URL}/front/member/front_signup.php`,
                     data: this.newUser,
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
