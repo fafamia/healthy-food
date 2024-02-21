@@ -77,7 +77,7 @@ const router = createRouter({
       component: () => import('../views/GameView.vue'),
     },
     {
-      path: '/productinfo/:id',
+      path: '/productinfo/:product_no',
       name: 'productinfo',
       component: () => import('../views/ProductInfo.vue'),
       props:true

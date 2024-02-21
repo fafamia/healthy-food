@@ -70,6 +70,7 @@
 
     </div>
     
+    <button @click="getProductData">getProductData</button>
 
 
   </div>
@@ -116,6 +117,8 @@ export default {
         };
     //使用ProductStore
     const ProductStore = useProductStore();
+    const getProductData = ProductStore.getProductData;
+
     const originData = ProductStore.products;
     const productDisplay = ref([]);
     const getImageUrl = ProductStore.getImageUrl;
@@ -179,6 +182,7 @@ export default {
       filterPhoneList,
       change, // 將 'change' 包含在返回對象中
       filter,
+      getProductData,
     };
   },
 }

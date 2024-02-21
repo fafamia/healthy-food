@@ -3,17 +3,18 @@
   <div class="productInfo container" v-if="ProductDisplay">
     <div class="productInfo_product row ">
       <div class="productInfo_product_image col-12 col-md-6">
-        <img :src=getImageUrl(ProductDisplay.image) alt="product1">
+        <!-- <img src="http://localhost/phpLab/image/product/6.jpg" alt=""> -->
+        <img :src=getImageUrl(ProductDisplay.product_img) :alt="ProductDisplay.product_img">
       </div>
       <div class="productInfo_product_txt col-12 col-md-6">
         <div class="productInfo_product_txtWrap">
           <div class="productInfo_product_txt_title">
-            <h1>{{ ProductDisplay.name }}</h1>
-            <span>${{ ProductDisplay.price }}</span>
+            <h1>{{ ProductDisplay.product_name }}</h1>
+            <span>${{ ProductDisplay.product_price }}</span>
           </div>
           <div class="productInfo_product_txt_describe">
-            <p>商品編號#{{ ProductDisplay.id }}</p>
-            <p>{{ ProductDisplay.desc }}</p>
+            <p>商品編號#{{ ProductDisplay.product_no }}</p>
+            <p>{{ ProductDisplay.product_info }}</p>
           </div>
           <div class="productInfo_product_collapse">
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('location')">
@@ -21,28 +22,21 @@
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="productInfo_product_collapse_txt" v-show="collapseStatus.location">
-              <p>桃園</p>
+              <p>{{ ProductDisplay.product_loc }}</p>
             </div>
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('spec')">
               <h3>產品規格</h3>
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="productInfo_product_collapse_txt" v-show="collapseStatus.spec">
-              <p>300g/包</p>
+              <p>{{ ProductDisplay.product_standard }}</p>
             </div>
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('nutrition')">
               <h3>營養標示</h3>
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="productInfo_product_collapse_txt" v-show="collapseStatus.nutrition">
-              <p>
-                <li>每份量： 100 克</li>
-                <li>熱量： 120 大卡</li>
-                <li>脂肪： 2 克</li>
-                <li>膽固醇： 60 毫克</li>
-                <li>鈉： 70 毫克</li>
-                <li>碳水化合物： 0 克</li>
-              </p>
+              <p>{{ ProductDisplay.product_content }}</p>
             </div>
           </div>
         </div>
@@ -61,7 +55,7 @@
     <P>此商品缺貨</P>
   </div>
   
-  <div class="more_title">
+  <!-- <div class="more_title">
     <hr>
     <h2>多點健康</h2>
   </div>
@@ -81,7 +75,7 @@
             >查看商品詳情</router-link>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 
@@ -90,7 +84,7 @@ import  Breadcrumb  from "@/components/Breadcrumb.vue";
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/Product';
 import { useCartStore } from "@/stores/cart";
-import { computed,ref } from 'vue';
+import { computed,ref,onMounted } from 'vue';
 
 export default {
   setup() {
@@ -98,9 +92,15 @@ export default {
     const ProductStore = useProductStore();
     //使用composition API中的route 
     const route = useRoute();
-    //使用ProductStore中根據route綁定id所送出的data
-    const ProductId = computed(()=>parseInt(route.params.id));
-    const ProductDisplay = computed(()=>ProductStore.getProductById(ProductId.value));
+
+    onMounted(()=>{
+      ProductStore.getProductData();
+    })
+    //const ProductDisplay = ProductStore.products;
+
+    //使用ProductStore中根據route綁定no所送出的data
+    const ProductNo = computed(()=>parseInt(route.params.product_no));
+    const ProductDisplay = computed(()=>ProductStore.getProductByNo(ProductNo.value));
     //抓到圖片路徑
     const getImageUrl = ProductStore.getImageUrl;
     
@@ -138,7 +138,7 @@ export default {
     });
     const toggleCollapse = (collapseName)=> {
       collapseStatus.value[collapseName] = !collapseStatus.value[collapseName]
-      console.log(collapseStatus.value);
+      //console.log(collapseStatus.value);
     };
 
     const yourBreadcrumbData = ref([
