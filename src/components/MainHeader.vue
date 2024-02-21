@@ -348,7 +348,7 @@ export default {
             const store = userStore();
             axios({
                 method: 'post',
-                url: 'http://localhost/phpLab/healthy-food-php/front/member/front_login.php',
+                url: `${import.meta.env.VITE_API_URL}/front_login.php`,
                 data: this.user,
                 withCredentials: true, // 確保跨域請求時能夠發送 cookies（如果您的身份驗證機制依賴於此）
                 headers: {
@@ -406,15 +406,13 @@ export default {
             }
         },
         registerUser(e) {
-            if (this.newUser.au4a83 !== this.newUser.au4a83again) {
-                alert('請確認是否輸入相同密碼');
-            } else if (this.newUser.au4a83.length < 6 && this.newUser.au4a83.length < 6) {
-                alert('密碼為英數字6-12碼');
+            if (!this.validateFormData()) {
+                return;
             } else {
                 e.preventDefault();
                 axios({
                     method: 'post',
-                    url: 'http://localhost/phpLab/healthy-food-php/front/member/front_signup.php',
+                    url: `${import.meta.env.VITE_API_URL}/front_signup.php`,
                     data: this.newUser,
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -444,7 +442,46 @@ export default {
                         console.log(err);
                     })
             }
-        }
+        },
+        validateFormData() {
+            // 手機號碼正則表達式
+            const telPattern = /^0\d{9}$/;
+            // email正則表達式
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // 密碼正則表達式
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$/;
+
+            if (!this.newUser.name) {
+                alert('姓名不能為空');
+                return false;
+            } else if (this.newUser.tel === '') {
+                alert('電話號碼不能為空');
+                return false;
+            } else if (!this.newUser.tel || !telPattern.test(this.newUser.tel)) {
+                alert('請輸入有效的電話號碼');
+                return false;
+            } else if (this.newUser.email === '') {
+                alert('電⼦郵件不能為空');
+                return false;
+            } else if (!this.newUser.email || !emailPattern.test(this.newUser.email)) {
+                alert('電⼦郵件格式不正確');
+                return false;
+            } else if (!this.newUser.au4a83 || !passwordPattern.test(this.newUser.au4a83) || this.newUser.au4a83 !== this.newUser.au4a83again) {
+                alert(this.newUser.au4a83 !== this.newUser.au4a83again ? '請確認是否輸入相同密碼' : '密碼格式不正確，應為6-12位英數字混合');
+                return false;
+            } else if (this.newUser.county === '') {
+                alert('縣市不能爲"選擇縣市"');
+                return false;
+            } else if (this.newUser.city === '') {
+                alert('鄉鎮不能爲"選擇鄉鎮"');
+                return false;
+            } else if (!this.newUser.addr) {
+                alert('地址不能為空');
+                return false;
+            } else {
+                return true
+            }
+        },
     },
     components: {
         RouterLink,
@@ -452,7 +489,7 @@ export default {
         mapActions,
         userStore,
     },
-}    
+}       
 </script>
 
 <style lang="scss">
