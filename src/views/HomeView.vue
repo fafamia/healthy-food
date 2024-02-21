@@ -4,8 +4,8 @@
         <div ref="myBanner" class="home_banner">
             <div ref="bannerContent" class="banner_content" :width="divWidth">
                 <div class="banner_wall">
-                    <div class="bag_banner_img" v-for="num in home_banner_text.length" :key="num">
-                        <img class="home_bannerpic" :src="getImageUrl(`banner/banner0${num}.jpg`)" :width="divWidth"
+                    <div class="bag_banner_img" v-for="num in banners" :key="num">
+                        <img class="home_bannerpic" :src="getImageUrl(`banner/${num.banner_image}`)" :width="divWidth"
                             alt="banner">
                     </div>
                 </div>
@@ -255,15 +255,13 @@
 
 <script>
 import { RouterLink } from 'vue-router'
+import axios from "axios";
 export default {
     data() {
         return {
             imgnum: 1, //照片index(配合文字也吃)
-            home_banner_text: [
-                '嚴選有機食材<br>為您和家人打造營養均衡的每一餐',
-                '嚴選有機食材<br>為您和寵物打造營養均衡的每一餐',
-                '嚴選有機食材<br>為您和狗狗打造營養均衡的每一餐'
-            ],
+            home_banner_text: [],
+            banners:[],
             activeButton: 1,
             feature: [
                 {
@@ -522,7 +520,20 @@ export default {
             return this.items[index].name;
         }
     },
+    created() {
+        this.fetchBanners();
+    },
     methods: {
+        fetchBanners() {          //匯入
+            axios.get(`${import.meta.env.VITE_API_URL}/front_home_banner.php`)
+            .then(response => {
+                this.banners = response.data;
+                this.home_banner_text = this.banners.map(item => item.banner_title);
+            })
+            .catch(error => {
+                console.error('Error fetching banners:', error);
+            });
+        },
         getImageUrl(paths) {
             return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
         },
@@ -645,6 +656,7 @@ export default {
         nextSlide() {
             this.assistantsCurrentIndex = (this.assistantsCurrentIndex + 1) % this.carouselItems.length;
         },
+
     },
     mounted() { // Vue 實例創建之後立即被調用
         this.$nextTick(() => {

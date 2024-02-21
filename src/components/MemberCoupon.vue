@@ -2,10 +2,6 @@
     <div class="col-12 col-lg-9">
         <div class="member_coupon">
             <h2>折價券</h2>
-            <div class="coupon_input_area">
-                <input class="input_coupon" type="text" name="coupon_code" placeholder="請輸入折扣碼">
-                <button type="button">兌換</button>
-            </div>
             <div class="coupon_list">
                 <div class="coupon_card" v-for="coupon in coupons" :key="coupon.id">
                     <h2 class="coupon_card_price">{{ coupon.price }}</h2>

@@ -16,7 +16,8 @@ header {
     }
 
     .header_logo_link_phone {
-        background-image: url(/src/assets/images/home/phone_logo.png);
+        background-image: url(/src/assets/images/home/pc_logo.svg);
+        background-size: cover;
         width: 100px;
         height: 36px;
         display: block;
@@ -125,7 +126,8 @@ header {
     font-size: 20px;
 
     .header_logo_link_pc {
-        background-image: url(/src/assets/images/home/pc_logo.png);
+        background-image: url(/src/assets/images/home/pc_logo.svg);
+        background-size: cover;
         width: 155px;
         height: 55px;
         display: block;
@@ -184,15 +186,12 @@ header {
                 }
             }
         }
-
-
-
     }
 
     .header_pc_icon_nav {
         display: flex;
 
-        li {
+        li:not(.user_pic) {
             margin-right: $sp-2;
             cursor: pointer;
 
@@ -202,8 +201,84 @@ header {
 
         }
 
+        .user_pic {
+            margin-right: $sp-2;
+            position: relative;
+            cursor: pointer;
+        }
+
         li:last-child {
             margin-right: 0px;
+        }
+    }
+
+    .member_list {
+        font-family: 'Noto Sans TC', sans-serif;
+        background-color: #fff;
+        border-radius: $border-r-1;
+        width: 220px;
+        font-size: $fs-3;
+        font-weight: normal;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        z-index: 10;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+        .user_info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px 10px 20px;
+            border-bottom: 1px solid $border-bg;
+            cursor: pointer;
+            color: #000;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+
+        .mem {
+            display: flex;
+            align-items: center;
+
+            p {
+                margin-left: $sp-1;
+            }
+        }
+
+        .member_nav {
+            padding: 20px 20px 0 20px;
+            border-bottom: 1px solid $border-bg;
+
+            li {
+                margin-bottom: $sp-2;
+
+                a {
+                    color: #000;
+
+                    &:hover {
+                        color: $primary;
+                    }
+                }
+
+                i {
+                    width: 25px;
+                    text-align: center;
+                    margin-right: $sp-1;
+                }
+            }
+        }
+
+        .member_logout {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+
+            &:hover {
+                color: $primary;
+            }
         }
     }
 }
@@ -290,6 +365,10 @@ header {
             top: 6px;
             right: 10px;
             color: $dark-line;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 

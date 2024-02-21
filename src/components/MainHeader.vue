@@ -8,8 +8,7 @@
                 <nav>
                     <ul class="header_phone_nav">
                         <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
-                        <li v-else class="fa-solid fa-icon-you-want"><router-link to="/member"><img
-                                    src="/src/assets/images/home/header_img.png"></router-link></li>
+                        <li v-else class="fa-solid fa-icon-you-want"><img src="/src/assets/images/home/header_img.png"></li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
                     </ul>
@@ -112,8 +111,34 @@
                     </nav>
                     <ul class="header_pc_icon_nav">
                         <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
-                        <li v-else class="fa-solid fa-icon-you-want"><router-link to="/member"><img
-                                    src="/src/assets/images/home/header_img.png"></router-link></li>
+                        <li v-else class="fa-solid fa-icon-you-want user_pic" @click="toggleMemList"><img
+                                src="/src/assets/images/home/header_img.png">
+                            <div class="member_list" v-show="isMemberList">
+                                <router-link to="/member" class="user_info">
+                                    <div class="mem">
+                                        <img src="/src/assets/images/home/header_img.png">
+                                        <p>黃金會員</p>
+                                    </div>
+                                    <i class="fa-solid fa-gear"></i>
+                                </router-link>
+                                <ul class="member_nav">
+                                    <li><router-link to="/member/coupon"><i
+                                                class="fa-solid fa-money-check-dollar"></i>折價券</router-link></li>
+                                    <li><router-link to="/member/level"><i class="fa-solid fa-gift"></i>會員禮遇</router-link>
+                                    </li>
+                                    <li><router-link to="/member/order"><i
+                                                class="fa-regular fa-file-lines"></i>訂單查詢</router-link></li>
+                                    <li><router-link to="/member/favourite">
+                                            <i class="fa-regular fa-heart"></i>我的最愛
+                                        </router-link></li>
+                                    <li><router-link to="/member/collection"><i
+                                                class="fa-regular fa-bookmark"></i>我的收藏</router-link></li>
+                                </ul>
+                                <div class="member_logout">
+                                    <p @click="logOut">登出</p>
+                                </div>
+                            </div>
+                        </li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                     </ul>
                 </div>
@@ -126,19 +151,20 @@
                                 <h3 :class="{ title_active: isLogin, title_inactive: !isLogin }" @click="toggleLogin(true)">
                                     登入</h3>
                                 <h3 :class="{ title_active: !isLogin, title_inactive: isLogin }"
-                                    @click="toggleLogin(false)">註冊
+                                    @click="toggleLogin(false); getLocations();">註冊
                                 </h3>
                             </div>
                             <div class="header_login_model" v-if="isLogin">
-                                <form action="http://localhost/phpLab/healthy-food-php/front/front_login.php" method="post">
+                                <form @submit.prevent="logIn">
                                     <label for="login" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
                                             @click="toggleModel"></i></label>
                                     <input class="header_login_input" type="email" placeholder="請輸入E-mail" id="loginId"
                                         v-model="user.memId" name="memId" required>
                                     <div class="password">
-                                        <input class="header_login_input" type="password" placeholder="請輸入密碼" id="loginPsw"
-                                            v-model="user.memPsw" name="memPsw" required>
-                                        <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
+                                        <input class="header_login_input" :type="passwordVisible ? 'text' : 'password'"
+                                            placeholder="請輸入密碼" id="loginPsw" v-model="user.memPsw" name="memPsw" required>
+                                        <span class="eye" @click="togglePasswordVisibility"><i class="fa"
+                                                :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i></span>
                                     </div>
                                     <input type="submit" class="header_login_input member-btn" value="登入" id="submit-login"
                                         @click.prevent="logIn">
@@ -159,40 +185,47 @@
                                 </div>
                             </div>
                             <div class="header_signup_model" v-if="!isLogin">
-                                <form action="/signup" method="post">
+                                <form @submit.prevent="registerUser">
                                     <label for="signup" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
                                             @click="toggleModel"></i></label>
-                                    <input class="signup_modal_input" type="text" placeholder="請輸入您的姓名" required>
-                                    <input class="signup_modal_input" type="text" placeholder="請輸入您的手機號碼" required>
-                                    <input class="signup_modal_input" type="email" placeholder="請輸入您的電子信箱" required>
+                                    <input class="signup_modal_input" type="text" placeholder="請輸入您的姓名" name="signup_name"
+                                        v-model="newUser.name" required>
+                                    <input class="signup_modal_input" type="text" placeholder="請輸入您的手機號碼" name="signup_tel"
+                                        v-model="newUser.tel" required>
+                                    <input class="signup_modal_input" type="email" placeholder="請輸入您的電子信箱"
+                                        name="signup_email" v-model="newUser.email" required>
                                     <div class="password">
                                         <input class="signup_modal_input" type="password" placeholder="請輸入密碼(6-12碼英數字混合)"
-                                            required>
+                                            name="signup_psw" v-model="newUser.au4a83" required>
                                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
                                     <div class="password">
-                                        <input class="signup_modal_input" type="password" placeholder="請再次輸入密碼" required>
+                                        <input class="signup_modal_input" type="password" v-model="newUser.au4a83again"
+                                            placeholder="請再次輸入密碼" name="signup_check_psw" required>
                                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
                                     <div class="signup_select_area">
-                                        <select>
+                                        <select name="signup_county" v-model="newUser.county" @change="handleCountyChange">
                                             <option value="">選擇縣市</option>
-                                            <option value="taipei">台北市</option>
-                                            <option value="newtaipei">新北市</option>
-                                            <option value="taichung">南部</option>
+                                            <option v-for="location in locations" :key="location.name"
+                                                :value="location.name">
+                                                {{ location.name }}
+                                            </option>
                                         </select>
-                                        <select>
+                                        <select name="signup_city" v-model="newUser.city">
                                             <option value="">選擇鄉鎮</option>
-                                            <option value="taipei">北區</option>
-                                            <option value="newtaipei">南區</option>
-                                            <option value="taichung">中區</option>
+                                            <option v-for="city in citys" :key="city.name" :value="city.name">
+                                                {{ city.name }}
+                                            </option>
                                         </select>
                                     </div>
+                                    <input type="text" name="signup_address" class="signup_modal_input"
+                                        v-model="newUser.addr" placeholder="請輸入完整地址">
                                     <div class="check-num">
                                         <input class="signup_modal_input" type="text" placeholder="請輸入右側驗證碼" required><span
                                             class="num">5566</span><a href="#"><i class="fa-solid fa-rotate-right"></i></a>
                                     </div>
-                                    <button type="button" class="member-btn" @click="toggleSignupDown">註冊</button>
+                                    <button type="submit" class="member-btn" @click.prevent="registerUser">註冊</button>
                                 </form>
 
                                 <div class="orther-way">
@@ -216,7 +249,7 @@
                         <div class="signup_down_text">
                             <i class="fa-solid fa-circle-check"></i>
                             <h4>恭喜您註冊完成</h4>
-                            <p>請到您的信箱啟動驗證信件</p>
+                            <p>請重新登入</p>
                             <button type="button" class="btn-primary" @click="closeSignupDown">確認</button>
                         </div>
                     </div>
@@ -230,6 +263,8 @@
 import { RouterLink } from 'vue-router';
 import ShoppingCart from "@/components/ShoppingCart.vue"
 import axios from 'axios';
+import { mapActions } from 'pinia'
+import { userStore } from '../stores/user.js'
 
 export default {
     data() {
@@ -248,9 +283,31 @@ export default {
                 memId: '',
                 memPsw: '',
             },
+            isMemberList: false,
+            passwordVisible: false,
+            locations: [],
+            citys: [],
+            newUser: {
+                name: '',
+                tel: '',
+                email: '',
+                au4a83: '',
+                au4a83again: '',
+                county: '',
+                city: '',
+                addr: ''
+            }
         }
     },
-    created() { },
+    async created() {
+        const store = userStore();
+        const user = await store.checkLogin();
+        if (user) {
+            console.log('有動');
+            //有登入資訊user icon換成圖片
+            this.isLoggedIn = true;
+        }
+    },
     methods: {
         toggleHeaderMenu() {
             this.HeaderMenuStatus = !this.HeaderMenuStatus
@@ -263,7 +320,6 @@ export default {
         },
         toggleLogin(isLogin) {
             this.isLogin = isLogin;
-
         },
         toggleShoppingDrawer() {
             this.$refs.shoppingCartRef.toggleShoppingDrawer()
@@ -271,26 +327,28 @@ export default {
         toggleSignupDown() {
             this.isDown = !this.isDown;
             this.modelStatus = false;
+            this.toggleLogin(true);
+            this.newUser = {
+                name: '',
+                tel: '',
+                email: '',
+                au4a83: '',
+                au4a83again: '',
+                county: '',
+                city: '',
+                addr: ''
+            };
         },
         closeSignupDown() {
             this.isDown = false;
         },
-        setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        },
         logIn(e) {
             //阻止表單默認行為
             e.preventDefault();
-
+            const store = userStore();
             axios({
                 method: 'post',
-                url: 'http://localhost/phpLab/healthy-food-php/front/front_login.php',
+                url: `${import.meta.env.VITE_API_URL}/front_login.php`,
                 data: this.user,
                 withCredentials: true, // 確保跨域請求時能夠發送 cookies（如果您的身份驗證機制依賴於此）
                 headers: {
@@ -300,20 +358,18 @@ export default {
                 .then(res => {
                     const data = res.data;
                     if (data.status === 'success') {
-                        console.log('登入成功', data.message);
-                        console.log(this.user);
-                        console.log(res);
                         alert('登入成功');
+                        //清空輸入格的字
+                        this.user.memId = '';
+                        this.user.memPsw = '';
+                        //關閉燈箱
                         this.modelStatus = false;
+                        //換大頭貼
                         this.isLoggedIn = true;
-                        //前端存localStorage(cookie從後端直接存入)還不確定要用哪個先暫時這樣
-                        localStorage.setItem('member_no', data.member.member_no);
-                        localStorage.setItem('member_email', data.member.member_email);
-                        localStorage.setItem('member_name', data.member.member_name);
+                        console.log(data);
+                        store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
+                        store.updateUserData(data.member);//將會員資料放入pinia中
                     } else {
-                        console.log('登入失敗', data.message);
-                        console.log(this.user);
-                        console.log(res);
                         alert('帳號或密碼錯誤');
                     }
                 })
@@ -321,12 +377,119 @@ export default {
                     console.log(err);
                 })
         },
+        toggleMemList() {
+            this.isMemberList = !this.isMemberList;
+        },
+        logOut() {
+            const store = userStore();
+            store.clearToken(); //pinia 清空localStorage
+            this.isLoggedIn = false;
+            this.$router.push('/'); //跳轉回首頁
+        },
+        togglePasswordVisibility() {
+            this.passwordVisible = !this.passwordVisible;
+        },
+        getLocations() {
+            axios.get('/public/taiwan_districts.json')
+                .then(res => {
+                    this.locations = res.data;
+                })
+                .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+        },
+        handleCountyChange(event) {
+            const countyName = event.target.value;
+            const location = this.locations.find(loc => loc.name === countyName);
+            if (location) {
+                this.citys = location.districts;
+            } else {
+                this.citys = [];
+            }
+        },
+        registerUser(e) {
+            if (!this.validateFormData()) {
+                return;
+            } else {
+                e.preventDefault();
+                axios({
+                    method: 'post',
+                    url: `${import.meta.env.VITE_API_URL}/front_signup.php`,
+                    data: this.newUser,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                    .then(res => {
+                        console.log(res);
+                        console.log(res.data);
+                        console.log(res.data.msg);
+                        if (res && res.data && res.data.msg === '註冊成功') {
+                            this.toggleSignupDown();
+                        } else {
+                            alert(res.data.msg);
+                            this.newUser = {
+                                name: '',
+                                tel: '',
+                                email: '',
+                                au4a83: '',
+                                au4a83again: '',
+                                county: '',
+                                city: '',
+                                addr: ''
+                            };
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            }
+        },
+        validateFormData() {
+            // 手機號碼正則表達式
+            const telPattern = /^0\d{9}$/;
+            // email正則表達式
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // 密碼正則表達式
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,12}$/;
+
+            if (!this.newUser.name) {
+                alert('姓名不能為空');
+                return false;
+            } else if (this.newUser.tel === '') {
+                alert('電話號碼不能為空');
+                return false;
+            } else if (!this.newUser.tel || !telPattern.test(this.newUser.tel)) {
+                alert('請輸入有效的電話號碼');
+                return false;
+            } else if (this.newUser.email === '') {
+                alert('電⼦郵件不能為空');
+                return false;
+            } else if (!this.newUser.email || !emailPattern.test(this.newUser.email)) {
+                alert('電⼦郵件格式不正確');
+                return false;
+            } else if (!this.newUser.au4a83 || !passwordPattern.test(this.newUser.au4a83) || this.newUser.au4a83 !== this.newUser.au4a83again) {
+                alert(this.newUser.au4a83 !== this.newUser.au4a83again ? '請確認是否輸入相同密碼' : '密碼格式不正確，應為6-12位英數字混合');
+                return false;
+            } else if (this.newUser.county === '') {
+                alert('縣市不能爲"選擇縣市"');
+                return false;
+            } else if (this.newUser.city === '') {
+                alert('鄉鎮不能爲"選擇鄉鎮"');
+                return false;
+            } else if (!this.newUser.addr) {
+                alert('地址不能為空');
+                return false;
+            } else {
+                return true
+            }
+        },
     },
     components: {
         RouterLink,
         ShoppingCart,
+        mapActions,
+        userStore,
     },
-}    
+}       
 </script>
 
 <style lang="scss">
