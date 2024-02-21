@@ -42,7 +42,7 @@
 
 <script>
 import { RouterLink, RouterView } from 'vue-router';
-import { useCartStore } from "@/stores/Cart";
+import { useCartStore } from "@/stores/cart";
 import { useProductStore } from '@/stores/Product';
 
 export default {
