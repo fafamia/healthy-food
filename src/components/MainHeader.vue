@@ -11,6 +11,7 @@
                         <li v-else class="fa-solid fa-icon-you-want"><router-link to="/member"><img
                                     src="/src/assets/images/home/header_img.png"></router-link></li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
+                        <div class="cart-count">{{ cartItemCount }}</div>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
                     </ul>
                 </nav>
@@ -114,7 +115,8 @@
                         <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
                         <li v-else class="fa-solid fa-icon-you-want"><router-link to="/member"><img
                                     src="/src/assets/images/home/header_img.png"></router-link></li>
-                        <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
+                        <li @click="toggleShoppingDrawer" class="cartIcon"><i class="fa-solid fa-cart-shopping"></i></li>
+                        <div class="cart-count">{{ cartItemCount }}</div>
                     </ul>
                 </div>
             </div>
@@ -230,6 +232,10 @@
 import { RouterLink } from 'vue-router';
 import ShoppingCart from "@/components/ShoppingCart.vue"
 import axios from 'axios';
+import { useCartStore } from '@/stores/cart';
+import { computed } from 'vue';
+
+
 
 export default {
     data() {
@@ -248,9 +254,17 @@ export default {
                 memId: '',
                 memPsw: '',
             },
+            cartItemCount: 0 // 初始化購物車數量為 0
         }
     },
-    created() { },
+    created() {
+        const cart = useCartStore();
+
+        // 使用 computed 属性動態計算購物車的數量
+        this.cartItemCount = computed(() => {
+            return cart.count;
+        });
+    },
     methods: {
         toggleHeaderMenu() {
             this.HeaderMenuStatus = !this.HeaderMenuStatus
@@ -331,5 +345,4 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/main.scss';
-@import "@/assets/scss/layout/_header.scss";
-</style>
+@import "@/assets/scss/layout/_header.scss";</style>
