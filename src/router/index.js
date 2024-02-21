@@ -93,6 +93,11 @@ const router = createRouter({
       component: () => import('../views/CookbookInfoView.vue'),
     },
     {
+      path: '/cookbookinfo/:id',
+      name: 'cookbookinfo',
+      component: () => import('../views/CookbookInfoView.vue'),
+    },
+    {
       path: '/checkout',
       name: 'checkout',
       component: () => import('../views/CheckOutView.vue'),

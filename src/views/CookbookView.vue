@@ -17,7 +17,7 @@
         <li v-for="product in displayedProducts" :key="product.prod_id">
           <article>
             <i @click="toggleBookmark(product)" :class="product.iconClass" class="bookmark"></i>
-            <router-link to="/cookbookinfo"><img :src="getProductImage(product)" :alt="product.prod_name"></router-link>>
+            <router-link :to="`/cookbookinfo/${product.prod_id}`"><img :src="getProductImage(product)" :alt="product.prod_name"></router-link>>
             <div class="text">
               <router-link to="/cookbookinfo">
                 <h4>{{ product.prod_name }}</h4>
@@ -44,6 +44,8 @@
 
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
+import { mapActions } from 'pinia'
+import { userStore } from '../stores/user.js'
 
 export default {
   props: ['cardUrl'],
@@ -80,22 +82,22 @@ export default {
     copyUrl() {
       // 創建一個新的文本區域元素
       const textArea = document.createElement("textarea");
-      
+
       // 將卡片對應的URL設置為文本區域的值
       textArea.value = this.cardUrl;
-      
+
       // 將文本區域添加到DOM中
       document.body.appendChild(textArea);
-      
+
       // 選擇文本區域中的內容
       textArea.select();
-      
+
       // 嘗試複製選定的文本
       document.execCommand("copy");
-      
+
       // 從DOM中刪除文本區域元素
       document.body.removeChild(textArea);
-      
+
       // 提示用戶已經複製
       alert("已複製食譜網址：" + this.cardUrl);
     },
@@ -137,6 +139,8 @@ export default {
     RouterLink,
     RouterView,
     Breadcrumb,
+    mapActions,
+    userStore,
   },
 };
 </script>
