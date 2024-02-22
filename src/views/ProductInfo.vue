@@ -3,7 +3,6 @@
   <div class="productInfo container" v-if="ProductDisplay">
     <div class="productInfo_product row ">
       <div class="productInfo_product_image col-12 col-md-6">
-        <!-- <img src="http://localhost/phpLab/image/product/6.jpg" alt=""> -->
         <img :src=getImageUrl(ProductDisplay.product_img) :alt="ProductDisplay.product_img">
       </div>
       <div class="productInfo_product_txt col-12 col-md-6">
@@ -93,10 +92,7 @@ export default {
     //使用composition API中的route 
     const route = useRoute();
 
-    onMounted(()=>{
-      ProductStore.getProductData();
-    })
-    //const ProductDisplay = ProductStore.products;
+    ProductStore.getProductData();
 
     //使用ProductStore中根據route綁定no所送出的data
     const ProductNo = computed(()=>parseInt(route.params.product_no));
@@ -118,12 +114,12 @@ export default {
     const CartStore = useCartStore();
     //使用CartStore中的addCart(),把資料傳回去
     const addCart = ()=> CartStore.addCart({
-      id: ProductDisplay.value.id,
-      name:ProductDisplay.value.name,
-      quantity: pageQuantity.value,
-      image:ProductDisplay.value.image,
-      price:ProductDisplay.value.price,
-      checked:ProductDisplay.value.checked,
+      product_no: ProductDisplay.value.product_no,
+      product_name:ProductDisplay.value.product_name,
+      product_quantity: pageQuantity.value,
+      product_img:ProductDisplay.value.product_img,
+      product_price:ProductDisplay.value.product_price,
+      // checked:ProductDisplay.value.checked,
     });
     //會生成一個介於 -0.5 到 0.5 之間的隨機數,大於 0.5，則返回正數，a 和 b 位置交換
     const getRandomSubset = (array, size) => {

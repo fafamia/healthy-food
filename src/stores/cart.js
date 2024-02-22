@@ -39,7 +39,7 @@ export const useCartStore =  defineStore("CartStore", {
         //--計算小計--
         subTotal:(state)=>{
             return state.cartList.reduce((acc,product)=>{
-                return acc + (product.price*product.quantity);
+                return acc + (product.product_price*product.product_quantity);
             },0);
         },
         // --計算總額,和折價券連動--
@@ -55,14 +55,16 @@ export const useCartStore =  defineStore("CartStore", {
     },
     actions: {
         addCart(product){
+            console.log(product);
+            console.log(product.product_no);
             //用findIndex(裡面可以放function)判斷商品是否已在購物車
-            const index = this.cartList.findIndex(p=>p.id === product.id)
+            const index = this.cartList.findIndex(p=>p.product_no === product.product_no)
             //如果在購物車中index會從0開始
             if (index !== -1){
                 //判斷回傳的id是否已經在購物車中,如果已經在購物車內,只更新數量
-                const cartItem = this.cartList.find(item => item.id === product.id)
+                const cartItem = this.cartList.find(item => item.product_no === product.product_no)
                 if(cartItem){
-                    cartItem.quantity += product.quantity;
+                    cartItem.product_quantity += product.product_quantity;
                 }
             //如果不在購物車,把商品加進去    
             }else{
@@ -70,24 +72,25 @@ export const useCartStore =  defineStore("CartStore", {
             };
             this.saveLocalstorage();
         },
-        newQuantityUpdate(id, action) {
+        newQuantityUpdate(product_no, action) {
+            console.log(product_no);
             //判斷商品是否已在購物車
-            const cartItem = this.cartList.find(item => item.id === id)
+            const cartItem = this.cartList.find(item => item.product_no === product_no)
             //如果不在購物車,出function
             if(!cartItem) return;
             //如果在車內可以增加或減少數量
             if(action === 'increment'){
-                cartItem.quantity +=1
-            }else if(action === 'decrement' && cartItem.quantity > 1){
-                cartItem.quantity -=1
+                cartItem.product_quantity +=1
+            }else if(action === 'decrement' && cartItem.product_quantity > 1){
+                cartItem.product_quantity -=1
             }
             this.saveLocalstorage();
         },
         saveLocalstorage(){
             localStorage.setItem("items",JSON.stringify(this.cartList));
         },
-        deleteCart(id){
-            const index = this.cartList.findIndex(item => item.id === id)
+        deleteCart(product_no){
+            const index = this.cartList.findIndex(item => item.product_no === product_no)
             this.cartList.splice(index,1);
             this.saveLocalstorage();
         },

@@ -13,19 +13,19 @@
                 </tr>
             </table>
             <table class="col-12 col-md-8 checkOut_list">
-                <tr v-for="product in cartList" :key="product.id" class="checkOut_list_content">
+                <tr v-for="product in cartList" :key="product.product_no" class="checkOut_list_content">
                     <td class="checkOut_list_content_check"><input type="checkbox" v-model="product.checked"></td>
-                    <td class="checkOut_list_content_image"><img :src=getImageUrl(product.image)></td>
-                    <td class="checkOut_list_content_name">{{ product.name }}</td>
+                    <td class="checkOut_list_content_image"><img :src=getImageUrl(product.product_img)></td>
+                    <td class="checkOut_list_content_name">{{ product.product_name }}</td>
                     <td class="checkOut_list_content_quantity">
-                        <button class="quantityButton" @click="newQuantityUpdate(product.id, 'decrement')"><i
+                        <button class="quantityButton" @click="newQuantityUpdate(product.product_no, 'decrement')"><i
                                 class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
-                        <span class="quantityNum">{{ product.quantity }}</span>
-                        <button class="quantityButton" @click="newQuantityUpdate(product.id, 'increment')"><i
+                        <span class="quantityNum">{{ product.product_quantity }}</span>
+                        <button class="quantityButton" @click="newQuantityUpdate(product.product_no, 'increment')"><i
                                 class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
                     </td>
-                    <td class="checkOut_list_content_price">${{ product.price }}</td>
-                    <td @click="deleteCart(product.id)" class="checkOut_list_content_delete"><i
+                    <td class="checkOut_list_content_price">${{ product.product_price }}</td>
+                    <td @click="deleteCart(product.product_no)" class="checkOut_list_content_delete"><i
                             class="fa-solid fa-xmark"></i></td>
                 </tr>
             </table>
@@ -71,8 +71,8 @@ export default {
             CartStore,
             cartList: CartStore.cartList,
             getImageUrl:ProductStore.getImageUrl,
-            newQuantityUpdate: (id, action) => CartStore.newQuantityUpdate(id, action),
-            deleteCart: (id) => CartStore.deleteCart(id),
+            newQuantityUpdate: (product_no, action) => CartStore.newQuantityUpdate(product_no, action),
+            deleteCart: (product_no) => CartStore.deleteCart(product_no),
         };
     },
     components: {
