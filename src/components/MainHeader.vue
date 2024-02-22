@@ -10,7 +10,6 @@
                         <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
                         <li v-else class="fa-solid fa-icon-you-want"><img src="/src/assets/images/home/header_img.png"></li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
-                        <div class="cart-count">{{ cartItemCount }}</div>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
                     </ul>
                 </nav>
@@ -140,12 +139,7 @@
                                 </div>
                             </div>
                         </li>
-                        
-                        <li v-else class="fa-solid fa-icon-you-want"><router-link to="/member">
-                        <img
-                                    src="/src/assets/images/home/header_img.png"></router-link></li>
-                        <li @click="toggleShoppingDrawer" class="cartIcon"><i class="fa-solid fa-cart-shopping"></i></li>
-                        <div class="cart-count">{{ cartItemCount }}</div>
+                        <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                     </ul>
                 </div>
             </div>
@@ -271,10 +265,6 @@ import ShoppingCart from "@/components/ShoppingCart.vue"
 import axios from 'axios';
 import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
-import { useCartStore } from '@/stores/cart';
-import { computed } from 'vue';
-
-
 
 export default {
     data() {
@@ -309,24 +299,14 @@ export default {
             }
         }
     },
-    async created() {
+    created() {
         const store = userStore();
-        const user = await store.checkLogin();
+        const user = store.checkLogin();
         if (user) {
             console.log('有動');
             //有登入資訊user icon換成圖片
             this.isLoggedIn = true;
         }
-    },
-            
-    created() {
-        cartItemCount: 0 // 初始化購物車數量為 0
-        const cart = useCartStore();
-
-        // 使用 computed 属性動態計算購物車的數量
-        this.cartItemCount = computed(() => {
-            return cart.count;
-        });
     },
     methods: {
         toggleHeaderMenu() {
@@ -514,4 +494,5 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/main.scss';
-@import "@/assets/scss/layout/_header.scss";</style>
+@import "@/assets/scss/layout/_header.scss";
+</style>
