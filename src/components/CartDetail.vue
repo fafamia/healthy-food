@@ -4,14 +4,14 @@
             <h3 class="CartDetail_title">購物車明細</h3>
             <table class="CartDetail_product">
                 <tr v-for="product in cartList"
-                    :key="product.id" 
+                    :key="product.product_no" 
                     class="CartDetail_product_productTr">
                     <td class="CartDetail_product_image ">
-                        <img :src=getImageUrl(product.image)>
+                        <img :src=getImageUrl(product.product_img)>
                     </td>
-                    <td class="CartDetail_product_name">{{ product.name }}</td>
-                    <td class="CartDetail_product_price">{{ product.price }}</td>
-                    <td class="CartDetail_product_quantity">X{{ product.quantity }}</td>
+                    <td class="CartDetail_product_name">{{ product.product_name }}</td>
+                    <td class="CartDetail_product_price">{{ product.product_price }}</td>
+                    <td class="CartDetail_product_quantity">X{{ product.product_quantity }}</td>
                 </tr>
             </table>
             <table class="CartDetail_amount">

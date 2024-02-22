@@ -169,7 +169,8 @@ export const useProductStore = defineStore("ProductStore",{
                 //     checked:false,
                 //     desc:"採摘後立即冷凍，保持豌豆的新鮮口感，富含營養，方便烹調。清爽甜美，為您的料理增添豐富風味。"
                 // },
-            ]
+            ],
+            productClass:[],
         }
     },
     getters:{
@@ -177,24 +178,32 @@ export const useProductStore = defineStore("ProductStore",{
             return(product_no) => state.products.find(product => product.product_no === product_no)
         },
         getImageUrl:() => (paths) => {
-                // return new URL(`../assets/images/${paths}`, import.meta.url).href;
                 return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/product/${paths}`).href;
                 
         }, 
     },
     actions:{
-        getProductData(){
-            console.log('here');
-            axios.get('http://localhost/phpLab/HF02/admin/product/productDataGet.php')
-            .then(response =>{
+        async getProductData(){
+            try{
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/front/product/productDisplayDataGet.php`)
                 if(response && response.data){
                     this.products = response.data.products;
-                    console.log(this.products);
                 }
-            })
-            .catch(error=>{
-                console.error("Error fetching products:",error)
-            })
-        }
+            }
+            catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        },
+        async getProductClassData(){
+            try{
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/product/productClassDataGet.php`)
+                if(response && response.data){
+                    this.productClass = response.data.prodclass;
+                }
+            }
+            catch (error) {
+                console.error("Error fetching productClasss:", error);
+            }
+        },
     }
 })

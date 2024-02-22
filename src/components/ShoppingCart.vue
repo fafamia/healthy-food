@@ -4,16 +4,16 @@
                 <div class="drawer" @click.stop>
                     <h3 class="drawer_title">商品清單</h3>
                     <div v-for="product in cartList"
-                        :key="product.id"
+                        :key="product.product_no"
                         class="drawer_product">
                         <div class="drawer_product_image ">
-                            <img :src=getImageUrl(product.image)>
+                            <img :src=getImageUrl(product.product_img)>
                         </div>
-                        <p class="drawer_product_name">{{ product.name }}</p>
+                        <p class="drawer_product_name">{{ product.product_name }}</p>
                         <div class="drawer_product_btn_count">
-                            <button class="quantityButton" @click="newQuantityUpdate(product.id,'decrement')"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
-                            <span class="quantityNum" >{{ product.quantity }}</span>
-                            <button class="quantityButton" @click="newQuantityUpdate(product.id,'increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
+                            <button class="quantityButton" @click="newQuantityUpdate(product.product_no,'decrement')"><i class="fa-solid fa-minus" style="color: #e73f14;"></i></button>
+                            <span class="quantityNum" >{{ product.product_quantity }}</span>
+                            <button class="quantityButton" @click="newQuantityUpdate(product.product_no,'increment')"><i class="fa-solid fa-plus" style="color: #e73f14;"></i></button>
                         </div>
                     </div>
                     <span class="drawer_close" @click="toggleShoppingDrawer"><i class="fa-solid fa-xmark"
@@ -57,7 +57,7 @@ export default {
             cartList,
             ProductStore,
             getImageUrl:ProductStore.getImageUrl,
-            newQuantityUpdate: (id, action) => CartStore.newQuantityUpdate(id, action),
+            newQuantityUpdate: (product_no, action) => CartStore.newQuantityUpdate(product_no, action),
             toggleShoppingDrawer,
             drawerStatus,
         }
