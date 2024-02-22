@@ -38,19 +38,22 @@
                 </div>
                 <div class="set_address col-12 col-lg-12">
                     <label>聯絡地址：</label>
-                    <select name="memCounty" id="memCounty">
-                        <option value="台北市">台北市</option>
-                        <option value="新北市">新北市</option>
-                        <option value="南部">南部</option>
-                    </select>
-                    <select name="memCity" id="memCity">
-                        <option value="北區">北區</option>
-                        <option value="中區">中區</option>
-                        <option value="南區">南區</option>
-                    </select>
-                    <input class="account_set_address" type="text" value="成功路88號">
-                </div>
+                    <div class="address_city">
+                        <select name="memCounty" id="memCounty">
+                            <option value="台北市">台北市</option>
+                            <option value="新北市">新北市</option>
+                            <option value="南部">南部</option>
+                        </select>
+                        <select name="memCity" id="memCity">
+                            <option value="北區">北區</option>
+                            <option value="中區">中區</option>
+                            <option value="南區">南區</option>
+                        </select>
+                        <input class="account_set_address" type="text" value="成功路88號">
+                    </div>
 
+                </div>
+                <button type="button" class="change_info_btn btn-primary">確定修改</button>
             </div>
 
             <div class="change_password" v-if="!isSetMemberInfo">
@@ -77,6 +80,7 @@
                         <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
                     </div>
                 </div>
+                <button type="button" class="change_psw_btn btn-primary">確定修改</button>
             </div>
         </div>
     </div>
@@ -97,4 +101,6 @@ export default {
 }
 </script>
 
-<style lang="scss">@import "@/assets/scss/page/_member.scss";</style>
+<style lang="scss">
+@import "@/assets/scss/page/_member.scss";
+</style>

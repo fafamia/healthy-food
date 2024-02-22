@@ -6,6 +6,7 @@
     </div>
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
     <div class="recipe">
+      <div>{{ currentId }}</div>
       <div v-if="loading">loading...</div>
       <div v-else-if="nodata">nodata...</div>
       <div v-else class="recipe_container ">
@@ -22,7 +23,7 @@
               {{ responseData.prod_des2 }}</p>
             <a href="#">選購go→</a>
             <div class="box_btn">
-              <button type="button" @click="toggleLike(responseData)">
+              <button type="button" @click="toggleLike(comment)">
                 <i :class="responseData.iconLike"></i>讚
               </button>
               <button type="button" @click="toggleBookmark(responseData)">
@@ -70,8 +71,8 @@
                     <div class="icon">
                       <i class="fa-solid fa-triangle-exclamation"></i>
                       <div class="comment_like">
-                        <i @click="toggleLike(comment)" :class="parseClass(comment.like)"></i>
-                        <span>1</span>
+                        <i @click="toggleLike(comment)" :class="parseClass(comment.like)" ></i>
+                        <span>{{ comment.likeCount }}</span>
                       </div>
                     </div>
                   </div>
@@ -91,8 +92,7 @@
         <h5>我要留言</h5>
         <div class="letter_box">
           <button type="button" class="login">登入</button>
-          <button type="button" class="upload">↑上傳圖片 
-          </button>
+          <input type="file" id="fileInput">
           <br>
           <textarea name="comment" id="comment" cols="15" rows="6" placeholder="輸入內容（最多90字）
           "></textarea>
@@ -110,6 +110,8 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import axios from 'axios';
+import { mapActions } from 'pinia'
+import { userStore } from '../stores/user.js'
 
 export default {
   data() {
@@ -123,6 +125,7 @@ export default {
       responseData: {
         like: true,
         iconLike: '',
+        likeCount: 0,
       },
       loading: true,
       comments: [],
@@ -161,11 +164,16 @@ export default {
       const itemWidth = 387; // 調整為卡片的寬度
       return `-${this.currentIndex * itemWidth}px`;
     },
+    currentId() {
+      return this.$route.params.id
+    },
   },
   components: {
     RouterLink,
     RouterView,
     Breadcrumb,
+    mapActions,
+    userStore,
   },
   methods: {
     axiosGetData() {
@@ -174,7 +182,7 @@ export default {
         .then(res => {
           if (res && res.data) {
             this.loading = false;
-            const target = res.data.find(item => item.id == pageId);
+            const target = res.data.find(item => item.prod_id == pageId);
             this.responseData = target ? target : {};
           }
         })
@@ -182,9 +190,10 @@ export default {
           console.error('Error fetching data:', error);
         });
     },
-    toggleLike(responseData) {
-      responseData.like = !responseData.like;
-      responseData.iconLike = responseData.like ? 'fa-solid fa-thumbs-up' : '';
+    toggleLike(comment) {
+      comment.like = !comment.like;
+      comment.iconLike = comment.like ? 'fa-solid fa-thumbs-up' : '';
+      comment.likeCount = comment.like ? comment.likeCount + 1 : comment.likeCount - 1;
     },
     toggleBookmark(responseData) {
       responseData.bookmark = !responseData.bookmark;
@@ -195,7 +204,7 @@ export default {
       axios.get('https://tibamef2e.com/chd103/g5/phps/ProductM.php')
         .then(res => {
           if (res && res.data) {
-            this.comments = res.data.map(comment => ({ ...comment, like: false }));
+            this.comments = res.data.map(comment => ({ ...comment, like: false,likeCount:0  }));
           }
         })
         .catch(error => {

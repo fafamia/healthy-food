@@ -90,13 +90,21 @@
         display: flex;
         align-items: center;
         color: #6c6c6c;
-        cursor: pointer;
         padding-left: $sp-2;
 
         &:hover,
         &.active {
-            color: $primary;
             border-left: 5px solid $primary;
+
+            a {
+                color: $primary;
+            }
+
+
+        }
+
+        a {
+            color: #6c6c6c;
         }
 
         i {
@@ -163,7 +171,7 @@
             border: 1px solid $border-bg;
             border-radius: 5px;
             outline: none;
-            width: 95%;
+            width: 100%;
             margin-bottom: $sp-2;
             margin-right: 5%;
         }
@@ -174,20 +182,58 @@
             border: 1px solid $border-bg;
             border-radius: 5px;
             outline: none;
-            width: 95%;
+            width: 100%;
             margin-bottom: $sp-2;
             margin-right: 5%;
         }
 
         .set_address {
             .account_set_address {
-                width: 48%;
+                width: 100%;
                 margin-right: 0;
+            }
+        }
+
+        .address_city {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            select {
+                width: 49%;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .change_info_btn {
+        margin-left: $sp-1;
+    }
+
+    @media (width>=1024px) {
+        .account_set {
+
+            .account_set_input,
+            .account_set_address {
+                width: 95%;
             }
 
             select {
-                width: 20%;
-                margin-right: 5%;
+                width: 95%;
+            }
+
+            .set_address {
+                .account_set_address {
+                    width: 48%;
+                }
+            }
+
+            .address_city {
+                flex-wrap: nowrap;
+
+                select {
+                    width: 24%;
+                }
             }
         }
     }
@@ -196,17 +242,16 @@
 .old_password_area,
 .new_password_area,
 .again_new_password_area {
-    display: flex;
-    align-items: center;
-    margin-bottom: $sp-2;
 
     label {
-        width: 15%;
+        display: block;
+        margin-bottom: $sp-1;
     }
 
     .input_eye {
         position: relative;
-        width: 40%;
+        width: 100%;
+        margin-bottom: $sp-2;
 
         .input_eye_area {
             height: 48px;
@@ -225,7 +270,21 @@
         }
     }
 
+    @media (width>=1024px) {
+        display: flex;
+        align-items: center;
+        margin-bottom: $sp-2;
 
+        label {
+            width: 20%;
+            margin-bottom: 0;
+        }
+
+        .input_eye {
+            margin-bottom: 0;
+            width: 40%;
+        }
+    }
 }
 
 .member_coupon {
@@ -240,38 +299,6 @@
         font-weight: $fw-bold;
         margin-bottom: $sp-2;
     }
-
-    .coupon_input_area {
-        padding-bottom: $sp-2;
-        border-bottom: 1px solid $border-bg;
-        margin-bottom: $sp-2;
-
-        .input_coupon {
-            height: 48px;
-            padding: $sp-1;
-            border: 1px solid $border-bg;
-            border-radius: 5px 0 0 5px;
-            outline: none;
-            width: 40%;
-        }
-
-        button {
-            height: 48px;
-            width: 10%;
-            font-size: 16px;
-            vertical-align: bottom;
-            background-color: $primary;
-            border: 1px solid $primary;
-            border-radius: 0 5px 5px 0;
-            color: $white;
-            font-weight: $fw-bold;
-            cursor: pointer;
-
-            &:hover {
-                background-color: darken($primary, 10);
-            }
-        }
-    }
 }
 
 .coupon_list {
@@ -281,7 +308,7 @@
     gap: $sp-2;
 
     .coupon_card {
-        width: calc(50% - $sp-2);
+        width: calc(100% - $sp-2);
         padding: $sp-2;
         border: 1px solid $border-bg;
         border-radius: 5px;
@@ -303,6 +330,10 @@
 
         p:last-child {
             color: $dark-line;
+        }
+
+        @media (width>=1024px) {
+            width: calc(50% - $sp-2);
         }
     }
 }
@@ -356,16 +387,21 @@
 .member_level_info {
     ul {
         display: flex;
+        flex-wrap: wrap;
         gap: $sp-1;
     }
 }
 
 .level_card {
-    width: 25%;
+    width: calc(50% - $sp-1);
     text-align: center;
     padding: $sp-1;
     border: 1px solid $border-bg;
     border-radius: $border-r-1;
+
+    @media (width>=768px) {
+        width: calc(25% - $sp-1);
+    }
 
     h3 {
         font-size: $fs-3;

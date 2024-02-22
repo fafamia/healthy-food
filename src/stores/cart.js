@@ -51,6 +51,10 @@ export const useCartStore =  defineStore("CartStore", {
             }else{
                 return getters.subTotal;
             }  
+        },
+
+        count(){
+            return this.cartList.length;
         }
     },
     actions: {
