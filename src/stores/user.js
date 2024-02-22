@@ -37,11 +37,11 @@ export const userStore = defineStore('userStore', {
                         if (res.data.status === 'success') {
                             this.updateUserData(res.data.member);
                             console.log('成功');
-                            resolve(true); // 解析Promise為true
+                            resolve(true);
                         } else {
                             console.log('失敗');
                             this.clearToken(); // 清除無效token
-                            resolve(false); // 解析Promise為false
+                            resolve(false);
                         }
                     })
                     .catch(err => {

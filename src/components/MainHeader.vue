@@ -301,12 +301,20 @@ export default {
     },
     created() {
         const store = userStore();
-        const user = store.checkLogin();
-        if (user) {
-            console.log('有動');
-            //有登入資訊user icon換成圖片
-            this.isLoggedIn = true;
-        }
+        store.checkLogin()
+            .then(user => {
+                if (user) {
+                    console.log('有動');
+                    this.isLoggedIn = true;
+                } else {
+                    console.log('沒token');
+                    this.isLoggedIn = false;
+                }
+            })
+            .catch(error => {
+                console.error('驗證過程中發生錯誤', error);
+                this.isLoggedIn = false;
+            });
     },
     methods: {
         toggleHeaderMenu() {
