@@ -143,7 +143,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="header_modal" id="log-in-modal" v-show="modelStatus">
+            <div class="header_modal" id="log-in-modal" v-show="modelStatus" v-if="showLoginModal">
                 <div class="header_modal_bg" @click="toggleModel">
                     <div class="modal">
                         <div class="header_model_area" @click.stop>
@@ -296,11 +296,12 @@ export default {
                 county: '',
                 city: '',
                 addr: ''
-            }
+            },
         }
     },
     created() {
         const store = userStore();
+
         store.checkLogin()
             .then(user => {
                 if (user) {
@@ -311,10 +312,11 @@ export default {
                     this.isLoggedIn = false;
                 }
             })
-            .catch(error => {
-                console.error('驗證過程中發生錯誤', error);
+            .catch(err => {
+                console.log('驗證過程中發生錯誤', err);
                 this.isLoggedIn = false;
             });
+
     },
     methods: {
         toggleHeaderMenu() {
@@ -324,7 +326,7 @@ export default {
             this.subMenuStatus[subMenuName] = !this.subMenuStatus[subMenuName]
         },
         toggleModel() {
-            this.modelStatus = !this.modelStatus
+            this.modelStatus = !this.modelStatus;
         },
         toggleLogin(isLogin) {
             this.isLogin = isLogin;
@@ -398,6 +400,13 @@ export default {
             this.passwordVisible = !this.passwordVisible;
         },
         getLocations() {
+            //tibame用
+            // axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
+            //     .then(res => {
+            //         this.locations = res.data;
+            //     })
+            //     .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+            //本地端用
             axios.get('/public/taiwan_districts.json')
                 .then(res => {
                     this.locations = res.data;
@@ -497,7 +506,7 @@ export default {
         mapActions,
         userStore,
     },
-}       
+}
 </script>
 
 <style lang="scss">
