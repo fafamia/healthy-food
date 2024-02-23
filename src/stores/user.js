@@ -60,7 +60,6 @@ export const userStore = defineStore('userStore', {
         },
         toggleLoginModal(show) {
             this.showLoginModal = show;
-            this.toggleModel();
         },
     },
 })
