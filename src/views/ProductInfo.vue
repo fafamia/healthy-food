@@ -121,6 +121,15 @@ export default {
       product_price:ProductDisplay.value.product_price,
       // checked:ProductDisplay.value.checked,
     });
+
+    onMounted(async() => {
+      await ProductStore.getProductData();
+      // await ProductStore.getProductClassData();
+      originData.value = ProductStore.products;
+      productDisplay.value = originData.value;
+      // productClass.value = ProductStore.productClass;
+      getImageUrl.value = ProductStore.getImageUrl;
+    });
     //會生成一個介於 -0.5 到 0.5 之間的隨機數,大於 0.5，則返回正數，a 和 b 位置交換
     const getRandomSubset = (array, size) => {
       const shuffledArray = array.slice().sort(() => Math.random() - 0.5);
@@ -146,6 +155,7 @@ export default {
     return {
       ProductStore,
       CartStore,
+      originData,
       ProductDisplay,
       pageQuantity,
       pageQuantityUpdate,
