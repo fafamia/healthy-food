@@ -214,6 +214,11 @@
         display: flex;
         justify-content: space-between;
 
+        button{
+            font-size: 30px;
+            color:black;
+        }
+
         .fa-triangle-exclamation {
             padding: 10px;
             cursor: pointer;
@@ -312,6 +317,52 @@
 
     }
 }
+.report-modal{
+    position: fixed;
+    left: 40%;
+    top:50%;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: 2px solid $primary;
+    width: 300px;
+    h3{
+        font-size: 25px;
+        color:$primary;
+        margin-bottom: 10px;
+    }
+    p{
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    .close-button{
+        position: absolute;
+        right: 10px;
+        top:10px;
+        color:$primary;
+        background: none;
+        border:none;
+        font-weight: bold;
+        font-size: 30px;
+        cursor: pointer;
+    }
+    textarea{
+        padding: 20px;
+    }
+    .submit-button{
+        background-color: $primary;
+        color:white;
+        border-radius: 10px;
+        border:none;
+        padding: 5px 15px;
+        margin-left: 150px;
+        margin-top: 10px;
+        cursor: pointer;
+        font-size: 16px;
+
+    }
+}
+
 
 @media screen and (max-width:802px) {
     .recipe_container {
