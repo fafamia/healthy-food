@@ -17,9 +17,9 @@
         <li v-for="product in displayedProducts" :key="product.prod_id">
           <article>
             <i @click="toggleBookmark(product)" :class="product.iconClass" class="bookmark"></i>
-            <router-link :to="`/cookbookinfo/${product.prod_id}`"><img :src="getProductImage(product)" :alt="product.prod_name"></router-link>>
+            <router-link :to="`/cookbookinfo/${product.prod_id}`"><img :src="getProductImage(product)" :alt="product.prod_name"></router-link>
             <div class="text">
-              <router-link to="/cookbookinfo">
+              <router-link :to="`/cookbookinfo/${product.prod_id}`">
                 <h4>{{ product.prod_name }}</h4>
               </router-link>
               <p>{{ product.prod_des2 }}</p>

@@ -54,10 +54,11 @@
       <div class="comment">
         <h4>有{{ comments.length }}個人一起做</h4>
         <div class="comment-card-wrapper">
-          <button @click="scrollComment(-1)" :disabled="currentIndex === 0"><i class="fa-solid fa-angle-left"></i></button>
-          <div class="comment_card" >
+          <button @click="scrollComment(-1)" :disabled="currentIndex === 0"><i
+              class="fa-solid fa-angle-left"></i></button>
+          <div class="comment_card">
             <ul>
-              <li v-for="comment in displayedComments" :key="comment.id">
+              <li v-for="(comment,index) in displayedComments" :key="comment.id">
                 <article>
                   <div class="card_top">
                     <h5>{{ comment.prod_name }}</h5>
@@ -69,9 +70,9 @@
                       <img :src="`https://tibamef2e.com/chd103/g5/img/${comment.prod_img1}`" :alt="comment.prod_name">
                     </div>
                     <div class="icon">
-                      <i class="fa-solid fa-triangle-exclamation"></i>
+                      <button @click="report(index)"><i class="fa-solid fa-triangle-exclamation"></i></button>
                       <div class="comment_like">
-                        <i @click="toggleLike(comment)" :class="parseClass(comment.like)" ></i>
+                        <i @click="toggleLike(comment)" :class="parseClass(comment.like)"></i>
                         <span>{{ comment.likeCount }}</span>
                       </div>
                     </div>
@@ -82,7 +83,8 @@
           </div>
 
           <button @click="scrollComment(1)"
-            :disabled="currentIndex >= totalComments - commentsPerPage || currentIndex + commentsPerPage >= totalComments"><i class="fa-solid fa-angle-right"></i></button>
+            :disabled="currentIndex >= totalComments - commentsPerPage || currentIndex + commentsPerPage >= totalComments"><i
+              class="fa-solid fa-angle-right"></i></button>
 
         </div>
 
@@ -102,6 +104,14 @@
       </div>
 
     </div>
+    <div v-if="reportModalVisible" class="report-modal">
+  <h3>檢舉</h3>
+  <p>提醒您：請在真正看到不適當言論時才使用檢舉功能，避免濫用，以確保我們能維護用戶良好的評論環境，謝謝您。</p>
+  <button @click="closeReportModal" class="close-button">×</button>
+  <textarea v-model="reportContent" placeholder="請輸入檢舉內容"></textarea>
+  <br>
+  <button @click="submitReport" class="submit-button">送出</button>
+</div>
   </div>
 </template>
 
@@ -131,6 +141,8 @@ export default {
       comments: [],
       currentIndex: 0,
       commentsPerPage: 3,
+      reportModalVisible: false,
+      reportContent: '',
 
 
     };
@@ -155,7 +167,7 @@ export default {
       }
     },
     isMobile() {
-      return window.innerWidth <= 802; 
+      return window.innerWidth <= 802;
     },
     totalComments() {
       return this.comments.length;
@@ -204,7 +216,7 @@ export default {
       axios.get('https://tibamef2e.com/chd103/g5/phps/ProductM.php')
         .then(res => {
           if (res && res.data) {
-            this.comments = res.data.map(comment => ({ ...comment, like: false,likeCount:0  }));
+            this.comments = res.data.map(comment => ({ ...comment, like: false, likeCount: 0 }));
           }
         })
         .catch(error => {
@@ -245,7 +257,25 @@ export default {
         this.currentIndex = newIndex;
       }
     },
-
+    report(index) {
+    this.reportModalVisible = true;
+    const submitReport = () => {
+      this.submitReport(index);
+    };
+  },
+  closeReportModal() {
+    this.reportModalVisible = false;
+    this.reportContent = '';
+  },
+  submitReport(index) {
+    
+    if (!this.reportContent.trim()) {
+      alert('內容不得為空白');
+      return;
+    }
+    const currentCommentId = this.displayedComments[index].id;
+    
+}
 
 
 
