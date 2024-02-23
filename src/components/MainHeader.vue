@@ -10,6 +10,7 @@
                         <li @click="toggleModal" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
                         <li v-else class="fa-solid fa-icon-you-want"><img src="/src/assets/images/home/header_img.png"></li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
+                        <div class="cart-count">{{ cartItemCount }}</div>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
                     </ul>
                 </nav>
@@ -265,6 +266,7 @@ import ShoppingCart from "@/components/ShoppingCart.vue"
 import axios from 'axios';
 import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
+import { computed } from 'vue';
 
 export default {
     data() {
@@ -297,6 +299,7 @@ export default {
                 city: '',
                 addr: ''
             },
+            cartItemCount: 0 // 初始化購物車數量為 0
         }
     },
     created() {
@@ -321,6 +324,12 @@ export default {
             })
             .catch(err => {
                 this.isLoggedIn = false;
+            });
+
+            
+            const cart = useCartStore();
+            this.cartItemCount = computed(() => {
+                return cart.count;
             });
     },
     methods: {
