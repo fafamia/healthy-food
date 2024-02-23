@@ -534,7 +534,7 @@ export default {
                 });
         },
         getImageUrl(paths) {
-            return new URL(`../assets/images/home/${paths}`, import.meta.url).href;
+            return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/home/${paths}`, import.meta.url).href;
         },
         updateDimensions() {  //抓取banner 並且同步寬度
             if (this.$refs.myBanner) {
