@@ -6,7 +6,6 @@
     </div>
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
     <div class="recipe">
-      <div>{{ currentId }}</div>
       <div v-if="loading">loading...</div>
       <div v-else-if="nodata">nodata...</div>
       <div v-else class="recipe_container ">
@@ -52,66 +51,73 @@
       </div>
 
       <div class="comment">
-        <h4>有{{ comments.length }}個人一起做</h4>
+
+        <h4>有{{ messages.length }}個人一起做</h4>
         <div class="comment-card-wrapper">
           <button @click="scrollComment(-1)" :disabled="currentIndex === 0"><i
               class="fa-solid fa-angle-left"></i></button>
-          <div class="comment_card">
+          <div class="comment_card" v-if="messages.length > 0">
             <ul>
-              <li v-for="(comment,index) in displayedComments" :key="comment.id">
+              <li v-for="(message, index) in messages" :key="index">
                 <article>
                   <div class="card_top">
-                    <h5>{{ comment.prod_name }}</h5>
-                    <h6>{{ comment.prod_type }}</h6>
-                    <p>{{ comment.prod_des1 }}</p>
+                    <h5>{{ message.author }}</h5>
+                    <h6>{{ message.timestamp }}</h6>
+                    <p>{{ message.content }}</p>
                   </div>
-                  <div class="card_bottom">
-                    <div class="comment_pic">
-                      <img :src="`https://tibamef2e.com/chd103/g5/img/${comment.prod_img1}`" :alt="comment.prod_name">
-                    </div>
-                    <div class="icon">
-                      <button @click="report(index)"><i class="fa-solid fa-triangle-exclamation"></i></button>
-                      <div class="comment_like">
-                        <i @click="toggleLike(comment)" :class="parseClass(comment.like)"></i>
-                        <span>{{ comment.likeCount }}</span>
+                    <div class="card_bottom">
+                      <div class="comment_pic">
+                        <img v-if="message.image" :src="message.image" alt="留言圖片">
+                        <!-- <img src="https://picsum.photos/300/200/?random=10"> -->
+                        <!-- <img :src="`https://tibamef2e.com/chd103/g5/img/${comment.prod_img1}`" :alt="comment.prod_name"> -->
                       </div>
-                    </div>
+                      <div class="icon">
+                        <button @click="report(index)"><i class="fa-solid fa-triangle-exclamation"></i></button>
+                        <div class="comment_like">
+                          <i @click="toggleLike(comment)" :class="parseClass(comment.like)"></i>
+                          <span>{{ comment.likeCount }}</span>
+                        </div>
+                      </div>
+                   
                   </div>
                 </article>
               </li>
             </ul>
+            <button @click="scrollComment(1)"
+              :disabled="currentIndex >= totalComments - commentsPerPage || currentIndex + commentsPerPage >= totalComments"><i
+                class="fa-solid fa-angle-right"></i></button>
           </div>
-
-          <button @click="scrollComment(1)"
-            :disabled="currentIndex >= totalComments - commentsPerPage || currentIndex + commentsPerPage >= totalComments"><i
-              class="fa-solid fa-angle-right"></i></button>
-
+          <div v-else>
+            <p>暫無留言</p>
+          </div>
         </div>
 
 
       </div>
-      <div class="letter">
-        <h5>我要留言</h5>
-        <div class="letter_box">
-          <button type="button" class="login">登入</button>
-          <input type="file" id="fileInput">
-          <br>
-          <textarea name="comment" id="comment" cols="15" rows="6" placeholder="輸入內容（最多90字）
-          "></textarea>
-          <br>
-          <button type="submit" class="submit">送出</button>
-        </div>
-      </div>
+
 
     </div>
+    <div class="letter">
+      <h5>我要留言</h5>
+      <div class="letter_box">
+        <button type="button" class="login">登入</button>
+        <input type="file" id="fileInput" @change="handleFileUpload">
+        <br>
+        <textarea name="comment" id="comment" cols="15" rows="6" placeholder="輸入內容（最多90字）
+          " v-model="newMessage"></textarea>
+        <br>
+        <button type="submit" class="submit" @click="submitMessage">送出</button>
+      </div>
+    </div>
     <div v-if="reportModalVisible" class="report-modal">
-  <h3>檢舉</h3>
-  <p>提醒您：請在真正看到不適當言論時才使用檢舉功能，避免濫用，以確保我們能維護用戶良好的評論環境，謝謝您。</p>
-  <button @click="closeReportModal" class="close-button">×</button>
-  <textarea v-model="reportContent" placeholder="請輸入檢舉內容"></textarea>
-  <br>
-  <button @click="submitReport" class="submit-button">送出</button>
-</div>
+      <h3>檢舉</h3>
+      <p>提醒您：請在真正看到不適當言論時才使用檢舉功能，避免濫用，以確保我們能維護用戶良好的評論環境，謝謝您。</p>
+      <button @click="closeReportModal" class="close-button">×</button>
+      <textarea v-model="reportContent" placeholder="請輸入檢舉內容"></textarea>
+      <br>
+      <button @click="submitReport" class="submit-button">送出</button>
+    </div>
+    <button @click="clearMessages">.</button>
   </div>
 </template>
 
@@ -143,6 +149,9 @@ export default {
       commentsPerPage: 3,
       reportModalVisible: false,
       reportContent: '',
+      messages: [],
+      newMessage: '',
+      comment: ''
 
 
     };
@@ -152,6 +161,11 @@ export default {
     this.toggleLike(this.responseData);
     this.toggleBookmark(this.responseData);
     this.axiosGetComments();
+    const storedMessages = localStorage.getItem('messages');
+  if (storedMessages) {
+    // 如果有，则将其加载到页面上
+    this.messages = JSON.parse(storedMessages);
+  };
 
   },
   computed: {
@@ -161,16 +175,16 @@ export default {
     displayedComments() {
 
       if (this.isMobile) {
-        return this.comments.slice(this.currentIndex, this.currentIndex + 1);
+        return this.messages.slice(this.currentIndex, this.currentIndex + 1);
       } else {
-        return this.comments.slice(this.currentIndex, this.currentIndex + 3);
+        return this.messages.slice(this.currentIndex, this.currentIndex + 3);
       }
     },
     isMobile() {
       return window.innerWidth <= 802;
     },
     totalComments() {
-      return this.comments.length;
+      return this.messages.length;
     },
     transformValue() {
       const itemWidth = 387; // 調整為卡片的寬度
@@ -234,7 +248,7 @@ export default {
 
     },
     nextComment() {
-      const maxIndex = this.comments.length - this.commentsPerPage;
+      const maxIndex = this.messages.length - this.commentsPerPage;
       if (this.currentIndex + this.commentsPerPage < maxIndex) {
         this.currentIndex += this.commentsPerPage;
       } else {
@@ -258,25 +272,56 @@ export default {
       }
     },
     report(index) {
-    this.reportModalVisible = true;
-    const submitReport = () => {
-      this.submitReport(index);
-    };
-  },
-  closeReportModal() {
-    this.reportModalVisible = false;
-    this.reportContent = '';
-  },
-  submitReport(index) {
-    
-    if (!this.reportContent.trim()) {
-      alert('內容不得為空白');
-      return;
-    }
-    const currentCommentId = this.displayedComments[index].id;
-    
-}
+      this.reportModalVisible = true;
+      const submitReport = () => {
+        this.submitReport(index);
+      };
+    },
+    closeReportModal() {
+      this.reportModalVisible = false;
+      this.reportContent = '';
+    },
+    submitReport(index) {
 
+      if (!this.reportContent.trim()) {
+        alert('內容不得為空白');
+        return;
+      }
+      const currentCommentId = this.displayedComments[index].id;
+
+    },
+    submitMessage() {
+      if (this.newMessage.trim() !== '') {
+        const message = {
+          content: this.newMessage,
+          author: '用户A',
+          timestamp: new Date().toLocaleString(),
+          image: this.newMessage.image || null 
+        };
+        // 添加新留言到留言列表
+        this.messages.push(message);
+        // 将留言列表保存到本地存储中
+        localStorage.setItem('messages', JSON.stringify(this.messages));
+        // 提交成功后清空留言输入框
+        this.newMessage = '';
+        this.newMessage.image = '';
+      }
+    },
+    clearMessages() {
+  localStorage.removeItem('messages');
+  // 清空页面上的留言列表
+  this.messages = [];
+},
+handleFileUpload(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imageUrl = reader.result;
+        // 将图片 URL 添加到留言数据中
+        this.newMessage.image = imageUrl;
+      };
+      reader.readAsDataURL(file);
+    }
 
 
 
