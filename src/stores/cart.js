@@ -52,15 +52,13 @@ export const useCartStore =  defineStore("CartStore", {
                 return getters.subTotal;
             }  
         },
-
+        //計算購物車中商品數量
         count(){
             return this.cartList.length;
         }
     },
     actions: {
         addCart(product){
-            console.log(product);
-            console.log(product.product_no);
             //用findIndex(裡面可以放function)判斷商品是否已在購物車
             const index = this.cartList.findIndex(p=>p.product_no === product.product_no)
             //如果在購物車中index會從0開始
@@ -77,7 +75,6 @@ export const useCartStore =  defineStore("CartStore", {
             this.saveLocalstorage();
         },
         newQuantityUpdate(product_no, action) {
-            console.log(product_no);
             //判斷商品是否已在購物車
             const cartItem = this.cartList.find(item => item.product_no === product_no)
             //如果不在購物車,出function

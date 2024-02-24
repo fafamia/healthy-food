@@ -86,6 +86,7 @@ export default {
 
     //用class篩選
     const filter = (classNo) => {
+      console.log(classNo)
       if(classNo !== 0){
         productDisplay.value = originData.value.filter(item => item.product_class_no === classNo);
       }else{

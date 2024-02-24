@@ -1,19 +1,19 @@
 <template>
   <Breadcrumb :breadcrumb="yourBreadcrumbData" />
-  <div class="productInfo container" v-if="ProductDisplay">
+  <div class="productInfo container" v-if="productInfoDisplay">
     <div class="productInfo_product row ">
       <div class="productInfo_product_image col-12 col-md-6">
-        <img :src=getImageUrl(ProductDisplay.product_img) :alt="ProductDisplay.product_img">
+        <img :src=getImageUrl(productInfoDisplay.product_img) :alt="productInfoDisplay.product_img">
       </div>
       <div class="productInfo_product_txt col-12 col-md-6">
         <div class="productInfo_product_txtWrap">
           <div class="productInfo_product_txt_title">
-            <h1>{{ ProductDisplay.product_name }}</h1>
-            <span>${{ ProductDisplay.product_price }}</span>
+            <h1>{{ productInfoDisplay.product_name }}</h1>
+            <span>${{ productInfoDisplay.product_price }}</span>
           </div>
           <div class="productInfo_product_txt_describe">
-            <p>商品編號#{{ ProductDisplay.product_no }}</p>
-            <p>{{ ProductDisplay.product_info }}</p>
+            <p>商品編號#{{ productInfoDisplay.product_no }}</p>
+            <p>{{ productInfoDisplay.product_info }}</p>
           </div>
           <div class="productInfo_product_collapse">
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('location')">
@@ -21,21 +21,21 @@
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="productInfo_product_collapse_txt" v-show="collapseStatus.location">
-              <p>{{ ProductDisplay.product_loc }}</p>
+              <p>{{ productInfoDisplay.product_loc }}</p>
             </div>
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('spec')">
               <h3>產品規格</h3>
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="productInfo_product_collapse_txt" v-show="collapseStatus.spec">
-              <p>{{ ProductDisplay.product_standard }}</p>
+              <p>{{ productInfoDisplay.product_standard }}</p>
             </div>
             <div class="productInfo_product_collapse_title" @click="toggleCollapse('nutrition')">
               <h3>營養標示</h3>
               <i class="fa-solid fa-angle-down" style="color: #e73f14;"></i>
             </div>
             <div class="productInfo_product_collapse_txt" v-show="collapseStatus.nutrition">
-              <p>{{ ProductDisplay.product_content }}</p>
+              <p>{{ productInfoDisplay.product_content }}</p>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
     </div>
   </div>
   <div v-else>
-    <P>此商品缺貨</P>
+    <p>此商品缺貨</p>
   </div>
   
   <!-- <div class="more_title">
@@ -84,21 +84,62 @@ import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/Product';
 import { userStore } from '@/stores/user';
 import { useCartStore } from "@/stores/cart";
-import { computed,ref,onMounted } from 'vue';
+import { ref,onMounted } from 'vue';
 
 export default {
+  props: ['product_no'],
   setup() {
-    //使用ProductStore
-    const ProductStore = useProductStore();
     //使用composition API中的route 
     const route = useRoute();
+    //使用ProductStore
+    const ProductStore = useProductStore();
+    //使用userStore
+    const store = userStore();
+    //使用CartStore
+    const CartStore = useCartStore();
+    const getImageUrl =ref('');
+    const ProductNo = ref('');
+    const productInfoDisplay = ref();
+    
+    onMounted(async()=>{
+      await fetchProductInfo();
+    });
 
-    ProductStore.getProductData();
-    //使用ProductStore中根據route綁定no所送出的data
-    const ProductNo = computed(()=>parseInt(route.params.product_no));
-    const ProductDisplay = computed(()=>ProductStore.getProductByNo(ProductNo.value));
-    //抓到圖片路徑
-    const getImageUrl = ProductStore.getImageUrl;
+    async function fetchProductInfo(){
+      await ProductStore.getProductData();
+      ProductNo.value = route.params.product_no;
+      //使用ProductStore中根據route綁定no所送出的data
+      productInfoDisplay.value = ProductStore.getProductByNo(ProductNo.value);
+      //抓到圖片路徑
+      getImageUrl.value = ProductStore.getImageUrl;
+    }
+    
+    async function addCart(){
+      try{
+        const user = await store.checkLogin();
+        if (!user) {
+          alert('請先登入');
+          store.toggleLoginModal(true);
+        } else {
+          //使用CartStore中的addCart
+          CartStore.addCart({
+            product_no: productInfoDisplay.value.product_no,
+            product_name:productInfoDisplay.value.product_name,
+            product_quantity: pageQuantity.value,
+            product_img:productInfoDisplay.value.product_img,
+            product_price:productInfoDisplay.value.product_price,
+          });
+        }
+      }catch(err){
+        console.log('驗證過程中發生錯誤', err);
+      }
+    } 
+
+    //會生成一個介於 -0.5 到 0.5 之間的隨機數,大於 0.5，則返回正數，a 和 b 位置交換
+    const getRandomSubset = (array, size) => {
+      const shuffledArray = array.slice().sort(() => Math.random() - 0.5);
+      return shuffledArray.slice(0, size);
+    };
     
     //頁面商品數量加減
     const pageQuantity = ref(1);
@@ -109,51 +150,6 @@ export default {
         pageQuantity.value -= 1;
       }
     };
-    //使用userStore
-    // const user = userStore();
-    // const checkLogin = async()=> {
-    //   const isLoggedIn = await checkLogin();
-    //   if (isLoggedIn){
-    //     CartStore.addCart({
-    //       product_no: ProductDisplay.value.product_no,
-    //       product_name:ProductDisplay.value.product_name,
-    //       product_quantity: pageQuantity.value,
-    //       product_img:ProductDisplay.value.product_img,
-    //       product_price:ProductDisplay.value.product_price,
-    //       // checked:ProductDisplay.value.checked,
-    //     });
-    //     console.log('success');
-    //   }else{
-    //     console.log('please log in');
-    //     user.toggleLoginModal
-    //   }
-    // }
-
-    //使用CartStore
-    const CartStore = useCartStore();
-    //使用CartStore中的addCart(),把資料傳回去
-    const addCart = ()=> CartStore.addCart({
-      product_no: ProductDisplay.value.product_no,
-      product_name:ProductDisplay.value.product_name,
-      product_quantity: pageQuantity.value,
-      product_img:ProductDisplay.value.product_img,
-      product_price:ProductDisplay.value.product_price,
-      // checked:ProductDisplay.value.checked,
-    });
-
-    onMounted(async() => {
-      await ProductStore.getProductData();
-      // await ProductStore.getProductClassData();
-      originData.value = ProductStore.products;
-      productDisplay.value = originData.value;
-      // productClass.value = ProductStore.productClass;
-      getImageUrl.value = ProductStore.getImageUrl;
-    });
-    //會生成一個介於 -0.5 到 0.5 之間的隨機數,大於 0.5，則返回正數，a 和 b 位置交換
-    const getRandomSubset = (array, size) => {
-      const shuffledArray = array.slice().sort(() => Math.random() - 0.5);
-      return shuffledArray.slice(0, size);
-    };
 
     const collapseStatus = ref({ 
       location: false,
@@ -162,7 +158,6 @@ export default {
     });
     const toggleCollapse = (collapseName)=> {
       collapseStatus.value[collapseName] = !collapseStatus.value[collapseName]
-      //console.log(collapseStatus.value);
     };
 
     const yourBreadcrumbData = ref([
@@ -173,15 +168,15 @@ export default {
 
     return {
       ProductStore,
-      userStore,
+      ProductNo,
+      productInfoDisplay,
+      getImageUrl,
+      store,
       CartStore,
-      originData,
-      ProductDisplay,
+      addCart,
       pageQuantity,
       pageQuantityUpdate,
-      addCart,
       getRandomSubset,
-      getImageUrl,
       collapseStatus,
       toggleCollapse,
       yourBreadcrumbData

@@ -7,8 +7,8 @@
                     <tr class="payment_info_infoTr">
                         <th>訂購人資訊</th>
                         <td>
-                            <input type="checkbox" id="asMemberInfo">
                             <label for="asMemberInfo">同會員資料</label>
+                            <input type="checkbox" id="asMemberInfo" @change="sameAsMem" v-model="checkSame">
                         </td>
                     </tr>
                     <tr class="payment_info_infoTr">
@@ -104,12 +104,31 @@ import { RouterLink, RouterView } from 'vue-router';
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import CartDetail from '@/components/CartDetail.vue';
 import { useCartStore } from '@/stores/cart';
+import { userStore } from '@/stores/user';
+import { ref,watch } from 'vue';
 
 export default{
     setup(){
         const CartStore = useCartStore();
+        const store = userStore();
+        const checkSame = ref(false);
+        const sameAsMem = ()=>{
+            if(checkSame.value){
+                const userData = store.userData;
+                CartStore.orderName = userData.member_name;
+                CartStore.orderNumber = userData.member_tel;
+                CartStore.orderAddr = userData.member_county + userData.member_city + userData.member_addr;
+            }else{
+                CartStore.orderName ='';
+                CartStore.orderNumber = '';
+                CartStore.orderAddr = '';
+            }
+        };
         return{
             CartStore,
+            store,
+            checkSame,
+            sameAsMem,
         }
     },
     components: {
