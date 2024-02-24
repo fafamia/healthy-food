@@ -267,6 +267,7 @@ import axios from 'axios';
 import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
 import { computed } from 'vue';
+import { useCartStore } from "@/stores/cart";
 
 export default {
     data() {
@@ -326,11 +327,11 @@ export default {
                 this.isLoggedIn = false;
             });
 
-            
-            const cart = useCartStore();
-            this.cartItemCount = computed(() => {
-                return cart.count;
-            });
+
+        const cart = useCartStore();
+        this.cartItemCount = computed(() => {
+            return cart.count;
+        });
     },
     methods: {
         toggleHeaderMenu() {
@@ -519,6 +520,7 @@ export default {
         ShoppingCart,
         mapActions,
         userStore,
+        useCartStore,
     },
 }
 </script>
