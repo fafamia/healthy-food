@@ -82,6 +82,7 @@
 import  Breadcrumb  from "@/components/Breadcrumb.vue";
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/Product';
+import { userStore } from '@/stores/user';
 import { useCartStore } from "@/stores/cart";
 import { computed,ref,onMounted } from 'vue';
 
@@ -93,7 +94,6 @@ export default {
     const route = useRoute();
 
     ProductStore.getProductData();
-
     //使用ProductStore中根據route綁定no所送出的data
     const ProductNo = computed(()=>parseInt(route.params.product_no));
     const ProductDisplay = computed(()=>ProductStore.getProductByNo(ProductNo.value));
@@ -109,6 +109,25 @@ export default {
         pageQuantity.value -= 1;
       }
     };
+    //使用userStore
+    // const user = userStore();
+    // const checkLogin = async()=> {
+    //   const isLoggedIn = await checkLogin();
+    //   if (isLoggedIn){
+    //     CartStore.addCart({
+    //       product_no: ProductDisplay.value.product_no,
+    //       product_name:ProductDisplay.value.product_name,
+    //       product_quantity: pageQuantity.value,
+    //       product_img:ProductDisplay.value.product_img,
+    //       product_price:ProductDisplay.value.product_price,
+    //       // checked:ProductDisplay.value.checked,
+    //     });
+    //     console.log('success');
+    //   }else{
+    //     console.log('please log in');
+    //     user.toggleLoginModal
+    //   }
+    // }
 
     //使用CartStore
     const CartStore = useCartStore();
@@ -154,6 +173,7 @@ export default {
 
     return {
       ProductStore,
+      userStore,
       CartStore,
       originData,
       ProductDisplay,

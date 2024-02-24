@@ -175,7 +175,7 @@ export const useProductStore = defineStore("ProductStore",{
     },
     getters:{
         getProductByNo:(state)=>{
-            return(product_no) => state.products.find(product => product.product_no === product_no)
+            return(product_no) => state.products.find(product => +product.product_no === +product_no)
         },
         getImageUrl:() => (paths) => {
                 return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/product/${paths}`).href;
