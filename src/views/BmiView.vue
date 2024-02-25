@@ -53,7 +53,7 @@
                     </div>
                     <p class="bmi_card_title">{{ item.name }}</p>
                     <p class="bmi_card_price">{{ item.price }}</p>
-                    <router-link :to="{name: 'productinfo',params: {id: item.id}}" class="btn-product">查看商品詳情</router-link>
+                    <!-- <router-link :to="{name: 'productinfo',params: {id: item.id}}" class="btn-product">查看商品詳情</router-link> -->
                 </div>
             </div>
             <button class="btn-product"
