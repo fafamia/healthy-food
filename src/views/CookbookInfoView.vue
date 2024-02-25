@@ -58,27 +58,27 @@
               class="fa-solid fa-angle-left"></i></button>
           <div class="comment_card" v-if="messages.length > 0">
             <ul>
-              <li v-for="(message, index) in messages" :key="index">
+              <li v-for="(message, index) in displayedComments" :key="index">
                 <article>
                   <div class="card_top">
                     <h5>{{ message.author }}</h5>
                     <h6>{{ message.timestamp }}</h6>
                     <p>{{ message.content }}</p>
                   </div>
-                    <div class="card_bottom">
-                      <div class="comment_pic">
-                        <img v-if="message.image" :src="message.image" alt="留言圖片">
-                        <!-- <img src="https://picsum.photos/300/200/?random=10"> -->
-                        <!-- <img :src="`https://tibamef2e.com/chd103/g5/img/${comment.prod_img1}`" :alt="comment.prod_name"> -->
+                  <div class="card_bottom">
+                    <div class="comment_pic">
+                      <img v-if="message.image" :src="message.image" alt="留言圖片">
+                      <!-- <img src="https://picsum.photos/300/200/?random=10"> -->
+                      <!-- <img :src="`https://tibamef2e.com/chd103/g5/img/${comment.prod_img1}`" :alt="comment.prod_name"> -->
+                    </div>
+                    <div class="icon">
+                      <button @click="report(index)"><i class="fa-solid fa-triangle-exclamation"></i></button>
+                      <div class="comment_like">
+                        <i @click="toggleLike(comment)" :class="parseClass(comment.like)"></i>
+                        <span>{{ comment.likeCount }}</span>
                       </div>
-                      <div class="icon">
-                        <button @click="report(index)"><i class="fa-solid fa-triangle-exclamation"></i></button>
-                        <div class="comment_like">
-                          <i @click="toggleLike(comment)" :class="parseClass(comment.like)"></i>
-                          <span>{{ comment.likeCount }}</span>
-                        </div>
-                      </div>
-                   
+                    </div>
+
                   </div>
                 </article>
               </li>
@@ -100,9 +100,10 @@
     <div class="letter">
       <h5>我要留言</h5>
       <div class="letter_box">
-        <button type="button" class="login">登入</button>
+        <button type="button" class="login" @click="login">登入</button>
         <input type="file" id="fileInput" @change="handleFileUpload">
         <br>
+        <img v-if="newImage" :src="newImage" alt="">
         <textarea name="comment" id="comment" cols="15" rows="6" placeholder="輸入內容（最多90字）
           " v-model="newMessage"></textarea>
         <br>
@@ -123,11 +124,11 @@
 
 <script>
 
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import axios from 'axios';
-import { mapActions } from 'pinia'
-import { userStore } from '../stores/user.js'
+import { userStore } from '../stores/user.js';
+
 
 export default {
   data() {
@@ -151,8 +152,10 @@ export default {
       reportContent: '',
       messages: [],
       newMessage: '',
-      comment: ''
-
+      newImageFile: '',
+      newImage: '',
+      comment: '',
+      reportActiveIndex: -1,
 
     };
   },
@@ -162,10 +165,11 @@ export default {
     this.toggleBookmark(this.responseData);
     this.axiosGetComments();
     const storedMessages = localStorage.getItem('messages');
-  if (storedMessages) {
-    // 如果有，则将其加载到页面上
-    this.messages = JSON.parse(storedMessages);
-  };
+    if (storedMessages) {
+      // 如果有，则将其加载到页面上
+      this.messages = JSON.parse(storedMessages);
+      console.log(this.messages)
+    };
 
   },
   computed: {
@@ -198,7 +202,6 @@ export default {
     RouterLink,
     RouterView,
     Breadcrumb,
-    mapActions,
     userStore,
   },
   methods: {
@@ -273,16 +276,15 @@ export default {
     },
     report(index) {
       this.reportModalVisible = true;
-      const submitReport = () => {
-        this.submitReport(index);
-      };
+      this.reportActiveIndex = index
     },
     closeReportModal() {
       this.reportModalVisible = false;
       this.reportContent = '';
     },
-    submitReport(index) {
-
+    submitReport() {
+      console.log(this.reportActiveIndex)
+      console.log(this.messages[this.reportActiveIndex])
       if (!this.reportContent.trim()) {
         alert('內容不得為空白');
         return;
@@ -296,7 +298,7 @@ export default {
           content: this.newMessage,
           author: '用户A',
           timestamp: new Date().toLocaleString(),
-          image: this.newMessage.image || null 
+          image: this.newImage || null
         };
         // 添加新留言到留言列表
         this.messages.push(message);
@@ -304,23 +306,40 @@ export default {
         localStorage.setItem('messages', JSON.stringify(this.messages));
         // 提交成功后清空留言输入框
         this.newMessage = '';
-        this.newMessage.image = '';
+        this.newImage = '';
       }
     },
     clearMessages() {
-  localStorage.removeItem('messages');
-  // 清空页面上的留言列表
-  this.messages = [];
-},
-handleFileUpload(event) {
+      // localStorage.removeItem('messages');
+      // 清空页面上的留言列表
+      this.messages = [];
+    },
+    handleFileUpload(event) {
       const file = event.target.files[0];
+      this.newImageFile = file
       const reader = new FileReader();
       reader.onload = () => {
         const imageUrl = reader.result;
         // 将图片 URL 添加到留言数据中
-        this.newMessage.image = imageUrl;
+        this.newImage = imageUrl;
       };
       reader.readAsDataURL(file);
+    },
+    login() {
+      const store = userStore();
+      store.checkLogin()
+        .then(user => {
+          if (!user) {
+            alert('請先登入');
+            store.toggleLoginModal(true);
+          } else {
+            this.getQuestions();
+          }
+        })
+        .catch(err => {
+          console.log('驗證過程中發生錯誤', err);
+        })
+
     }
 
 
