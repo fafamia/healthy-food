@@ -1,10 +1,13 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import MainHeader from "@/components/MainHeader.vue";
 
 export const userStore = defineStore('userStore', {
     state: () => ({
         token: '',
         userData: {},
+        isLoggedIn: false,
+        showLoginModal: false,
     }),
     actions: {
         updateToken(memberNo) {
@@ -54,6 +57,9 @@ export const userStore = defineStore('userStore', {
             this.token = ''
             this.userData = {}
             localStorage.clear();
-        }
+        },
+        toggleLoginModal(show) {
+            this.showLoginModal = show;
+        },
     },
 })

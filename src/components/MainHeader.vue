@@ -7,9 +7,10 @@
                 </RouterLink>
                 <nav>
                     <ul class="header_phone_nav">
-                        <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
+                        <li @click="toggleModal" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
                         <li v-else class="fa-solid fa-icon-you-want"><img src="/src/assets/images/home/header_img.png"></li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
+                        <div class="cart-count">{{ cartItemCount }}</div>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
                     </ul>
                 </nav>
@@ -110,7 +111,7 @@
                         </ul>
                     </nav>
                     <ul class="header_pc_icon_nav">
-                        <li @click="toggleModel" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
+                        <li @click="toggleModal" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
                         <li v-else class="fa-solid fa-icon-you-want user_pic" @click="toggleMemList"><img
                                 src="/src/assets/images/home/header_img.png">
                             <div class="member_list" v-show="isMemberList">
@@ -140,11 +141,12 @@
                             </div>
                         </li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
+                        <div class="cart-count">{{ cartItemCount }}</div>
                     </ul>
                 </div>
             </div>
-            <div class="header_modal" id="log-in-modal" v-show="modelStatus">
-                <div class="header_modal_bg" @click="toggleModel">
+            <div class="header_modal" id="log-in-modal" v-show="modalStatus">
+                <div class="header_modal_bg" @click="toggleModal">
                     <div class="modal">
                         <div class="header_model_area" @click.stop>
                             <div class="header_modal_title">
@@ -157,7 +159,7 @@
                             <div class="header_login_model" v-if="isLogin">
                                 <form @submit.prevent="logIn">
                                     <label for="login" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
-                                            @click="toggleModel"></i></label>
+                                            @click="toggleModal"></i></label>
                                     <input class="header_login_input" type="email" placeholder="請輸入E-mail" id="loginId"
                                         v-model="user.memId" name="memId" required>
                                     <div class="password">
@@ -187,7 +189,7 @@
                             <div class="header_signup_model" v-if="!isLogin">
                                 <form @submit.prevent="registerUser">
                                     <label for="signup" class="close"><i class="fa-solid fa-xmark" id="close-ntn"
-                                            @click="toggleModel"></i></label>
+                                            @click="toggleModal"></i></label>
                                     <input class="signup_modal_input" type="text" placeholder="請輸入您的姓名" name="signup_name"
                                         v-model="newUser.name" required>
                                     <input class="signup_modal_input" type="text" placeholder="請輸入您的手機號碼" name="signup_tel"
@@ -265,6 +267,8 @@ import ShoppingCart from "@/components/ShoppingCart.vue"
 import axios from 'axios';
 import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
+import { useCartStore } from '../stores/cart.js'
+import { computed } from 'vue';
 
 export default {
     data() {
@@ -275,7 +279,7 @@ export default {
                 healthTools: false,
                 healthArticles: false,
             },
-            modelStatus: false,
+            modalStatus: false,
             isLogin: true,
             isDown: false,
             isLoggedIn: false,
@@ -296,11 +300,20 @@ export default {
                 county: '',
                 city: '',
                 addr: ''
-            }
+            },
+            cartItemCount: 0 // 初始化購物車數量為 0
         }
     },
     created() {
         const store = userStore();
+        //監控pinia中的showLoginModal，如果有變動(true)就打開登入燈箱
+        this.$watch(
+            () => store.showLoginModal,
+            (newValue) => {
+                if (newValue === true) {
+                    this.toggleModal();
+                }
+            });
         store.checkLogin()
             .then(user => {
                 if (user) {
@@ -311,10 +324,15 @@ export default {
                     this.isLoggedIn = false;
                 }
             })
-            .catch(error => {
-                console.error('驗證過程中發生錯誤', error);
+            .catch(err => {
                 this.isLoggedIn = false;
             });
+
+
+        const cart = useCartStore();
+        this.cartItemCount = computed(() => {
+            return cart.count;
+        });
     },
     methods: {
         toggleHeaderMenu() {
@@ -323,8 +341,8 @@ export default {
         toggleSubMenu(subMenuName) {
             this.subMenuStatus[subMenuName] = !this.subMenuStatus[subMenuName]
         },
-        toggleModel() {
-            this.modelStatus = !this.modelStatus
+        toggleModal() {
+            this.modalStatus = !this.modalStatus;
         },
         toggleLogin(isLogin) {
             this.isLogin = isLogin;
@@ -334,7 +352,7 @@ export default {
         },
         toggleSignupDown() {
             this.isDown = !this.isDown;
-            this.modelStatus = false;
+            this.modalStatus = false;
             this.toggleLogin(true);
             this.newUser = {
                 name: '',
@@ -371,7 +389,7 @@ export default {
                         this.user.memId = '';
                         this.user.memPsw = '';
                         //關閉燈箱
-                        this.modelStatus = false;
+                        this.modalStatus = false;
                         //換大頭貼
                         this.isLoggedIn = true;
                         console.log(data);
@@ -398,6 +416,13 @@ export default {
             this.passwordVisible = !this.passwordVisible;
         },
         getLocations() {
+            //tibame用
+            // axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
+            //     .then(res => {
+            //         this.locations = res.data;
+            //     })
+            //     .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+            //本地端用
             axios.get('/public/taiwan_districts.json')
                 .then(res => {
                     this.locations = res.data;
@@ -496,8 +521,9 @@ export default {
         ShoppingCart,
         mapActions,
         userStore,
+        useCartStore,
     },
-}       
+}
 </script>
 
 <style lang="scss">
