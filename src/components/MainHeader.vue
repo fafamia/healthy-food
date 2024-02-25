@@ -141,6 +141,7 @@
                             </div>
                         </li>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
+                        <div class="cart-count">{{ cartItemCount }}</div>
                     </ul>
                 </div>
             </div>
@@ -266,6 +267,7 @@ import ShoppingCart from "@/components/ShoppingCart.vue"
 import axios from 'axios';
 import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
+import { useCartStore } from '../stores/cart.js'
 import { computed } from 'vue';
 import { useCartStore } from "@/stores/cart";
 
