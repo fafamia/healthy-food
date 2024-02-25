@@ -269,7 +269,6 @@ import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
 import { useCartStore } from '../stores/cart.js'
 import { computed } from 'vue';
-import { useCartStore } from "@/stores/cart";
 
 export default {
     data() {
