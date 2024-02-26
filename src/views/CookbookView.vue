@@ -103,23 +103,23 @@ export default {
       alert("已複製食譜網址：" + this.cardUrl);
     },
     fetchData() {
-  fetch(`${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`)
-    .then((res) => res.json())
-    .then((json) => {
-      this.recipe = json.map(recipe => ({
-        ...recipe,
-        bookmarked: false,
-        iconClass: 'fa-regular fa-bookmark',
-        like: false,
-        iconLike: 'fa-regular fa-thumbs-up',
-        // 添加 recipe_img 属性
-        recipe_img: recipe.recipe_img
-      }));
-    })
-    .catch((error) => {
-      console.error('Error fetching data:', error);
-    });
-},
+      fetch(`${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`)
+        .then((res) => res.json())
+        .then((json) => {
+          this.recipe = json.map(recipe => ({
+            ...recipe,
+            bookmarked: false,
+            iconClass: 'fa-regular fa-bookmark',
+            like: false,
+            iconLike: 'fa-regular fa-thumbs-up',
+            // 添加 recipe_img 属性
+            recipe_img: recipe.recipe_img
+          }));
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    },
     getRecipeImage(recipe) {
       // 如果 recipe_img 是完整的 URL，则直接返回
       if (recipe.recipe_img.startsWith('http')) {
