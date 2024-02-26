@@ -52,17 +52,17 @@
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前GI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
-                <div class="gi_recommend_card"
-                v-for="(item, index) in displatdata"
-                :key="item"
-                >
-                    <span class="gi_tag">#NEW</span>
+                <div class="gi_recommend_card" v-for="(item, index) in displatdata" :key="index">
+                    <span class="gi_tag">#{{ item.product_tag_name }}</span>
                     <div class="gi_card_img">
-                        <img :src="getImageUrl(item.image)" alt="item.name">
+                        <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
-                    <p class="gi_card_title">{{ item.name }}</p>
-                    <p class="gi_card_price">{{ item.price }}</p>
-                    <!-- <router-link :to="{name: 'productinfo',params: {id: item.id}}" class="btn-product">查看商品詳情</router-link> -->
+                    <p class="gi_card_title">{{ item.product_name }}</p>
+                    <p class="gi_card_price">{{ item.product_price }}</p>
+                    <router-link :to="{
+                        name: 'productinfo',
+                        params: { product_no: item.product_no }
+                    }" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
             <button class="btn-product"
@@ -74,38 +74,14 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import VegetableCard from "@/components/VegetableCard.vue";
+import axios from 'axios';
 export default {
     data() {
         return {
             portionSize:null,
             chooseFood:'',
             gi:null,
-            displatdata:[
-                {
-                    index:1,
-                    id: 2001,
-                    name: "有機雞蛋",
-                    price: "$100",
-                    image: "product/eggs-cover.png",
-                    type: "egg"
-                },
-                {
-                    index:2,
-                    id: 3001,
-                    name: "食用油",
-                    price: "$300",
-                    image: "product/oil-cover.jpg",
-                    type: "oil"
-                },
-                {
-                    index:3,
-                    id: 4001,
-                    name: "水產養殖鮮魚",
-                    price: "$500",
-                    image: "product/fish-cover.png",
-                    type: "fish"
-                },
-            ],
+            displatdata:[],
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
                 { text: '健康小幫手' , to: ''},

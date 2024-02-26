@@ -67,32 +67,7 @@ export default {
             chooseFood:'',
             portionSize:null,
             cal:null,
-            displatdata:[
-                {
-                    index:1,
-                    id: 2001,
-                    name: "有機雞蛋",
-                    price: "$100",
-                    image: "product/eggs-cover.png",
-                    type: "egg"
-                },
-                {
-                    index:2,
-                    id: 3001,
-                    name: "食用油",
-                    price: "$300",
-                    image: "product/oil-cover.jpg",
-                    type: "oil"
-                },
-                {
-                    index:3,
-                    id: 4001,
-                    name: "水產養殖鮮魚",
-                    price: "$500",
-                    image: "product/fish-cover.png",
-                    type: "fish"
-                },
-            ],
+            displatdata:[],
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
                 { text: '健康小幫手' , to: ''},

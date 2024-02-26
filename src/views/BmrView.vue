@@ -62,17 +62,17 @@
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前bmr的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
-                <div class="bmr_recommend_card"
-                v-for="(item, index) in displatdata"
-                :key="item"
-                >
-                    <span class="bmr_tag">#NEW</span>
+                <div class="bmr_recommend_card" v-for="(item, index) in displatdata" :key="index">
+                    <span class="bmr_tag">#{{ item.product_tag_name }}</span>
                     <div class="bmr_card_img">
-                        <img :src="getImageUrl(item.image)" alt="item.name">
+                        <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
-                    <p class="bmr_card_title">{{ item.name }}</p>
-                    <p class="bmr_card_price">{{ item.price }}</p>
-                    <!-- <router-link :to="{name: 'productinfo',params: {id: item.id}}" class="btn-product">查看商品詳情</router-link> -->
+                    <p class="bmr_card_title">{{ item.product_name }}</p>
+                    <p class="bmr_card_price">{{ item.product_price }}</p>
+                    <router-link :to="{
+                        name: 'productinfo',
+                        params: { product_no: item.product_no }
+                    }" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
             <button class="btn-product"
@@ -84,6 +84,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import VegetableCard from "@/components/VegetableCard.vue";
+import axios from "axios";
 export default {
     data() {
         return {
@@ -93,32 +94,7 @@ export default {
             bmrWeight:null,
             bmrSport: null,
             bmr: null,
-            displatdata:[
-                {
-                    index:1,
-                    id: 2001,
-                    name: "有機雞蛋",
-                    price: "$100",
-                    image: "product/eggs-cover.png",
-                    type: "egg"
-                },
-                {
-                    index:2,
-                    id: 3001,
-                    name: "食用油",
-                    price: "$300",
-                    image: "product/oil-cover.jpg",
-                    type: "oil"
-                },
-                {
-                    index:3,
-                    id: 4001,
-                    name: "水產養殖鮮魚",
-                    price: "$500",
-                    image: "product/fish-cover.png",
-                    type: "fish"
-                },
-            ],
+            displatdata:[],
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
                 { text: '健康小幫手' , to: ''},
@@ -129,7 +105,7 @@ export default {
     },
     methods: {
         getImageUrl(paths) {
-            return new URL(`../assets/images/${paths}`, import.meta.url).href;
+            return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/product/${paths}`, import.meta.url).href;
         },
         bmrCalculate(){
             if( this.bmrSex === "男" && this.bmrAge && this.bmrHeight && this.bmrWeight && this.bmrSport !== "" ){
@@ -138,15 +114,37 @@ export default {
                 this.bmr = this.bmr.toFixed(1);
                 this.$refs.bmrCountainer.style.display = "none";
                 this.$refs.bmrHealthyRecommend.style.display = "flex";
+                this.BmrType();
             }else if( this.bmrSex === "女" && this.bmrAge && this.bmrHeight && this.bmrWeight && this.bmrSport !== "" ){
                 this.bmr = (this.bmrWeight * 10) + (this.bmrHeight * 6.25) - ( this.bmrAge * 5 ) -161 * parseFloat(this.bmrSport);
                 // 女性：（10 ×公斤體重）+（6.25 × 公分身高）-（5 ×年齡歲數）–161
                 this.bmr = this.bmr.toFixed(1);
                 this.$refs.bmrCountainer.style.display = "none";
                 this.$refs.bmrHealthyRecommend.style.display = "flex";
+                this.BmrType();
             }else{
                 alert("請輸入正確資料")
             }
+        },
+        BmrType(){
+            let type = 1;
+            if(this.bmr < 1600){
+                type = 5;
+            }else if( this.bmr >= 1600 && this.bmr < 2000 ){
+                type = 6;
+            }else{
+                type = 7;
+            }
+            axios.post(`${import.meta.env.VITE_API_URL}/front/product/BMI&BMRproduct.php`, {
+                    type: type
+                })
+            .then(response => {
+                this.displatdata = response.data
+                console.log(this.displatdata)
+            })
+            .catch(error => {
+                console.error('Error adding prodclass:', error);
+            });
         },
         bmRrecalculate(){
             this.$refs.bmrCountainer.style.display = "flex";

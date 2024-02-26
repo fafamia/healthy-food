@@ -38,7 +38,7 @@
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前BMI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
-                <div class="bmi_recommend_card" v-for="(item, index) in displatdata" :key="item">
+                <div class="bmi_recommend_card" v-for="(item, index) in displatdata" :key="index">
                     <span class="bmi_tag">#{{ item.product_tag_name }}</span>
                     <div class="bmi_card_img">
                         <img :src="getImageUrl(item.product_img)" alt="item.name">
@@ -46,9 +46,9 @@
                     <p class="bmi_card_title">{{ item.product_name }}</p>
                     <p class="bmi_card_price">{{ item.product_price }}</p>
                     <router-link :to="{
-            name: 'productinfo',
-            params: { product_no: item.product_no }
-          }" class="btn-product">查看商品詳情</router-link>
+                        name: 'productinfo',
+                        params: { product_no: item.product_no }
+                    }" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
             <button class="btn-product" @click="recalculate">重新計算</button>
@@ -96,7 +96,7 @@ export default {
     },
     methods: {
         getImageUrl(paths) {
-            return new URL(`../assets/images/${paths}`, import.meta.url).href;
+            return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/product/${paths}`, import.meta.url).href;
         },
         calculate() {
             let type = 1;
@@ -121,16 +121,16 @@ export default {
                     this.suggestionText = this.suggestiondata[2].suggestionText;
                 }
 
-                axios.post(`${import.meta.env.VITE_API_URL}/front/product/BMIproduct.php`, {
+                axios.post(`${import.meta.env.VITE_API_URL}/front/product/BMI&BMRproduct.php`, {
                     type: type
                 })
-                    .then(response => {
-                        this.displatdata = response.data
-                        console.log(this.displatdata)
-                    })
-                    .catch(error => {
-                        console.error('Error adding prodclass:', error);
-                    });
+                .then(response => {
+                    this.displatdata = response.data
+                    console.log(this.displatdata)
+                })
+                .catch(error => {
+                    console.error('Error adding prodclass:', error);
+                });
             }
         },
 
@@ -142,7 +142,6 @@ export default {
         }
     },
     beforeDestroy() {
-        window.removeEventListener('resize', this.updateDimensions); //移除事件聆聽
     },
     mounted() { // Vue 實例創建之後立即被調用
     },
