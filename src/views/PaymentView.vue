@@ -39,7 +39,7 @@
                             <input
                             type="text"
                             placeholder="請輸入您的手機號碼"
-                            v-model="CartStore.orderInfo['take_tal']"
+                            v-model="CartStore.orderInfo['take_tel']"
                             class="payment_info_infoInput"
                             >
                         </td>
@@ -59,22 +59,22 @@
                         <th rowspan="2">運送方式:</th>
                         <td>
                             <input
-                            name="ord_shipping"
+                            name="shipping_status"
                             id="deliveryHome"
                             type="radio"
                             value="宅配到府"
-                            v-model="CartStore.orderInfo['ord_shipping']">
+                            v-model="CartStore.orderInfo['shipping_status']">
                             <label for="deliveryHome">宅配到府 ( 運費$80TWD )</label>
                         </td>
                     </tr>
                     <tr class="payment_info_infoTr">
                         <td>
                             <input
-                            name="ord_shipping"
+                            name="shipping_status"
                             id="deliveryStore"
                             type="radio"
                             value="7-11取貨"
-                            v-model="CartStore.orderInfo['ord_shipping']">
+                            v-model="CartStore.orderInfo['shipping_status']">
                             <label for="deliveryStore">7-11取貨 ( 運費$60TWD )</label>
                         </td>
                     </tr>
@@ -127,12 +127,13 @@ export default{
             if(checkSame.value){
                 CartStore.orderInfo["ord_name"] = store.userData["member_name"];
                 CartStore.orderInfo["take_mail"] = store.userData["member_email"];
-                CartStore.orderInfo["take_tal"] = store.userData["member_tel"];
+                CartStore.orderInfo["take_tel"] = store.userData["member_tel"];
                 CartStore.orderInfo["take_address"] = store.userData["member_county"] + store.userData["member_city"] +store.userData["member_addr"];
             }else{
-                CartStore.orderInfo['orderName'] ='';
-                CartStore.orderInfo['orderNumber'] = '';
-                CartStore.orderInfo['orderAddr'] = '';
+                CartStore.orderInfo['ord_name'] ='';
+                CartStore.orderInfo['take_mail'] = '';
+                CartStore.orderInfo['take_tel'] = '';
+                CartStore.orderInfo['take_address'] = '';
             }
         };
         watch(checkSame, (newValue) => {

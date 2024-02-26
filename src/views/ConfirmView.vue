@@ -17,7 +17,7 @@
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>手機:</th>
-                        <td>{{ CartStore.orderInfo["take_tal"] }}</td>
+                        <td>{{ CartStore.orderInfo["take_tel"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>地址:</th>
@@ -25,7 +25,7 @@
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>運送方式:</th>
-                        <td>{{ CartStore.orderInfo["ord_shipping"] }}</td>
+                        <td>{{ CartStore.orderInfo["shipping_status"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>付款方式:</th>
@@ -69,9 +69,6 @@ export default{
         const router = useRouter();
         const isSuccess = ref(false);
         const toggleSuccess = ()=>{
-            isSuccess.value = !isSuccess.value
-            CartStore.cartList.splice(0);
-            localStorage.clear();
         };
         const linkToHome = ()=>{
             router.push('/');
@@ -79,18 +76,16 @@ export default{
         const store = userStore();
         const addOrder = ()=>{
             CartStore.updateOrderInfo();
-            console.log(CartStore.cartList);
-            console.log(CartStore.orderInfo);
-            console.log(store.userData);
-
             const orderData = {
                 carList:CartStore.cartList,
                 orderInfo:CartStore.orderInfo,
                 userData:store.userData
             }
             axios.post(`${import.meta.env.VITE_API_URL}/front/order/orderDataAdd.php`,orderData)
-                .then(response =>{
-                    console.log("訂單成功");
+            .then(response =>{
+                    isSuccess.value = !isSuccess.value
+                    CartStore.cartList.splice(0);
+                    localStorage.clear();
                 })
                 .catch(error =>{
                     console.error("提交訂單失敗",error)
