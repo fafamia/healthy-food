@@ -416,6 +416,7 @@ export default {
             this.passwordVisible = !this.passwordVisible;
         },
         getLocations() {
+
             axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
                 .then(res => {
                     this.locations = res.data;
@@ -514,7 +515,6 @@ export default {
         RouterLink,
         ShoppingCart,
         mapActions,
-        userStore,
         useCartStore,
     },
 }

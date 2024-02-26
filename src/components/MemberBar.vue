@@ -8,8 +8,15 @@
                 </div>
             </div>
             <div class="member_headshot_info">
-                <h2 name="memberName">王小明</h2>
-                <p class="member_title">黃金會員</p>
+                <h2 name="memberName">{{ member.member_name }}</h2>
+                <p class="member_title">
+                    {{
+                        member.member_level === 1 ? '一般會員' :
+                        member.member_level === 2 ? '黃金會員' :
+                            member.member_level === 3 ? '白金會員' :
+                                '鑽石會員'
+                    }}
+                </p>
             </div>
         </div>
         <nav class="member_bar_list">
@@ -34,11 +41,21 @@
 </template>
 
 <script>
+import { userStore } from '../stores/user.js';
 export default {
+    data() {
+        return {
+            member: {},
+        }
+    },
     methods: {
         isActive(path) {
             return this.$route.path === path;
         }
+    },
+    mounted() {
+        const store = userStore();
+        this.member = store.userData;
     },
 }
 </script>
