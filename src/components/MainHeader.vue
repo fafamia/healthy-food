@@ -416,18 +416,12 @@ export default {
             this.passwordVisible = !this.passwordVisible;
         },
         getLocations() {
-            //tibame用
-            // axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
-            //     .then(res => {
-            //         this.locations = res.data;
-            //     })
-            //     .catch(err => console.log('讀取區域資料時發生錯誤:', err))
-            //本地端用
-            axios.get('/public/taiwan_districts.json')
+            axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
                 .then(res => {
                     this.locations = res.data;
                 })
                 .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+
         },
         handleCountyChange(event) {
             const countyName = event.target.value;
@@ -448,7 +442,7 @@ export default {
                     url: `${import.meta.env.VITE_API_URL}/front/member/front_signup.php`,
                     data: this.newUser,
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/json'
                     }
                 })
                     .then(res => {
