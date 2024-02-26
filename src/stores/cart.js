@@ -27,20 +27,22 @@ export const useCartStore =  defineStore("CartStore", {
             orderInfo:reactive({
                 ord_name:'',
                 take_mail:'',
-                take_tal:'',
+                take_tel:'',
                 take_address:'',
-                ord_shipping:'',
-                payment_status:'',
-                sales_amount:'0',
                 delivery_fee:'0',
-                odr_amount:'',
+                ord_amount:'',
+                sales_amount:'0',
                 ord_payment:'',
+                shipping_status:'',
+                payment_status:'',
+                ord_status:0,
             }),
         }
     },
     getters: {
         //input輸入的折價券id是否有在資料庫中
         matchingCoupon:(state)=>{
+            //array.find會比對陣列中的元素，傳回第一個找到的值
             return state.couponList.find(coupon => coupon.id === state.userInput)
         }, 
         //--計算小計--
@@ -117,7 +119,7 @@ export const useCartStore =  defineStore("CartStore", {
             this.saveLocalstorage();
         },
         updateOrderInfo(){
-            this.orderInfo['odr_amount'] = this.subTotal;
+            this.orderInfo['ord_amount'] = this.subTotal;
             this.orderInfo['sales_amount'] = this.matchingCoupon ? this.matchingCoupon.price : '';
             this.orderInfo['ord_payment'] = this.total;
         }

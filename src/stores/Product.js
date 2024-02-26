@@ -13,6 +13,7 @@ export const useProductStore = defineStore("ProductStore",{
             return(product_no) => {
                 //database:sql->int, serve-side:php->string(jaon response), clint-side:vue->string($route.params)
                 //參數再不同地方轉傳容易有型別不一樣的問題，統一型別再比較或是用 == 比較
+                //array.find會比對陣列中的元素，傳回第一個找到的值
                 return state.products.find(product => product.product_no.toString() === product_no.toString())
             }
         },
