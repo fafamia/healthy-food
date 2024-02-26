@@ -83,13 +83,11 @@ import { useRoute } from 'vue-router';
 import { useProductStore } from '@/stores/Product';
 import { userStore } from '@/stores/user';
 import { useCartStore } from "@/stores/cart";
-import { ref,onMounted } from 'vue';
+import { ref,onMounted, watch } from 'vue';
 
 export default {
   props: ['product_no'],
   setup() {
-    //使用composition API中的route 
-    const route = useRoute();
     //使用ProductStore
     const ProductStore = useProductStore();
     const ProductNo = ref('');
@@ -101,6 +99,12 @@ export default {
       //使用ProductStore中根據route綁定no所送出的data
       productInfoDisplay.value = ProductStore.getProductByNo(ProductNo.value);
     }
+    //使用composition API中的route 
+    const route = useRoute();
+    //如果在內頁點其他商品連結，會監控透過params傳的product_no,即時更新頁面不用重新整理
+    watch(()=> route.params.product_no,async(newVal)=>{
+      await fetchProductInfo();
+    },{immediate:true});
     
     //等畫面建立後再抓商品資料
     onMounted(async()=>{
@@ -118,18 +122,21 @@ export default {
         if (!user) {
           alert('請先登入');
           store.toggleLoginModal(true);
+          return;
         } else {
           //使用CartStore中的addCart
-          CartStore.addCart({
+          await CartStore.addCart({
             product_no: productInfoDisplay.value.product_no,
             product_name:productInfoDisplay.value.product_name,
             product_quantity: pageQuantity.value,
             product_img:productInfoDisplay.value.product_img,
             product_price:productInfoDisplay.value.product_price,
           });
+          alert('商品已加入購物車');
         }
       }catch(err){
         console.log('驗證過程中發生錯誤', err);
+        alert('加入購物車時發生錯誤，請稍後再試');
       }
     } 
 
