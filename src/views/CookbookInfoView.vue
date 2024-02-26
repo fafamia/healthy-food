@@ -10,17 +10,17 @@
       <div v-else-if="nodata">nodata...</div>
       <div v-else class="recipe_container ">
         <div class="title">
-          <h6>{{ responseData.prod_name }}</h6>
-          <span>食譜編號#{{ responseData.prod_id }}</span>
+          <h6>{{ responseData.recipe_name }}</h6>
+          <span>食譜編號#{{ responseData.recipe_no }}</span>
         </div>
         <div class="recipe_card">
           <div class="recipe_img">
-            <img :src="`https://tibamef2e.com/chd103/g5/img/${responseData.prod_img1}`" :alt="responseData.prod_name">
+            <img :src="recipeImageUrl" alt="Recipe Image">
           </div>
           <div class="box">
             <p>本篇推薦食材：<br>
-              {{ responseData.prod_des2 }}</p>
-            <a href="#">選購go→</a>
+              {{ responseData.recipe_recommend }}</p>
+              <router-link to="/products">選購go→</router-link>
             <div class="box_btn">
               <button type="button" @click="toggleLike(comment)">
                 <i :class="responseData.iconLike"></i>讚
@@ -32,21 +32,21 @@
           </div>
         </div>
         <div class="time">
-          <span>份量：{{ responseData.prod_status }}</span>
-          <span>時間：{{ responseData.prod_price }}</span>
+          <span>份量：{{ responseData.recipe_people }}</span>
+          <span>時間：{{ responseData.recipe_time }}</span>
         </div>
         <div class="ingredients">
           <div class="name">
             <h5>食材</h5>
           </div>
-          <p>{{ responseData.prod_des1 }}</p>
+          <p class="recipe-ingredient">{{ responseData.recipe_ingredient }}</p>
 
         </div>
 
 
         <div class="content">
           <h5>製作步驟：</h5>
-          <p>{{ responseData.prod_des1 }}</p>
+          <p class="recipe-info">{{ responseData.recipe_info }}</p>
         </div>
       </div>
 
@@ -139,12 +139,7 @@ export default {
         { text: '熱門食譜', to: '/cookbook' },
         { text: '食譜內頁', active: true }
       ],
-      responseData: {
-        like: true,
-        iconLike: '',
-        likeCount: 0,
-      },
-      loading: true,
+      responseData: [],
       comments: [],
       currentIndex: 0,
       commentsPerPage: 3,
@@ -170,6 +165,7 @@ export default {
       this.messages = JSON.parse(storedMessages);
       console.log(this.messages)
     };
+    // this.fetchRecipeData();
 
   },
   computed: {
@@ -197,6 +193,10 @@ export default {
     currentId() {
       return this.$route.params.id
     },
+    recipeImageUrl() {
+    // 假设您的图像基本路径是 VITE_IMAGES_BASE_URL
+    return `${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${this.responseData.recipe_img}`;
+  }
   },
   components: {
     RouterLink,
@@ -207,18 +207,35 @@ export default {
   methods: {
     axiosGetData() {
       const pageId = this.$route.params.id;
-      axios.get('https://tibamef2e.com/chd103/g5/phps/ProductM.php')
+      const apiUrl = `${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`;
+      console.log('Request URL:', apiUrl); // 调试信息：打印请求的 URL
+      axios.get(apiUrl)
         .then(res => {
+          console.log('Response data:', res.data); // 调试信息：打印返回的数据
           if (res && res.data) {
             this.loading = false;
-            const target = res.data.find(item => item.prod_id == pageId);
+            const target = res.data.find(item => item.recipe_no == pageId);
             this.responseData = target ? target : {};
           }
         })
         .catch(error => {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error); // 调试信息：打印错误信息
         });
     },
+
+    // fetchRecipeData() {
+    //   const apiUrl = `${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`;
+    //   axios.get(apiUrl)
+    //     .then(response => {
+    //       this.responseData = response.data;
+    //       this.loading = false;
+    //       console.log('成功');
+    //     })
+    //     .catch(error => {
+    //       console.error('Error fetching recipe data:', error);
+    //     });
+    // },
+
     toggleLike(comment) {
       comment.like = !comment.like;
       comment.iconLike = comment.like ? 'fa-solid fa-thumbs-up' : '';
@@ -230,7 +247,7 @@ export default {
     },
     axiosGetComments() {
       const pageId = this.$route.params.id;
-      axios.get('https://tibamef2e.com/chd103/g5/phps/ProductM.php')
+      axios.get(`${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`)
         .then(res => {
           if (res && res.data) {
             this.comments = res.data.map(comment => ({ ...comment, like: false, likeCount: 0 }));
@@ -340,8 +357,8 @@ export default {
           console.log('驗證過程中發生錯誤', err);
         })
 
-    }
-
+    },
+  
 
 
   }

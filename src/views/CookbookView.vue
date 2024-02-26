@@ -14,18 +14,19 @@
     </div>
     <div class="container cookbook-list">
       <ul>
-        <li v-for="product in displayedProducts" :key="product.prod_id">
+        <li v-for="recipe in displayedRecipes" :key="recipe.recipe_no">
           <article>
-            <i @click="toggleBookmark(product)" :class="product.iconClass" class="bookmark"></i>
-            <router-link :to="`/cookbookinfo/${product.prod_id}`"><img :src="getProductImage(product)" :alt="product.prod_name"></router-link>
+            <i @click="toggleBookmark(recipe)" :class="recipe.iconClass" class="bookmark"></i>
+            <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"><img :src="getRecipeImage(recipe)"
+                :alt="recipe.recipe_name"></router-link>
             <div class="text">
-              <router-link :to="`/cookbookinfo/${product.prod_id}`">
-                <h4>{{ product.prod_name }}</h4>
+              <router-link :to="`/cookbookinfo/${recipe.recipe_no}`">
+                <h4>{{ recipe.recipe_name }}</h4>
               </router-link>
-              <p>{{ product.prod_des2 }}</p>
+              <p>{{ recipe.recipe_text }}</p>
             </div>
             <div class="like">
-              <i @click="toggleLike(product)" :class="product.iconLike"></i>
+              <i @click="toggleLike(recipe)" :class="recipe.iconLike"></i>
               <span>1</span>
               <button @click="copyUrl"><i class="fa-solid fa-share"></i></button>
             </div>
@@ -51,7 +52,7 @@ export default {
   props: ['cardUrl'],
   data() {
     return {
-      products: [],
+      recipe: [],
       itemsPerPage: 9,
       currentPage: 1,
       // 麵包屑數據
@@ -66,12 +67,12 @@ export default {
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.products.length / this.itemsPerPage);
+      return Math.ceil(this.recipe.length / this.itemsPerPage);
     },
-    displayedProducts() {
+    displayedRecipes() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.products.slice(startIndex, endIndex);
+      return this.recipe.slice(startIndex, endIndex);
     },
   },
 
@@ -102,34 +103,43 @@ export default {
       alert("已複製食譜網址：" + this.cardUrl);
     },
     fetchData() {
-      fetch('https://tibamef2e.com/chd103/g5/phps/ProductM.php')
-        .then((res) => res.json())
-        .then((json) => {
-          this.products = json.map(product => ({
-            ...product,
-            bookmarked: false,
-            iconClass: 'fa-regular fa-bookmark',
-            like: false,
-            iconLike: 'fa-regular fa-thumbs-up',
-          }));
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
+  fetch(`${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`)
+    .then((res) => res.json())
+    .then((json) => {
+      this.recipe = json.map(recipe => ({
+        ...recipe,
+        bookmarked: false,
+        iconClass: 'fa-regular fa-bookmark',
+        like: false,
+        iconLike: 'fa-regular fa-thumbs-up',
+        // 添加 recipe_img 属性
+        recipe_img: recipe.recipe_img
+      }));
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+},
+    getRecipeImage(recipe) {
+      // 如果 recipe_img 是完整的 URL，则直接返回
+      if (recipe.recipe_img.startsWith('http')) {
+        return recipe.recipe_img;
+      } else {
+        // 否则构建本地图像路径并返回
+        return `${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${recipe.recipe_img}`;
+      }
     },
-    getProductImage(product) {
-      return `https://tibamef2e.com/chd103/g5/img/${product.prod_img1 || product.prod_img2 || product.prod_img3 || product.prod_img4}`;
-    },
+
     changePage(page) {
       this.currentPage = page;
     },
-    toggleBookmark(product) {
-      product.bookmarked = !product.bookmarked;
-      product.iconClass = product.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark';
+    toggleBookmark(recipe) {
+      recipe.bookmarked = !recipe.bookmarked;
+      recipe.iconClass = recipe.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark';
     },
-    toggleLike(product) {
-      product.like = !product.like;
-      product.iconLike = product.like ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up';
+    toggleLike(recipe) {
+      recipe.like = !recipe.like;
+      recipe.iconLike = recipe.like ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up';
     },
     changeStyle(i) {
       this.isStyled = this.isStyled.map((_, index) => index === i);
