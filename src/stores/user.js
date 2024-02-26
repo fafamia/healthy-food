@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import MainHeader from "@/components/MainHeader.vue";
+
 
 export const userStore = defineStore('userStore', {
     state: () => ({
@@ -8,7 +8,7 @@ export const userStore = defineStore('userStore', {
         userData: {},
         isLoggedIn: false,
         showLoginModal: false,
-        checkedSame:false,
+        checkedSame: false,
     }),
     actions: {
         updateToken(memberNo) {
@@ -22,12 +22,10 @@ export const userStore = defineStore('userStore', {
         },
         updateUserData(memberInfo) {
             this.userData = memberInfo
-            console.log(this.userData);
         },
         checkLogin() {
             return new Promise((resolve, reject) => {
                 const storageToken = localStorage.getItem('userToken');
-                console.log("發送的Token:", storageToken);
 
                 axios({
                     method: 'post',
@@ -62,8 +60,27 @@ export const userStore = defineStore('userStore', {
         toggleLoginModal(show) {
             this.showLoginModal = show;
         },
-        isCheckedSame(isChecked){
+        isCheckedSame(isChecked) {
             this.checkedSame = isChecked;
+        },
+        updateMemberData(newUserData) {
+            this.userData = newUserData;
+            axios.post(`${import.meta.env.VITE_API_URL}/front/member/updateMemberInfo.php`, {
+                member_no: this.userData.member_no,
+                member_name: this.userData.member_name,
+                member_birth: this.userData.member_birth,
+                member_email: this.userData.member_email,
+                member_tel: this.userData.member_tel,
+                member_county: this.userData.member_county,
+                member_city: this.userData.member_city,
+                member_addr: this.userData.member_addr
+            })
+                .then((res) => {
+                    alert(res.data.msg);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
         },
     },
 })

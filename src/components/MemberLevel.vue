@@ -3,15 +3,20 @@
         <div class="member_level">
             <h2>會員禮遇</h2>
             <div class="member_level_area">
-                <h3 class="member_level_title">黃金會員</h3>
+                <h3 class="member_level_title">{{
+                    member.member_level === 1 ? '一般會員' :
+                    member.member_level === 2 ? '黃金會員' :
+                        member.member_level === 3 ? '白金會員' :
+                            '鑽石會員'
+                }}</h3>
                 <div class="level_exp_text">
-                    <p>3222</p>
-                    <p>8000</p>
+                    <p>{{ member.member_total_amount }}</p>
+                    <p>{{ levelSpand }}</p>
                 </div>
                 <div class="level_exp">
                     <div class="level_exp_bar"></div>
                 </div>
-                <p>再消費4778TWD，解鎖白金會員</p>
+                <p>再消費{{ money }}TWD，解鎖更高級的會員</p>
             </div>
             <div class="member_level_info">
                 <ul>
@@ -57,3 +62,44 @@
         </div>
     </div>
 </template>
+
+<script>
+import axios from 'axios';
+import { userStore } from '../stores/user.js';
+export default {
+    data() {
+        return {
+            member: {},
+            levelData: [],
+            levelSpand: '',
+            money: '',
+        }
+    },
+    mounted() {
+        const store = userStore();
+        this.member = store.userData;
+        axios.get(`${import.meta.env.VITE_API_URL}/front/member/getLevel.php`)
+            .then((res) => {
+                this.levelData = res.data;
+                this.getLevelSpand(this.member.member_level, this.member.member_total_amount);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    },
+    methods: {
+        getLevelSpand(level, money) {
+            if (level === 1) {
+                this.levelSpand = 3000;
+                this.money = this.levelSpand - money;
+            } else if (level === 2) {
+                this.levelSpand = 8000;
+                this.money = this.levelSpand - money;
+            } else if (level === 3) {
+                this.levelSpand = 16000;
+                this.money = this.levelSpand - money;
+            }
+        }
+    },
+}
+</script>

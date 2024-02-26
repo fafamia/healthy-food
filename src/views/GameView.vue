@@ -1,7 +1,7 @@
 <template>
   <div class="game container">
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
-    <game-start v-if="gameStep === 0" @startGame="toNextStep" />
+    <game-start v-if="gameStep === 0" @startGame="toNextStep" @get-questions="getQuestions" />
     <div class="q_bar col-12 col-xl-6" v-if="gameStep > 0">
       <div class="q_bar_circle" v-for="n in 5" :key="n">
         <img v-if="progressStep >= n" src="/src/assets/images/game/game2.png" alt="小遊戲圖片">
@@ -82,13 +82,12 @@ export default {
         if (!user) {
           alert('請先登入');
           store.toggleLoginModal(true);
-        } else {
-          this.getQuestions();
         }
       })
       .catch(err => {
         console.log('驗證過程中發生錯誤', err);
       })
+    this.getQuestions();
   },
   computed: {
     currentQuestion() {
