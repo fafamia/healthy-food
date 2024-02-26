@@ -54,27 +54,26 @@
     <p>此商品缺貨</p>
   </div>
   
-  <!-- <div class="more_title">
+  <div class="more_title">
     <hr>
     <h2>多點健康</h2>
   </div>
   <div class="more_health container">
     <div class="more_product ">
-      <div v-for="item in getRandomSubset(ProductStore.products, 4)" :key="item.id" class="more_itemsCard col-12 col-lg-3">
-        <p class="product_tag">#NEW</p>
+      <div v-for="item in getRandomSubset(ProductStore.products, 4)" :key="item.product_no" class="more_itemsCard col-12 col-lg-3">
+        <p class="product_tag">#{{ item.product_tag_name }}</p>
           <div class="product_card_img">
-            <img :src=getImageUrl(item.image) alt="item.name">
+            <img :src=getImageUrl(item.product_img) alt="item.product_name">
           </div>
-          <p class="vegetable_title">{{ item.name }}</p>
-          <p class="vegetable_price">{{ item.price }}</p>
+          <p class="vegetable_title">{{ item.product_name }}</p>
+          <p class="vegetable_price">{{ item.product_price }}</p>
           <router-link :to="{
-              name: 'productinfo',
-              params: {id: item.id}}" 
-            class="btn-product"
-            >查看商品詳情</router-link>
+            name: 'productinfo',
+            params: { product_no: item.product_no }
+          }" class="btn-product">查看商品詳情</router-link>
       </div>
     </div>
-  </div> -->
+  </div>
 </template>
 
 

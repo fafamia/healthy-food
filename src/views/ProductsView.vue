@@ -9,21 +9,23 @@
     <breadcrumb :breadcrumb="yourBreadcrumbData"></breadcrumb>
     <div class="product-list container">
       <ul class="product-list-ul">
-        <li class="product-list-li" >
-          <div class="lunchbox" v-for="prodClass in productClass" :key="prodClass.product_class_no" @click="filter(prodClass.product_class_no)">{{prodClass.product_class_name}}</div>
+        <li class="product-list-li">
+          <div class="lunchbox" v-for="prodClass in productClass" :key="prodClass.product_class_no"
+            @click="filter(prodClass.product_class_no)">{{ prodClass.product_class_name }}</div>
           <hr>
         </li>
       </ul>
       <div class="phoneList">
         <select @change="filterPhoneList">
           <option value="">所有商品</option>
-          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{prodClass.product_class_name}}</option>
+          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name }}
+          </option>
         </select>
       </div>
       <div class="row product_items">
-        <div v-for="item in displayList" :key="item.product_no" class="col-12 col-md-3 vegetable_card">
+        <div v-for="(item, index) in displayList" :key="item.product_no" class="col-12 col-md-3 vegetable_card">
           <p class="product_tag">#{{ item.product_tag_name }}</p>
-          <div class="product_card_img"> 
+          <div class="product_card_img">
             <img :src=getImageUrl(item.product_img) :alt="item.product_name" class="product_image">
             <button class="heart" @click="keepProd(item)">
               <i :class="{ 'fa-regular': !item.heartFilled, 'fa-solid': item.heartFilled, 'fa-heart': true }"
@@ -37,10 +39,10 @@
             params: { product_no: item.product_no }
           }" class="btn-product">查看商品詳情</router-link>
         </div>
-        <div class="home-container" >
-      <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='productDisplay.length'
-        :page="reqParams.page" />
-    </div>
+        <div class="home-container">
+          <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='productDisplay.length'
+            :page="reqParams.page" />
+        </div>
       </div>
     </div>
   </div>
@@ -49,9 +51,13 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
+import heart from '@/components/heart.vue';
+import axios from 'axios';
 import PageNumber from '@/components/PageNumber.vue';
-import { reactive,ref,onMounted, computed } from 'vue'
+
+import { reactive, ref, onMounted, computed } from 'vue'
 import { useProductStore } from '@/stores/Product';
+import { userStore } from '@/stores/user';
 
 
 export default {
@@ -59,7 +65,8 @@ export default {
     RouterLink,
     RouterView,
     Breadcrumb,
-    PageNumber
+    PageNumber,
+    heart
   },
   setup() {
     // 麵包屑數據
@@ -121,7 +128,7 @@ export default {
     const keepProd = (item) => {
       item.heartFilled = !item.heartFilled;
     };
-    
+
     return {
       originData,
       productDisplay,
@@ -138,6 +145,4 @@ export default {
   },
 }
 </script>
-<style lang="scss">
-@import "@/assets/scss/page/product.scss";
-</style>
+<style lang="scss">@import "@/assets/scss/page/product.scss";</style>
