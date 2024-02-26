@@ -15,9 +15,10 @@ export const useProductStore = defineStore("ProductStore",{
                 return state.products.find(product => product.product_no.toString() === product_no.toString())
             }
         },
-        getImageUrl:() => (paths) => {
+        getImageUrl:() => {
+            return (paths) => {
                 return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/product/${paths}`).href;
-                
+            }
         }, 
     },
     actions:{

@@ -93,7 +93,6 @@ export default {
     const route = useRoute();
     //使用ProductStore
     const ProductStore = useProductStore();
-    const getImageUrl =ref('');
     const ProductNo = ref('');
     const productInfoDisplay = ref();
     
@@ -102,8 +101,6 @@ export default {
       ProductNo.value = route.params.product_no;
       //使用ProductStore中根據route綁定no所送出的data
       productInfoDisplay.value = ProductStore.getProductByNo(ProductNo.value);
-      //抓到圖片路徑
-      getImageUrl.value = ProductStore.getImageUrl;
     }
     
     //等畫面建立後再抓商品資料
@@ -172,7 +169,7 @@ export default {
       ProductStore,
       ProductNo,
       productInfoDisplay,
-      getImageUrl,
+      getImageUrl:ProductStore.getImageUrl,
       store,
       CartStore,
       addCart,

@@ -71,7 +71,6 @@ export default {
     const ProductStore = useProductStore();
     const originData = ref([]);
     const productDisplay = ref([]);
-    const getImageUrl =ref('');
     const productClass = ref([]);
     //要在vue模板編譯後引入，如果直接放在setup中會比pinia快
     onMounted(async() => {
@@ -80,7 +79,6 @@ export default {
       originData.value = ProductStore.products;
       productDisplay.value = originData.value;
       productClass.value = ProductStore.productClass;
-      getImageUrl.value = ProductStore.getImageUrl;
     });
 
     //用class篩選
@@ -128,7 +126,7 @@ export default {
       originData,
       productDisplay,
       productClass,
-      getImageUrl,
+      getImageUrl:ProductStore.getImageUrl,
       displayList,
       filter,
       changePage,
