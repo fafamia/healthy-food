@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref,reactive } from 'vue';
 
 export const useCartStore =  defineStore("CartStore", {
     state: () => {
@@ -24,11 +24,18 @@ export const useCartStore =  defineStore("CartStore", {
                     price: "30",
                 },
             ],
-            orderName:ref(''),
-            orderNumber:ref(''),
-            orderAddr:ref(''),
-            delivery:ref(''),
-            payment:ref(''),
+            orderInfo:reactive({
+                ord_name:'',
+                take_mail:'',
+                take_tal:'',
+                take_address:'',
+                ord_shipping:'',
+                payment_status:'',
+                sales_amount:'0',
+                delivery_fee:'0',
+                odr_amount:'',
+                ord_payment:'',
+            }),
         }
     },
     getters: {
@@ -109,5 +116,10 @@ export const useCartStore =  defineStore("CartStore", {
             }
             this.saveLocalstorage();
         },
+        updateOrderInfo(){
+            this.orderInfo['odr_amount'] = this.subTotal;
+            this.orderInfo['sales_amount'] = this.matchingCoupon ? this.matchingCoupon.price : '';
+            this.orderInfo['ord_payment'] = this.total;
+        }
     }
 })
