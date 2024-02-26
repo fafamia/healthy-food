@@ -39,13 +39,16 @@
             <p>以下食品的熱量不僅符合您的目前BMI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
                 <div class="bmi_recommend_card" v-for="(item, index) in displatdata" :key="item">
-                    <span class="bmi_tag">#NEW</span>
+                    <span class="bmi_tag">#{{ item.product_tag_name }}</span>
                     <div class="bmi_card_img">
                         <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
                     <p class="bmi_card_title">{{ item.product_name }}</p>
                     <p class="bmi_card_price">{{ item.product_price }}</p>
-                    <!-- <router-link :to="{ name: 'productinfo', params: { id: item.product_no } }" class="btn-product">查看商品詳情</router-link> -->
+                    <router-link :to="{
+            name: 'productinfo',
+            params: { product_no: item.product_no }
+          }" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
             <button class="btn-product" @click="recalculate">重新計算</button>
@@ -80,30 +83,6 @@ export default {
                 },
             ],
             displatdata: [
-                // {
-                //     index:1,
-                //     id: 2001,
-                //     name: "有機雞蛋",
-                //     price: "$100",
-                //     image: "product/eggs-cover.png",
-                //     type: "egg"
-                // },
-                // {
-                //     index:2,
-                //     id: 3001,
-                //     name: "食用油",
-                //     price: "$300",
-                //     image: "product/oil-cover.jpg",
-                //     type: "oil"
-                // },
-                // {
-                //     index:3,
-                //     id: 4001,
-                //     name: "水產養殖鮮魚",
-                //     price: "$500",
-                //     image: "product/fish-cover.png",
-                //     type: "fish"
-                // },
             ],
             divWidth: 0,
             yourBreadcrumbData: [
