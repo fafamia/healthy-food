@@ -5,6 +5,7 @@ export const useProductStore = defineStore("ProductStore",{
         return {
             products:[],
             productClass:[],
+            favoItems: []
         }
     },
     getters:{
@@ -43,5 +44,8 @@ export const useProductStore = defineStore("ProductStore",{
                 console.error("Error fetching productClasss:", error);
             }
         },
+        // addFavoItem(item) {
+        //     this.favoItems.push(item);
+        //   }
     }
 })
