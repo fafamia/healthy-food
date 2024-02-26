@@ -17,7 +17,7 @@
             <table class="CartDetail_amount">
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">商品金額</th>
-                    <td class="CartDetail_amount_amountTd">{{ CartStore.subTotal }}</td>
+                    <td class="CartDetail_amount_amountTd">{{ CartStore.subTotal}}</td>
                 </tr>
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">折價劵</th>
@@ -29,7 +29,7 @@
                 </tr>
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">運費</th>
-                    <td class="CartDetail_amount_amountTd">0</td>
+                    <td class="CartDetail_amount_amountTd">{{ CartStore.orderInfo["delivery_fee"] }}</td>
                 </tr>
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">總金額</th>

@@ -93,18 +93,10 @@ export default {
     const route = useRoute();
     //使用ProductStore
     const ProductStore = useProductStore();
-    //使用userStore
-    const store = userStore();
-    //使用CartStore
-    const CartStore = useCartStore();
     const getImageUrl =ref('');
     const ProductNo = ref('');
     const productInfoDisplay = ref();
     
-    onMounted(async()=>{
-      await fetchProductInfo();
-    });
-
     async function fetchProductInfo(){
       await ProductStore.getProductData();
       ProductNo.value = route.params.product_no;
@@ -114,6 +106,16 @@ export default {
       getImageUrl.value = ProductStore.getImageUrl;
     }
     
+    //等畫面建立後再抓商品資料
+    onMounted(async()=>{
+      await fetchProductInfo();
+    });
+    
+    //使用userStore
+    const store = userStore();
+    //使用CartStore
+    const CartStore = useCartStore();
+    //先確認是否有登入，才可以使用購物車
     async function addCart(){
       try{
         const user = await store.checkLogin();

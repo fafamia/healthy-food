@@ -49,9 +49,7 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import axios from 'axios';
 import PageNumber from '@/components/PageNumber.vue';
-
 import { reactive,ref,onMounted, computed } from 'vue'
 import { useProductStore } from '@/stores/Product';
 
@@ -75,6 +73,7 @@ export default {
     const productDisplay = ref([]);
     const getImageUrl =ref('');
     const productClass = ref([]);
+    //要在vue模板編譯後引入，如果直接放在setup中會比pinia快
     onMounted(async() => {
       await ProductStore.getProductData();
       await ProductStore.getProductClassData();
@@ -86,15 +85,16 @@ export default {
 
     //用class篩選
     const filter = (classNo) => {
-      console.log(classNo)
       if(classNo !== 0){
-        productDisplay.value = originData.value.filter(item => item.product_class_no === classNo);
+        //database:sql->int, serve-side:php->string(jaon response), clint-side:vue(HTML-JS)->string(select-option)
+        //參數再不同地方轉傳容易有型別不一樣的問題，統一型別再比較或是用 == 比較
+        productDisplay.value = originData.value.filter(item => item.product_class_no.toString() === classNo.toString());
       }else{
         productDisplay.value = originData.value;
       }
     };
     const filterPhoneList = (e) => {
-      filter(Number(e.target.value));
+      filter(e.target.value);
     };
 
     //頁數判斷，從1開始，每頁只有6樣商品

@@ -9,23 +9,27 @@
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>姓名:</th>
-                        <td>{{ CartStore.orderName }}</td>
+                        <td>{{ CartStore.orderInfo["ord_name"] }}</td>
+                    </tr>
+                    <tr class="confirm_info_infoTr">
+                        <th>mail:</th>
+                        <td>{{ CartStore.orderInfo["take_mail"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>手機:</th>
-                        <td>{{ CartStore.orderNumber }}</td>
+                        <td>{{ CartStore.orderInfo["take_tal"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>地址:</th>
-                        <td>{{ CartStore.orderAddr }}</td>
+                        <td>{{ CartStore.orderInfo["take_address"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>運送方式:</th>
-                        <td>{{ CartStore.delivery }}</td>
+                        <td>{{ CartStore.orderInfo["ord_shipping"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>付款方式:</th>
-                        <td>{{ CartStore.payment }}</td>
+                        <td>{{ CartStore.orderInfo["payment_status"] }}</td>
                     </tr>
                 </table>
             </div>
@@ -35,7 +39,7 @@
         </div>
         <div class="confirm_page">
             <router-link to="/payment" class="confirm_page_pageUP"><i class="fa-solid fa-angle-left" style="color: #f73f14;"></i>結帳資訊</router-link>
-            <button class="btn-primary" @click="toggleSuccess">確認購買</button>
+            <button class="btn-primary" @click="addOrder">確認購買</button>
         </div>
         <div class="confirm_success" v-show="isSuccess" @click="linkToHome">
             <div class="confirm_success_bg">
@@ -54,8 +58,10 @@ import { RouterLink, RouterView } from 'vue-router';
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import CartDetail from '@/components/CartDetail.vue';
 import { useCartStore } from '@/stores/cart';
+import { userStore } from '@/stores/user';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default{
     setup(){
@@ -70,12 +76,32 @@ export default{
         const linkToHome = ()=>{
             router.push('/');
         };
+        const store = userStore();
+        const addOrder = ()=>{
+            CartStore.updateOrderInfo();
+            console.log(CartStore.cartList);
+            console.log(CartStore.orderInfo);
+            console.log(store.userData);
 
+            const orderData = {
+                carList:CartStore.cartList,
+                orderInfo:CartStore.orderInfo,
+                userData:store.userData
+            }
+            axios.post(`${import.meta.env.VITE_API_URL}/front/order/orderDataAdd.php`,orderData)
+                .then(response =>{
+                    console.log("訂單成功");
+                })
+                .catch(error =>{
+                    console.error("提交訂單失敗",error)
+                })
+        };
         return{
             CartStore,
             isSuccess,
             toggleSuccess,
-            linkToHome
+            linkToHome,
+            addOrder,
         }
     },
     components: {

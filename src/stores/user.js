@@ -8,6 +8,7 @@ export const userStore = defineStore('userStore', {
         userData: {},
         isLoggedIn: false,
         showLoginModal: false,
+        checkedSame:false,
     }),
     actions: {
         updateToken(memberNo) {
@@ -60,6 +61,9 @@ export const userStore = defineStore('userStore', {
         },
         toggleLoginModal(show) {
             this.showLoginModal = show;
+        },
+        isCheckedSame(isChecked){
+            this.checkedSame = isChecked;
         },
     },
 })

@@ -17,7 +17,18 @@
                             <input
                             type="text"
                             placeholder="請輸入您的姓名"
-                            v-model="CartStore.orderName"
+                            v-model="CartStore.orderInfo['ord_name']"
+                            class="payment_info_infoInput"
+                            >
+                        </td>
+                    </tr>
+                    <tr class="payment_info_infoTr">
+                        <th>mail:</th>
+                        <td>
+                            <input
+                            type="text"
+                            placeholder="請輸入您的mail"
+                            v-model="CartStore.orderInfo['take_mail']"
                             class="payment_info_infoInput"
                             >
                         </td>
@@ -28,7 +39,7 @@
                             <input
                             type="text"
                             placeholder="請輸入您的手機號碼"
-                            v-model="CartStore.orderNumber"
+                            v-model="CartStore.orderInfo['take_tal']"
                             class="payment_info_infoInput"
                             >
                         </td>
@@ -39,7 +50,7 @@
                             <input
                             type="text"
                             placeholder="請輸入您的地址"
-                            v-model="CartStore.orderAddr"
+                            v-model="CartStore.orderInfo['take_address']"
                             class="payment_info_infoInput"
                             >
                         </td>
@@ -48,22 +59,22 @@
                         <th rowspan="2">運送方式:</th>
                         <td>
                             <input
-                            name="delivery"
+                            name="ord_shipping"
                             id="deliveryHome"
                             type="radio"
                             value="宅配到府"
-                            v-model="CartStore.delivery">
+                            v-model="CartStore.orderInfo['ord_shipping']">
                             <label for="deliveryHome">宅配到府 ( 運費$80TWD )</label>
                         </td>
                     </tr>
                     <tr class="payment_info_infoTr">
                         <td>
                             <input
-                            name="delivery"
+                            name="ord_shipping"
                             id="deliveryStore"
                             type="radio"
                             value="7-11取貨"
-                            v-model="CartStore.delivery">
+                            v-model="CartStore.orderInfo['ord_shipping']">
                             <label for="deliveryStore">7-11取貨 ( 運費$60TWD )</label>
                         </td>
                     </tr>
@@ -71,18 +82,18 @@
                         <th>付款方式:</th>
                         <td>
                             <input
-                            name="payment"
+                            name="payment_status"
                             id="paymentOnline"
                             type="radio"
                             value="線上付款"
-                            v-model="CartStore.payment">
+                            v-model="CartStore.orderInfo['payment_status']">
                             <label for="paymentOnline">線上付款</label>
                             <input
-                            name="payment"
+                            name="payment_status"
                             id="paymentCash"
                             type="radio"
                             value="取貨付款"
-                            v-model="CartStore.payment">
+                            v-model="CartStore.orderInfo['payment_status']">
                             <label for="paymentCash">取貨付款</label>
                         </td>
                     </tr>
@@ -111,19 +122,22 @@ export default{
     setup(){
         const CartStore = useCartStore();
         const store = userStore();
-        const checkSame = ref(false);
+        const checkSame = ref(store.checkedSame);
         const sameAsMem = ()=>{
             if(checkSame.value){
-                const userData = store.userData;
-                CartStore.orderName = userData.member_name;
-                CartStore.orderNumber = userData.member_tel;
-                CartStore.orderAddr = userData.member_county + userData.member_city + userData.member_addr;
+                CartStore.orderInfo["ord_name"] = store.userData["member_name"];
+                CartStore.orderInfo["take_mail"] = store.userData["member_email"];
+                CartStore.orderInfo["take_tal"] = store.userData["member_tel"];
+                CartStore.orderInfo["take_address"] = store.userData["member_county"] + store.userData["member_city"] +store.userData["member_addr"];
             }else{
-                CartStore.orderName ='';
-                CartStore.orderNumber = '';
-                CartStore.orderAddr = '';
+                CartStore.orderInfo['orderName'] ='';
+                CartStore.orderInfo['orderNumber'] = '';
+                CartStore.orderInfo['orderAddr'] = '';
             }
         };
+        watch(checkSame, (newValue) => {
+            store.isCheckedSame(newValue);
+        });
         return{
             CartStore,
             store,
