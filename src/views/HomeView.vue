@@ -233,11 +233,11 @@
 
     <!-- 關鍵字按鈕 -->
     <div class="keyword-filter-buttons">
-        <button @click="filterByKeyword('如何付款?')">如何付款?</button>
-        <button @click="filterByKeyword('是否提供有機食材？')">是否提供有機食材？</button>
-        <button @click="filterByKeyword('食材是提供來自當地農產的選擇？')">食材是提供來自當地農產的選擇？</button>
-        <button @click="filterByKeyword('如何查詢訂單的運送狀態？')">如何查詢訂單的運送狀態？</button>
-    </div> 
+        <button @click="handleKeywordClick('如何付款?')">如何付款?</button>
+        <button @click="handleKeywordClick('是否提供有機食材？')">是否提供有機食材？</button>
+        <button @click="handleKeywordClick('食材是否提供來自當地農產的選擇?')">食材是提供來自當地農產的選擇？</button>
+        <button @click="handleKeywordClick('如何查詢訂單的運送狀態？')">如何查詢訂單的運送狀態？</button>
+    </div>
 
     <!-- 使用者訊息輸入 -->
     <div class="input-container">
@@ -463,11 +463,7 @@ export default {
                 '你是誰': '我是健康小精靈，很高興為您服務。',
                 '健康': '關於健康的問題，問我就對了。',
                 '再見': '再見！如果有任何問題，歡迎隨時回來。',
-                '購買': '如果有購買問題，可至健康小舖內逛逛或至聯絡我們提供任何意見~',
-                '如何付款?': '1.信用卡即時線上一次刷卡付款<br>2.ATM付款<br>3.LINE Pay',
-                '是否提供有機食材？': '是的，我們提供部分有機食材，以提供更多元的選擇。',
-                '食材是提供來自當地農產的選擇？': '是的，我們鼓勵並提供當地農產食材，以支持本地農業和提供更環保的食材選擇。',
-                '如何查詢訂單的運送狀態？': '在訂單頁面您可以追蹤訂單的運送狀態，也會發送通知郵件給您。',
+                '購買': '如果有購買問題，可至健康小舖內逛逛或至聯絡我們提供任何意見~',      
             },
             divWidth: 0,
             elements: [],
@@ -599,16 +595,16 @@ export default {
             if (botReply) {
                 this.messages.push({ type: 'bot', text: botReply, time: currentTime });
             } else {
-                this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
+                // 如果沒有預定義的關鍵字，向後端API請求相關問答內容
+                this.fetchFAQContent(userMessage);
             }
 
             // 滾動到底部
             this.$nextTick(() => {
                 const chatMessages = this.$refs.chatMessages;
+                console.log('chatMessages:', chatMessages);
                 requestAnimationFrame(() => {
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    console.log('Scrolling to bottom');
-                    console.log('chatMessages:', chatMessages);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
                 });
             });
         },
@@ -624,15 +620,22 @@ export default {
             }
         },
         filterByKeyword(keyword) {
-            // 手動設置使用者訊息，將按鈕上的文本作為使用者訊息
             const currentTime = new Date().toLocaleTimeString();
             this.messages.push({ type: 'user', text: keyword, time: currentTime });
 
-            // 根據使用者輸入觸發相應的機器人回應
-            const botReply = this.qaPairs[keyword];
+            const matchingKeywords = [];
 
-            if (botReply) {
-                this.messages.push({ type: 'bot', text: botReply.text || botReply, time: currentTime });
+            // 模糊比對
+            Object.keys(this.qaPairs).forEach(q => {
+                if (q.includes(keyword) || keyword.includes(q)) {
+                    matchingKeywords.push(q);
+                }
+            });
+
+            if (matchingKeywords.length > 0) {
+                // 獲取第一個匹配到的關鍵字對應的回答
+                const answer = this.qaPairs[matchingKeywords[0]];
+                this.addBotMessage(answer);
             } else {
                 this.messages.push({ type: 'bot', text: '抱歉，我不了解您的問題。', time: currentTime });
             }
@@ -656,9 +659,32 @@ export default {
         nextSlide() {
             this.assistantsCurrentIndex = (this.assistantsCurrentIndex + 1) % this.carouselItems.length;
         },
+        fetchFAQContent(key) {
+            axios.get(`${import.meta.env.VITE_API_URL}admin/faq/backend_faq.php`, {
+                params: {
+                    key: key
+                }
+            })
+            .then(response => {
+                // API返回相關問答內容
+                const ans = response.data.ans;
+                if (ans) {
+                    this.addBotMessage(ans);
+                } else {
+                    this.addBotMessage("抱歉，找不到相關答案。");
+                }
 
-    },
-    mounted() { // Vue 實例創建之後立即被調用
+                // 滾動到底部
+                this.$nextTick(() => {
+                    const chatMessages = this.$refs.chatMessages;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                });
+            })
+            .catch(error => {
+                console.error('匯入問答內容時發生錯誤:', error);
+            });
+        },
+        mounted() { // Vue 實例創建之後立即被調用
         this.$nextTick(() => {
             this.updateDimensions();
             window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
@@ -666,9 +692,22 @@ export default {
             this.startSlideshow(); //啟動自動輪播
             this.startComment();
         });
-    },
-    beforeDestroy() {
+        }, 
+        beforeDestroy() {
         window.removeEventListener('resize', this.updateDimensions)
+        },
+        addBotMessage(message) {
+            const currentTime = new Date().toLocaleTimeString();
+            this.messages.push({ type: 'bot', text: message, time: currentTime });
+        },
+        handleKeywordClick(keyword) {
+        // 發送用戶訊息
+        const currentTime = new Date().toLocaleTimeString();
+        this.messages.push({ type: 'user', text: keyword, time: currentTime });
+
+        // 調用後端 API 取得答案
+        this.fetchFAQContent(keyword);
+        },
     },
 };
 </script>
