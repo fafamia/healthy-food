@@ -20,9 +20,9 @@
           <div class="box">
             <p>本篇推薦食材：<br>
               {{ responseData.recipe_recommend }}</p>
-              <router-link to="/products">選購go→</router-link>
+            <router-link to="/products">選購go→</router-link>
             <div class="box_btn">
-              <button type="button" @click="toggleLike(comment)">
+              <button type="button" @click="toggleLikeUp(responseData)">
                 <i :class="responseData.iconLike"></i>讚
               </button>
               <button type="button" @click="toggleBookmark(responseData)">
@@ -52,30 +52,30 @@
 
       <div class="comment">
 
-        <h4>有{{ messages.length }}個人一起做</h4>
+        <h4>有{{ showdata.length }}個人一起做</h4>
         <div class="comment-card-wrapper">
           <button @click="scrollComment(-1)" :disabled="currentIndex === 0"><i
               class="fa-solid fa-angle-left"></i></button>
-          <div class="comment_card" v-if="messages.length > 0">
+          <div class="comment_card" v-if="showdata.length > 0">
             <ul>
-              <li v-for="(message, index) in displayedComments" :key="index">
+              <li v-for="(comment, index) in  displayedComments " :key="index">
                 <article>
                   <div class="card_top">
-                    <h5>{{ message.author }}</h5>
-                    <h6>{{ message.timestamp }}</h6>
-                    <p>{{ message.content }}</p>
+                    <!-- <p>{{ comment }}</p> -->
+                    <h5>{{ name }}</h5>
+                    <h6>{{ comment.comment_time }}</h6>
+                    <p>{{ comment.comment_info }}</p>
                   </div>
                   <div class="card_bottom">
                     <div class="comment_pic">
-                      <img v-if="message.image" :src="message.image" alt="留言圖片">
-                      <!-- <img src="https://picsum.photos/300/200/?random=10"> -->
-                      <!-- <img :src="`https://tibamef2e.com/chd103/g5/img/${comment.prod_img1}`" :alt="comment.prod_name"> -->
+                      <img :src="getImageUrl(comment.comment_img)" alt=" 留言圖片">
+
                     </div>
                     <div class="icon">
                       <button @click="report(index)"><i class="fa-solid fa-triangle-exclamation"></i></button>
                       <div class="comment_like">
                         <i @click="toggleLike(comment)" :class="parseClass(comment.like)"></i>
-                        <span>{{ comment.likeCount }}</span>
+                        <span>{{ comment.comment_like }}</span>
                       </div>
                     </div>
 
@@ -83,10 +83,9 @@
                 </article>
               </li>
             </ul>
-            <button @click="scrollComment(1)"
-              :disabled="currentIndex >= totalComments - commentsPerPage || currentIndex + commentsPerPage >= totalComments"><i
-                class="fa-solid fa-angle-right"></i></button>
+            <button @click="scrollComment(1)"><i class="fa-solid fa-angle-right"></i></button>
           </div>
+          <!-- :disabled=" currentIndex >= totalComments - commentsPerPage || currentIndex + commentsPerPage >= totalComments " -->
           <div v-else>
             <p>暫無留言</p>
           </div>
@@ -103,11 +102,10 @@
         <button type="button" class="login" @click="login">登入</button>
         <input type="file" id="fileInput" @change="handleFileUpload">
         <br>
-        <img v-if="newImage" :src="newImage" alt="">
         <textarea name="comment" id="comment" cols="15" rows="6" placeholder="輸入內容（最多90字）
-          " v-model="newMessage"></textarea>
+          " v-model="comment.comment_info"></textarea>
         <br>
-        <button type="submit" class="submit" @click="submitMessage">送出</button>
+        <button type="submit" class="submit" @click="addComment">送出</button>
       </div>
     </div>
     <div v-if="reportModalVisible" class="report-modal">
@@ -118,7 +116,6 @@
       <br>
       <button @click="submitReport" class="submit-button">送出</button>
     </div>
-    <button @click="clearMessages">.</button>
   </div>
 </template>
 
@@ -127,12 +124,18 @@
 import { RouterLink, RouterView } from 'vue-router';
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import axios from 'axios';
+import { useCartStore } from '../stores/cart.js'
 import { userStore } from '../stores/user.js';
+import { computed } from 'vue';
 
 
 export default {
   data() {
     return {
+      user_no: '',
+      name: '',
+      showdata: '',
+      number: '',
       // 麵包屑數據
       yourBreadcrumbData: [
         { text: '首頁', to: '/' },
@@ -145,26 +148,72 @@ export default {
       commentsPerPage: 3,
       reportModalVisible: false,
       reportContent: '',
-      messages: [],
       newMessage: '',
       newImageFile: '',
       newImage: '',
       comment: '',
       reportActiveIndex: -1,
+      messages: {
+        likeCount: 0
+      },
+      comment: { // 在這裡定義 comment 對象
+        user_no: '',
+        recipe_no: '',
+        comment_info: '',
+        comment_time: '',
+        comment_status: '',
+        comment_img: null
+      },
 
     };
   },
+
+  created() {
+    const store = userStore();
+    //監控pinia中的showLoginModal，如果有變動(true)就打開登入燈箱
+    this.$watch(
+      () => store.showLoginModal,
+      (newValue) => {
+        if (newValue === true) {
+          this.toggleModal();
+        }
+      });
+    store.checkLogin()
+      .then(user => {
+        if (user) {
+          console.log('有動');
+          this.isLoggedIn = true;
+        } else {
+          console.log('沒token');
+          this.isLoggedIn = false;
+        }
+      })
+      .catch(err => {
+        this.isLoggedIn = false;
+      });
+
+
+    const cart = useCartStore();
+    this.cartItemCount = computed(() => {
+      return cart.count;
+    });
+  },
   mounted() {
     this.axiosGetData();
-    this.toggleLike(this.responseData);
+    this.fetchCommentData();
+    this.toggleLikeUp(this.responseData);
     this.toggleBookmark(this.responseData);
-    this.axiosGetComments();
+    // this.axiosGetComments();
     const storedMessages = localStorage.getItem('messages');
     if (storedMessages) {
       // 如果有，则将其加载到页面上
       this.messages = JSON.parse(storedMessages);
       console.log(this.messages)
     };
+    const store = userStore()
+    this.name = store.userData.member_name
+    this.user_no = store.userData.member_no
+
     // this.fetchRecipeData();
 
   },
@@ -173,18 +222,19 @@ export default {
       return Object.keys(this.responseData).length === 0
     },
     displayedComments() {
-
       if (this.isMobile) {
-        return this.messages.slice(this.currentIndex, this.currentIndex + 1);
+        this.commentsPerPage = 1;
+        return this.showdata.slice(this.currentIndex, this.currentIndex + 1);
       } else {
-        return this.messages.slice(this.currentIndex, this.currentIndex + 3);
+        this.commentsPerPage = 3;
+        return this.showdata.slice(this.currentIndex, this.currentIndex + 3);
       }
     },
     isMobile() {
       return window.innerWidth <= 802;
     },
     totalComments() {
-      return this.messages.length;
+      return this.showdata.length;
     },
     transformValue() {
       const itemWidth = 387; // 調整為卡片的寬度
@@ -194,28 +244,28 @@ export default {
       return this.$route.params.id
     },
     recipeImageUrl() {
-    // 假设您的图像基本路径是 VITE_IMAGES_BASE_URL
-    return `${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${this.responseData.recipe_img}`;
-  }
+      // 假设您的图像基本路径是 VITE_IMAGES_BASE_URL
+      return `${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${this.responseData.recipe_img}`;
+    }
   },
   components: {
     RouterLink,
     RouterView,
     Breadcrumb,
     userStore,
+    useCartStore,
   },
   methods: {
     axiosGetData() {
       const pageId = this.$route.params.id;
       const apiUrl = `${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`;
-      console.log('Request URL:', apiUrl); // 调试信息：打印请求的 URL
       axios.get(apiUrl)
         .then(res => {
-          console.log('Response data:', res.data); // 调试信息：打印返回的数据
           if (res && res.data) {
             this.loading = false;
             const target = res.data.find(item => item.recipe_no == pageId);
             this.responseData = target ? target : {};
+            this.messages = res.data.map(messages => ({ ...messages, like: false, likeCount: 0 }));
           }
         })
         .catch(error => {
@@ -223,23 +273,38 @@ export default {
         });
     },
 
-    // fetchRecipeData() {
-    //   const apiUrl = `${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`;
-    //   axios.get(apiUrl)
-    //     .then(response => {
-    //       this.responseData = response.data;
-    //       this.loading = false;
-    //       console.log('成功');
-    //     })
-    //     .catch(error => {
-    //       console.error('Error fetching recipe data:', error);
-    //     });
-    // },
+    fetchCommentData() {
+      const pageId = this.$route.params.id;
+      const apiUrl = `${import.meta.env.VITE_API_URL}/admin/cookbook/get_comment.php`;
+      axios.get(apiUrl)
+        .then(response => {
+          // 在這裡直接處理 response.data，而不是將其存儲到 responseData 變數中
+
+          this.number = response.data.comment.length
+          let arr = [];
+          response.data.comment.forEach(element => {
+            if (element.recipe_no == pageId) {
+              arr.push(element)
+            }
+            this.showdata = arr;
+          });
+          // this.showdata = response.data.comment
+          this.loading = false;
+        })
+        .catch(error => {
+          console.error('Error fetching comment data:', error);
+        });
+    },
+
 
     toggleLike(comment) {
       comment.like = !comment.like;
       comment.iconLike = comment.like ? 'fa-solid fa-thumbs-up' : '';
       comment.likeCount = comment.like ? comment.likeCount + 1 : comment.likeCount - 1;
+    },
+    toggleLikeUp(responseData) {
+      responseData.like = !responseData.like;
+      responseData.iconLike = responseData.like ? 'fa-solid fa-thumbs-up' : '';
     },
     toggleBookmark(responseData) {
       responseData.bookmark = !responseData.bookmark;
@@ -250,17 +315,17 @@ export default {
       axios.get(`${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`)
         .then(res => {
           if (res && res.data) {
-            this.comments = res.data.map(comment => ({ ...comment, like: false, likeCount: 0 }));
+            this.messages = res.data.map(messages => ({ ...messages, like: false, likeCount: 0 }));
           }
         })
         .catch(error => {
           console.error('Error fetching comments:', error);
         });
     },
-    toggleCommentLike(comment) {
+    toggleCommentLike(message) {
 
-      comment.like = !comment.like;
-      comment.iconLike = comment.like ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up';
+      message.like = !message.like;
+      message.iconLike = message.like ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up';
 
     },
     parseClass(like) {
@@ -286,7 +351,11 @@ export default {
       }
     },
     scrollComment(direction) {
+      // console.log("test");
       const newIndex = this.currentIndex + direction;
+      // console.log(newIndex);
+      console.log("total", this.totalComments);
+      console.log("show", this.commentsPerPage);
       if (newIndex >= 0 && newIndex <= this.totalComments - this.commentsPerPage) {
         this.currentIndex = newIndex;
       }
@@ -301,43 +370,40 @@ export default {
     },
     submitReport() {
       console.log(this.reportActiveIndex)
-      console.log(this.messages[this.reportActiveIndex])
+      console.log(this.displayedComments[this.reportActiveIndex])
       if (!this.reportContent.trim()) {
         alert('內容不得為空白');
         return;
       }
-      const currentCommentId = this.displayedComments[index].id;
+      const currentCommentId = this.displayedComments[this.reportActiveIndex].comment_no;
+      const formData = new FormData()
+      formData.append('user_no', '1')
+      formData.append('comment_no', currentCommentId)
+      formData.append('report_info', this.reportContent)
+      axios.post(`${import.meta.env.VITE_API_URL}/admin/cookbook/report_comment.php`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      })
+        .then(response => {
+          alert('檢舉已成功提交');
+          this.closeReportModal();
+        })
+        .catch(error => {
+          console.error('提交檢舉時出錯：', error);
+          alert('提交檢舉時出錯');
+        });
+    },
 
-    },
-    submitMessage() {
-      if (this.newMessage.trim() !== '') {
-        const message = {
-          content: this.newMessage,
-          author: '用户A',
-          timestamp: new Date().toLocaleString(),
-          image: this.newImage || null
-        };
-        // 添加新留言到留言列表
-        this.messages.push(message);
-        // 将留言列表保存到本地存储中
-        localStorage.setItem('messages', JSON.stringify(this.messages));
-        // 提交成功后清空留言输入框
-        this.newMessage = '';
-        this.newImage = '';
-      }
-    },
-    clearMessages() {
-      // localStorage.removeItem('messages');
-      // 清空页面上的留言列表
-      this.messages = [];
-    },
+
+
     handleFileUpload(event) {
       const file = event.target.files[0];
-      this.newImageFile = file
+      // 將文件設置到 comment 對象中的 comment_img 字段
+      this.comment.comment_img = file;
       const reader = new FileReader();
       reader.onload = () => {
         const imageUrl = reader.result;
-        // 将图片 URL 添加到留言数据中
         this.newImage = imageUrl;
       };
       reader.readAsDataURL(file);
@@ -350,7 +416,13 @@ export default {
             alert('請先登入');
             store.toggleLoginModal(true);
           } else {
-            this.getQuestions();
+            let parent = document.querySelector(`.letter_box`)
+            parent.removeChild(parent.firstChild)
+            let memberName = document.createElement('p')
+            memberName.innerText = store.userData.member_name
+            parent.insertBefore(memberName, parent.firstChild);
+            // userData.member_name
+            // console.log('USER',store.userData.member_name);
           }
         })
         .catch(err => {
@@ -358,11 +430,45 @@ export default {
         })
 
     },
-  
+    addComment() {
+      const formData = new FormData();
+      formData.append('user_no', this.user_no);
+      formData.append('recipe_no', this.responseData.recipe_no);
+      formData.append('comment_info', this.comment.comment_info);
+      formData.append('comment_time', this.comment.comment_time);
+      formData.append('comment_status', this.comment.comment_status);
+      // 將圖片添加到 FormData 中
+      formData.append('comment_img', this.comment.comment_img);
+      axios.post(`${import.meta.env.VITE_API_URL}/admin/cookbook/send_comment.php`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+        .then(response => {
+          alert(response.data.msg);
+          this.comment = { // 清空 comment 對象中的數據
+            user_no: '',
+            recipe_no: '',
+            comment_info: '',
+            comment_time: '',
+            comment_status: '',
+            comment_img: null
+          };
+          this.fetchCommentData();
+        })
+        .catch(error => {
+          console.error('保存出错：', error);
+        });
+    },
+    getImageUrl(paths) {
+      return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${paths}`).href;
+    },
 
 
-  }
 
+
+
+  },
 };
 </script>
 
