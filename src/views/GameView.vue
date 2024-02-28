@@ -33,7 +33,7 @@
             <p v-else-if="correctAnswersCount === 5">您贏得了 30 元的折價券！</p>
             <p v-if="correctAnswersCount <= 2">您已答對 {{ correctAnswersCount }} 題，仍有進步空間。</p>
             <p v-if="correctAnswersCount <= 2">雖未獲得折扣券，但別氣餒，期待您下次的精彩表現！</p>
-            <button type="button" class="btn-primary" @click="toGameStart">確定</button>
+            <button type="button" class="btn-primary" @click="winCoupon(correctAnswersCount)">確定</button>
           </div>
         </div>
       </div>
@@ -66,6 +66,7 @@ export default {
       answerTitle: '',
       correctAnswersCount: 0,
       isModalVisible: false,
+      member: {},
     };
   },
   components: {
@@ -114,7 +115,7 @@ export default {
       this.selectedQuestions = shuffled.slice(0, 5);
     },
     handleOptionSelected(selectedOption) {
-      const isCorrect = this.currentQuestion[`option_${selectedOption.value}`] === this.currentQuestion.quiz_ans;
+      const isCorrect = selectedOption.value === this.currentQuestion.quiz_ans;
       if (isCorrect) {
         // 如果選項是正确的，則增加答對題數
         this.correctAnswersCount++;
@@ -142,9 +143,28 @@ export default {
       this.isModalVisible = false;
       this.randomQuestions();
     },
-    getImagePath(imgName) {
-      return new URL(`../assets/images/game/${imgName}`, import.meta.url).href;
+    getImagePath(paths) {
+      return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/game/${paths}`, import.meta.url).href;
     },
+    winCoupon(ansNum) {
+      const store = userStore();
+      this.member = store.userData;
+      console.log('u觸發');
+      axios.post(`${import.meta.env.VITE_API_URL}/admin/game/winCoupon.php`, {
+        ans_num: ansNum,
+        member_no: this.member.member_no
+      })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.msg === "每種折價券每位會員只能擁有一張") {
+            alert("每種折價券每位會員只能擁有一張");
+          }
+          this.toGameStart();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   },
 }
 
