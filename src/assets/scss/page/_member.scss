@@ -701,3 +701,81 @@
         }
     }
 }
+
+.product_items {
+    display: flex;
+    flex-wrap: wrap;
+.vegetable_card {
+    background-color: #fff;
+    height: 440px;
+    width: 300px;
+    text-align: center;
+    border-radius: $border-r-2;
+    position: relative;
+    margin: $sp-2;
+    box-shadow:  2px 2px 2px 1px #ccc;
+
+    .product_tag {
+        position: absolute;
+        right: 0;
+        border: 1px solid $dark-line;
+        border-radius: $border-r-2;
+        color: $dark-line ;
+        width: 30%;
+        text-align: center;
+        margin: $sp-1;
+
+    }
+
+
+
+    .product_image {
+        position: relative;
+    }
+
+    .heart {
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        position: absolute;
+        top: calc(3%);
+        left: calc(5%);
+
+        i {
+            font-size: 24px;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .heart {
+            top: calc(2%);
+            left: calc(5%);
+
+            // i {
+            //     font-size: 36px;
+            // }
+        }
+    }
+
+    img {
+
+        margin: $sp-3 0 $sp-2 0;
+        padding: $sp-1 ;
+        width: calc(80%);
+        height: calc(80%);
+        // aspect-ratio: 2/1;
+
+    }
+
+
+
+    .vegetable_title {
+        font-weight: bold;
+    }
+
+    .vegetable_price {
+        font-weight: bold;
+        margin: $sp-1 0 $sp-2 0;
+    }
+}
+}
