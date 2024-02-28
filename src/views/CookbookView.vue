@@ -16,7 +16,7 @@
       <ul>
         <li v-for="recipe in displayedRecipes" :key="recipe.recipe_no">
           <article>
-            <i @click="toggleBookmark(recipe)" :class="recipe.iconClass" class="bookmark"></i>
+            <i @click="toggleBookmark(recipe,recipe.recipe_no)" :class="recipe.iconClass" class="bookmark"></i>
             <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"><img :src="getRecipeImage(recipe)"
                 :alt="recipe.recipe_name"></router-link>
             <div class="text">
@@ -52,6 +52,7 @@ export default {
   props: ['cardUrl'],
   data() {
     return {
+      collect:[],
       recipe: [],
       itemsPerPage: 9,
       currentPage: 1,
@@ -133,7 +134,16 @@ export default {
     changePage(page) {
       this.currentPage = page;
     },
-    toggleBookmark(recipe) {
+    toggleBookmark(recipe,recipeNo) {
+      if (!recipe.bookmarked) {
+        this.collect.push(recipeNo);
+        localStorage.setItem('collect', JSON.stringify(this.collect));
+      } else {
+        let index = this.collect.indexOf(recipeNo);
+        this.collect.splice(index, 1);
+        localStorage.removeItem('collect');
+        localStorage.setItem('collect', JSON.stringify(this.collect));
+      }
       recipe.bookmarked = !recipe.bookmarked;
       recipe.iconClass = recipe.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark';
     },

@@ -93,8 +93,18 @@ export default {
         getImageUrl(paths) {
             return new URL(`../assets/images/${paths}`, import.meta.url).href;
         },
+        fetchproduct() {          //呼叫PHP
+            axios.get(`${import.meta.env.VITE_API_URL}/front/product/CalGiProdut.php`)
+            .then(response => {
+                this.displatdata = response.data;
+            })
+            .catch(error => {
+                console.error('Error adding prodclass:', error);
+            }); 
+        },
         giCalculate(){
             if( this.portionSize && this.chooseFood ){
+                this.fetchproduct();
                 this.gi = this.portionSize * parseFloat(this.chooseFood);
                 this.$refs.giCountainer.style.display = "none";
                 this.$refs.giHealthyRecommend.style.display = "flex";
