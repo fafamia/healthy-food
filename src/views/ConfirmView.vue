@@ -25,11 +25,11 @@
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>運送方式:</th>
-                        <td>{{ CartStore.orderInfo["shipping_status"] }}</td>
+                        <td>{{ CartStore.shippingList[+CartStore.orderInfo["shipping_status"]]["name"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>付款方式:</th>
-                        <td>{{ CartStore.orderInfo["payment_status"] }}</td>
+                        <td>{{ CartStore.payment_status[CartStore.orderInfo["payment_status"]] }}</td>
                     </tr>
                 </table>
             </div>
@@ -66,6 +66,8 @@ import axios from 'axios';
 export default{
     setup(){
         const CartStore = useCartStore(); 
+        console.log(JSON.parse(JSON.stringify(CartStore.shippingList)));
+        console.log(JSON.parse(JSON.stringify(CartStore.orderInfo)));
         const router = useRouter();
         const isSuccess = ref(false);
         const toggleSuccess = ()=>{
@@ -86,6 +88,7 @@ export default{
                     isSuccess.value = !isSuccess.value
                     CartStore.cartList.splice(0);
                     localStorage.clear();
+                    CartStore.cleanOrderInfo();
                 })
                 .catch(error =>{
                     console.error("提交訂單失敗",error)
