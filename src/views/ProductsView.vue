@@ -52,10 +52,10 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import axios from 'axios';
+import heart from '@/components/heart.vue';
 import PageNumber from '@/components/PageNumber.vue';
 import { reactive, ref, onMounted, computed } from 'vue'
 import { useProductStore } from '@/stores/Product';
-import { userStore } from '@/stores/user';
 
 
 export default {
@@ -95,9 +95,9 @@ export default {
     const filter = (classNo) => {
       if (classNo !== 0) {
         //database:sql->int, serve-side:php->string(jaon response), clint-side:vue(HTML-JS)->string(select-option)
-        //參數再不同地方轉傳容易有型別不一樣的問題，統一型別再比較或是用 == 比較
-        productDisplay.value = originData.value.filter(item => item.product_class_no.toString() === classNo.toString());
-      } else {
+        //參數在不同地方轉傳容易有型別不一樣的問題，統一型別再比較或是用 == 比較
+        productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
+      }else{
         productDisplay.value = originData.value;
       }
     };

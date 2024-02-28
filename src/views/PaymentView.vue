@@ -56,45 +56,30 @@
                         </td>
                     </tr>
                     <tr class="payment_info_infoTr">
-                        <th rowspan="2">運送方式:</th>
-                        <td>
-                            <input
-                            name="shipping_status"
-                            id="deliveryHome"
-                            type="radio"
-                            value="宅配到府"
-                            v-model="CartStore.orderInfo['shipping_status']">
-                            <label for="deliveryHome">宅配到府 ( 運費$80TWD )</label>
-                        </td>
+                        <th>運送方式:</th>
+                        <div v-for="(status, index) in CartStore.shippingList" :key="index">
+                                <input 
+                                :id = "status.id"
+                                name="shipping_status"
+                                type="radio"
+                                :value = status.id 
+                                v-model.number="CartStore.orderInfo['shipping_status']">
+                                <!-- radio傳回的value預設是on 要轉成自己設定的index，可以在v-model加上.number轉成預設的index -->
+                                <label :for="status.id" >{{ status.name }}</label>
+                        </div>
                     </tr>
                     <tr class="payment_info_infoTr">
+                        <th >付款方式:</th>
                         <td>
-                            <input
-                            name="shipping_status"
-                            id="deliveryStore"
-                            type="radio"
-                            value="7-11取貨"
-                            v-model="CartStore.orderInfo['shipping_status']">
-                            <label for="deliveryStore">7-11取貨 ( 運費$60TWD )</label>
-                        </td>
-                    </tr>
-                    <tr class="payment_info_infoTr">
-                        <th>付款方式:</th>
-                        <td>
-                            <input
-                            name="payment_status"
-                            id="paymentOnline"
-                            type="radio"
-                            value="線上付款"
-                            v-model="CartStore.orderInfo['payment_status']">
-                            <label for="paymentOnline">線上付款</label>
-                            <input
-                            name="payment_status"
-                            id="paymentCash"
-                            type="radio"
-                            value="取貨付款"
-                            v-model="CartStore.orderInfo['payment_status']">
-                            <label for="paymentCash">取貨付款</label>
+                            <div v-for="(status, index) in CartStore.payment_status" :key="index">
+                                <input 
+                                :id="`payment_status${index}`"
+                                name="payment_status"
+                                :value = index
+                                type="radio"
+                                v-model="CartStore.orderInfo['payment_status']">
+                                <label :for="`payment_status${index}`" >{{ status }}</label>
+                            </div>
                         </td>
                     </tr>
                 </table>

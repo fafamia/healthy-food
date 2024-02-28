@@ -29,7 +29,7 @@
                 </tr>
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">運費</th>
-                    <td class="CartDetail_amount_amountTd">{{ CartStore.orderInfo["delivery_fee"] }}</td>
+                    <td class="CartDetail_amount_amountTd" v-if="CartStore.shipping">{{ CartStore.shipping.price }}</td>
                 </tr>
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">總金額</th>

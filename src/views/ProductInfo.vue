@@ -92,6 +92,8 @@ export default {
     const ProductStore = useProductStore();
     const ProductNo = ref('');
     const productInfoDisplay = ref();
+    //使用composition API中的route 
+    const route = useRoute();
     
     async function fetchProductInfo(){
       await ProductStore.getProductData();
@@ -99,17 +101,15 @@ export default {
       //使用ProductStore中根據route綁定no所送出的data
       productInfoDisplay.value = ProductStore.getProductByNo(ProductNo.value);
     }
-    //使用composition API中的route 
-    const route = useRoute();
+    //等畫面建立後再抓商品資料
+    onMounted(async()=>{
+      await fetchProductInfo();
+    });
     //如果在內頁點其他商品連結，會監控透過params傳的product_no,即時更新頁面不用重新整理
     watch(()=> route.params.product_no,async(newVal)=>{
       await fetchProductInfo();
     },{immediate:true});
     
-    //等畫面建立後再抓商品資料
-    onMounted(async()=>{
-      await fetchProductInfo();
-    });
     
     //使用userStore
     const store = userStore();

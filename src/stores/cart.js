@@ -24,12 +24,32 @@ export const useCartStore =  defineStore("CartStore", {
                     price: "30",
                 },
             ],
+            shippingList:[
+                {
+                    id: "0",
+                    name: "宅配到府 ( 運費$80TWD )",
+                    price: "80",
+                },
+                {
+                    id: "1",
+                    name: "7-11取貨 ( 運費$60TWD )",
+                    price: "60",
+                }
+            ],
+            payment_status:{
+                '0': '銀行轉帳',
+                '1': '線上刷卡',
+            },
+            order_status:{
+                '0': '未配送',
+                '1': '已配送',
+            },
             orderInfo:reactive({
                 ord_name:'',
                 take_mail:'',
                 take_tel:'',
                 take_address:'',
-                delivery_fee:'0',
+                delivery_fee:'',
                 ord_amount:'',
                 sales_amount:'0',
                 ord_payment:'',
@@ -43,8 +63,13 @@ export const useCartStore =  defineStore("CartStore", {
         //input輸入的折價券id是否有在資料庫中
         matchingCoupon:(state)=>{
             //array.find會比對陣列中的元素，傳回第一個找到的值
-            return state.couponList.find(coupon => coupon.id === state.userInput)
+            return state.couponList.find(coupon => `${coupon.id}` === `${state.userInput}`)
         }, 
+        //計算運費
+        shipping:(state)=>{
+            const shippingPrice = state.shippingList.find(s=>`${s.id}` === `${state.orderInfo['shipping_status']}`);
+            return shippingPrice || { price:0 };
+        },
         //--計算小計--
         subTotal:(state)=>{
             return state.cartList.reduce((acc,product)=>{
@@ -54,12 +79,15 @@ export const useCartStore =  defineStore("CartStore", {
         // --計算總額,和折價券連動--
         total:(getters)=>{
             let discount = 0;
+            let shipping = 0;
             if(getters.matchingCoupon){
-                discount = parseInt(getters.matchingCoupon.price)
-                return getters.subTotal - discount;
-            }else{
-                return getters.subTotal;
-            }  
+                discount = parseInt(getters.matchingCoupon.price || 0);
+            }
+            shipping = parseInt(getters.shipping.price || 0);
+            return getters.subTotal - discount + shipping;
+            // else{
+            //     return getters.subTotal;
+            // }  
         },
         //計算購物車中商品數量
         count(){
@@ -119,9 +147,25 @@ export const useCartStore =  defineStore("CartStore", {
             this.saveLocalstorage();
         },
         updateOrderInfo(){
+            this.orderInfo['delivery_fee'] = this.shipping.price;
             this.orderInfo['ord_amount'] = this.subTotal;
             this.orderInfo['sales_amount'] = this.matchingCoupon ? this.matchingCoupon.price : '';
             this.orderInfo['ord_payment'] = this.total;
+        },
+        cleanOrderInfo(){
+            this.orderInfo = {
+                ord_name:'',
+                take_mail:'',
+                take_tel:'',
+                take_address:'',
+                delivery_fee:'',
+                ord_amount:'',
+                sales_amount:'',
+                ord_payment:'',
+                shipping_status:'',
+                payment_status:'',
+                ord_status:0,
+            }
         }
     }
 })
