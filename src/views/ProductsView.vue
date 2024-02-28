@@ -51,11 +51,11 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import axios from 'axios';
-import heart from '@/components/heart.vue';
+// import heart from '@/components/heart.vue';
 import PageNumber from '@/components/PageNumber.vue';
 import { reactive, ref, onMounted, computed } from 'vue'
 import { useProductStore } from '@/stores/Product';
+import { userStore } from '@/stores/user';
 
 
 export default {
