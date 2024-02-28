@@ -2,18 +2,21 @@
     <div class="col-12 col-lg-9">
         <div class="member_collection">
             <h2>我的收藏</h2>
+            <div v-if="collect.length === 0">
+                <p>您目前還沒有收藏任何食譜</p>
+            </div>
             <ul class="member_cookbook_list row">
                 <li v-for="item in cookbooks" :key="item.id" class="col-4">
                     <article>
-                        <i class="fa-regular fa-bookmark bookmark"></i>
-                        <!-- <router-link to="/cookbookinfo"> -->
-                            <!-- <img src="/src/assets/images/member/cookbook.png"> -->
-                        <!-- </router-link> -->
+                        <i @click="cancelCollect(item.recipe_no)" class="fa-solid fa-bookmark bookmark"></i>
+                        <router-link to="/cookbookinfo">
+                            <img src="/src/assets/images/member/cookbook.png">
+                        </router-link>
                         <div class="text">
-                            <!-- <router-link to="/cookbookinfo">
-                                <h4>{{ item.name }}</h4>
+                            <router-link to="/cookbookinfo">
+                                <h4>{{ item.recipe_name }}</h4>
                             </router-link>
-                            <p>{{ item.title }}</p> -->
+                            <p>{{ item.recipe_recommend }}</p>
                         </div>
                         <div class="like">
                             <i class="fa-regular fa-thumbs-up"></i>
@@ -24,7 +27,6 @@
                 </li>
             </ul>
         </div>
-
     </div>
 </template>
 
@@ -34,25 +36,40 @@ export default {
     data() {
         return {
             cookbooks: [],
+            collect:[],
             fetchLocalStorageArray:[],
         }
     },
     mounted() { // Vue 實例創建之後立即被調用
         this.fetchcollect();
+        this.VueCollectGetLocalStorage();
     },
     methods:{
-        fetchcollect(){
-            this.fetchLocalStorageArray = JSON.parse(localStorage.getItem('collect'));
-            console.log(this.fetchLocalStorageArray);
-            axios.post(`${import.meta.env.VITE_API_URL}/front/member/fetchRecipe.php`,this.fetchLocalStorageArray)
-            .then(response => {
-                this.cookbooks = response.data
-                console.log(response.data);
-                console.log(this.cookbooks);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        cancelCollect(recipeNo){
+            let index = this.collect.indexOf(recipeNo);
+            this.collect.splice(index, 1);
+            localStorage.removeItem('collect');
+            localStorage.setItem('collect', JSON.stringify(this.collect));
+            this.fetchcollect();
+        },
+        fetchcollect(){  //撈 localStorage KEY: collect 的資料出來送給 PHP
+            let localStorageCollect = localStorage.getItem('collect')
+            if(localStorageCollect != "" ){
+                this.fetchLocalStorageArray = JSON.parse(localStorage.getItem('collect'));
+                axios.post(`${import.meta.env.VITE_API_URL}/front/member/fetchRecipe.php`,this.fetchLocalStorageArray)
+                .then(response => {
+                    this.cookbooks = response.data
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        },
+        VueCollectGetLocalStorage(){
+            let localStorageCollect = localStorage.getItem('collect');
+            if(localStorageCollect) {
+                this.collect = JSON.parse(localStorageCollect);
+            } 
         }
     }
 }
