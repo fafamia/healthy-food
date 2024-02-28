@@ -684,15 +684,6 @@ export default {
                     console.error('匯入問答內容時發生錯誤:', error);
                 });
         },
-        mounted() { // Vue 實例創建之後立即被調用
-            this.$nextTick(() => {
-                this.updateDimensions();
-                window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
-                this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
-                this.startSlideshow(); //啟動自動輪播
-                this.startComment();
-            });
-        },
         beforeDestroy() {
             window.removeEventListener('resize', this.updateDimensions)
         },
@@ -709,6 +700,15 @@ export default {
             this.fetchFAQContent(keyword);
         },
     },
+    mounted() { // Vue 實例創建之後立即被調用
+            this.$nextTick(() => {
+                this.updateDimensions();
+                window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
+                this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
+                this.startSlideshow(); //啟動自動輪播
+                this.startComment();
+            });
+        },
 };
 </script>
 <style lang="scss">
