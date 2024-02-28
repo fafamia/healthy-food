@@ -9,14 +9,14 @@
                 <li v-for="item in cookbooks" :key="item.id" class="col-4">
                     <article>
                         <i @click="cancelCollect(item.recipe_no)" class="fa-solid fa-bookmark bookmark"></i>
-                        <router-link to="/cookbookinfo">
+                        <!-- <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"> -->
                             <img src="/src/assets/images/member/cookbook.png">
-                        </router-link>
+                        <!-- </router-link> -->
                         <div class="text">
-                            <router-link to="/cookbookinfo">
+                            <!-- <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"> -->
                                 <h4>{{ item.recipe_name }}</h4>
-                            </router-link>
-                            <p>{{ item.recipe_recommend }}</p>
+                            <!-- </router-link> -->
+                            <p>{{ item.recipe_text }}</p>
                         </div>
                         <div class="like">
                             <i class="fa-regular fa-thumbs-up"></i>
