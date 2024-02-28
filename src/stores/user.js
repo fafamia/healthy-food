@@ -38,7 +38,6 @@ export const userStore = defineStore('userStore', {
                     .then(res => {
                         if (res.data.status === 'success') {
                             this.updateUserData(res.data.member);
-                            console.log('成功');
                             resolve(true);
                         } else {
                             console.log('失敗');

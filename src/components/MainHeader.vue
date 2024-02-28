@@ -8,7 +8,40 @@
                 <nav>
                     <ul class="header_phone_nav">
                         <li @click="toggleModal" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
-                        <li v-else class="fa-solid fa-icon-you-want"><img src="/src/assets/images/home/header_img.png"></li>
+                        <li v-else class="fa-solid fa-icon-you-want"><img :src="getImageUrl(member.member_photo)" width="36"
+                                height="36" style="border-radius: 50%; border: 1px solid #D9D9D9;" @click="toggleMemList">
+                        </li>
+                        <div class="member_list" v-show="isMemberList">
+                            <router-link to="/member" class="user_info">
+                                <div class="mem">
+                                    <img :src="getImageUrl(member.member_photo)" width="36" height="36"
+                                        style="border-radius: 50%;border: 1px solid #D9D9D9;">
+                                    <p>{{
+                                        member.member_level == 1 ? '一般會員' :
+                                        member.member_level == 2 ? '黃金會員' :
+                                            member.member_level == 3 ? '白金會員' :
+                                                '鑽石會員'
+                                    }}</p>
+                                </div>
+                                <i class="fa-solid fa-gear"></i>
+                            </router-link>
+                            <ul class="member_nav">
+                                <li><router-link to="/member/coupon"><i
+                                            class="fa-solid fa-money-check-dollar"></i>折價券</router-link></li>
+                                <li><router-link to="/member/level"><i class="fa-solid fa-gift"></i>會員禮遇</router-link>
+                                </li>
+                                <li><router-link to="/member/order"><i
+                                            class="fa-regular fa-file-lines"></i>訂單查詢</router-link></li>
+                                <li><router-link to="/member/favourite">
+                                        <i class="fa-regular fa-heart"></i>我的最愛
+                                    </router-link></li>
+                                <li><router-link to="/member/collection"><i
+                                            class="fa-regular fa-bookmark"></i>我的收藏</router-link></li>
+                            </ul>
+                            <div class="member_logout">
+                                <p @click="logOut">登出</p>
+                            </div>
+                        </div>
                         <li @click="toggleShoppingDrawer"><i class="fa-solid fa-cart-shopping"></i></li>
                         <div class="cart-count">{{ cartItemCount }}</div>
                         <li @click="toggleHeaderMenu"><i class="fa-solid fa-bars"></i></li>
@@ -113,12 +146,19 @@
                     <ul class="header_pc_icon_nav">
                         <li @click="toggleModal" v-if="!isLoggedIn"><i class="fa-solid fa-user"></i></li>
                         <li v-else class="fa-solid fa-icon-you-want user_pic" @click="toggleMemList"><img
-                                src="/src/assets/images/home/header_img.png">
+                                :src="getImageUrl(member.member_photo)" width="36" height="36"
+                                style="border-radius: 50%;border: 1px solid #D9D9D9;">
                             <div class="member_list" v-show="isMemberList">
                                 <router-link to="/member" class="user_info">
                                     <div class="mem">
-                                        <img src="/src/assets/images/home/header_img.png">
-                                        <p>黃金會員</p>
+                                        <img :src="getImageUrl(member.member_photo)" width="36" height="36"
+                                            style="border-radius: 50%;border: 1px solid #D9D9D9;">
+                                        <p>{{
+                                            member.member_level == 1 ? '一般會員' :
+                                            member.member_level == 2 ? '黃金會員' :
+                                                member.member_level == 3 ? '白金會員' :
+                                                    '鑽石會員'
+                                        }}</p>
                                     </div>
                                     <i class="fa-solid fa-gear"></i>
                                 </router-link>
@@ -301,11 +341,13 @@ export default {
                 city: '',
                 addr: ''
             },
-            cartItemCount: 0 // 初始化購物車數量為 0
+            cartItemCount: 0, // 初始化購物車數量為 0
+            member: {},
         }
     },
     created() {
         const store = userStore();
+
         //監控pinia中的showLoginModal，如果有變動(true)就打開登入燈箱
         this.$watch(
             () => store.showLoginModal,
@@ -317,10 +359,9 @@ export default {
         store.checkLogin()
             .then(user => {
                 if (user) {
-                    console.log('有動');
+                    this.member = store.userData;
                     this.isLoggedIn = true;
                 } else {
-                    console.log('沒token');
                     this.isLoggedIn = false;
                 }
             })
@@ -392,9 +433,9 @@ export default {
                         this.modalStatus = false;
                         //換大頭貼
                         this.isLoggedIn = true;
-                        console.log(data);
                         store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
                         store.updateUserData(data.member);//將會員資料放入pinia中
+                        this.member = store.userData;
                     } else {
                         alert('帳號或密碼錯誤');
                     }
@@ -409,6 +450,7 @@ export default {
         logOut() {
             const store = userStore();
             store.clearToken(); //pinia 清空localStorage
+            this.member = {};
             this.isLoggedIn = false;
             this.$router.push('/'); //跳轉回首頁
         },
@@ -420,8 +462,10 @@ export default {
             axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
                 .then(res => {
                     this.locations = res.data;
+                    this.onCityChange();
                 })
                 .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+
 
         },
         handleCountyChange(event) {
@@ -447,9 +491,6 @@ export default {
                     }
                 })
                     .then(res => {
-                        console.log(res);
-                        console.log(res.data);
-                        console.log(res.data.msg);
                         if (res && res.data && res.data.msg === '註冊成功') {
                             this.toggleSignupDown();
                         } else {
@@ -509,6 +550,9 @@ export default {
             } else {
                 return true
             }
+        },
+        getImageUrl(paths) {
+            return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/member/${paths}`, import.meta.url).href;
         },
     },
     components: {

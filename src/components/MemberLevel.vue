@@ -4,9 +4,9 @@
             <h2>會員禮遇</h2>
             <div class="member_level_area">
                 <h3 class="member_level_title">{{
-                    member.member_level === 1 ? '一般會員' :
-                    member.member_level === 2 ? '黃金會員' :
-                        member.member_level === 3 ? '白金會員' :
+                    member.member_level == 1 ? '一般會員' :
+                    member.member_level == 2 ? '黃金會員' :
+                        member.member_level == 3 ? '白金會員' :
                             '鑽石會員'
                 }}</h3>
                 <div class="level_exp_text">
@@ -89,13 +89,13 @@ export default {
     },
     methods: {
         getLevelSpand(level, money) {
-            if (level === 1) {
+            if (level == 1) {
                 this.levelSpand = 3000;
                 this.money = this.levelSpand - money;
-            } else if (level === 2) {
+            } else if (level == 2) {
                 this.levelSpand = 8000;
                 this.money = this.levelSpand - money;
-            } else if (level === 3) {
+            } else if (level == 3) {
                 this.levelSpand = 16000;
                 this.money = this.levelSpand - money;
             }
