@@ -33,8 +33,7 @@
                                     @click="fetchOrderDetails(order.ord_no)">商品明細</button>
                             </td>
                         </tr>
-                        <tr v-for="detail in orderDetails" :key="detail.product_no"
-                            v-show="order.ord_no == selectOrderNo">
+                        <tr v-for="detail in orderDetails" :key="detail.product_no" v-show="order.ord_no == selectOrderNo">
                             <td class="orderDetail_td" colspan="3">商品</td>
                             <td class="orderDetail_td">{{ detail.product_no }}</td>
                             <td class="orderDetail_td">{{ detail.product_name }}</td>
@@ -58,14 +57,16 @@ export default {
     setup() {
         const CartStore = useCartStore();
         const store = userStore();
-        const memberNo = store.userData.member_no;
+        const memberNo = parseInt(store.userData.member_no);
         const orders = ref([]);
         const orderDetails = ref([]);
         const fetchOrder = (memberNo) => {
+            console.log(memberNo);
             if (memberNo) {
                 axios.get(`${import.meta.env.VITE_API_URL}/front/order/orderDataGetByNo.php`, { params: { member_no: memberNo } })
                     .then(response => {
                         orders.value = response.data.orderRows;
+                        console.log(memberNo);
                     })
                     .catch(error => {
                         console.error("訂單資料錯誤:", error);
@@ -85,12 +86,12 @@ export default {
                 //第一次click判斷selectOrderNo==ordNo,符合v-show的條件
                 selectOrderNo.value = ordNo;
                 axios.get(`${import.meta.env.VITE_API_URL}/front/order/ordeDataDetailGetByNo.php`, { params: { ord_no: ordNo } })
-                .then(response => {
-                    orderDetails.value = response.data.orderDetailsRows;
-                })
-                .catch(error => {
-                    console.error("訂單明細資料錯誤:", error);
-                })
+                    .then(response => {
+                        orderDetails.value = response.data.orderDetailsRows;
+                    })
+                    .catch(error => {
+                        console.error("訂單明細資料錯誤:", error);
+                    })
             }
         }
         onMounted(() => {
