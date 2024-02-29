@@ -28,7 +28,6 @@
             </ul>
         </div>
     </div>
-    <img src="../" alt="">
 </template>
 
 <script>
@@ -37,43 +36,43 @@ export default {
     data() {
         return {
             cookbooks: [],
-            collect:[],
-            fetchLocalStorageArray:[],
+            collect: [],
+            fetchLocalStorageArray: [],
         }
     },
     mounted() { // Vue 實例創建之後立即被調用
         this.fetchcollect();
         this.VueCollectGetLocalStorage();
     },
-    methods:{
+    methods: {
         getRecipeImage(paths) {
             return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${paths}`, import.meta.url).href;
         },
-        cancelCollect(recipeNo){
+        cancelCollect(recipeNo) {
             let index = this.collect.indexOf(recipeNo);
             this.collect.splice(index, 1);
             localStorage.removeItem('collect');
             localStorage.setItem('collect', JSON.stringify(this.collect));
             this.fetchcollect();
         },
-        fetchcollect(){  //撈 localStorage KEY: collect 的資料出來送給 PHP
+        fetchcollect() {  //撈 localStorage KEY: collect 的資料出來送給 PHP
             let localStorageCollect = localStorage.getItem('collect')
-            if(localStorageCollect != "" ){
+            if (localStorageCollect != "") {
                 this.fetchLocalStorageArray = JSON.parse(localStorage.getItem('collect'));
-                axios.post(`${import.meta.env.VITE_API_URL}/front/member/fetchRecipe.php`,this.fetchLocalStorageArray)
-                .then(response => {
-                    this.cookbooks = response.data
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                axios.post(`${import.meta.env.VITE_API_URL}/front/member/fetchRecipe.php`, this.fetchLocalStorageArray)
+                    .then(response => {
+                        this.cookbooks = response.data
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             }
         },
-        VueCollectGetLocalStorage(){
+        VueCollectGetLocalStorage() {
             let localStorageCollect = localStorage.getItem('collect');
-            if(localStorageCollect) {
+            if (localStorageCollect) {
                 this.collect = JSON.parse(localStorageCollect);
-            } 
+            }
         }
     }
 }
