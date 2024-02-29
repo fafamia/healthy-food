@@ -28,7 +28,6 @@
             </ul>
         </div>
     </div>
-    <img src="../" alt="">
 </template>
 
 <script>
