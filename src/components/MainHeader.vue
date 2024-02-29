@@ -466,7 +466,6 @@ export default {
                 })
                 .catch(err => console.log('讀取區域資料時發生錯誤:', err))
 
-
         },
         handleCountyChange(event) {
             const countyName = event.target.value;
