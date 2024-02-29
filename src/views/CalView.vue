@@ -38,13 +38,13 @@
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前cal的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
-                <div class="bmr_recommend_card" v-for="(item, index) in displatdata" :key="index">
-                    <span class="bmr_tag">#{{ item.product_tag_name }}</span>
-                    <div class="bmr_card_img">
+                <div class="cal_recommend_card" v-for="(item, index) in displatdata" :key="index">
+                    <span class="cal_tag">#{{ item.product_tag_name }}</span>
+                    <div class="cal_card_img">
                         <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
-                    <p class="bmr_card_title">{{ item.product_name }}</p>
-                    <p class="bmr_card_price">{{ item.product_price }}</p>
+                    <p class="cal_card_title">{{ item.product_name }}</p>
+                    <p class="cal_card_price">${{ item.product_price }}</p>
                     <router-link :to="{
                         name: 'productinfo',
                         params: { product_no: item.product_no }
@@ -90,12 +90,12 @@ export default {
             }); 
         },
         getFoodJson() {          //匯入Json
-            axios.get('https://tibamef2e.com/chd104/g3/front/food.json')
-                .then(res => {
-                    this.foodJson = res.data;
-                    console.log(this.foodJson);
-                })
-                .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+            // axios.get('https://tibamef2e.com/chd104/g3/front/food.json')
+            axios.get('../../public/food.json')
+            .then(res => {
+                this.foodJson = res.data;
+            })
+            .catch(err => console.log('讀取區域資料時發生錯誤:', err))
         },
         calCalculate(){
             const selectedFood = this.foodJson.find(food => food['樣品名稱'] === this.chooseFood);

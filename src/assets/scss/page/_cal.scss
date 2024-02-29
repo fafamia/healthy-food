@@ -204,10 +204,12 @@ input[type=number]::-webkit-outer-spin-button {
     .cal_card_title{
         margin-top: 5px;
         font-size: 24px;
+        font-weight: $fw-bold;
     }
     .cal_card_price{
         margin-top: 5px;
         font-size: 24px;
+        font-weight: $fw-bold;
     }
     a{
         width: 160px;

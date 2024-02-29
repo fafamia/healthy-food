@@ -39,7 +39,7 @@
             <p>以下食品的熱量不僅符合您的目前BMI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
                 <div class="bmi_recommend_card" v-for="(item, index) in displatdata" :key="index">
-                    <span class="bmi_tag">#NEW</span>
+                    <span class="bmi_tag">#{{ item.product_tag_name }}</span>
                     <div class="bmi_card_img">
                         <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
