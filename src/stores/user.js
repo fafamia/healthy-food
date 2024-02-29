@@ -40,7 +40,6 @@ export const userStore = defineStore('userStore', {
                             this.updateUserData(res.data.member);
                             resolve(true);
                         } else {
-                            console.log('失敗');
                             this.clearToken(); // 清除無效token
                             resolve(false);
                         }
