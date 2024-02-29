@@ -250,7 +250,7 @@
 
 
 
-        <!----------- end ------------>
+    <!----------- end ------------>
 </template>
 
 <script>
@@ -563,7 +563,7 @@ export default {
             const commentWall = this.$refs.commentWall; // 獲取照片牆
             const animateMarquee = () => {
                 if (this.isPaused) {
-                    this.position -= 0.5;
+                    this.position -= 1;
                     commentWall.style.transform = `translateX(${this.position}px)`;
                     if (this.position * -1 - 2500 >= commentWall.offsetWidth) {
                         this.position = 0;
@@ -665,24 +665,24 @@ export default {
                     key: key
                 }
             })
-            .then(response => {
-                // API返回相關問答內容
-                const ans = response.data.ans;
-                if (ans) {
-                    this.addBotMessage(ans);
-                } else {
-                    this.addBotMessage("抱歉，找不到相關答案。");
-                }
+                .then(response => {
+                    // API返回相關問答內容
+                    const ans = response.data.ans;
+                    if (ans) {
+                        this.addBotMessage(ans);
+                    } else {
+                        this.addBotMessage("抱歉，找不到相關答案。");
+                    }
 
-                // 滾動到底部
-                this.$nextTick(() => {
-                    const chatMessages = this.$refs.chatMessages;
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    // 滾動到底部
+                    this.$nextTick(() => {
+                        const chatMessages = this.$refs.chatMessages;
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    });
+                })
+                .catch(error => {
+                    console.error('匯入問答內容時發生錯誤:', error);
                 });
-            })
-            .catch(error => {
-                console.error('匯入問答內容時發生錯誤:', error);
-            });
         },
         addBotMessage(message) {
             const currentTime = new Date().toLocaleTimeString();
