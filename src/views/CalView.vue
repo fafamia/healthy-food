@@ -90,9 +90,10 @@ export default {
             }); 
         },
         getFoodJson() {          //匯入Json
-            axios.get('../../public/food.json')
+            axios.get('https://tibamef2e.com/chd104/g3/front/food.json')
                 .then(res => {
                     this.foodJson = res.data;
+                    console.log(this.foodJson);
                 })
                 .catch(err => console.log('讀取區域資料時發生錯誤:', err))
         },
