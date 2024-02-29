@@ -57,7 +57,7 @@ export default {
     setup() {
         const CartStore = useCartStore();
         const store = userStore();
-        const memberNo = ref(parseInt(store.userData.member_no));
+        const memberNo = parseInt(store.userData.member_no);
         const orders = ref([]);
         const orderDetails = ref([]);
         const fetchOrder = (memberNo) => {
