@@ -9,13 +9,13 @@
                 <li v-for="item in cookbooks" :key="item.id" class="col-4">
                     <article>
                         <i @click="cancelCollect(item.recipe_no)" class="fa-solid fa-bookmark bookmark"></i>
-                        <!-- <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"> -->
-                            <img src="/src/assets/images/member/cookbook.png">
-                        <!-- </router-link> -->
+                        <router-link :to="`/cookbookinfo/${item.recipe_no}`">
+                            <img :src="getRecipeImage(item.recipe_img)" :alt="item.recipe_name">
+                        </router-link>
                         <div class="text">
-                            <!-- <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"> -->
+                            <router-link :to="`/cookbookinfo/${item.recipe_no}`">
                                 <h4>{{ item.recipe_name }}</h4>
-                            <!-- </router-link> -->
+                            </router-link>
                             <p>{{ item.recipe_text }}</p>
                         </div>
                         <div class="like">
@@ -28,6 +28,7 @@
             </ul>
         </div>
     </div>
+    <img src="../" alt="">
 </template>
 
 <script>
@@ -45,6 +46,9 @@ export default {
         this.VueCollectGetLocalStorage();
     },
     methods:{
+        getRecipeImage(paths) {
+            return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${paths}`, import.meta.url).href;
+        },
         cancelCollect(recipeNo){
             let index = this.collect.indexOf(recipeNo);
             this.collect.splice(index, 1);
