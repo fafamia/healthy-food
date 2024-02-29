@@ -54,7 +54,7 @@ export const userStore = defineStore('userStore', {
         clearToken() {
             this.token = ''
             this.userData = {}
-            localStorage.removeItem('userToken');
+            localStorage.clear();
         },
         toggleLoginModal(show) {
             this.showLoginModal = show;
