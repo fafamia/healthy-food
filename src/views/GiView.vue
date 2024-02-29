@@ -58,7 +58,7 @@
                         <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
                     <p class="gi_card_title">{{ item.product_name }}</p>
-                    <p class="gi_card_price">{{ item.product_price }}</p>
+                    <p class="gi_card_price">${{ item.product_price }}</p>
                     <router-link :to="{
                         name: 'productinfo',
                         params: { product_no: item.product_no }
@@ -91,10 +91,20 @@ export default {
     },
     methods: {
         getImageUrl(paths) {
-            return new URL(`../assets/images/${paths}`, import.meta.url).href;
+            return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/product/${paths}`, import.meta.url).href;
+        },
+        fetchproduct() {          //呼叫PHP
+            axios.get(`${import.meta.env.VITE_API_URL}/front/product/CalGiProdut.php`)
+            .then(response => {
+                this.displatdata = response.data;
+            })
+            .catch(error => {
+                console.error('Error adding prodclass:', error);
+            }); 
         },
         giCalculate(){
             if( this.portionSize && this.chooseFood ){
+                this.fetchproduct();
                 this.gi = this.portionSize * parseFloat(this.chooseFood);
                 this.$refs.giCountainer.style.display = "none";
                 this.$refs.giHealthyRecommend.style.display = "flex";

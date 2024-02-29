@@ -25,11 +25,11 @@
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>運送方式:</th>
-                        <td>{{ CartStore.orderInfo["shipping_status"] }}</td>
+                        <td>{{ CartStore.shippingList[+CartStore.orderInfo["shipping_status"]]["name"] }}</td>
                     </tr>
                     <tr class="confirm_info_infoTr">
                         <th>付款方式:</th>
-                        <td>{{ CartStore.orderInfo["payment_status"] }}</td>
+                        <td>{{ CartStore.payment_status[CartStore.orderInfo["payment_status"]] }}</td>
                     </tr>
                 </table>
             </div>
@@ -85,7 +85,8 @@ export default{
             .then(response =>{
                     isSuccess.value = !isSuccess.value
                     CartStore.cartList.splice(0);
-                    localStorage.clear();
+                    localStorage.removeItem('items');
+                    CartStore.cleanOrderInfo();
                 })
                 .catch(error =>{
                     console.error("提交訂單失敗",error)

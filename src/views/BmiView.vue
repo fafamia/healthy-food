@@ -44,7 +44,7 @@
                         <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
                     <p class="bmi_card_title">{{ item.product_name }}</p>
-                    <p class="bmi_card_price">{{ item.product_price }}</p>
+                    <p class="bmi_card_price">${{ item.product_price }}</p>
                     <router-link :to="{
                         name: 'productinfo',
                         params: { product_no: item.product_no }

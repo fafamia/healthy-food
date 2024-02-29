@@ -27,7 +27,7 @@
           <p class="product_tag">#{{ item.product_tag_name }}</p>
           <div class="product_card_img">
             <img :src=getImageUrl(item.product_img) :alt="item.product_name" class="product_image">
-            <button class="heart" @click="keepProd(item)">
+            <button class="heart" @click="keepProd(item)" :title="item.heartFilled ? '取消收藏' : '收藏商品'">
               <i :class="{ 'fa-regular': !item.heartFilled, 'fa-solid': item.heartFilled, 'fa-heart': true }"
                 style="color: #f50a0a;"></i>
             </button>
@@ -51,10 +51,8 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
-import heart from '@/components/heart.vue';
-import axios from 'axios';
+// import heart from '@/components/heart.vue';
 import PageNumber from '@/components/PageNumber.vue';
-
 import { reactive, ref, onMounted, computed } from 'vue'
 import { useProductStore } from '@/stores/Product';
 import { userStore } from '@/stores/user';
@@ -66,7 +64,6 @@ export default {
     RouterView,
     Breadcrumb,
     PageNumber,
-    heart
   },
   setup() {
     // 麵包屑數據
@@ -74,26 +71,32 @@ export default {
       { text: '首頁', to: '/' },
       { text: '健康小舖', active: true },
     ]);
+    const store = userStore();
     //使用ProductStore
     const ProductStore = useProductStore();
     const originData = ref([]);
     const productDisplay = ref([]);
     const productClass = ref([]);
     //要在vue模板編譯後引入，如果直接放在setup中會比pinia快
-    onMounted(async() => {
+    onMounted(async () => {
       await ProductStore.getProductData();
       await ProductStore.getProductClassData();
       originData.value = ProductStore.products;
       productDisplay.value = originData.value;
       productClass.value = ProductStore.productClass;
+      productDisplay.value.forEach(item => {
+        if (favoriteProducts.value.includes(item.product_no)) {
+          item.heartFilled = true;
+        }
+      });
     });
 
     //用class篩選
     const filter = (classNo) => {
-      if(classNo !== 0){
+      if (classNo !== 0) {
         //database:sql->int, serve-side:php->string(jaon response), clint-side:vue(HTML-JS)->string(select-option)
-        //參數再不同地方轉傳容易有型別不一樣的問題，統一型別再比較或是用 == 比較
-        productDisplay.value = originData.value.filter(item => item.product_class_no.toString() === classNo.toString());
+        //參數在不同地方轉傳容易有型別不一樣的問題，統一型別再比較或是用 == 比較
+        productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
       }else{
         productDisplay.value = originData.value;
       }
@@ -125,24 +128,68 @@ export default {
       });
     };
 
-    const keepProd = (item) => {
-      item.heartFilled = !item.heartFilled;
+
+
+    // 從本地存儲中加載收藏的商品編號陣列，如果沒有則使用空陣列
+    const favoriteProducts = ref(JSON.parse(localStorage.getItem('favoriteProducts')) || []);
+
+    // 當用戶點擊收藏按鈕時調用的函數
+    const keepProd = async (item) => {
+      const user = await store.checkLogin();
+      if (!user) {
+        alert('請先登入');
+        store.toggleLoginModal(true);
+        return;
+      } else {
+        item.heartFilled = !item.heartFilled;
+
+        // 創建一個新的陣列來保存更新後的收藏的商品編號
+        const updatedFavoriteProducts = [...favoriteProducts.value];
+
+        // 檢查商品編號是否已存在於收藏的商品編號陣列中
+        const isAlreadyFavorited = updatedFavoriteProducts.includes(item.product_no);
+
+        // 如果商品已收藏且未存在於收藏的商品編號陣列中，則將其編號添加到陣列中
+        if (item.heartFilled && !isAlreadyFavorited) {
+          updatedFavoriteProducts.push(item.product_no);
+          item.heartFilled
+        } else if (!item.heartFilled && isAlreadyFavorited) {
+          // 如果取消收藏且存在於陣列中，則從陣列中刪除該商品編號
+          const index = updatedFavoriteProducts.indexOf(item.product_no);
+          if (index !== -1) {
+            updatedFavoriteProducts.splice(index, 1);
+            !item.heartFilled
+          }
+        }
+
+        localStorage.setItem('favoriteProducts', JSON.stringify(updatedFavoriteProducts));
+
+        favoriteProducts.value = updatedFavoriteProducts;
+      }
     };
+
+    // localStorage.clear();
+
+
+
 
     return {
       originData,
       productDisplay,
       productClass,
-      getImageUrl:ProductStore.getImageUrl,
+      getImageUrl: ProductStore.getImageUrl,
       displayList,
       filter,
       changePage,
       reqParams,
       yourBreadcrumbData,
       keepProd,
+      favoriteProducts,
       filterPhoneList,
     };
   },
 }
 </script>
-<style lang="scss">@import "@/assets/scss/page/product.scss";</style>
+<style lang="scss">
+@import "@/assets/scss/page/product.scss";
+</style>

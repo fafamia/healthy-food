@@ -36,9 +36,8 @@ export const userStore = defineStore('userStore', {
                     data: JSON.stringify({ storageToken: storageToken }),
                 })
                     .then(res => {
-                        if (res.data.status === 'success') {
+                        if (res.data.status == 'success') {
                             this.updateUserData(res.data.member);
-                            console.log('成功');
                             resolve(true);
                         } else {
                             console.log('失敗');
@@ -55,7 +54,7 @@ export const userStore = defineStore('userStore', {
         clearToken() {
             this.token = ''
             this.userData = {}
-            localStorage.removeItem('userToken');
+            localStorage.clear();
         },
         toggleLoginModal(show) {
             this.showLoginModal = show;
@@ -84,3 +83,4 @@ export const userStore = defineStore('userStore', {
         },
     },
 })
+

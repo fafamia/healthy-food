@@ -16,7 +16,7 @@
       <ul>
         <li v-for="recipe in displayedRecipes" :key="recipe.recipe_no">
           <article>
-            <i @click="toggleBookmark(recipe)" :class="recipe.iconClass" class="bookmark"></i>
+            <i @click="toggleBookmark(recipe, recipe.recipe_no)" :class="recipe.iconClass" class="bookmark"></i>
             <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"><img :src="getRecipeImage(recipe)"
                 :alt="recipe.recipe_name"></router-link>
             <div class="text">
@@ -28,7 +28,7 @@
             <div class="like">
               <i @click="toggleLike(recipe)" :class="recipe.iconLike"></i>
               <span>1</span>
-              <button @click="copyUrl"><i class="fa-solid fa-share"></i></button>
+              <button @click="copyUrl(recipe.recipe_no)"><i class="fa-solid fa-share"></i></button>
             </div>
           </article>
         </li>
@@ -49,9 +49,9 @@ import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
 
 export default {
-  props: ['cardUrl'],
   data() {
     return {
+      collect: [],
       recipe: [],
       itemsPerPage: 9,
       currentPage: 1,
@@ -77,15 +77,20 @@ export default {
   },
 
   mounted() {
+    const store = userStore();
+    store.checkLogin();
     this.fetchData();
   },
   methods: {
-    copyUrl() {
+    checkLogin() {
+
+    },
+    copyUrl(id) {
       // 創建一個新的文本區域元素
       const textArea = document.createElement("textarea");
-
+      const cardUrl = `${import.meta.env.BASE_URL}cookbookinfo/${id}`
       // 將卡片對應的URL設置為文本區域的值
-      textArea.value = this.cardUrl;
+      textArea.value = cardUrl;
 
       // 將文本區域添加到DOM中
       document.body.appendChild(textArea);
@@ -100,7 +105,7 @@ export default {
       document.body.removeChild(textArea);
 
       // 提示用戶已經複製
-      alert("已複製食譜網址：" + this.cardUrl);
+      alert("已複製食譜網址：" + cardUrl);
     },
     fetchData() {
       fetch(`${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`)
@@ -117,7 +122,7 @@ export default {
           }));
         })
         .catch((error) => {
-          console.error('Error fetching data:', error);
+          // console.error('Error fetching data:', error);
         });
     },
     getRecipeImage(recipe) {
@@ -133,9 +138,32 @@ export default {
     changePage(page) {
       this.currentPage = page;
     },
-    toggleBookmark(recipe) {
-      recipe.bookmarked = !recipe.bookmarked;
-      recipe.iconClass = recipe.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark';
+    toggleBookmark(recipe, recipeNo) {
+      const store = userStore();
+      store.checkLogin().then((user) => {
+        if (!user) {
+          alert('請先登入');
+          store.toggleLoginModal(true);
+          return;
+        } else {
+          if (!recipe.bookmarked) {
+            this.collect.push(recipeNo);
+            localStorage.setItem('collect', JSON.stringify(this.collect));
+          } else {
+            let index = this.collect.indexOf(recipeNo);
+            this.collect.splice(index, 1);
+            localStorage.removeItem('collect');
+            localStorage.setItem('collect', JSON.stringify(this.collect));
+          }
+          recipe.bookmarked = !recipe.bookmarked;
+          recipe.iconClass = recipe.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark';
+        }
+
+      }
+
+      );
+      // console.log(user);
+
     },
     toggleLike(recipe) {
       recipe.like = !recipe.like;

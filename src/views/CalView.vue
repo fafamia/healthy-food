@@ -38,17 +38,17 @@
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前cal的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
-                <div class="cal_recommend_card"
-                v-for="(item, index) in displatdata"
-                :key="item"
-                >
-                    <span class="cal_tag">#NEW</span>
+                <div class="cal_recommend_card" v-for="(item, index) in displatdata" :key="index">
+                    <span class="cal_tag">#{{ item.product_tag_name }}</span>
                     <div class="cal_card_img">
-                        <img :src="getImageUrl(item.image)" alt="item.name">
+                        <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
-                    <p class="cal_card_title">{{ item.name }}</p>
-                    <p class="cal_card_price">{{ item.price }}</p>
-                    <!-- <router-link :to="{name: 'productinfo',params: {id: item.id}}" class="btn-product">查看商品詳情</router-link> -->
+                    <p class="cal_card_title">{{ item.product_name }}</p>
+                    <p class="cal_card_price">${{ item.product_price }}</p>
+                    <router-link :to="{
+                        name: 'productinfo',
+                        params: { product_no: item.product_no }
+                    }" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
             <button class="btn-product"
@@ -78,19 +78,30 @@ export default {
     },
     methods: {
         getImageUrl(paths) {
-            return new URL(`../assets/images/${paths}`, import.meta.url).href;
+            return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/product/${paths}`, import.meta.url).href;
         },
-        getFoodJson() {
+        fetchproduct() {          //呼叫PHP
+            axios.get(`${import.meta.env.VITE_API_URL}/front/product/CalGiProdut.php`)
+            .then(response => {
+                this.displatdata = response.data;
+            })
+            .catch(error => {
+                console.error('Error adding prodclass:', error);
+            }); 
+        },
+        getFoodJson() {          //匯入Json
+            // axios.get('https://tibamef2e.com/chd104/g3/front/food.json')
             axios.get('../../public/food.json')
-                .then(res => {
-                    this.foodJson = res.data;
-                })
-                .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+            .then(res => {
+                this.foodJson = res.data;
+            })
+            .catch(err => console.log('讀取區域資料時發生錯誤:', err))
         },
         calCalculate(){
             const selectedFood = this.foodJson.find(food => food['樣品名稱'] === this.chooseFood);
             if( this.portionSize && this.chooseFood ){
                 if (selectedFood) {
+                    this.fetchproduct();
                     this.cal = selectedFood['熱量(kcal)'] * (this.portionSize);
                     this.$refs.calHealthyRecommend.style.display = "flex";
                     this.$refs.calCountainer.style.display = "none";

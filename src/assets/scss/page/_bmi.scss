@@ -204,10 +204,12 @@ input[type=number]::-webkit-outer-spin-button {
     .bmi_card_title{
         margin-top: 5px;
         font-size: 24px;
+        font-weight: $fw-bold;
     }
     .bmi_card_price{
         margin-top: 5px;
         font-size: 24px;
+        font-weight: $fw-bold;
     }
     a{
         width: 160px;

@@ -32,16 +32,16 @@
                 <div class="set_address col-12 col-lg-12">
                     <label>聯絡地址：</label>
                     <div class="address_city">
-                        <select name="memCounty" id="memCounty" v-model="member.member_county" @change="handleCountyChange">
-                            <option value="">選擇縣市</option>
-                            <option v-for="location in locations" :key="location.name" :value="location.name">
-                                {{ location.name }}
+                        <select v-model="member.member_county" @change="onCityChange">
+                            <option v-for="city in locations" :key="city.name" :value="city.name">
+                                {{ city.name }}
                             </option>
                         </select>
-                        <select name="memCity" id="memCity" v-model="member.member_city">
-                            <option value="">選擇鄉鎮</option>
-                            <option v-for="city in citys" :key="city.name" :value="city.name">
-                                {{ city.name }}
+
+                        <!-- 鄉鎮選擇器 -->
+                        <select v-model="member.member_city">
+                            <option v-for="district in selectedDistricts" :key="district.zip" :value="district.name">
+                                {{ district.name }}
                             </option>
                         </select>
                         <input class="account_set_address" type="text" v-model="member.member_addr">
@@ -90,11 +90,11 @@ export default {
             isSetMemberInfo: true,
             member: {},
             locations: [],
-            citys: [],
+            selectedDistricts: [],
         }
     },
     mounted() {
-        this.getLocations()
+        this.getLocations();
         const store = userStore();
         this.member = store.userData;
     },
@@ -103,22 +103,13 @@ export default {
             this.isSetMemberInfo = isSetMemberInfo;
         },
         getLocations() {
-
             axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
                 .then(res => {
                     this.locations = res.data;
+                    this.onCityChange();
                 })
                 .catch(err => console.log('讀取區域資料時發生錯誤:', err))
 
-        },
-        handleCountyChange(event) {
-            const countyName = event.target.value;
-            const location = this.locations.find(loc => loc.name === countyName);
-            if (location) {
-                this.citys = location.districts;
-            } else {
-                this.citys = [];
-            }
         },
         changeMemberInfo() {
             const store = userStore();
@@ -145,7 +136,6 @@ export default {
                 newPassword: newPassword
             })
                 .then(res => {
-                    console.log(res.data);
                     alert(res.data.msg);
                 })
                 .catch(err => {
@@ -153,7 +143,13 @@ export default {
                     alert('密碼更新過程中出現錯誤');
                 });
         },
+        onCityChange() {
+            // 更新鄉鎮列表
+            const city = this.locations.find(city => city.name === this.member.member_county);
+            this.selectedDistricts = city ? city.districts : [];
+        },
     },
+
 }
 </script>
 
