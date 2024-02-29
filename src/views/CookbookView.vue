@@ -16,7 +16,7 @@
       <ul>
         <li v-for="recipe in displayedRecipes" :key="recipe.recipe_no">
           <article>
-            <i @click="toggleBookmark(recipe,recipe.recipe_no)" :class="recipe.iconClass" class="bookmark"></i>
+            <i @click="toggleBookmark(recipe, recipe.recipe_no)" :class="recipe.iconClass" class="bookmark"></i>
             <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"><img :src="getRecipeImage(recipe)"
                 :alt="recipe.recipe_name"></router-link>
             <div class="text">
@@ -51,7 +51,7 @@ import { userStore } from '../stores/user.js'
 export default {
   data() {
     return {
-      collect:[],
+      collect: [],
       recipe: [],
       itemsPerPage: 9,
       currentPage: 1,
@@ -77,9 +77,14 @@ export default {
   },
 
   mounted() {
+    const store = userStore();
+    store.checkLogin();
     this.fetchData();
   },
   methods: {
+    checkLogin() {
+
+    },
     copyUrl(id) {
       // 創建一個新的文本區域元素
       const textArea = document.createElement("textarea");
@@ -133,18 +138,32 @@ export default {
     changePage(page) {
       this.currentPage = page;
     },
-    toggleBookmark(recipe,recipeNo) {
-      if (!recipe.bookmarked) {
-        this.collect.push(recipeNo);
-        localStorage.setItem('collect', JSON.stringify(this.collect));
-      } else {
-        let index = this.collect.indexOf(recipeNo);
-        this.collect.splice(index, 1);
-        localStorage.removeItem('collect');
-        localStorage.setItem('collect', JSON.stringify(this.collect));
+    toggleBookmark(recipe, recipeNo) {
+      const store = userStore();
+      store.checkLogin().then((user) => {
+        if (!user) {
+          alert('請先登入');
+          store.toggleLoginModal(true);
+          return;
+        } else {
+          if (!recipe.bookmarked) {
+            this.collect.push(recipeNo);
+            localStorage.setItem('collect', JSON.stringify(this.collect));
+          } else {
+            let index = this.collect.indexOf(recipeNo);
+            this.collect.splice(index, 1);
+            localStorage.removeItem('collect');
+            localStorage.setItem('collect', JSON.stringify(this.collect));
+          }
+          recipe.bookmarked = !recipe.bookmarked;
+          recipe.iconClass = recipe.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark';
+        }
+
       }
-      recipe.bookmarked = !recipe.bookmarked;
-      recipe.iconClass = recipe.bookmarked ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark';
+
+      );
+      // console.log(user);
+
     },
     toggleLike(recipe) {
       recipe.like = !recipe.like;

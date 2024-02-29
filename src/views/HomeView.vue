@@ -665,27 +665,24 @@ export default {
                     key: key
                 }
             })
-                .then(response => {
-                    // API返回相關問答內容
-                    const ans = response.data.ans;
-                    if (ans) {
-                        this.addBotMessage(ans);
-                    } else {
-                        this.addBotMessage("抱歉，找不到相關答案。");
-                    }
+            .then(response => {
+                // API返回相關問答內容
+                const ans = response.data.ans;
+                if (ans) {
+                    this.addBotMessage(ans);
+                } else {
+                    this.addBotMessage("抱歉，找不到相關答案。");
+                }
 
-                    // 滾動到底部
-                    this.$nextTick(() => {
-                        const chatMessages = this.$refs.chatMessages;
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    });
-                })
-                .catch(error => {
-                    console.error('匯入問答內容時發生錯誤:', error);
+                // 滾動到底部
+                this.$nextTick(() => {
+                    const chatMessages = this.$refs.chatMessages;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 });
-        },
-        beforeDestroy() {
-            window.removeEventListener('resize', this.updateDimensions)
+            })
+            .catch(error => {
+                console.error('匯入問答內容時發生錯誤:', error);
+            });
         },
         addBotMessage(message) {
             const currentTime = new Date().toLocaleTimeString();
@@ -701,14 +698,17 @@ export default {
         },
     },
     mounted() { // Vue 實例創建之後立即被調用
-            this.$nextTick(() => {
-                this.updateDimensions();
-                window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
-                this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
-                this.startSlideshow(); //啟動自動輪播
-                this.startComment();
-            });
-        },
+        this.$nextTick(() => {
+            this.updateDimensions();
+            window.addEventListener('resize', this.updateDimensions); //resize 重新抓取寬度
+            this.elements = this.$refs.myBanner.querySelectorAll('img'); //抓取myBanner標籤裡的所有圖片 變成陣列
+            this.startSlideshow(); //啟動自動輪播
+            this.startComment();
+        });
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.updateDimensions)
+    },
 };
 </script>
 <style lang="scss">
