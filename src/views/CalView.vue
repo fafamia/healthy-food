@@ -1,7 +1,7 @@
 <template>
     <div class="cal">
         <div class="cal_banner">
-            <img src="../assets/images/cal/cal_banner.png" alt="" >
+            <img src="../assets/images/cal/cal_banner.png" alt="">
             <div class="cal_banner_textbackground">
                 <h1>食物熱量計算</h1>
             </div>
@@ -28,13 +28,12 @@
                 <li>4.查照食物代換表，找到熱量，公式=每份熱量X份數。</li>
                 <li>5.各項原料相加計算。</li>
             </ul>
-            <button class="btn-product"
-            @click="calCalculate">立即計算</button>
+            <button class="btn-product" @click="calCalculate">立即計算</button>
         </div>
 
 
         <div ref="calHealthyRecommend" class="cal_healthy_recommend">
-            <h2>您查詢的<span>食物熱量為 {{cal}} 大卡</span></h2>
+            <h2>您查詢的<span>食物熱量為 {{ cal }} 大卡</span></h2>
             <h3>為你推薦專屬商品</h3>
             <p>以下食品的熱量不僅符合您的目前cal的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
@@ -51,8 +50,7 @@
                     }" class="btn-product">查看商品詳情</router-link>
                 </div>
             </div>
-            <button class="btn-product"
-            @click="calRecalculate">重新計算</button>
+            <button class="btn-product" @click="calRecalculate">重新計算</button>
         </div>
     </div>
 </template>
@@ -64,16 +62,16 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            chooseFood:'',
-            portionSize:null,
-            cal:null,
-            displatdata:[],
+            chooseFood: '',
+            portionSize: null,
+            cal: null,
+            displatdata: [],
             yourBreadcrumbData: [
                 { text: '首頁', to: '/' },
-                { text: '健康小幫手' , to: ''},
+                { text: '健康小幫手', to: '' },
                 { text: '食物熱量計算', active: true }
             ],
-            foodJson:[],
+            foodJson: [],
         };
     },
     methods: {
@@ -82,24 +80,24 @@ export default {
         },
         fetchproduct() {          //呼叫PHP
             axios.get(`${import.meta.env.VITE_API_URL}/front/product/CalGiProdut.php`)
-            .then(response => {
-                this.displatdata = response.data;
-            })
-            .catch(error => {
-                console.error('Error adding prodclass:', error);
-            }); 
+                .then(response => {
+                    this.displatdata = response.data;
+                })
+                .catch(error => {
+                    console.error('Error adding prodclass:', error);
+                });
         },
         getFoodJson() {          //匯入Json
-            // axios.get('https://tibamef2e.com/chd104/g3/front/food.json')
-            axios.get('../../public/food.json')
-            .then(res => {
-                this.foodJson = res.data;
-            })
-            .catch(err => console.log('讀取區域資料時發生錯誤:', err))
+            axios.get('https://tibamef2e.com/chd104/g3/front/food.json')
+                // axios.get('../../public/food.json')
+                .then(res => {
+                    this.foodJson = res.data;
+                })
+                .catch(err => console.log('讀取區域資料時發生錯誤:', err))
         },
-        calCalculate(){
+        calCalculate() {
             const selectedFood = this.foodJson.find(food => food['樣品名稱'] === this.chooseFood);
-            if( this.portionSize && this.chooseFood ){
+            if (this.portionSize && this.chooseFood) {
                 if (selectedFood) {
                     this.fetchproduct();
                     this.cal = selectedFood['熱量(kcal)'] * (this.portionSize);
@@ -108,11 +106,11 @@ export default {
                 } else {
                     alert("所選食物不存在於資料中");
                 }
-            }else{
+            } else {
                 alert("請輸入正確數值");
             }
         },
-        calRecalculate(){
+        calRecalculate() {
             this.$refs.calCountainer.style.display = "flex";
             this.$refs.calHealthyRecommend.style.display = "none";
             this.portionSize = null;
@@ -135,7 +133,7 @@ export default {
 </script>
 
 <style lang="scss">
-    @import "@/assets/scss/page/_cal.scss";
+@import "@/assets/scss/page/_cal.scss";
 </style>
 
 
