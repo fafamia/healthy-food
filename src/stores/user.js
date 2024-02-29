@@ -36,7 +36,7 @@ export const userStore = defineStore('userStore', {
                     data: JSON.stringify({ storageToken: storageToken }),
                 })
                     .then(res => {
-                        if (res.data.status === 'success') {
+                        if (res.data.status == 'success') {
                             this.updateUserData(res.data.member);
                             resolve(true);
                         } else {
