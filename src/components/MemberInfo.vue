@@ -103,7 +103,6 @@ export default {
             this.isSetMemberInfo = isSetMemberInfo;
         },
         getLocations() {
-
             axios.get('https://tibamef2e.com/chd104/g3/front/taiwan_districts.json')
                 .then(res => {
                     this.locations = res.data;
