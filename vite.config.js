@@ -29,6 +29,15 @@ export default defineConfig({
       }
     },
   },
+  server:{
+    proxy: {
+      '/webapi': {
+        target: 'https://tibamef2e.com/chd104/g3/php',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/webapi/, ''),
+      },
+    }
+  },
   // server:{
   //   host:'10.1.18.184'
   // }

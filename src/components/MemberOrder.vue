@@ -50,7 +50,7 @@
 
 <script>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted,watch } from 'vue';
 import { userStore } from '@/stores/user';
 import { useCartStore } from '@/stores/cart';
 
@@ -58,14 +58,14 @@ export default {
     setup() {
         const CartStore = useCartStore();
         const store = userStore();
-        const memberNo = store.userData.member_no;
+        const memberNo = ref(parseInt(store.userData.member_no));
         const orders = ref([]);
         const orderDetails = ref([]);
         const fetchOrder = (memberNo) => {
             if (memberNo) {
                 axios.get(`${import.meta.env.VITE_API_URL}/front/order/orderDataGetByNo.php`, { params: { member_no: memberNo } })
-                    .then(response => {
-                        orders.value = response.data.orderRows;
+                .then(response => {
+                    orders.value = response.data.orderRows;
                     })
                     .catch(error => {
                         console.error("訂單資料錯誤:", error);
@@ -95,7 +95,7 @@ export default {
         }
         onMounted(() => {
             fetchOrder(memberNo);
-        })
+        });
 
         return {
             CartStore,

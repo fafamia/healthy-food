@@ -66,8 +66,6 @@ import axios from 'axios';
 export default{
     setup(){
         const CartStore = useCartStore(); 
-        console.log(JSON.parse(JSON.stringify(CartStore.shippingList)));
-        console.log(JSON.parse(JSON.stringify(CartStore.orderInfo)));
         const router = useRouter();
         const isSuccess = ref(false);
         const toggleSuccess = ()=>{
@@ -87,7 +85,7 @@ export default{
             .then(response =>{
                     isSuccess.value = !isSuccess.value
                     CartStore.cartList.splice(0);
-                    localStorage.clear();
+                    localStorage.removeItem('items');
                     CartStore.cleanOrderInfo();
                 })
                 .catch(error =>{
