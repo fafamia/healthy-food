@@ -450,6 +450,8 @@ export default {
         logOut() {
             const store = userStore();
             store.clearToken(); //pinia 清空localStorage
+            const CartStore = useCartStore(); //清空購物車
+            CartStore.cartList.splice(0);
             this.member = {};
             this.isLoggedIn = false;
             this.$router.push('/'); //跳轉回首頁
