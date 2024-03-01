@@ -278,23 +278,16 @@ export default {
       const apiUrl = `${import.meta.env.VITE_API_URL}/admin/cookbook/get_comment.php`;
       axios.get(apiUrl)
         .then(response => {
-          // 在這裡直接處理 response.data，而不是將其存儲到 responseData 變數中
-
-          this.number = response.data.comment.length
-          let arr = [];
-          response.data.comment.forEach(element => {
-            if (element.recipe_no == pageId) {
-              arr.push(element)
-            }
-            this.showdata = arr;
-          });
-          // this.showdata = response.data.comment
+          let filteredComments = response.data.comment.filter(comment => comment.comment_status === 0);
+          this.number = filteredComments.length;
+          this.showdata = filteredComments;
           this.loading = false;
         })
         .catch(error => {
           console.error('Error fetching comment data:', error);
         });
     },
+
 
 
     toggleLike(comment) {
@@ -380,6 +373,7 @@ export default {
       formData.append('user_no', '1')
       formData.append('comment_no', currentCommentId)
       formData.append('report_info', this.reportContent)
+      formData.append('report_status', '0')
       axios.post(`${import.meta.env.VITE_API_URL}/admin/cookbook/report_comment.php`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -431,6 +425,7 @@ export default {
 
     },
     addComment() {
+      console.log(this.comment.comment_info);
       const formData = new FormData();
       formData.append('user_no', this.user_no);
       formData.append('recipe_no', this.responseData.recipe_no);
