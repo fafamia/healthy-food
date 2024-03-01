@@ -10,7 +10,6 @@ import router from './router' //.src資料夾
 const vueApp = createApp(App)
 
 const pinia = createPinia()
-
 vueApp.use(pinia)
 vueApp.use(router)
 

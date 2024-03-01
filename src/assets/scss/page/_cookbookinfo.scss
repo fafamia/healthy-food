@@ -311,6 +311,17 @@
             margin-top: 30px;
             // margin-right: -430px;
         }
+        p{
+            font-size: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            color:$primary;
+            font-weight: bold;
+        }
+       
 
     }
 
@@ -500,17 +511,7 @@
                 width: 300px;
                 font-size: 1em;
             }
-            p{
-                font-size: 20px;
-                padding: 10px;
-                background-color: white;
-                border-radius: 10px;
-                display: inline-block;
-                margin-bottom: 20px;
-                color:$primary;
-                font-weight: bold;
-            }
-           
+            
         }
         
     }

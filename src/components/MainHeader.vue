@@ -219,7 +219,8 @@
                                 <div class="orther-way">
                                     <h4>或其他方式快速登入</h4>
                                     <div class="fast-img">
-                                        <a href="#"><img src="/src/assets/images/home/google.png" alt="google_login">
+                                        <a href="#" @click.prevent="googleLogin"><img
+                                                src="/src/assets/images/home/google.png" alt="google_login">
                                         </a>
                                         <a href="#"><img src="/src/assets/images/home/fb.png" alt="facebook_login">
                                         </a>
@@ -269,17 +270,7 @@
                                     </div>
                                     <button type="submit" class="member-btn" @click.prevent="registerUser">註冊</button>
                                 </form>
-
-                                <div class="orther-way">
-                                    <h4>或其他方式快速註冊</h4>
-                                    <div class="fast-img">
-                                        <a href="#"><img src="/src/assets/images/home/google.png" alt="google_login">
-                                        </a>
-                                        <a href="#"><img src="/src/assets/images/home/fb.png" alt="facebook_login">
-                                        </a>
-                                    </div>
-                                </div>
-                                <p>註冊即同意 隱私權政策 和 使用者條款</p>
+                                <p style="text-align: center;">註冊即同意 隱私權政策 和 使用者條款</p>
                             </div>
                         </div>
                     </div>
@@ -309,6 +300,9 @@ import { mapActions } from 'pinia'
 import { userStore } from '../stores/user.js'
 import { useCartStore } from '../stores/cart.js'
 import { computed } from 'vue';
+import { ref } from 'vue';
+import firebaseConfig from '../firebaseConfig';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 export default {
     data() {
@@ -343,6 +337,8 @@ export default {
             },
             cartItemCount: 0, // 初始化購物車數量為 0
             member: {},
+            data: null,
+            user: {},
         }
     },
     created() {
@@ -556,6 +552,37 @@ export default {
         getImageUrl(paths) {
             return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/member/${paths}`, import.meta.url).href;
         },
+        googleLogin(event) {
+            event.preventDefault();
+            const store = userStore();
+            const auth = getAuth();
+            const googleProvider = new GoogleAuthProvider();
+            signInWithPopup(auth, googleProvider)
+                .then((result) => {
+                    const userName = result.user.displayName;
+                    const userEmail = result.user.email;
+                    axios.post(`${import.meta.env.VITE_API_URL}/front/member/googleLogin.php`, {
+                        member_email: userEmail,
+                        member_name: userName
+                    }, {
+                        headers: { "Content-Type": "multipart/form-data" }
+                    })
+                        .then((res) => {
+                            alert('登入成功');
+                            const data = res.data;
+                            this.isLoggedIn = true;
+                            store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
+                            store.updateUserData(data.member);//將會員資料放入pinia中
+                            this.member = store.userData;
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                })
+                .catch((error) => {
+                    console.error("登入失敗:", error);
+                });
+        },
     },
     components: {
         RouterLink,
@@ -569,4 +596,4 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/main.scss';
 @import "@/assets/scss/layout/_header.scss";
-</style>
+</style>../firebaseConfig.js/index.js
