@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 export default {
     name: 'PageNumber',
@@ -63,13 +63,13 @@ export default {
             if (type === false) {
                 // 上一頁
                 // 頁面是第一頁時，禁止點擊操作
-                if (currentPage.value === 1) return
+                if (currentPage.value == 1) return
                 if (currentPage.value > 1) {
                     currentPage.value -= 1
                 }
             } else if (type === true) {
                 // 下一頁
-                if (currentPage.value === pages.value) return
+                if (currentPage.value == pages.value) return
                 if (currentPage.value < pages.value) {
                     currentPage.value += 1
                 }
@@ -80,7 +80,6 @@ export default {
             emit('change-page', currentPage.value)
         }
         return { list, currentPage, pages, changePage }
-
     },
 
 }
