@@ -437,6 +437,10 @@ export default {
                         store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
                         store.updateUserData(data.member);//將會員資料放入pinia中
                         this.member = store.userData;
+                    } else if (data.status === 'fail') {
+                        alert(data.message);
+                        this.user.memId = '';
+                        this.user.memPsw = '';
                     } else {
                         alert('帳號或密碼錯誤');
                     }
@@ -573,13 +577,17 @@ export default {
                         headers: { "Content-Type": "multipart/form-data" }
                     })
                         .then((res) => {
-                            alert('登入成功');
-                            const data = res.data;
-                            this.modalStatus = false;
-                            this.isLoggedIn = true;
-                            store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
-                            store.updateUserData(data.member);//將會員資料放入pinia中
-                            this.member = store.userData;
+                            if (res.data.status === 'success') {
+                                alert('登入成功');
+                                const data = res.data;
+                                this.modalStatus = false;
+                                this.isLoggedIn = true;
+                                store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
+                                store.updateUserData(data.member);//將會員資料放入pinia中
+                                this.member = store.userData;
+                            } else if (res.data.status === 'fail') {
+                                alert(res.data.message);
+                            }
                         })
                         .catch((error) => {
                             console.error(error);
