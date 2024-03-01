@@ -23,7 +23,6 @@
               <router-link :to="`/cookbookinfo/${recipe.recipe_no}`">
                 <h4>{{ recipe.recipe_name }}</h4>
               </router-link>
-              <p>{{ recipe.recipe_text }}</p>
             </div>
             <div class="like">
               <i @click="toggleLike(recipe)" :class="recipe.iconLike"></i>
