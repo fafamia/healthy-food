@@ -23,6 +23,7 @@
               <router-link :to="`/cookbookinfo/${recipe.recipe_no}`">
                 <h4>{{ recipe.recipe_name }}</h4>
               </router-link>
+              <p>{{ recipe.recipe_text }}</p>
             </div>
             <div class="like">
               <i @click="toggleLike(recipe)" :class="recipe.iconLike"></i>
@@ -83,10 +84,8 @@ export default {
   },
   methods: {
     fetchLocalStorage(){
-      let localStorageCollect = localStorage.getItem('collect');
-        if (localStorageCollect) {
-          this.collect = JSON.parse(localStorageCollect);
-        }
+      const storedValue = localStorage.getItem('collect');
+      this.collect = storedValue ? JSON.parse(storedValue) : [];
     },
 
     copyUrl(id) {
@@ -117,10 +116,11 @@ export default {
         .then((json) => {
           this.recipe = json.map(recipe => ({
             ...recipe,
-            bookmarked: this.collect.includes(recipe.recipe_no),
-            iconClass: this.collect.includes(recipe.recipe_no) ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark',
+            bookmarked: false,
+            iconClass: 'fa-regular fa-bookmark',
             like: false,
             iconLike: 'fa-regular fa-thumbs-up',
+            // 添加 recipe_img 属性
             recipe_img: recipe.recipe_img
           }));
         })

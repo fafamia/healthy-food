@@ -18,11 +18,6 @@
                             </router-link>
                             <p>{{ item.recipe_text }}</p>
                         </div>
-                        <div class="like">
-                            <i class="fa-regular fa-thumbs-up"></i>
-                            <span>1</span>
-                            <i class="fa-solid fa-share"></i>
-                        </div>
                     </article>
                 </li>
             </ul>
