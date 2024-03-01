@@ -238,14 +238,19 @@
                                     <input class="signup_modal_input" type="email" placeholder="請輸入您的電子信箱"
                                         name="signup_email" v-model="newUser.email" required>
                                     <div class="password">
-                                        <input class="signup_modal_input" type="password" placeholder="請輸入密碼(6-12碼英數字混合)"
-                                            name="signup_psw" v-model="newUser.au4a83" required>
-                                        <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
+                                        <input class="signup_modal_input" :type="passwordVisible ? 'text' : 'password'"
+                                            placeholder="請輸入密碼(6-12碼英數字混合)" id="signupPsw" v-model="newUser.au4a83"
+                                            name="signup_au4a83" required>
+                                        <span class="eye" @click="togglePasswordVisibility"><i class="fa"
+                                                :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i></span>
                                     </div>
                                     <div class="password">
-                                        <input class="signup_modal_input" type="password" v-model="newUser.au4a83again"
-                                            placeholder="請再次輸入密碼" name="signup_check_psw" required>
-                                        <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
+                                        <input class="signup_modal_input_again"
+                                            :type="passwordVisible ? 'text' : 'password'" placeholder="請再次輸入密碼"
+                                            id="signupPswagain" v-model="newUser.au4a83again" name="signup_au4a83again"
+                                            required>
+                                        <span class="eye" @click="togglePasswordVisibility"><i class="fa"
+                                                :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i></span>
                                     </div>
                                     <div class="signup_select_area">
                                         <select name="signup_county" v-model="newUser.county" @change="handleCountyChange">
@@ -570,6 +575,7 @@ export default {
                         .then((res) => {
                             alert('登入成功');
                             const data = res.data;
+                            this.modalStatus = false;
                             this.isLoggedIn = true;
                             store.updateToken(data.member.member_no); // 將會員no利用pinia放入localStorage
                             store.updateUserData(data.member);//將會員資料放入pinia中

@@ -55,24 +55,28 @@
                 <div class="old_password_area">
                     <label for="old_password">舊密碼：</label>
                     <div class="input_eye">
-                        <input class="input_eye_area" type="old_password" id="old_password" placeholder="請輸入舊密碼" required>
-                        <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
+                        <input class="input_eye_area" id="old_password" placeholder="請輸入舊密碼"
+                            :type="passwordVisible ? 'text' : 'password'" required>
+                        <span class="eye" @click="togglePasswordVisibility"><i class="fa"
+                                :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i></span>
                     </div>
                 </div>
                 <div class="new_password_area">
                     <label for="new_password">新密碼：</label>
                     <div class="input_eye">
-                        <input class="input_eye_area" type="new_password" id="new_password"
-                            placeholder="請輸入新密碼(6~12碼英數字混合) " required>
-                        <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
+                        <input class="input_eye_area" id="new_password" placeholder="請輸入新密碼(6~12碼英數字混合) "
+                            :type="passwordVisible ? 'text' : 'password'" required>
+                        <span class="eye" @click="togglePasswordVisibility"><i class="fa"
+                                :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i></span>
                     </div>
                 </div>
                 <div class="again_new_password_area">
                     <label for="again_new_password">確認新密碼：</label>
                     <div class="input_eye">
-                        <input class="input_eye_area" type="again_new_password" id="again_new_password"
-                            placeholder="請再次輸入新密碼" required>
-                        <span class="eye"><i class="fa-solid fa-eye-slash"></i></span>
+                        <input class="input_eye_area" id="again_new_password" placeholder="請再次輸入新密碼"
+                            :type="passwordVisible ? 'text' : 'password'" required>
+                        <span class="eye" @click="togglePasswordVisibility"><i class="fa"
+                                :class="passwordVisible ? 'fa-eye' : 'fa-eye-slash'"></i></span>
                     </div>
                 </div>
                 <button type="button" class="change_psw_btn btn-primary" @click="changePsw">確定修改</button>
@@ -91,6 +95,7 @@ export default {
             member: {},
             locations: [],
             selectedDistricts: [],
+            passwordVisible: false,
         }
     },
     mounted() {
@@ -147,6 +152,9 @@ export default {
             // 更新鄉鎮列表
             const city = this.locations.find(city => city.name === this.member.member_county);
             this.selectedDistricts = city ? city.districts : [];
+        },
+        togglePasswordVisibility() {
+            this.passwordVisible = !this.passwordVisible;
         },
     },
 
