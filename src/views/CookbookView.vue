@@ -84,8 +84,10 @@ export default {
   },
   methods: {
     fetchLocalStorage(){
-      const storedValue = localStorage.getItem('collect');
-      this.collect = storedValue ? JSON.parse(storedValue) : [];
+      let localStorageCollect = localStorage.getItem('collect');
+        if (localStorageCollect) {
+          this.collect = JSON.parse(localStorageCollect);
+        }
     },
 
     copyUrl(id) {
@@ -116,11 +118,10 @@ export default {
         .then((json) => {
           this.recipe = json.map(recipe => ({
             ...recipe,
-            bookmarked: false,
-            iconClass: 'fa-regular fa-bookmark',
+            bookmarked: this.collect.includes(recipe.recipe_no),
+            iconClass: this.collect.includes(recipe.recipe_no) ? 'fa-solid fa-bookmark' : 'fa-regular fa-bookmark',
             like: false,
             iconLike: 'fa-regular fa-thumbs-up',
-            // 添加 recipe_img 属性
             recipe_img: recipe.recipe_img
           }));
         })
