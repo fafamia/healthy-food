@@ -17,7 +17,7 @@
       </ul>
       <div class="phoneList">
         <select @change="filterPhoneList">
-          <option value="">所有商品</option>
+          <option value="">分類</option>
           <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name }}
           </option>
         </select>
@@ -51,7 +51,6 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
-// import heart from '@/components/heart.vue';
 import PageNumber from '@/components/PageNumber.vue';
 import { reactive, ref, onMounted, computed } from 'vue'
 import { useProductStore } from '@/stores/Product';
@@ -91,19 +90,22 @@ export default {
       });
     });
 
-    //用class篩選
     const filter = (classNo) => {
-      if (classNo !== 0) {
-        //database:sql->int, serve-side:php->string(jaon response), clint-side:vue(HTML-JS)->string(select-option)
-        //參數在不同地方轉傳容易有型別不一樣的問題，統一型別再比較或是用 == 比較
-        productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
-      }else{
-        productDisplay.value = originData.value;
-      }
-    };
-    const filterPhoneList = (e) => {
-      filter(e.target.value);
-    };
+  if (classNo !== 0) {
+    reqParams.page = 1;
+    productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
+  } else {
+    productDisplay.value = originData.value;
+  }
+};
+
+const filterPhoneList = (e) => {
+  // 重置頁碼為第一頁
+  reqParams.page = 1;
+  filter(e.target.value);
+  changePage(1);
+};
+
 
     //頁數判斷，從1開始，每頁只有6樣商品
     const reqParams = reactive({
