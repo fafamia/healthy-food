@@ -80,11 +80,14 @@ export default {
     const store = userStore();
     store.checkLogin();
     this.fetchData();
+    this.fetchLocalStorage()
   },
   methods: {
-    checkLogin() {
-
+    fetchLocalStorage(){
+      const storedValue = localStorage.getItem('collect');
+      this.collect = storedValue ? JSON.parse(storedValue) : [];
     },
+
     copyUrl(id) {
       // 創建一個新的文本區域元素
       const textArea = document.createElement("textarea");

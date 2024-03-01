@@ -5,7 +5,7 @@
             <div v-if="collect.length === 0">
                 <p>您目前還沒有收藏任何食譜</p>
             </div>
-            <ul class="member_cookbook_list row">
+            <ul v-if="collect.length > 0" class="member_cookbook_list row">
                 <li v-for="item in cookbooks" :key="item.id" class="col-4">
                     <article>
                         <i @click="cancelCollect(item.recipe_no)" class="fa-solid fa-bookmark bookmark"></i>
