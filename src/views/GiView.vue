@@ -53,7 +53,7 @@
             <p>以下食品的熱量不僅符合您的目前GI的需求，GI值也非常健康！有效穩定血糖、幫助減脂！！！</p>
             <div class="recommend_wall">
                 <div class="gi_recommend_card" v-for="(item, index) in displatdata" :key="index">
-                    <span class="gi_tag">#{{ item.product_tag_name }}</span>
+                    <span class="gi_tag">#NEW</span>
                     <div class="gi_card_img">
                         <img :src="getImageUrl(item.product_img)" alt="item.name">
                     </div>
