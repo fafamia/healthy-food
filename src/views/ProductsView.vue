@@ -17,8 +17,9 @@
       </ul>
       <div class="phoneList">
         <select @change="filterPhoneList">
-          <option value="">分類</option>
-          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name }}
+          <option value="">所有商品</option>
+          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name
+            }}
           </option>
         </select>
       </div>
@@ -35,9 +36,9 @@
           <p class="vegetable_title">{{ item.product_name }}</p>
           <p class="vegetable_price">${{ item.product_price }}</p>
           <router-link :to="{
-            name: 'productinfo',
-            params: { product_no: item.product_no }
-          }" class="btn-product">查看商品詳情</router-link>
+      name: 'productinfo',
+      params: { product_no: item.product_no }
+    }" class="btn-product">查看商品詳情</router-link>
         </div>
         <div class="home-container">
           <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='productDisplay.length'
@@ -91,21 +92,24 @@ export default {
     });
 
     const filter = (classNo) => {
-  if (classNo !== 0) {
-    reqParams.page = 1;
-    productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
-  } else {
-    productDisplay.value = originData.value;
-  }
-};
+      if (classNo !== 0) {
+        reqParams.page = 1;
+        productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
+      } else {
+        productDisplay.value = originData.value;
+      }
+    };
 
-const filterPhoneList = (e) => {
-  // 重置頁碼為第一頁
-  reqParams.page = 1;
-  filter(e.target.value);
-  changePage(1);
-};
+    const filterPhoneList = (e) => {
+      reqParams.page = 1;
+      if (e.target.value === '') {
+        productDisplay.value = originData.value;
+      } else {
+        filter(e.target.value);
+      }
 
+      changePage(1);
+    };
 
     //頁數判斷，從1開始，每頁只有6樣商品
     const reqParams = reactive({
@@ -192,6 +196,7 @@ const filterPhoneList = (e) => {
   },
 }
 </script>
+
 <style lang="scss">
 @import "@/assets/scss/page/product.scss";
 </style>
