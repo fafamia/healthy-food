@@ -32,24 +32,29 @@
             <div class="col-12 col-md-4 sideWrap">
                 <div class="checkOut_coupon">
                     <p class="checkOut_coupon_title">使用折價券</p>
-                    <input type="text" placeholder="折價券編號" class="checkOut_coupon_select" v-model="CartStore.userInput">
-                    <button class="btn-secondary">使用</button>
+                    <select class="checkOut_coupon_select" v-model="CartStore.userInput">
+                        <option value="" selected></option>
+                        <option class="checkOut_coupon_option" v-for="coupon in CartStore.couponList" :key="coupon.coupon_no" :value="coupon.coupon_no">{{
+                            coupon.coupon_content }}</option>
+                    </select>
                 </div>
                 <div class="checkOut_price">
-                    <table class="checkOut_price_priceWrap">
-                        <tr class="checkOut_price_priceTr">
-                            <th class="checkOut_price_priceTh">商品金額</th>
-                            <td class="checkOut_price_priceTd">{{ CartStore.subTotal }}</td>
-                        </tr>
-                        <tr v-if="CartStore.matchingCoupon" class="checkOut_price_priceTr">
-                            <th class="checkOut_price_priceTh">{{ CartStore.matchingCoupon.name }}</th>
-                            <td class="checkOut_price_priceTd">-{{ CartStore.matchingCoupon.price }}</td>
-                        </tr>
-                        <tr class="checkOut_price_priceTr">
-                            <th class="checkOut_price_priceTh">訂單總金額</th>
-                            <td class="checkOut_price_priceTd">{{ CartStore.total }}</td>
-                        </tr>
-                    </table>
+                    <div class="checkOut_price_priceWrap">
+                        <table class="checkOut_price_priceTable">
+                            <tr class="checkOut_price_priceTr">
+                                <th class="checkOut_price_priceTh">商品金額</th>
+                                <td class="checkOut_price_priceTd">{{ CartStore.subTotal }}</td>
+                            </tr>
+                            <tr v-if="CartStore.matchingCoupon" class="checkOut_price_priceTr">
+                                <th class="checkOut_price_priceTh">{{ CartStore.matchingCoupon.coupon_content }}</th>
+                                <td class="checkOut_price_priceTd">-{{ CartStore.matchingCoupon.coupon_value }}</td>
+                            </tr>
+                            <tr class="checkOut_price_priceTr">
+                                <th class="checkOut_price_priceTh">訂單總金額</th>
+                                <td class="checkOut_price_priceTd">{{ CartStore.total }}</td>
+                            </tr>
+                        </table>
+                    </div>
                     <router-link to="/payment" class="btn-primary go_payment">結帳</router-link>
                 </div>
             </div>
@@ -58,21 +63,31 @@
 </template>
 
 <script>
+import axios from 'axios';
 import CheckOutStage from '@/components/CheckOutStage.vue';
 import { RouterLink, RouterView } from 'vue-router';
+import { ref, onMounted } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import { useProductStore } from '@/stores/Product';
+import { userStore } from '@/stores/user';
 
 export default {
     setup() {
         const CartStore = useCartStore();
         const ProductStore = useProductStore();
+        const store = userStore();
+        //用會員編號抓取會員拿到的coupon
+        const memberNo = parseInt(store.userData.member_no);
+        onMounted(async () => {
+            await CartStore.getCouponByNo(memberNo);
+        })
         return {
             CartStore,
             cartList: CartStore.cartList,
-            getImageUrl:ProductStore.getImageUrl,
+            getImageUrl: ProductStore.getImageUrl,
             newQuantityUpdate: (product_no, action) => CartStore.newQuantityUpdate(product_no, action),
             deleteCart: (product_no) => CartStore.deleteCart(product_no),
+            memberNo,
         };
     },
     components: {

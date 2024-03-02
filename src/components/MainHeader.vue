@@ -306,8 +306,8 @@ import { userStore } from '../stores/user.js'
 import { useCartStore } from '../stores/cart.js'
 import { computed } from 'vue';
 import { ref } from 'vue';
-import firebaseConfig from '../firebaseConfig';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+// import firebaseConfig from '../firebaseConfig';
+// import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 
 export default {
     data() {
