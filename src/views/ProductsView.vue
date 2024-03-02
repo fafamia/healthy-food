@@ -17,8 +17,9 @@
       </ul>
       <div class="phoneList">
         <select @change="filterPhoneList">
-          <option value="">分類</option>
-          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name }}
+          <option value="">所有商品</option>
+          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name
+            }}
           </option>
         </select>
       </div>
@@ -104,13 +105,16 @@ const filter = (classNo) => {
   }
 };
 
-const filterPhoneList = (e) => {
-  // 重置頁碼為第一頁
-  reqParams.page = 1;
-  filter(e.target.value);
-  changePage(1);
-};
+    const filterPhoneList = (e) => {
+      reqParams.page = 1;
+      if (e.target.value === '') {
+        productDisplay.value = originData.value;
+      } else {
+        filter(e.target.value);
+      }
 
+      changePage(1);
+    };
 
     //頁數判斷，從1開始，每頁只有6樣商品
     const reqParams = reactive({
@@ -198,6 +202,7 @@ const filterPhoneList = (e) => {
   },
 }
 </script>
+
 <style lang="scss">
 @import "@/assets/scss/page/product.scss";
 </style>
