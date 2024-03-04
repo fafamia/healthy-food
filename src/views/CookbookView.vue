@@ -15,8 +15,8 @@
     <div class="container cookbook-list">
       <ul>
         <li v-for="recipe in displayedRecipes" :key="recipe.recipe_no">
-          <article>
-            <i @click="toggleBookmark(recipe, recipe.recipe_no)" :class="recipe.iconClass" class="bookmark"></i>
+        <article>
+              <i @click="toggleBookmark(recipe, recipe.recipe_no)" :class="recipe.iconClass" class="bookmark"></i>
             <router-link :to="`/cookbookinfo/${recipe.recipe_no}`"><img :src="getRecipeImage(recipe)"
                 :alt="recipe.recipe_name"></router-link>
             <div class="text">
@@ -29,7 +29,7 @@
               <i @click="toggleLike(recipe)" :class="recipe.iconLike"></i>
               <span>1</span>
               <button @click="copyUrl(recipe.recipe_no)"><i class="fa-solid fa-share"></i></button>
-            </div>
+            </div><!---->
           </article>
         </li>
       </ul>
@@ -114,6 +114,7 @@ export default {
       fetch(`${import.meta.env.VITE_API_URL}/admin/cookbook/get_recipe.php`)
         .then((res) => res.json())
         .then((json) => {
+        console.log("check",json);
           this.recipe = json.map(recipe => ({
             ...recipe,
             bookmarked: false,
@@ -123,6 +124,9 @@ export default {
             // 添加 recipe_img 属性
             recipe_img: recipe.recipe_img
           }));
+          // this.recipe=json
+          // console.log(this.recipe.iconLike);
+          // console.log("see",this.displayedRecipes);
         })
         .catch((error) => {
           // console.error('Error fetching data:', error);
@@ -130,12 +134,12 @@ export default {
     },
     getRecipeImage(recipe) {
       // 如果 recipe_img 是完整的 URL，则直接返回
-      if (recipe.recipe_img.startsWith('http')) {
-        return recipe.recipe_img;
-      } else {
+      // if (recipe.recipe_img.startsWith('http')) {
+        // return recipe.recipe_img;
+      // } else {
         // 否则构建本地图像路径并返回
         return `${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${recipe.recipe_img}`;
-      }
+      // }
     },
 
     changePage(page) {

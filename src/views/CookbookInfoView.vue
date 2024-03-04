@@ -52,11 +52,11 @@
 
       <div class="comment">
 
-        <h4>有{{ showdata.length }}個人一起做</h4>
+        <h4>有{{ displayedComments.length }}個人一起做</h4>
         <div class="comment-card-wrapper">
           <button @click="scrollComment(-1)" :disabled="currentIndex === 0"><i
               class="fa-solid fa-angle-left"></i></button>
-          <div class="comment_card" v-if="showdata.length > 0">
+          <div class="comment_card" v-if="displayedComments.length > 0">
             <ul>
               <li v-for="(comment, index) in  displayedComments " :key="index">
                 <article>
@@ -274,13 +274,19 @@ export default {
     },
 
     fetchCommentData() {
-      const pageId = this.$route.params.id;
       const apiUrl = `${import.meta.env.VITE_API_URL}/admin/cookbook/get_comment.php`;
       axios.get(apiUrl)
         .then(response => {
-          let filteredComments = response.data.comment.filter(comment => comment.comment_status === 0);
+          // console.log("res",response);
+          // console.log("res.data",response.data);
+          // console.log("res.data.comment",response.data.comment);
+          let filteredComments = response.data.comment.filter(comment => comment.comment_status == 0&&comment.recipe_no==this.$route.params.id);
           this.number = filteredComments.length;
           this.showdata = filteredComments;
+          // console.log("11",filteredComments);
+          // console.log("22",this.showdata);
+          // console.log("33",this.showdata.length);
+          // console.log("44",this.displayedComments[0].comment_img);
           this.loading = false;
         })
         .catch(error => {
@@ -456,7 +462,7 @@ export default {
         });
     },
     getImageUrl(paths) {
-      return new URL(`${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${paths}`).href;
+      return `${import.meta.env.VITE_IMAGES_BASE_URL}/cookbook/${paths}`;
     },
 
 
