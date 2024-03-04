@@ -30,7 +30,6 @@ export default {
         axios.get(`${import.meta.env.VITE_API_URL}/admin/coupon/getCouponRecord.php?member_no=${this.member.member_no}`)
             .then((res) => {
                 this.coupons = res.data;
-                console.log(this.coupons);
             })
             .catch((err) => {
                 console.log(err);

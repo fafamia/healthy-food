@@ -1,5 +1,5 @@
 <template>
-    <CheckOutStage :currentStep="'Confirm'"/>
+    <CheckOutStage :currentStep="'Confirm'" />
     <div class="confirm container">
         <div class="confirm_confirmWrap row">
             <div class="col-12 col-md-6 confirm_info">
@@ -34,11 +34,12 @@
                 </table>
             </div>
             <div class="col-12 col-md-6 confirm_detail">
-                <CartDetail/>
+                <CartDetail />
             </div>
         </div>
         <div class="confirm_page">
-            <router-link to="/payment" class="confirm_page_pageUP"><i class="fa-solid fa-angle-left" style="color: #f73f14;"></i>結帳資訊</router-link>
+            <router-link to="/payment" class="confirm_page_pageUP"><i class="fa-solid fa-angle-left"
+                    style="color: #f73f14;"></i>結帳資訊</router-link>
             <button class="btn-primary" @click="addOrder">確認購買</button>
         </div>
         <div class="confirm_success" v-show="isSuccess" @click="linkToHome">
@@ -63,36 +64,48 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
-export default{
-    setup(){
-        const CartStore = useCartStore(); 
+export default {
+    setup() {
+        const CartStore = useCartStore();
         const router = useRouter();
         const isSuccess = ref(false);
-        const toggleSuccess = ()=>{
+        const toggleSuccess = () => {
         };
-        const linkToHome = ()=>{
+        const linkToHome = () => {
             router.push('/');
         };
         const store = userStore();
-        const addOrder = ()=>{
+        const addOrder = () => {
             CartStore.updateOrderInfo();
+            //訂單資料
             const orderData = {
-                carList:CartStore.cartList,
-                orderInfo:CartStore.orderInfo,
-                userData:store.userData
+                carList: CartStore.cartList,
+                orderInfo: CartStore.orderInfo,
+                userData: store.userData
             }
-            axios.post(`${import.meta.env.VITE_API_URL}/front/order/orderDataAdd.php`,orderData)
-            .then(response =>{
+            //更新使用過的折價卷狀態
+            const postData = {
+                member_no: store.userData.member_no,
+                record_no: CartStore.matchingCoupon.record_no
+            }
+            const orderRequest = axios.post(`${import.meta.env.VITE_API_URL}/front/order/orderDataAdd.php`, orderData)
+            const couponRequest = axios.post(`${import.meta.env.VITE_API_URL}/admin/coupon/updateCouponRecord.php`, postData)
+
+            //要執行的API會獨立且平行進行(如果有先後順序要用async/await)
+            Promise.all([orderRequest,couponRequest])
+                .then(response => {
+                    //成功訂購談窗
                     isSuccess.value = !isSuccess.value
+                    //清空購物車,localStorage,訂購表格
                     CartStore.cartList.splice(0);
                     localStorage.removeItem('items');
                     CartStore.cleanOrderInfo();
                 })
-                .catch(error =>{
-                    console.error("提交訂單失敗",error)
+                .catch(error => {
+                    console.error("提交訂單失敗", error)
                 })
         };
-        return{
+        return {
             CartStore,
             isSuccess,
             toggleSuccess,
@@ -109,5 +122,5 @@ export default{
 }
 </script>
 <style lang="scss">
-    @import '@/assets/scss/page/_confirm.scss';
+@import '@/assets/scss/page/_confirm.scss';
 </style>

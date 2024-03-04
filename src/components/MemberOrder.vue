@@ -61,7 +61,6 @@ export default {
         const orders = ref([]);
         const orderDetails = ref([]);
         const fetchOrder = (memberNo) => {
-            console.log(memberNo);
             if (memberNo) {
                 axios.get(`${import.meta.env.VITE_API_URL}/front/order/orderDataGetByNo.php`, { params: { member_no: memberNo } })
                     .then(response => {

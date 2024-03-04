@@ -55,15 +55,21 @@
         text-align: center;
         margin: $sp-2 0;
         &_select{
-            width: 100px;
+            width: 250px;
             padding: $sp-1;
             margin-right: $sp-2;
             border-radius: $border-r-1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
     &_price{
         background-color: #fff;
         &_priceWrap{
+            padding: $sp-2;
+        }
+        &_priceTable{
             margin: 0 auto;
         }
         &_priceTr{

@@ -17,8 +17,9 @@
       </ul>
       <div class="phoneList">
         <select @change="filterPhoneList">
-          <option value="">分類</option>
-          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name }}
+          <option value="">所有商品</option>
+          <option v-for="prodClass in productClass" :value="prodClass.product_class_no">{{ prodClass.product_class_name
+            }}
           </option>
         </select>
       </div>
@@ -35,9 +36,9 @@
           <p class="vegetable_title">{{ item.product_name }}</p>
           <p class="vegetable_price">${{ item.product_price }}</p>
           <router-link :to="{
-            name: 'productinfo',
-            params: { product_no: item.product_no }
-          }" class="btn-product">查看商品詳情</router-link>
+      name: 'productinfo',
+      params: { product_no: item.product_no }
+    }" class="btn-product">查看商品詳情</router-link>
         </div>
         <div class="home-container">
           <PageNumber @change-page='changePage' :pagesize="reqParams.pageSize" :total='productDisplay.length'
@@ -52,7 +53,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import Breadcrumb from '@/components/Breadcrumb.vue';
 import PageNumber from '@/components/PageNumber.vue';
-import { reactive, ref, onMounted, computed } from 'vue'
+import { reactive, ref, onMounted, computed, watch } from 'vue'
 import { useProductStore } from '@/stores/Product';
 import { userStore } from '@/stores/user';
 
@@ -75,13 +76,18 @@ export default {
     const ProductStore = useProductStore();
     const originData = ref([]);
     const productDisplay = ref([]);
+    // const productPage = ref([]);
+
     const productClass = ref([]);
     //要在vue模板編譯後引入，如果直接放在setup中會比pinia快
     onMounted(async () => {
       await ProductStore.getProductData();
       await ProductStore.getProductClassData();
       originData.value = ProductStore.products;
-      productDisplay.value = originData.value;
+      productDisplay.value = ProductStore.products;
+
+      // productPage.value = ProductStore.products;
+
       productClass.value = ProductStore.productClass;
       productDisplay.value.forEach(item => {
         if (favoriteProducts.value.includes(item.product_no)) {
@@ -91,21 +97,24 @@ export default {
     });
 
     const filter = (classNo) => {
-  if (classNo !== 0) {
-    reqParams.page = 1;
-    productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
-  } else {
-    productDisplay.value = originData.value;
-  }
-};
+      if (classNo !== 0) {
+        reqParams.page = 1;
+        productDisplay.value = originData.value.filter(item => `${item.product_class_no}` === `${classNo}`);
+      } else {
+        productDisplay.value = originData.value;
+      }
+    };
 
-const filterPhoneList = (e) => {
-  // 重置頁碼為第一頁
-  reqParams.page = 1;
-  filter(e.target.value);
-  changePage(1);
-};
+    const filterPhoneList = (e) => {
+      reqParams.page = 1;
+      if (e.target.value === '') {
+        productDisplay.value = originData.value;
+      } else {
+        filter(e.target.value);
+      }
 
+      changePage(1);
+    };
 
     //頁數判斷，從1開始，每頁只有6樣商品
     const reqParams = reactive({
@@ -119,8 +128,9 @@ const filterPhoneList = (e) => {
     });
     // 控制頁碼的變化
     const changePage = (page) => {
-      reqParams.page = page
+      reqParams.page = page;
       scrollToTop(); // 新增：在換頁碼時滾動到最上面
+      // filter(classNo);
     }
     // 滾動到最上面的方法
     const scrollToTop = () => {
@@ -192,6 +202,7 @@ const filterPhoneList = (e) => {
   },
 }
 </script>
+
 <style lang="scss">
 @import "@/assets/scss/page/product.scss";
 </style>

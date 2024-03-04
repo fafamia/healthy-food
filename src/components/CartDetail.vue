@@ -21,7 +21,7 @@
                 </tr>
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">折價劵</th>
-                    <td class="CartDetail_amount_amountTd" v-if="CartStore.matchingCoupon">-{{ CartStore.matchingCoupon.price }}</td>
+                    <td class="CartDetail_amount_amountTd" v-if="CartStore.matchingCoupon">-{{ CartStore.matchingCoupon.coupon_value }}</td>
                 </tr>
                 <tr class="CartDetail_amount_amountTr">
                     <th class="CartDetail_amount_amountTh">會員折扣</th>
