@@ -38,13 +38,13 @@ npm run dev
 
 |  id   | 功能  |
 |  ----  | ----  |
-| fafamia  | Header、Footer、登入、註冊、知識問答、會員中心 |
-| dis90503dis  | 首頁-banner/評論、健康小幫手、聯絡我們、關於我們 |
-| MMMMMilo | 商品資訊、購物車、會員訂單 |
-| covncovy | 食材地圖、食譜、食譜詳細及食譜留言 |
-| alucky36572 | 健康小舖、商品資訊、多點健康 |
-| lin100123 | 首頁-專欄/食譜/小幫手、問答機器人、科普文章、常見問題 |
-| ingridkao | 為此專案之特別顧問~ 協助debug & 給予建議 |
+| [fafamia](https://github.com/fafamia)  | Header、Footer、登入、註冊、知識問答、會員中心 |
+| [dis90503dis](https://github.com/dis90503dis)  | 首頁-banner/評論、健康小幫手、聯絡我們、關於我們 |
+| [MMMMMilo](https://github.com/MMMMMilo) | 商品資訊、購物車、會員訂單 |
+| [covncovy](https://github.com/covncovy) | 食材地圖、食譜、食譜詳細及食譜留言 |
+| [alucky36572](https://github.com/alucky36572) | 健康小舖、商品資訊、多點健康 |
+| [lin100123](https://github.com/lin100123) | 首頁-專欄/食譜/小幫手、問答機器人、科普文章、常見問題 |
+| [ingridkao](https://github.com/ingridkao) | 為此專案之特別顧問~ 協助debug & 給予建議 |
 
 ## 其他資料
 * [Demo影片](https://www.youtube.com/watch?v=acumrG9X5qc)
