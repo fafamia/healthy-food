@@ -32,9 +32,19 @@ npm run dev
 ```
 
 ## 團隊貢獻者
-<a href="https://github.com/fafamia/healthy-food/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=fafamia/healthy-food" />
+<a href="https://github.com/fafamia/healthy-food/graphs/contributors?from=2024-01-14&to=2024-03-05&type=a">
+  <img width="276" alt="image" src="https://github.com/fafamia/healthy-food/assets/152142187/266f0e98-6b91-4528-be8f-d7bec6878cf7">
 </a>
+
+|  id   | 功能  |
+|  ----  | ----  |
+| fafamia  | Header、Footer、登入、註冊、知識問答、會員中心 |
+| dis90503dis  | 首頁-banner/評論、健康小幫手、聯絡我們、關於我們 |
+| MMMMMilo | 商品資訊、購物車、會員訂單 |
+| covncovy | 食材地圖、食譜、食譜詳細及食譜留言 |
+| alucky36572 | 健康小舖、商品資訊、多點健康 |
+| lin100123 | 首頁-專欄/食譜/小幫手、問答機器人、科普文章、常見問題 |
+| ingridkao | 為此專案之特別顧問~ 協助debug & 給予建議 |
 
 ## 其他資料
 * [Demo影片](https://www.youtube.com/watch?v=acumrG9X5qc)
