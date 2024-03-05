@@ -45,6 +45,7 @@ npm run dev
 | [alucky36572](https://github.com/alucky36572) | 健康小舖、商品資訊、多點健康 |
 | [lin100123](https://github.com/lin100123) | 首頁-專欄/食譜/小幫手、問答機器人、科普文章、常見問題 |
 | [ingridkao](https://github.com/ingridkao) | 為此專案之特別顧問~ 協助debug & 給予建議 |
+| [u10210018](https://github.com/u10210018) | 為場外特別顧問~ 協助解決疑難雜症的debug大師 |
 
 ## 其他資料
 * [Demo影片](https://www.youtube.com/watch?v=acumrG9X5qc)
