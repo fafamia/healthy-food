@@ -32,7 +32,7 @@ npm run dev
 ```
 
 ## 團隊貢獻者
-<a href="https://github.com/fafamia/healthy-food/graphs/contributors?from=2024-01-14&to=2024-03-05&type=a">
+<a href="https://github.com/fafamia/healthy-food/graphs/contributors?from=2024-01-14&to=2024-03-05&type=c">
   <img width="276" alt="image" src="https://github.com/fafamia/healthy-food/assets/152142187/266f0e98-6b91-4528-be8f-d7bec6878cf7">
 </a>
 
