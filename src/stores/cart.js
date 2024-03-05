@@ -48,7 +48,7 @@ export const useCartStore = defineStore("CartStore", {
         //input選取的折價券和會員本來就有的折價卷array中比對
         matchingCoupon: (state) => {
             //array.find會比對陣列中的元素，傳回第一個找到的值
-            return state.couponList.find(coupon => `${coupon.coupon_no}` === `${state.userInput}`)
+            return state.couponList.find(coupon => `${coupon.coupon_no}` === `${state.userInput}`) || ''
         },
         //計算運費
         shipping: (state) => {
