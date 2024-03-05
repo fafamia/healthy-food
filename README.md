@@ -37,8 +37,8 @@ npm run dev
 </a>
 
 ## 其他資料
-* [Demo影片](https://www.youtube.com/watch?v=acumrG9X5qc)https://www.youtube.com/watch?v=acumrG9X5qc
-* [技術文件](https://drive.google.com/drive/folders/1bFhgu2scpqw2B_nOVxq4UlCXJBJ6f8CK?fbclid=IwAR04iyHJYc5zvhpVPa5_iRvN0-CablzVeI70vhw_XTk-UpWELHAWttXrqOQ)https://drive.google.com/drive/folders/1bFhgu2scpqw2B_nOVxq4UlCXJBJ6f8CK?fbclid=IwAR04iyHJYc5zvhpVPa5_iRvN0-CablzVeI70vhw_XTk-UpWELHAWttXrqOQ
-* [UIUX設計稿](https://www.figma.com/file/es771Sn9vJWGKBIheqMRVn/%E5%8A%9F%E8%83%BD%E6%9E%B6%E6%A7%8B%E5%9C%96?type=design&node-id=115%3A115&mode=design&t=QxoQyWuBbcS899aY-1)https://www.figma.com/file/es771Sn9vJWGKBIheqMRVn/%E5%8A%9F%E8%83%BD%E6%9E%B6%E6%A7%8B%E5%9C%96?type=design&node-id=115%3A115&mode=design&t=QxoQyWuBbcS899aY-1
+* [Demo影片](https://www.youtube.com/watch?v=acumrG9X5qc)
+* [技術文件](https://drive.google.com/drive/folders/1bFhgu2scpqw2B_nOVxq4UlCXJBJ6f8CK?fbclid=IwAR04iyHJYc5zvhpVPa5_iRvN0-CablzVeI70vhw_XTk-UpWELHAWttXrqOQ)
+* [UIUX設計稿](https://www.figma.com/file/es771Sn9vJWGKBIheqMRVn/%E5%8A%9F%E8%83%BD%E6%9E%B6%E6%A7%8B%E5%9C%96?type=design&node-id=115%3A115&mode=design&t=QxoQyWuBbcS899aY-1)
 
 
