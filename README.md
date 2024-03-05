@@ -36,8 +36,6 @@ npm run dev
   <img src="https://contrib.rocks/image?repo=fafamia/healthy-food" />
 </a>
 
-Made with [contrib.rocks](https://contrib.rocks).
-
 ## 其他資料
 * [Demo影片](https://www.youtube.com/watch?v=acumrG9X5qc)https://www.youtube.com/watch?v=acumrG9X5qc
 * [技術文件](https://drive.google.com/drive/folders/1bFhgu2scpqw2B_nOVxq4UlCXJBJ6f8CK?fbclid=IwAR04iyHJYc5zvhpVPa5_iRvN0-CablzVeI70vhw_XTk-UpWELHAWttXrqOQ)https://drive.google.com/drive/folders/1bFhgu2scpqw2B_nOVxq4UlCXJBJ6f8CK?fbclid=IwAR04iyHJYc5zvhpVPa5_iRvN0-CablzVeI70vhw_XTk-UpWELHAWttXrqOQ
