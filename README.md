@@ -13,7 +13,7 @@
 
 |  類別   | 技術  |
 |  ----  | ----  |
-| 前端  | CSS、HTML、JS、AJAX、Vue.js、pinia、Bootstrap、GSAP、Firebase |
+| 前端  | HTML、CSS、SCSS、JS、AJAX、Vue.js、pinia、Bootstrap、GSAP、Firebase |
 | 後端  | PHP、MySQL |
 | 工具與服務 | Figma, Trello, Vite, WampServer, MySQL Workbench, SourceTree, FileZilla |
 
